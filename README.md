@@ -43,6 +43,6 @@ Install latest version of node.js
 ### After node installed (mac/windows users)
 
 Navigate to js directory in project repo. On the command line run the following:
-npm install
-npm start
-If you make changes to any JS files and save them your website will automatically reload to reflect those changes. 
+-npm install
+-npm start
+-If you make changes to any JS files and save them your website will automatically reload to reflect those changes. 
