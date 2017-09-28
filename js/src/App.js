@@ -1,21 +1,54 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Header from './components/header';
+import { 
+    BrowserRouter as Router, 
+    Route,
+    Switch
+} from 'react-router-dom';
 
-class App extends Component {
+const navItems = [
+{
+    label: 'Buy',
+    url: '/buy'
+},
+{
+    label: 'Sell',
+    url: '/sell'
+},
+{
+    label: 'Log In',
+    url: '/login'
+},
+{
+    label: 'About Us',
+    url: '/about'
+}
+];
+
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            navItems
+        };
+    }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Router>
+        <div className="App">
+          <Header navItems={this.state.navItems} />
+          <Switch>
+            <Route exact path='/' />
+            <Route path='/buy' />
+            <Route path='/sell'  />
+            <Route path='/login' />
+            <Route path='/about' />
+            <Route path='/test' />                        
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
-
-export default App;
