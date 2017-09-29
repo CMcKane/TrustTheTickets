@@ -1,7 +1,0 @@
-Hello,
-
-This is my commit file, certifying that I know how Git works.
-
-Cheers,
-
--Derek
