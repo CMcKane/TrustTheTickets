@@ -6,6 +6,7 @@ import {
     Switch
 } from 'react-router-dom';
 import WellsFargoChart from './components/wells-fargo-chart';
+import Login from './components/login/login';
 
 const navItems = [
 {
@@ -31,13 +32,12 @@ export default class App extends Component {
       super(props);
 
       this.state = {
-          navItems,
-          text: 'Select a section'
+          navItems
       };
   }
 
   sectionSelected(section) {
-    this.setState({text: section});
+    this.setState({selectedSection: section});
   }
 
   render() {
@@ -46,18 +46,12 @@ export default class App extends Component {
         <div className="App">
           <Header navItems={this.state.navItems} />
           <Switch>
-            <Route exact path='/' />
+            <Route exact path='/' component={WellsFargoChart} />
             <Route path='/buy' />
             <Route path='/sell'  />
-            <Route path='/login' />
+            <Route path='/login' component={Login}/>
             <Route path='/about' />                     
           </Switch>
-          <div>
-            <p>{this.state.text}</p>
-          </div>
-          <div>
-          <WellsFargoChart onSelected={this.sectionSelected.bind(this)}/>
-          </div>
         </div>
       </Router>
     );

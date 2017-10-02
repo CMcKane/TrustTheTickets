@@ -3,15 +3,25 @@ import '../seating-chart.css';
 
 export default class WellsFargoChart extends Component {
 
+	constructor(props) {
+      super(props);
+
+      this.state = {
+          text: 'Select a section'
+      };
+	}
+
 	onChartClick(area) {
-		var text = "You've selected: " + area; 
-		this.props.onSelected(text);
+		if(area.length > 0) area = "You've selected " + area;
+		this.setState({text: area});
 	}	
 
 	render() {
 		return (
+			<div>
+            <p>{this.state.text}</p>
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-				 viewBox="0 0 1569 1569">
+				 viewBox="0 0 1069 1069">
 				<path onClick={this.onChartClick.bind(this, 'A')} id="_x32_9744" className="st0" d="M186.3,208.5c0,0-7,7-9.1,9.9l-7.3-7.4c0,0,4-5.1,9.3-10.2L186.3,208.5z"/>
 				<path onClick={this.onChartClick.bind(this, 'B')} id="_x32_9745" className="st0" d="M177.2,218.3c0,0-6.8,8.7-8.4,11.3l-7.9-6.5c0,0,4.6-7.1,8.9-12.2L177.2,218.3z"/>
 				<path onClick={this.onChartClick.bind(this, 'C')} id="_x32_9746" className="st0" d="M153.6,235.8c2.4-5.2,7.3-12.6,7.3-12.6l7.9,6.5c-2.3,3.8-6.7,11.5-6.7,11.5L153.6,235.8z"/>
@@ -461,6 +471,7 @@ export default class WellsFargoChart extends Component {
 				<text transform="matrix(9.667346e-03 1.007 -1 9.600105e-03 382.4238 313.1953)" className="st2 st8">NORTH</text>
 				<text transform="matrix(-1.257806e-03 -1.007 1 -1.249057e-03 289.12 324.6925)" className="st2 st8">SOUTH</text>
 			</svg>
+			</div>
 		);
 	}
 }
