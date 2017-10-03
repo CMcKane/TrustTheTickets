@@ -1,16 +1,17 @@
 import React, { Component }  from 'react';
 import _ from 'lodash';
 import { NavItem, Navbar, Nav } from 'react-bootstrap';
-import { Router } from 'react-router'
+import { LinkContainer } from 'react-router-bootstrap';
+import { Router } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default class Header extends Component {
     renderItems() {
-    	return _.map(this.props.navItems, (navItem, index) => 
-            <NavItem onClick={this.onNavClick.bind(this, navItem.url)} key={index} href={navItem.url}>{navItem.label}</NavItem>);
-    }
-
-    onNavClick(url) {
-        Router.history.push(url);
+    	return _.map(this.props.navItems, (navItem, index) =>
+            <LinkContainer to={navItem.url}>
+                <NavItem key={index}>{navItem.label}</NavItem>
+            </LinkContainer>
+        );
     }
 
     render() {
@@ -18,7 +19,7 @@ export default class Header extends Component {
         		<Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="/">TrustTheTickets</a>
+                            <Link to="/">TrustTheTickets</Link>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>

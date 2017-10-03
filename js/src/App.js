@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import WellsFargoChart from './components/wells-fargo-chart';
 import Login from './components/login/login';
+import Buy from './components/buy';
 
 const navItems = [
 {
@@ -47,7 +48,7 @@ export default class App extends Component {
           <Header navItems={this.state.navItems} />
           <Switch>
             <Route exact path='/' component={WellsFargoChart} />
-            <Route path='/buy' />
+            <Route path='/buy' component={Buy}/>
             <Route path='/sell'  />
             <Route path='/login' component={Login}/>
             <Route path='/about' />                     
