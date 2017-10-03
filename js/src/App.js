@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import WellsFargoChart from './components/wells-fargo-chart';
 import Login from './components/login/login';
-import Buy from './components/buy';
+import Buy from './components/buy/buy';
 
 const navItems = [
 {
