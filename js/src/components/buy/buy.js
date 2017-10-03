@@ -13,7 +13,8 @@ export default class Movies extends Component {
         console.log(error)
     }
 
-    // https://daveceddia.com/ajax-requests-in-react/
+    // this is the url I was trying to get data from
+    // http://127.0.0.1:5000/users
 
     render(){
         return(
