@@ -22,11 +22,22 @@ export default class Buy extends React.Component {
     render() {
         return (
             <div>
-                <ul>
+                <table>
+                    <tr>
+                        <td>Account ID</td>
+                        <td>Email</td>
+                        <td>Password</td>
+                        <td>Timestamp</td>
+                    </tr>
                     {this.state.posts.map(post =>
-                        <li key={post.id}>{post.title}</li>
+                        <tr key={post.accountID}>
+                            <td>{post.accountID}</td>
+                            <td>{post.email}</td>
+                            <td>{post.password}</td>
+                            <td>{post.timestamp}</td>
+                        </tr>
                     )}
-                </ul>
+                </table>
             </div>
         );
     }
