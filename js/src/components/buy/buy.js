@@ -1,36 +1,33 @@
-import React, { Component } from 'react';
-import Fetch from 'react-fetch';
+import React from 'react';
+import axios from 'axios';
 
-export default class Movies extends Component {
+export default class Buy extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            value: ''
-        }
+            posts: []
+        };
     }
 
-    onError(error){
-        console.log(error)
+    componentDidMount() {
+        axios.get(`http://www.reddit.com/r/gifs.json`)
+            .then(res => {
+                const posts = res.data.data.children.map(obj => obj.data);
+                this.setState({ posts });
+            });
     }
 
-    // this is the url I was trying to get data from
-    // http://127.0.0.1:5000/users
-
-    render(){
-        return(
-            <Fetch url="http://httpbin.org/headers" onError={this.onError}>
-                <TestComponent/>
-            </Fetch>
-        )
-    }
-}
-
-class TestComponent extends React.Component{
-    render(){
-        return(
+    render() {
+        return (
             <div>
-                {this.props.headers ? <div>Your user-agent: {this.props.headers['User-Agent']}</div>: 'loading'}
+                <h1>{`/r/gifs`}</h1>
+                <ul>
+                    {this.state.posts.map(post =>
+                        <li key={post.id}>{post.title}</li>
+                    )}
+                </ul>
             </div>
-        )
+        );
     }
 }

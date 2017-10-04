@@ -48,7 +48,7 @@ export default class App extends Component {
           <Header navItems={this.state.navItems} />
           <Switch>
             <Route exact path='/' component={WellsFargoChart} />
-            <Route path='/buy' component={Buy}/>
+            <Route path='/buy' component={Buy} />
             <Route path='/sell'  />
             <Route path='/login' component={Login}/>
             <Route path='/about' />                     
