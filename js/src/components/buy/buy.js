@@ -11,9 +11,10 @@ export default class Buy extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://www.reddit.com/r/gifs.json`)
+        axios.get("http://127.0.0.1:5000/users")
             .then(res => {
-                const posts = res.data.data.children.map(obj => obj.data);
+            	console.log(res);
+                const posts = res.data.posts;
                 this.setState({ posts });
             });
     }
@@ -21,7 +22,6 @@ export default class Buy extends React.Component {
     render() {
         return (
             <div>
-                <h1>{`/r/gifs`}</h1>
                 <ul>
                     {this.state.posts.map(post =>
                         <li key={post.id}>{post.title}</li>

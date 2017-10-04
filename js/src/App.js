@@ -6,8 +6,9 @@ import {
     Switch
 } from 'react-router-dom';
 import WellsFargoChart from './components/wells-fargo-chart';
-import Login from './components/login/login';
+import Login from './components/auth/login';
 import Buy from './components/buy/buy';
+import Registration from './components/login/registration';
 
 const navItems = [
 {
@@ -25,6 +26,10 @@ const navItems = [
 {
     label: 'About Us',
     url: '/about'
+},
+{
+  label: 'Register',
+  url: '/register'
 }
 ];
 
@@ -51,6 +56,7 @@ export default class App extends Component {
             <Route path='/buy' component={Buy} />
             <Route path='/sell'  />
             <Route path='/login' component={Login}/>
+            <Route path='/register' component={Registration}/>
             <Route path='/about' />                     
           </Switch>
         </div>

@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import _ from 'lodash';
 import { NavItem, Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Router } from 'react-router';
 import { Link } from 'react-router-dom';
 
 export default class Header extends Component {
