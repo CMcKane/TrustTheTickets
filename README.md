@@ -10,6 +10,13 @@ File -> Default Settings -> Project Interpreter
 On command line run the following - pip3 install flask
 (Pip is python package management tool, you can install any just about package via pip3 install ____)
 
+### Python Packages to Install
+Make sure that you have the following packages installed under File -> Default Settings -> Project Interpreter
+- Flask
+- Flask-MySQLdb
+- mysqlclient
+This list of dependencies will need to be updated during the course of the project.
+
 ### Flask
 
 A basic python file using flask is included in the project repo in the py folder - testapp.py. Just run the code to start the flask service. Go to the “/” URL in browser to see output. 
