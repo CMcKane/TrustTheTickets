@@ -19,9 +19,43 @@ Make sure that you have the following packages installed under File -> Default S
 
 This list of dependencies will need to be updated during the course of the project.
 
-### Flask
+#### Flask Library Install Issues
 
-A basic python file using flask is included in the project repo in the py folder - testapp.py. Just run the code to start the flask service. Go to the “/” URL in browser to see output. 
+For any Mac user that may have future issues downloading Flask-MySQLdb, this worked for me - I followed these steps:
+
+1. Modify file: /usr/local/bin/mysql_config
+(If it's not located there you can determine its location by doing the following)
+which mysql_config
+
+Original Version:
+\# Create options 
+libs=\"-L$pkglibdir\" 
+libs=\"$libs -l \"
+
+Modify Version To:
+\# Create options
+libs=\"-L$pkglibdir\" 
+libs=\"$libs -lmysqlclient -lssl -lcrypto\"
+
+2. Add environment veriables
+(brew info openssl)
+
+export LDFLAGS=\"-L/usr/local/opt/openssl/lib\"
+export CPPFLAGS=\"-I/usr/local/opt/openssl/include\"
+
+3. Install mysqlclient
+(pip3 install mysqlclient)
+
+4. If the issue persists with this error...
+
+ld: library not found for -lssl
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    error: command \'/usr/bin/clang\' failed with exit status 1
+
+5. Fix it by installing PyMySQL
+(pip3 install PyMySQL)
+
+Hope this helps
 
 ## Mysql
 
@@ -31,7 +65,6 @@ If you’re not a command line person go here https://dev.mysql.com/downloads/in
 
 This guideline works perfectly
 If you don’t have Homebrew, go here first
-Then do the following:
 
 
 ### Windows people 🙄 
