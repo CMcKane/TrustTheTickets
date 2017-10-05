@@ -31,16 +31,16 @@ which mysql_config
 
 Original Version:
 ```
-\# Create options 
-libs=\"-L$pkglibdir\" 
-libs=\"$libs -l \"
+# Create options 
+libs="-L$pkglibdir" 
+libs="$libs -l "
 ```
 
 Modify Version To:
 ```
-\# Create options
-libs=\"-L$pkglibdir\" 
-libs=\"$libs -lmysqlclient -lssl -lcrypto\"
+# Create options
+libs="-L$pkglibdir" 
+libs="$libs -lmysqlclient -lssl -lcrypto"
 ```
 
 2. Add environment veriables
@@ -48,8 +48,8 @@ libs=\"$libs -lmysqlclient -lssl -lcrypto\"
 brew info openssl
 ```
 ```
-export LDFLAGS=\"-L/usr/local/opt/openssl/lib\"
-export CPPFLAGS=\"-I/usr/local/opt/openssl/include\"
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
 ```
 
 3. Install mysqlclient
@@ -61,7 +61,7 @@ pip3 install mysqlclient
 ```
 ld: library not found for -lssl
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
-error: command \'/usr/bin/clang\' failed with exit status 1
+error: command '/usr/bin/clang' failed with exit status 1
 ```
 5. Fix it by installing PyMySQL
 ```
