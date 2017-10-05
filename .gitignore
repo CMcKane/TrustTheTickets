@@ -10,7 +10,6 @@
 /js/build
 
 # misc
-/py/.idea
 /js/.DS_Store
 /js/.env.local
 /js/.env.development.local
@@ -21,5 +20,6 @@
 /js/yarn-debug.log*
 /js/yarn-error.log*
 
-# IntelliJ specific files
-/.idea
+# IntelliJ project files
+/js/.idea
+/py/.idea
