@@ -20,6 +20,7 @@
 /js/yarn-debug.log*
 /js/yarn-error.log*
 
-# IntelliJ project files
+# IntelliJ & Pycharm project files
+/.idea
 /js/.idea
 /py/.idea
