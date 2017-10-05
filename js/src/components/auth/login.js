@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 export default class Login extends Component {
 
