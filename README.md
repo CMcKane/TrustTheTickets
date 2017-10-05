@@ -12,9 +12,11 @@ On command line run the following - pip3 install flask
 
 ### Python Packages to Install
 Make sure that you have the following packages installed under File -> Default Settings -> Project Interpreter
+
 - Flask
 - Flask-MySQLdb
 - mysqlclient
+
 This list of dependencies will need to be updated during the course of the project.
 
 ### Flask
