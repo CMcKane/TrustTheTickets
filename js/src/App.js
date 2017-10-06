@@ -34,7 +34,7 @@ const navItems = [
 },
 {
   label: 'Register',
-  url: '/register'
+  url: '/register/'
 }
 ];
 

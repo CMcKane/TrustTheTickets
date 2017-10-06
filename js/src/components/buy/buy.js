@@ -13,7 +13,6 @@ export default class Buy extends React.Component {
     componentDidMount() {
         axios.get("http://127.0.0.1:5000/users")
             .then(res => {
-            	console.log(res);
                 const posts = res.data.posts;
                 this.setState({ posts });
             });

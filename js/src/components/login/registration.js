@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import axios from 'axios';
+import queryString from 'query-string';
 
 export default class Registration extends Component {
 
@@ -11,7 +12,8 @@ export default class Registration extends Component {
           email: '',
           password: '',
           secondPassword: '',
-          registrationStatus: false
+          inProgress: false,
+          completed: false
       };
     }
 
@@ -24,7 +26,7 @@ export default class Registration extends Component {
 
     getSecondPasswordValidationState() {
         const length = this.state.secondPassword.length;
-        if (length > 10 && this.state.password === this.state.secondPassword)
+        if (length > 7 && this.state.password === this.state.secondPassword)
             return 'success';
         else if (length > 5 && this.state.password === this.state.secondPassword) 
             return 'warning';
@@ -36,30 +38,70 @@ export default class Registration extends Component {
     }
 
     onSubmit() {
-        if (this.getValidationState() !== 'error' 
-            && this.getSecondPasswordValidationState() !== 'error') {
+        if (this.getValidationState() === 'error') {
+            this.alertRegistrationError('Password not long enough.');
+        } else if (this.getSecondPasswordValidationState() === 'error') {
+            this.alertRegistrationError('Passwords do not match.');
+        } else {
             axios.post("http://127.0.0.1:5000/register", {
                 email: this.state.email,
                 password: this.state.password
             })
             .then(res => {
-                console.log(res)
                 if(res.data.errorMessage) {
                     alert(res.data.errorMessage);
                 }
-                this.setState({ registrationStatus: res.data.registrationStatus });
+                this.setState({ inProgress: res.data.registrationStatus });
             });
         }
     }
 
-    render() {
-        if (this.state.registrationStatus) {
-            return (
-                'Registration complete!'
-                // Just placeholder
-            );
-        }
+    // Eventually change to a popup modal
+    alertRegistrationError(message) {
+        alert(message);
+    }
+
+    validateRegistrationId(registrationID) {
+            axios.post("http://127.0.0.1:5000/registration-confirm", {
+                registrationID: registrationID
+            })
+            .then(res => {
+                if(res.data.errorMessage) {
+                    alert(res.data.errorMessage);
+                }
+                this.setState({completed: true});
+            });
+    }
+
+    registrationSuccess() {
         return (
+            "Registration was a success!"
+        );
+    }
+
+    emailConfirmation() {
+        return (
+            "You've been sent a confirmation email."
+        );
+    }
+
+    render() {
+        const queryParams = queryString.parse(this.props.location.search)
+        // If registration process is complete
+        if (this.state.completed) {
+            return "Registration complete!";
+        } 
+        else if (queryParams.registrationID) {
+            // Validate the query params by making request to backend
+            this.validateRegistrationId(queryParams.registrationID);
+            return '';
+        } 
+        // If waiting on email confirmation!
+        else if (this.state.inProgress) {
+            return this.emailConfirmation();
+        }
+        // If no other conditions are met then we're in the initial state
+        else return (
             <form>
                 <FormGroup controlId="formControlsEmail">
                     <ControlLabel>Email address</ControlLabel>
