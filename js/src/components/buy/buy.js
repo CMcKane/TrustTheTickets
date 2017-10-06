@@ -21,6 +21,9 @@ export default class Buy extends React.Component {
     render() {
         return (
             <div>
+                <h1>
+                    Registered Accounts:
+                </h1>
                 <table>
                     <tr>
                         <td>Account ID</td>
