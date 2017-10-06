@@ -1,5 +1,4 @@
 import React, { Component }  from 'react';
-//import { Text, StyleSheet } from 'react-native';
 
 export default class ChooseGame extends Component {
 
@@ -7,23 +6,17 @@ export default class ChooseGame extends Component {
         super(props);
 
         this.state = {
-            titleText: 'Choose Your Game',
+            text: 'Choose Your Desired Game',
         };
     }
 
     render(){
         return (
-            <text style={styles.titleText}>
-                {this.state.titleText}
-            </text>
+            <div>
+                <h1 style={{textAlign: 'center'}}>
+                    {this.state.text}
+                </h1>
+            </div>
         );
     }
 }
-
-// const styles = Stylesheet.create({
-//     titleText: {
-//         fontSize: 40,
-//         fontWeight: 'bold',
-//         textAlign: 'center',
-//     },
-// });
