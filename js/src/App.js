@@ -9,6 +9,7 @@ import WellsFargoChart from './components/wells-fargo-chart';
 import Login from './components/auth/login';
 import Buy from './components/buy/buy';
 import Registration from './components/login/registration';
+import ChooseGame from './components/buy/choose-game';
 
 const navItems = [
 {
@@ -20,6 +21,10 @@ const navItems = [
     url: '/sell'
 },
 {
+    label: 'Choose Game',
+    url: '/choose-game'
+},
+{
     label: 'Log In',
     url: '/login'
 },
@@ -29,7 +34,7 @@ const navItems = [
 },
 {
   label: 'Register',
-  url: '/register'
+  url: '/register/'
 }
 ];
 
@@ -55,6 +60,7 @@ export default class App extends Component {
             <Route exact path='/' component={WellsFargoChart} />
             <Route path='/buy' component={Buy} />
             <Route path='/sell'  />
+            <Route path='/choose-game' component={ChooseGame} />
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Registration}/>
             <Route path='/about' />                     

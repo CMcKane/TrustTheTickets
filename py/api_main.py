@@ -33,6 +33,16 @@ def register():
     else:
         return requestNotSupported()
 
+@app.route('/registration-confirm', methods=['POST'])
+def confirm_registration():
+    if 'application/json' in request.headers.environ['CONTENT_TYPE']:
+        jsonData = request.get_json()
+        return jsonify(
+            AccountRegistrator(mysql)
+            .confirm_registration(jsonData))
+    else:
+        return requestNotSupported()
+
 @app.route('/users')
 def index():
     conn = mysql.connection
