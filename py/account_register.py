@@ -1,6 +1,7 @@
 from account import Account
 from email_client import TTTEmailClient
 import uuid
+import threading
 
 ERROR_MESSAGES = {'REGISTRATION_ERROR': 'An error occurred during account registration.',
                   'REGISTRATION_CONFIRM_ERROR': 'Registration could not be confirmed',
@@ -22,7 +23,9 @@ class AccountRegistrator(object):
         else:
             try:
                 registrationID = self.insert_account_registration(account)
-                TTTEmailClient.send_confirmation(account.email, registrationID)
+                thr = threading.Thread(target = TTTEmailClient.send_confirmation,
+                                       args=(account.email, registrationID))
+                thr.start()
             except:
                 registerResult['errorMessage'] = ERROR_MESSAGES['REGISTRATION_ERROR']
                 registerResult['registrationStatus'] = False
