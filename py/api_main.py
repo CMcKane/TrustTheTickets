@@ -23,6 +23,11 @@ def after_request(response):
 def requestNotSupported():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
+@app.route('/login', methods = ['POST'])
+def authenticateUser():
+    return jsonify({'authenticated': True})
+    # In future need to actually check the request params and compare to DB
+
 @app.route('/register', methods = ['POST'])
 def register():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:

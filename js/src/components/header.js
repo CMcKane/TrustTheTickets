@@ -27,7 +27,7 @@ export default class Header extends Component {
         				    {this.renderItems()}
                         </Nav> 
                     </Navbar.Collapse>
-        		</Navbar> 
+        		</Navbar>
         );
     }
 }

@@ -8,8 +8,9 @@ import {
 import WellsFargoChart from './components/wells-fargo-chart';
 import Login from './components/auth/login';
 import Buy from './components/buy/buy';
-import Registration from './components/login/registration';
+import Registration from './components/auth/registration';
 import ChooseGame from './components/buy/choose-game';
+import MyAccount from './components/auth/my-account';
 
 const navItems = [
 {
@@ -25,16 +26,12 @@ const navItems = [
     url: '/choose-game'
 },
 {
-    label: 'Log In',
-    url: '/login'
+  label: 'My Account',
+  url: '/myaccount'
 },
 {
     label: 'About Us',
     url: '/about'
-},
-{
-  label: 'Register',
-  url: '/register/'
 }
 ];
 
@@ -43,12 +40,28 @@ export default class App extends Component {
       super(props);
 
       this.state = {
-          navItems
+          navItems,
+          userLoggedIn: false,
+          email: ''
       };
   }
 
   sectionSelected(section) {
     this.setState({selectedSection: section});
+  }
+
+  userLogIn(emailAddress) {
+    this.setState({
+      userLoggedIn: true,
+      email: emailAddress
+    });
+  }
+
+  userLogOut() {
+    this.setState({
+      userLoggedIn: false,
+      email: ''
+    })
   }
 
   render() {
@@ -61,8 +74,19 @@ export default class App extends Component {
             <Route path='/buy' component={Buy} />
             <Route path='/sell'  />
             <Route path='/choose-game' component={ChooseGame} />
-            <Route path='/login' component={Login}/>
-            <Route path='/register' component={Registration}/>
+            <Route path='/myaccount'
+              render={(props) => <MyAccount {...props} 
+              logIn={this.userLogIn.bind(this)} 
+              logOut={this.userLogOut.bind(this)} 
+              userLoggedIn={this.state.userLoggedIn} 
+              email={this.state.email} />} />
+            <Route path='/login'
+              render={(props) => <Login {...props} 
+              logIn={this.userLogIn.bind(this)} 
+              userLoggedIn={this.state.userLoggedIn}/>} />
+            <Route path='/register'
+              render={(props) => <Registration {...props} 
+              userLoggedIn={this.state.userLoggedIn}/>} />
             <Route path='/about' />                     
           </Switch>
         </div>

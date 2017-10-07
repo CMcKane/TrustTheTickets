@@ -49,7 +49,6 @@ class AccountRegistrator(object):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM accountregistration WHERE registrationID = '{}'".format(registrationID))
         registrations = [dict(registrationID=row[0], email=row[1], password=row[2]) for row in cursor.fetchall()]
-        print(registrations)
         if len(registrations) == 1:
             self.insert_account(Account(registrations[0]['email'], registrations[0]['password']))
             return registerResult
