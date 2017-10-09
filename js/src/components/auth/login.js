@@ -19,6 +19,7 @@ export default class Login extends Component {
     }
 
     onSubmit() {
+        var success = false;
         axios.post("http://127.0.0.1:5000/login", {
             email: this.state.email,
             password: this.state.password
@@ -26,11 +27,16 @@ export default class Login extends Component {
         .then(res => {
             if(!res.data.authenticated) {
                 alert(res.data.errorMessage);
+                success = true;
             }
             else {
                 this.props.logIn(this.state.email);
+                this.renderWrongEmailPassword();
             }
         });
+        if (!success) {
+            this.renderWrongEmailPassword();
+        }
     }
 
     render() {
@@ -43,7 +49,8 @@ export default class Login extends Component {
             <h1>Log In</h1>
             <form>
                 <FormGroup controlId="formControlsEmail">
-                    <ControlLabel>Email address</ControlLabel>
+                    <ControlLabel id="EmailAddress">Email address</ControlLabel>
+                    <div id="WrongEmailPassword"> </div>
                     <FormControl placeholder="Enter email" type="email"
                         value={this.state.email}
                         name="email"
@@ -66,5 +73,11 @@ export default class Login extends Component {
             <Link to='/register'> Register here.</Link>
             </div>
         );
+    }
+
+    renderWrongEmailPassword() {
+        var div = document.getElementById("EmailAddress");
+        var text = "The email and/or password is incorrect";
+        div.innerText = text;
     }
 }
