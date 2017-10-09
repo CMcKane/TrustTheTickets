@@ -77,7 +77,8 @@ export default class Login extends Component {
 
     renderWrongEmailPassword() {
         var div = document.getElementById("EmailAddress");
-        var text = "The email and/or password is incorrect";
+        var text = "The email and/or password are incorrect";
+        div.style.color = "Red";
         div.innerText = text;
     }
 }
