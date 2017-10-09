@@ -4,10 +4,10 @@ import { Button } from 'react-bootstrap';
 export default class MyAccount extends Component {
 
     render() {
-        if (this.props.userLoggedIn) {
+        if (this.props.user.loggedIn) {
             return (
                 <div>
-                    My Account Homepage
+                <h1>My Account</h1>
                 <Button bsStyle="primary"
                     onClick={this.props.logOut.bind(this)}>
                     Log Out

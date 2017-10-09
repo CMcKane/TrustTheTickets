@@ -11,6 +11,7 @@ import Buy from './components/buy/buy';
 import Registration from './components/auth/registration';
 import ChooseGame from './components/buy/choose-game';
 import MyAccount from './components/auth/my-account';
+import {login, logout, initializeUser} from './components/auth/user';
 
 const navItems = [
 {
@@ -41,8 +42,7 @@ export default class App extends Component {
 
       this.state = {
           navItems,
-          userLoggedIn: false,
-          email: ''
+          user: initializeUser()
       };
   }
 
@@ -52,15 +52,13 @@ export default class App extends Component {
 
   userLogIn(emailAddress) {
     this.setState({
-      userLoggedIn: true,
-      email: emailAddress
+      user: login(emailAddress)
     });
   }
 
   userLogOut() {
     this.setState({
-      userLoggedIn: false,
-      email: ''
+      user: logout()
     })
   }
 
@@ -78,15 +76,14 @@ export default class App extends Component {
               render={(props) => <MyAccount {...props} 
               logIn={this.userLogIn.bind(this)} 
               logOut={this.userLogOut.bind(this)} 
-              userLoggedIn={this.state.userLoggedIn} 
-              email={this.state.email} />} />
+              user={this.state.user} />} />
             <Route path='/login'
               render={(props) => <Login {...props} 
               logIn={this.userLogIn.bind(this)} 
-              userLoggedIn={this.state.userLoggedIn}/>} />
+              userLoggedIn={this.state.user.loggedIn}/>} />
             <Route path='/register'
               render={(props) => <Registration {...props} 
-              userLoggedIn={this.state.userLoggedIn}/>} />
+              userLoggedIn={this.state.user.loggedIn}/>} />
             <Route path='/about' />                     
           </Switch>
         </div>

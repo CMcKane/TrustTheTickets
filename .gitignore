@@ -22,5 +22,6 @@
 
 # IntelliJ & Pycharm project files
 /.idea
+.idea
 /js/.idea
 /py/.idea
