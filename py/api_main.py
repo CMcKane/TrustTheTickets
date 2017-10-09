@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 from flask import request
 from flask import make_response
 from account_register import AccountRegistrator
+from ticket_builder import TicketBuilder
 
 app = Flask (__name__)
 
@@ -22,11 +23,6 @@ def after_request(response):
 
 def requestNotSupported():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
-
-@app.route('/login', methods = ['POST'])
-def authenticateUser():
-    return jsonify({'authenticated': True})
-    # In future need to actually check the request params and compare to DB
 
 @app.route('/register', methods = ['POST'])
 def register():
@@ -55,6 +51,11 @@ def index():
     cursor.execute("SELECT accountID, email, password, timestamp FROM accounts")
     posts = [dict(accountID=row[0], email=row[1], password=row[2], timestamp=row[3]) for row in cursor.fetchall()]
     return jsonify({'posts': posts})
+
+@app.route('/tickets')
+def get_tickets():
+    tickets = TicketBuilder.tickets
+    return jsonify({'tickets': tickets})
 
 if __name__ == '__main__':
     app.run()
