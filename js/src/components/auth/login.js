@@ -31,7 +31,6 @@ export default class Login extends Component {
             }
             else {
                 this.props.logIn(this.state.email);
-                this.renderWrongEmailPassword();
             }
         });
         if (!success) {
