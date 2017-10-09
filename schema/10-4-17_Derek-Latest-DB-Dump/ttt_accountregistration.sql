@@ -1,3 +1,4 @@
+use ttt;
 CREATE TABLE `accountregistration` (
   `registrationID` varchar(45) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
