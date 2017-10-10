@@ -1,7 +1,7 @@
 import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import axios from 'axios';
 import queryString from 'query-string';
+import { TTTPost } from '../backend/ttt-request';
 
 export default class Registration extends Component {
 
@@ -43,7 +43,7 @@ export default class Registration extends Component {
         } else if (this.getSecondPasswordValidationState() === 'error') {
             this.alertRegistrationError('Passwords do not match.');
         } else {
-            axios.post("http://127.0.0.1:5000/register", {
+            TTTPost("/register", {
                 email: this.state.email,
                 password: this.state.password
             })
@@ -62,7 +62,7 @@ export default class Registration extends Component {
     }
 
     validateRegistrationId(registrationID) {
-            axios.post("http://127.0.0.1:5000/registration-confirm", {
+            TTTPost("/registration-confirm", {
                 registrationID: registrationID
             })
             .then(res => {

@@ -1,7 +1,7 @@
 import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { TTTPost } from '../backend/ttt-request';
 
 export default class Login extends Component {
 
@@ -19,23 +19,18 @@ export default class Login extends Component {
     }
 
     onSubmit() {
-        var success = false;
-        axios.post("http://127.0.0.1:5000/login", {
+        TTTPost("/login", {
             email: this.state.email,
             password: this.state.password
         })
         .then(res => {
-            if(!res.data.authenticated) {
-                alert(res.data.errorMessage);
-                success = true;
+            if (!res.data.authenticated) {
+                this.renderWrongEmailPassword();
             }
             else {
                 this.props.logIn(this.state.email);
             }
         });
-        if (!success) {
-            this.renderWrongEmailPassword();
-        }
     }
 
     render() {

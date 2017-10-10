@@ -57,5 +57,10 @@ def get_tickets():
     tickets = TicketBuilder.tickets
     return jsonify({'tickets': tickets})
 
+# Right now this just returns that the login info is good for testing purposes.
+@app.route('/login', methods=['POST'])
+def authenticate_credentials():
+    return jsonify({'authenticated': True })
+
 if __name__ == '__main__':
     app.run()
