@@ -1,5 +1,5 @@
-import React, { Component, Jumbotron } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Button, Jumbotron } from 'react-bootstrap';
 
 export default class Home extends Component {
     constructor(props) {
@@ -14,9 +14,9 @@ export default class Home extends Component {
         return (
             <div>
                 <Jumbotron>
-                    <h1>Hello, world!</h1>
-                    <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                    <p><Button bsStyle="primary">Learn more</Button></p>
+                    <h1>Hey Sixers fans!</h1>
+                    <p>Click below to choose the game you would like tickets for!'.</p>
+                    <p><Button bsStyle="primary" href="/events">List of Games</Button></p>
                 </Jumbotron>
             </div>
         );

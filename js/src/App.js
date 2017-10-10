@@ -10,15 +10,12 @@ import WellsFargoChart from './components/wells-fargo-chart';
 import Login from './components/auth/login';
 import ViewAccounts from './components/buy/view-accounts';
 import Registration from './components/auth/registration';
-<<<<<<< HEAD
 // import ChooseGame from './components/buy/choose-game';
-import MyAccount from './components/auth/my-account'
+// import MyAccount from './components/auth/my-account'
 import Home from './components/home';
-=======
 import ChooseGame from './components/buy/choose-game';
 import MyAccount from './components/auth/my-account';
 import {login, logout, initializeUser} from './components/auth/user';
->>>>>>> e1505740c48fb7351e4ca2bff338e1f96a8bf462
 
 const navItems = [
 {
