@@ -72,6 +72,7 @@ export default class App extends Component {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/view-accounts' component={ViewAccounts} />
+            <Route path='/events' component={WellsFargoChart} />
               {/*
             <Route path='/sell'  />
             <Route path='/choose-game' component={ChooseGame} />
