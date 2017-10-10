@@ -25,3 +25,4 @@
 .idea
 /js/.idea
 /py/.idea
+/py/__pycache__

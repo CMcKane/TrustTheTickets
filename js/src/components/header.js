@@ -18,7 +18,7 @@ export default class Header extends Component {
         		<Navbar inverse collapseOnSelect>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <Link to="/">TrustTheTickets</Link>
+                            <Link to="/">Trust The Tickets</Link>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>

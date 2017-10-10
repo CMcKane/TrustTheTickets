@@ -1,29 +1,28 @@
-import React from 'react';
+import React, { Component }  from 'react';
 import axios from 'axios';
+import PageHeader from 'react-dom';
 
-export default class Buy extends React.Component {
+export default class ViewAccounts extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            posts: []
+            users: []
         };
     }
 
     componentDidMount() {
         axios.get("http://127.0.0.1:5000/users")
             .then(res => {
-                const posts = res.data.posts;
-                this.setState({ posts });
+                const users = res.data.users;
+                this.setState({ users });
             });
     }
 
     render() {
         return (
             <div>
-                <h1>
-                    Registered Accounts:
-                </h1>
+
                 <table>
                     <tr>
                         <td>Account ID</td>
@@ -31,12 +30,12 @@ export default class Buy extends React.Component {
                         <td>Password</td>
                         <td>Timestamp</td>
                     </tr>
-                    {this.state.posts.map(post =>
-                        <tr key={post.accountID}>
-                            <td>{post.accountID}</td>
-                            <td>{post.email}</td>
-                            <td>{post.password}</td>
-                            <td>{post.timestamp}</td>
+                    {this.state.users.map(user =>
+                        <tr key={user.accountID}>
+                            <td>{user.accountID}</td>
+                            <td>{user.email}</td>
+                            <td>[Secret Password]</td>
+                            <td>{user.timestamp}</td>
                         </tr>
                     )}
                 </table>

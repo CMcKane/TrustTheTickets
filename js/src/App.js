@@ -5,34 +5,34 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
+
 import WellsFargoChart from './components/wells-fargo-chart';
 import Login from './components/auth/login';
-import Buy from './components/buy/buy';
+import ViewAccounts from './components/buy/view-accounts';
 import Registration from './components/auth/registration';
-import ChooseGame from './components/buy/choose-game';
-import MyAccount from './components/auth/my-account';
+// import ChooseGame from './components/buy/choose-game';
+import MyAccount from './components/auth/my-account'
+import Home from './components/home';
 
 const navItems = [
 {
-    label: 'Buy',
-    url: '/buy'
+    label: 'Registered Accounts',
+    url: '/view-accounts'
 },
 {
-    label: 'Sell',
-    url: '/sell'
+    label: 'My Account',
+    url: '/my-account'
 },
+/*
 {
     label: 'Choose Game',
     url: '/choose-game'
 },
 {
-  label: 'My Account',
-  url: '/myaccount'
-},
-{
     label: 'About Us',
     url: '/about'
 }
+*/
 ];
 
 export default class App extends Component {
@@ -70,11 +70,14 @@ export default class App extends Component {
         <div className="App">
           <Header navItems={this.state.navItems} />
           <Switch>
-            <Route exact path='/' component={WellsFargoChart} />
-            <Route path='/buy' component={Buy} />
+            <Route exact path='/' component={Home} />
+            <Route path='/view-accounts' component={ViewAccounts} />
+              {/*
             <Route path='/sell'  />
             <Route path='/choose-game' component={ChooseGame} />
-            <Route path='/myaccount'
+            */
+              }
+            <Route path='/my-account'
               render={(props) => <MyAccount {...props} 
               logIn={this.userLogIn.bind(this)} 
               logOut={this.userLogOut.bind(this)} 
