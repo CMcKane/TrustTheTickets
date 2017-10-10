@@ -7,5 +7,5 @@ export function TTTPost(path, json) {
 }
 
 export function TTTGet(path) {
-  return axios.post(devURL + path);
+  return axios.get(devURL + path);
 }

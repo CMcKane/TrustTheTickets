@@ -19,7 +19,7 @@ export default class Registration extends Component {
 
     getValidationState() {
         const length = this.state.password.length;
-        if (length > 10) return 'success';
+        if (length > 7) return 'success';
         else if (length > 5) return 'warning';
         else if (length > 0) return 'error';
     }
@@ -86,7 +86,6 @@ export default class Registration extends Component {
     }
 
     render() {
-
         if (this.props.userLoggedIn) {
             this.props.history.push('/myaccount');
             return '';

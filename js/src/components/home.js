@@ -15,7 +15,7 @@ export default class Home extends Component {
             <div>
                 <Jumbotron>
                     <h1>Hey Sixers fans!</h1>
-                    <p>Click below to choose the game you would like tickets for!'.</p>
+                    <p>Click below to choose the game you would like tickets for!</p>
                     <p><Button bsStyle="primary" href="/events">List of Games</Button></p>
                 </Jumbotron>
             </div>
