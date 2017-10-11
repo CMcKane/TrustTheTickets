@@ -54,7 +54,17 @@ def index():
 
 @app.route('/tickets')
 def get_tickets():
-    tickets = TicketBuilder.tickets
+    tickets = [dict(    ticketID        = index.ticketID,
+                        seller          = index.seller,
+                        eventType       = index.eventType,
+                        event           = index.event,
+                        location        = index.location,
+                        seatingChart    = index.seatingChart,
+                        price           = index.price,
+                        section         = index.section,
+                        seat            = index.seat
+            )for index in TicketBuilder.tickets]
+
     return jsonify({'tickets': tickets})
 
 # Right now this just returns that the login info is good for testing purposes.
