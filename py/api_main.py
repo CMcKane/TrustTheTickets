@@ -49,12 +49,22 @@ def index():
     conn = mysql.connection
     cursor = conn.cursor()
     cursor.execute("SELECT accountID, email, password, timestamp FROM accounts")
-    posts = [dict(accountID=row[0], email=row[1], password=row[2], timestamp=row[3]) for row in cursor.fetchall()]
-    return jsonify({'posts': posts})
+    users = [dict(accountID=row[0], email=row[1], password=row[2], timestamp=row[3]) for row in cursor.fetchall()]
+    return jsonify({'users': users})
 
 @app.route('/tickets')
 def get_tickets():
-    tickets = TicketBuilder.tickets
+    tickets = [dict(    ticketID        = index.ticketID,
+                        seller          = index.seller,
+                        eventType       = index.eventType,
+                        event           = index.event,
+                        location        = index.location,
+                        seatingChart    = index.seatingChart,
+                        price           = index.price,
+                        section         = index.section,
+                        seat            = index.seat
+            )for index in TicketBuilder.tickets]
+
     return jsonify({'tickets': tickets})
 
 # Right now this just returns that the login info is good for testing purposes.

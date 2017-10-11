@@ -10,10 +10,8 @@ import WellsFargoChart from './components/wells-fargo-chart';
 import Login from './components/auth/login';
 import ViewAccounts from './components/buy/view-accounts';
 import Registration from './components/auth/registration';
-// import ChooseGame from './components/buy/choose-game';
-// import MyAccount from './components/auth/my-account'
 import Home from './components/home';
-import ChooseGame from './components/buy/choose-game';
+// import ChooseGame from './components/buy/choose-game';
 import MyAccount from './components/auth/my-account';
 import {login, logout, initializeUser} from './components/auth/user';
 

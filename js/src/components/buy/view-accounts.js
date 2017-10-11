@@ -1,8 +1,7 @@
 import React, { Component }  from 'react';
-import axios from 'axios';
-import PageHeader from 'react-dom';
+import { TTTGet } from '../backend/ttt-request';
 
-export default class ViewAccounts extends React.Component {
+export default class ViewAccounts extends Component {
     constructor(props) {
         super(props);
 
@@ -12,8 +11,9 @@ export default class ViewAccounts extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("http://127.0.0.1:5000/users")
+        TTTGet("/users")
             .then(res => {
+                console.log(res);
                 const users = res.data.users;
                 this.setState({ users });
             });
@@ -22,7 +22,6 @@ export default class ViewAccounts extends React.Component {
     render() {
         return (
             <div>
-
                 <table>
                     <tr>
                         <td>Account ID</td>
