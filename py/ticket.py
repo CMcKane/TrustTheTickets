@@ -13,14 +13,14 @@ def make_ticket(data):
     ticket = Ticket()
 
     ticket.ticketID     = data[0]
-    ticket.seller       = data[0]
-    ticket.eventType    = data[0]
-    ticket.event        = data[0]
-    ticket.location     = data[0]
-    ticket.seatingChart = data[0]
-    ticket.price        = data[0]
-    ticket.section      = data[0]
-    ticket.seat         = data[0]
+    ticket.seller       = data[1]
+    ticket.eventType    = data[2]
+    ticket.event        = data[3]
+    ticket.location     = data[4]
+    ticket.seatingChart = data[5]
+    ticket.price        = data[6]
+    ticket.section      = data[7]
+    ticket.seat         = data[8]
 
     return ticket
 
