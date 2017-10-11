@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { TTTPost } from '../backend/ttt-request';
+import './login.css';
 
 export default class Login extends Component {
 
@@ -39,13 +40,13 @@ export default class Login extends Component {
             return '';
         }
         return (
-            <div>
-            <h1>Log In</h1>
+            <div class= "centered">
+            <h1 class="text-center">Log In</h1>
             <form>
                 <FormGroup controlId="formControlsEmail">
                     <ControlLabel id="EmailAddress">Email address</ControlLabel>
                     <div id="WrongEmailPassword"> </div>
-                    <FormControl placeholder="Enter email" type="email"
+                    <FormControl style={{width: 350}} placeholder="Enter email" type="email"
                         value={this.state.email}
                         name="email"
                         onChange={this.handleChange.bind(this)}  />
@@ -53,7 +54,7 @@ export default class Login extends Component {
                 <FormGroup 
                     controlId="formControlsPassword" >
                     <ControlLabel>Password</ControlLabel>
-                    <FormControl type="password" 
+                    <FormControl style={{width: 350}} placeholder="Password" type="password"
                         value={this.state.password}
                         name="password"
                         onChange={this.handleChange.bind(this)} />

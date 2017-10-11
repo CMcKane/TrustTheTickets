@@ -6,7 +6,7 @@ export default class MyAccount extends Component {
     render() {
         if (this.props.user.loggedIn) {
             return (
-                <div>
+                <div class="text-center">
                 <h1>My Account</h1>
                 <Button bsStyle="primary"
                     onClick={this.props.logOut.bind(this)}>

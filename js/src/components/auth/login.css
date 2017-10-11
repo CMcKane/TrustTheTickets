@@ -1,0 +1,6 @@
+div.centered {
+    width: 350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
