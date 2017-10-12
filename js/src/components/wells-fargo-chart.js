@@ -1,26 +1,20 @@
 import React, {Component} from 'react';
 import '../seating-chart.css';
-import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class WellsFargoChart extends Component {
 
 	constructor(props) {
       super(props);
 
-      this.state = {
-          text: 'Select a section'
-      };
 	}
 
-	onChartClick(area) {
-		if(area.length > 0) area = "You've selected " + area;
-		this.setState({text: area});
+	onChartClick(section) {
+		if(section.length > 0) this.props.onSectionSelected(section);
 	}
 
 	render() {
 		return (
 			<div>
-            <p>{this.state.text}</p>
 			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1069 1069">
 				<path onClick={this.onChartClick.bind(this, 'A')} id="_x32_9744" className="st0" d="M186.3,208.5c0,0-7,7-9.1,9.9l-7.3-7.4c0,0,4-5.1,9.3-10.2L186.3,208.5z"/>
 				<path onClick={this.onChartClick.bind(this, 'B')} id="_x32_9745" className="st0" d="M177.2,218.3c0,0-6.8,8.7-8.4,11.3l-7.9-6.5c0,0,4.6-7.1,8.9-12.2L177.2,218.3z"/>
