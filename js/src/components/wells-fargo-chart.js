@@ -3,11 +3,6 @@ import '../seating-chart.css';
 
 export default class WellsFargoChart extends Component {
 
-	constructor(props) {
-      super(props);
-
-	}
-
 	onChartClick(section) {
 		if(section.length > 0) this.props.onSectionSelected(section);
 	}
@@ -15,7 +10,8 @@ export default class WellsFargoChart extends Component {
 	render() {
 		return (
 			<div>
-			<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1069 1069">
+			<svg version="1.1" 
+			xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 665 665">
 				<path onClick={this.onChartClick.bind(this, 'A')} id="_x32_9744" className="st0" d="M186.3,208.5c0,0-7,7-9.1,9.9l-7.3-7.4c0,0,4-5.1,9.3-10.2L186.3,208.5z"/>
 				<path onClick={this.onChartClick.bind(this, 'B')} id="_x32_9745" className="st0" d="M177.2,218.3c0,0-6.8,8.7-8.4,11.3l-7.9-6.5c0,0,4.6-7.1,8.9-12.2L177.2,218.3z"/>
 				<path onClick={this.onChartClick.bind(this, 'C')} id="_x32_9746" className="st0" d="M153.6,235.8c2.4-5.2,7.3-12.6,7.3-12.6l7.9,6.5c-2.3,3.8-6.7,11.5-6.7,11.5L153.6,235.8z"/>
