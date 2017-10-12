@@ -237,7 +237,7 @@ export default class WellsFargoChart extends Component {
 				<path id="_x31_806524"  className="st0" d="M417.7,580.3c0,0,108.5-6.1,166.3-69.1l-19.4-21.1c0,0-24.4,30.4-73.3,47.7c0,0-29.8,11-72.7,14.4H287.6v28.1H417.7z"/>
 				<path id="_x31_806525"  className="st0" d="M245.9,580.3h41.7v-28.1H247c0,0-86-1.2-135-62.1l-19.4,21.1C92.6,511.2,145.5,574.2,245.9,580.3z"/>
 				<path onClick={this.onChartClick.bind(this, '238')}  className="st1" d="M0,0h669v669H0V0z"/>
-				<text transform="matrix(0.9387 0 0 1 143 148.7529)"><tspan x="0" y="0"  className="svgText st2 st3">204</tspan><tspan x="19.7" y="0"  className="st2 st4">A</tspan></text>
+				<text transform="matrix(0.9387 0 0 1 143 148.7529)"><tspan x="0" y="0"  className="svgText st2 st3">204</tspan><tspan x="19.7" y="0"  className="svgText st2 st4">A</tspan></text>
 				<text transform="matrix(0.9387 0 0 1 184.9135 129.4963)"  className="svgText st2 st3">204</text>
 				<text transform="matrix(0.9387 0 0 1 228.9326 118.5005)"  className="svgText st2 st3">203</text>
 				<text transform="matrix(0.9387 0 0 1 281.5522 116.9772)"  className="svgText st2 st3">202</text>
