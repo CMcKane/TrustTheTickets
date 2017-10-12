@@ -14,6 +14,7 @@ import Home from './components/home';
 // import ChooseGame from './components/buy/choose-game';
 import MyAccount from './components/auth/my-account';
 import {login, logout, initializeUser} from './components/auth/user';
+import LayoutTest from './components/grid-layout-test';
 
 const navItems = [
 {
@@ -24,6 +25,10 @@ const navItems = [
     label: 'My Account',
     url: '/my-account'
 },
+{
+   label: 'Layout Test',
+   url: '/layout-test'
+}
 /*
 {
     label: 'Choose Game',
@@ -76,6 +81,7 @@ export default class App extends Component {
             <Route path='/choose-game' component={ChooseGame} />
             */
               }
+            <Route path='/layout-test' component={LayoutTest} />
             <Route path='/my-account'
               render={(props) => <MyAccount {...props} 
               logIn={this.userLogIn.bind(this)} 

@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import '../seating-chart.css';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class WellsFargoChart extends Component {
 
@@ -14,7 +15,7 @@ export default class WellsFargoChart extends Component {
 	onChartClick(area) {
 		if(area.length > 0) area = "You've selected " + area;
 		this.setState({text: area});
-	}	
+	}
 
 	render() {
 		return (
