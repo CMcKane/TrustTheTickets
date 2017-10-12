@@ -106,6 +106,8 @@ export default class Registration extends Component {
         }
         // If no other conditions are met then we're in the initial state
         else return (
+            <div class="centered">
+            <h1 class="text-center">Registration</h1>
             <form>
                 <FormGroup controlId="formControlsEmail">
                     <ControlLabel>Email address</ControlLabel>
@@ -137,6 +139,7 @@ export default class Registration extends Component {
                     Register
                 </Button>
             </form>
+            </div>
         );
     }
 }
