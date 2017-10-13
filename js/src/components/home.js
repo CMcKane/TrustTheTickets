@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Jumbotron } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
     constructor(props) {
@@ -15,8 +17,8 @@ export default class Home extends Component {
             <div class="text-center">
                 <Jumbotron>
                     <h1>Hey Sixers fans!</h1>
-                    <p>Click below to choose the game you would like tickets for!</p>
-                    <p><Button bsStyle="primary" href="/events">List of Games</Button></p>
+                    <p>Welcome to Trust The Tickets.</p>
+                    <p><LinkContainer to="/layout-test"><Button bsStyle="primary">Search for Tickets</Button></LinkContainer></p>
                 </Jumbotron>
             </div>
         );

@@ -11,34 +11,23 @@ import Login from './components/auth/login';
 import ViewAccounts from './components/buy/view-accounts';
 import Registration from './components/auth/registration';
 import Home from './components/home';
-// import ChooseGame from './components/buy/choose-game';
 import MyAccount from './components/auth/my-account';
-import {login, logout, initializeUser} from './components/auth/user';
+import { login, logout, initializeUser } from './components/auth/user';
 import LayoutTest from './components/grid-layout-test';
 
 const navItems = [
-{
+    {
+        label: 'Layout Test',
+        url: '/layout-test'
+    },
+    {
     label: 'Registered Accounts',
     url: '/view-accounts'
-},
-{
-    label: 'My Account',
-    url: '/my-account'
-},
-{
-   label: 'Layout Test',
-   url: '/layout-test'
-}
-/*
-{
-    label: 'Choose Game',
-    url: '/choose-game'
-},
-{
-    label: 'About Us',
-    url: '/about'
-}
-*/
+    },
+    {
+        label: 'My Account',
+        url: '/my-account'
+    }
 ];
 
 export default class App extends Component {
@@ -76,11 +65,6 @@ export default class App extends Component {
             <Route exact path='/' component={Home} />
             <Route path='/view-accounts' component={ViewAccounts} />
             <Route path='/events' component={WellsFargoChart} />
-              {/*
-            <Route path='/sell'  />
-            <Route path='/choose-game' component={ChooseGame} />
-            */
-              }
             <Route path='/layout-test' component={LayoutTest} />
             <Route path='/my-account'
               render={(props) => <MyAccount {...props} 
