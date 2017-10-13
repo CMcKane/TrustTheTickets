@@ -1,5 +1,6 @@
 import React, { Component }  from 'react';
 import { TTTGet } from '../backend/ttt-request';
+import '../buy/view-account.css';
 
 export default class ViewAccounts extends Component {
     constructor(props) {
@@ -21,13 +22,13 @@ export default class ViewAccounts extends Component {
 
     render() {
         return (
-            <div>
-                <table>
+            <div class="container">
+                <table style={{width: '80%'}}>
                     <tr>
-                        <td>Account ID</td>
-                        <td>Email</td>
-                        <td>Password</td>
-                        <td>Timestamp</td>
+                        <th>Account ID</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Creation Date</th>
                     </tr>
                     {this.state.accounts.map(account =>
                         <tr key={account.account_id}>
