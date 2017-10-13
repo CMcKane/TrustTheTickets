@@ -49,7 +49,7 @@ export default class TestLayout extends Component {
                         {<div>
                             <FormGroup controlId="formControlsSelectMultiple">
                                 <ControlLabel>Here are your ticket options for selected section: </ControlLabel>
-                                <FormControl componentClass="select" multiple>
+                                <FormControl style={{height: '650px'}} componentClass="select" multiple>
                                 {this.renderTickets()}
                                 </FormControl>
                             </FormGroup>
