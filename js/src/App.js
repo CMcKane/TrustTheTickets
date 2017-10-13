@@ -20,8 +20,8 @@ import ViewTickets from './components/pick-tickets/view-tickets';
 
 const navItems = [
     {
-        label: 'Layout Test',
-        url: '/layout-test'
+        label: 'Pick Tickets',
+        url: '/pick-tickets'
     },
     {
     label: 'Registered Accounts',
