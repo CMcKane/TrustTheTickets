@@ -3,8 +3,13 @@ from flask import jsonify
 from flask_mysqldb import MySQL
 from flask import request
 from flask import make_response
+<<<<<<< Updated upstream
 from account_register import AccountRegistrator
 from ticket_builder import TicketBuilder
+=======
+#from account_register import AccountRegistrator
+#from ticket_builder import TicketBuilder
+>>>>>>> Stashed changes
 
 app = Flask (__name__)
 
