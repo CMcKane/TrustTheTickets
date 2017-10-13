@@ -52,12 +52,14 @@ def index():
     accounts = [dict(account_id=row[0], email=row[1], password=row[2], created_dt=row[3]) for row in cursor.fetchall()]
     return jsonify({'accounts': accounts})
 
-@app.route('/tickets')
+@app.route('/tickets', methods=['POST'])
 def get_tickets():
+    givenSection = request.get_json()
+    sectionNum = givenSection['section_number']
     conn = mysql.connection
     cursor = conn.cursor()
-    cursor.execute("SELECT ticket_id, location_id, seat_number, section_number FROM tickets")
-    tickets = [dict(ticket_id=row[0], location_id=row[1], seat_number=row[2], section_number=row[3]) for row in cursor.fetchall()]
+    cursor.execute("SELECT ticket_id, row_number, seat_number, section_number FROM tickets WHERE section_number = '{}' ORDER BY row_number".format(sectionNum))
+    tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2], section_number=row[3]) for row in cursor.fetchall()]
     return jsonify({'tickets': tickets})
 
 # Right now this just returns that the login info is good for testing purposes.
