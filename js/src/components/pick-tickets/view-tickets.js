@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { TTTGet } from './backend/ttt-request';
+import { TTTGet } from '../backend/ttt-request';
 
 export default class ViewTickets extends Component {
     constructor(props) {

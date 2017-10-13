@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-import '../seating-chart.css';
+import '../../seating-chart.css';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
-import { TTTPost } from './backend/ttt-request';
+import { TTTPost } from '../backend/ttt-request';
 
 export default class TestLayout extends Component {
 

@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import { TTTGet } from '../backend/ttt-request';
-import '../buy/view-account.css';
+import '../accounts/view-account.css';
 
 export default class ViewAccounts extends Component {
     constructor(props) {

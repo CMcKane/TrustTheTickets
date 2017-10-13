@@ -18,7 +18,7 @@ export default class Home extends Component {
                 <Jumbotron>
                     <h1>Hey Sixers fans!</h1>
                     <p>Welcome to Trust The Tickets.</p>
-                    <p><LinkContainer to="/layout-test"><Button bsStyle="primary">Search for Tickets</Button></LinkContainer></p>
+                    <p><LinkContainer to="/pick-tickets"><Button bsStyle="primary">Search for Tickets</Button></LinkContainer></p>
                 </Jumbotron>
             </div>
         );

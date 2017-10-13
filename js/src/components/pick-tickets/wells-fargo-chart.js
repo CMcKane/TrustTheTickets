@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../seating-chart.css';
+import '../../seating-chart.css';
 
 export default class WellsFargoChart extends Component {
 
