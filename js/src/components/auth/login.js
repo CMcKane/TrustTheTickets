@@ -41,31 +41,31 @@ export default class Login extends Component {
         }
         return (
             <div class= "centered">
-            <h1 class="text-center">Log In</h1>
-            <form>
-                <FormGroup controlId="formControlsEmail">
-                    <ControlLabel id="EmailAddress">Email address</ControlLabel>
-                    <div id="WrongEmailPassword"> </div>
-                    <FormControl style={{width: 350}} placeholder="Enter email" type="email"
-                        value={this.state.email}
-                        name="email"
-                        onChange={this.handleChange.bind(this)}  />
-                </FormGroup>
-                <FormGroup 
-                    controlId="formControlsPassword" >
-                    <ControlLabel>Password</ControlLabel>
-                    <FormControl style={{width: 350}} placeholder="Password" type="password"
-                        value={this.state.password}
-                        name="password"
-                        onChange={this.handleChange.bind(this)} />
-                </FormGroup>
-                <Button bsStyle="primary"
-                    onClick={this.onSubmit.bind(this)}>
-                    Log In
-                </Button>
-            </form>
-            Don't have an account?  
-            <Link to='/register'> Register here.</Link>
+                <h1 class="text-center">Log In</h1>
+                <form>
+                    <FormGroup controlId="formControlsEmail">
+                        <ControlLabel id="EmailAddress">Email address</ControlLabel>
+                        <div id="WrongEmailPassword"> </div>
+                        <FormControl style={{width: 350}} placeholder="Enter email" type="email"
+                            value={this.state.email}
+                            name="email"
+                            onChange={this.handleChange.bind(this)}  />
+                    </FormGroup>
+                    <FormGroup
+                        controlId="formControlsPassword" >
+                        <ControlLabel>Password</ControlLabel>
+                        <FormControl style={{width: 350}} placeholder="Password" type="password"
+                            value={this.state.password}
+                            name="password"
+                            onChange={this.handleChange.bind(this)} />
+                    </FormGroup>
+                    <Button bsStyle="primary"
+                        onClick={this.onSubmit.bind(this)}>
+                        Log In
+                    </Button>
+                </form>
+                Don't have an account?
+                <Link to='/register'> Register here.</Link>
             </div>
         );
     }

@@ -38,11 +38,16 @@ export default class Registration extends Component {
     }
 
     onSubmit() {
-        if (this.getValidationState() === 'error') {
+        if (this.getValidationState() === 'error')
+        {
             this.alertRegistrationError('Password not long enough.');
-        } else if (this.getSecondPasswordValidationState() === 'error') {
+        }
+        else if (this.getSecondPasswordValidationState() === 'error')
+        {
             this.alertRegistrationError('Passwords do not match.');
-        } else {
+        }
+        else
+        {
             TTTPost("/register", {
                 email: this.state.email,
                 password: this.state.password
@@ -69,7 +74,10 @@ export default class Registration extends Component {
                 if(res.data.errorMessage) {
                     alert(res.data.errorMessage);
                 }
-                this.setState({completed: true});
+                else
+                {
+                    this.setState({completed: true}); 
+                }
             });
     }
 
