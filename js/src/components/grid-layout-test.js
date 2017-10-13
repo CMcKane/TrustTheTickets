@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import '../seating-chart.css';
+import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
+import { TTTPost } from './backend/ttt-request';
 
 export default class TestLayout extends Component {
 
@@ -9,12 +11,27 @@ export default class TestLayout extends Component {
         super(props);
 
         this.state = {
-            selectedSection: ''
+            tickets: []
         }
     }
 
     onChartClick(section) {
-        if(section.length > 0) this.setState({selectedSection: section});
+        if(section.length > 0) {
+            TTTPost('/tickets', {
+                section_number: section
+            })
+            .then(res => {
+                if (res.data.tickets) this.setState({tickets: res.data.tickets});
+            });
+        }
+    }
+
+    renderTickets() {
+        return _.map(this.state.tickets, (ticket, index) =>
+            <option value={ticket.ticket_id}>
+                Section: {ticket.section_number} Row: {ticket.row_number} Seat: {ticket.seat_number}
+            </option>
+        );
     }
 
     render(){
@@ -33,9 +50,7 @@ export default class TestLayout extends Component {
                             <FormGroup controlId="formControlsSelectMultiple">
                                 <ControlLabel>Here are your ticket options for selected section: </ControlLabel>
                                 <FormControl componentClass="select" multiple>
-                                    <option value="Ticket 1">Ticket 1</option>
-                                    <option value="Ticket 2">Ticket 2</option>
-                                    <option value="Ticket 3">Ticket 3</option>
+                                {this.renderTickets()}
                                 </FormControl>
                             </FormGroup>
                         </div>}
