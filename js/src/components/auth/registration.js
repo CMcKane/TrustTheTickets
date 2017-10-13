@@ -76,7 +76,7 @@ export default class Registration extends Component {
                 }
                 else
                 {
-                    this.setState({completed: true}); 
+                    this.setState({completed: true});
                 }
             });
     }
