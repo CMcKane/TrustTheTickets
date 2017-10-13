@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Well} from 'react-bootstrap';
 import '../../seating-chart.css';
+import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
 import { TTTPost } from '../backend/ttt-request';
@@ -38,8 +39,8 @@ export default class TestLayout extends Component {
         return (
 
             <Grid>
-                <h1 style={{textAlign: 'center'}}>
-                    Choose Your Desired Section From The Seating Chart
+                <h1 style={{textAlign: 'center',color: 'white'}}>
+                    <Well style={{background: '#1E2FA4'}} > Choose Your Desired Section From The Seating Chart </Well>
                 </h1>
                 <Row>
                     <Col lg={8}>
