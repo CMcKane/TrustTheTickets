@@ -1,39 +1,40 @@
 import React, { Component }  from 'react';
 import { TTTGet } from '../backend/ttt-request';
-import '../buy/view-account.css';
 
 export default class ViewAccounts extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            users: []
+            accounts: []
         };
     }
 
     componentDidMount() {
-        TTTGet("/users")
+        TTTGet("/accounts")
             .then(res => {
                 console.log(res);
-                const users = res.data.users;
-                this.setState({ users });
+                const accounts = res.data.accounts;
+                this.setState({ accounts });
             });
     }
 
     render() {
         return (
-            <div class="container">
-                <table style={{width: '80%'}}>
-                        <th>Account ID</th>
-                        <th>Email</th>
-                        <th>Password</th>
-                        <th>Creation Date</th>
-                    {this.state.users.map(user =>
-                        <tr key={user.account_id}>
-                            <td>{user.account_id}</td>
-                            <td>{user.email}</td>
-                            <td>[Secret Password]</td>
-                            <td>{user.created_dt}</td>
+            <div>
+                <table>
+                    <tr>
+                        <td>Account ID</td>
+                        <td>Email</td>
+                        <td>Password</td>
+                        <td>Timestamp</td>
+                    </tr>
+                    {this.state.accounts.map(account =>
+                        <tr key={account.account_id}>
+                            <td>{account.account_id}</td>
+                            <td>{account.email}</td>
+                            <td>{account.password}</td>
+                            <td>{account.created_dt}</td>
                         </tr>
                     )}
                 </table>

@@ -3,8 +3,8 @@ from flask import jsonify
 from flask_mysqldb import MySQL
 from flask import request
 from flask import make_response
-from account_register import AccountRegistrator
-from ticket_builder import TicketBuilder
+# from account_register import AccountRegistrator
+# from ticket_builder import TicketBuilder
 
 app = Flask (__name__)
 
@@ -44,27 +44,32 @@ def confirm_registration():
     else:
         return requestNotSupported()
 
-@app.route('/users')
+@app.route('/accounts')
 def index():
     conn = mysql.connection
     cursor = conn.cursor()
     cursor.execute("SELECT account_id, email, password, created_dt FROM accounts")
-    users = [dict(account_id=row[0], email=row[1], password=row[2], created_dt=row[3]) for row in cursor.fetchall()]
-    return jsonify({'users': users})
+    accounts = [dict(account_id=row[0], email=row[1], password=row[2], created_dt=row[3]) for row in cursor.fetchall()]
+    return jsonify({'accounts': accounts})
 
 @app.route('/tickets')
 def get_tickets():
-    tickets = [dict(    ticketID        = index.ticketID,
-                        seller          = index.seller,
-                        eventType       = index.eventType,
-                        event           = index.event,
-                        location        = index.location,
-                        seatingChart    = index.seatingChart,
-                        price           = index.price,
-                        section         = index.section,
-                        seat            = index.seat
-            )for index in TicketBuilder.tickets]
-
+    # tickets = [dict(    ticketID        = index.ticketID,
+    #                     seller          = index.seller,
+    #                     eventType       = index.eventType,
+    #                     event           = index.event,
+    #                     location        = index.location,
+    #                     seatingChart    = index.seatingChart,
+    #                     price           = index.price,
+    #                     section         = index.section,
+    #                     seat            = index.seat
+    #         )for index in TicketBuilder.tickets]
+    conn = mysql.connection
+    cursor = conn.cursor()
+    cursor.execute("SELECT ticketID, location, price, seat, section FROM ttt.Tickets")
+    tickets = cursor.fetchall()
+    cursor.close()
+    conn.close()
     return jsonify({'tickets': tickets})
 
 # Right now this just returns that the login info is good for testing purposes.
