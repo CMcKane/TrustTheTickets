@@ -48,8 +48,8 @@ def confirm_registration():
 def index():
     conn = mysql.connection
     cursor = conn.cursor()
-    cursor.execute("SELECT accountID, email, password, timestamp FROM accounts")
-    users = [dict(accountID=row[0], email=row[1], password=row[2], timestamp=row[3]) for row in cursor.fetchall()]
+    cursor.execute("SELECT account_id, email, password, created_dt FROM accounts")
+    users = [dict(account_id=row[0], email=row[1], password=row[2], created_dt=row[3]) for row in cursor.fetchall()]
     return jsonify({'users': users})
 
 @app.route('/tickets')
