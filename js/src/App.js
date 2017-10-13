@@ -14,6 +14,7 @@ import Home from './components/home';
 import MyAccount from './components/auth/my-account';
 import { login, logout, initializeUser } from './components/auth/user';
 import LayoutTest from './components/grid-layout-test';
+import ViewTickets from './components/view-tickets';
 
 const navItems = [
     {
@@ -64,6 +65,7 @@ export default class App extends Component {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/view-accounts' component={ViewAccounts} />
+          <Route path='/view-tickets' component={ViewTickets} />
             <Route path='/events' component={WellsFargoChart} />
             <Route path='/layout-test' component={LayoutTest} />
             <Route path='/my-account'
