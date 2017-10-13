@@ -22,8 +22,9 @@ export default class ViewAccounts extends Component {
 
     render() {
         return (
-            <div class="container">
-                <table style={{width: '80%'}}>
+            <div class="centered" style={{width: '50%'}}>
+                <h1 class="text-center">Registered Accounts</h1>
+                <table style={{width: '100%'}}>
                     <tr>
                         <th>Account ID</th>
                         <th>Email</th>
