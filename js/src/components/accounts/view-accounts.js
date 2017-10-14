@@ -28,14 +28,16 @@ export default class ViewAccounts extends Component {
                     <tr>
                         <th>Account ID</th>
                         <th>Email</th>
-                        <th>Password</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Creation Date</th>
                     </tr>
                     {this.state.accounts.map(account =>
                         <tr key={account.account_id}>
                             <td>{account.account_id}</td>
                             <td>{account.email}</td>
-                            <td>{account.password}</td>
+                            <td>{account.fname}</td>
+                            <td>{account.lname}</td>
                             <td>{account.created_dt}</td>
                         </tr>
                     )}

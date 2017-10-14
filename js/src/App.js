@@ -24,8 +24,8 @@ const navItems = [
         url: '/pick-tickets'
     },
     {
-    label: 'Registered Accounts',
-    url: '/view-accounts'
+        label: 'Registered Accounts',
+        url: '/view-accounts'
     },
     {
         label: 'My Account',
@@ -47,9 +47,9 @@ export default class App extends Component {
     this.setState({selectedSection: section});
   }
 
-  userLogIn(emailAddress) {
+  userLogIn(emailAddress, fname, lname) {
     this.setState({
-      user: login(emailAddress)
+      user: login(emailAddress, fname, lname)
     });
   }
 

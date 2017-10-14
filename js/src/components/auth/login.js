@@ -11,7 +11,9 @@ export default class Login extends Component {
 
       this.state = {
           email: '',
-          password: ''
+          password: '',
+          fname: '',
+          lname: ''
       };
     }
 
@@ -25,18 +27,26 @@ export default class Login extends Component {
             password: this.state.password
         })
         .then(res => {
-            if (!res.data.authenticated) {
+            if (!res.data.authenticated)
+            {
                 this.renderWrongEmailPassword();
             }
-            else {
-                this.props.logIn(this.state.email);
+            else
+            {
+                this.state.fname = res.data.fname;
+                this.state.lname = res.data.lname;
+
+                this.props.logIn(
+                    this.state.email,
+                    this.state.fname,
+                    this.state.lname);
             }
         });
     }
 
     render() {
         if (this.props.userLoggedIn) {
-            this.props.history.push('/myaccount');
+            this.props.history.push('/my-account');
             return '';
         }
         return (
@@ -51,8 +61,7 @@ export default class Login extends Component {
                             name="email"
                             onChange={this.handleChange.bind(this)}  />
                     </FormGroup>
-                    <FormGroup
-                        controlId="formControlsPassword" >
+                    <FormGroup controlId="formControlsPassword" >
                         <ControlLabel>Password</ControlLabel>
                         <FormControl style={{width: 350}} placeholder="Password" type="password"
                             value={this.state.password}

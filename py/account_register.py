@@ -5,7 +5,7 @@ import threading
 
 ERROR_MESSAGES = {'REGISTRATION_ERROR': 'An error occurred during account registration.',
                   'REGISTRATION_CONFIRM_ERROR': 'Registration could not be confirmed',
-                'DUPLICATE_EMAIL': 'This email address has already been registered.'}
+                  'DUPLICATE_EMAIL': 'This email address has already been registered.'}
 
 class AccountRegistrator(object):
 
@@ -30,6 +30,7 @@ class AccountRegistrator(object):
                 registerResult['registrationStatus'] = False
         return registerResult
 
+
     def check_for_email(self, email):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -37,6 +38,7 @@ class AccountRegistrator(object):
         if len(cursor.fetchall()) > 0:
             return True
         return False
+
 
     # Account confirmation
     def confirm_registration(self, data):
@@ -55,6 +57,7 @@ class AccountRegistrator(object):
             registerResult['errorMessage'] = ERROR_MESSAGES['REGISTRATION_CONFIRM_ERROR']
             registerResult['registrationStatus'] = False
             return registerResult
+
 
     def insert_account_registration(self, account):
         conn = self.mysql.connection

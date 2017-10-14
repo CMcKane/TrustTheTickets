@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 from flask import request
 from flask import make_response
 from account_register import AccountRegistrator
+from account_login import AccountAuthenticator
 from ticket_builder import TicketBuilder
 app = Flask (__name__)
 
@@ -47,8 +48,8 @@ def confirm_registration():
 def index():
     conn = mysql.connection
     cursor = conn.cursor()
-    cursor.execute("SELECT account_id, email, password, created_dt FROM accounts")
-    accounts = [dict(account_id=row[0], email=row[1], password=row[2], created_dt=row[3]) for row in cursor.fetchall()]
+    cursor.execute("SELECT account_id, email, created_dt, first_name, last_name FROM accounts")
+    accounts = [dict(account_id=row[0], email=row[1], created_dt=row[2], fname=row[3], lname=row[4]) for row in cursor.fetchall()]
     return jsonify({'accounts': accounts})
 
 @app.route('/tickets', methods=['POST'])
@@ -64,7 +65,13 @@ def get_tickets():
 # Right now this just returns that the login info is good for testing purposes.
 @app.route('/login', methods=['POST'])
 def authenticate_credentials():
-    return jsonify({'authenticated': True })
+    if 'application/json' in request.headers.environ['CONTENT_TYPE']:
+        jsonData = request.get_json()
+        return jsonify(
+            AccountAuthenticator(mysql)
+            .authenticate_user(jsonData))
+    else:
+        return requestNotSupported()
 
 if __name__ == '__main__':
     app.run()
