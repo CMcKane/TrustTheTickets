@@ -12,7 +12,7 @@ export default class Home extends Component {
 
     render(){
         return (
-            <div class="text-center">
+            <div className="text-center">
                 <Jumbotron>
                     <h1>Hey Sixers fans!</h1>
                     <p>Welcome to Trust The Tickets.</p>
