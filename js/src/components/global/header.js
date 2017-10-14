@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default class Header extends Component {
     renderItems() {
     	return _.map(this.props.navItems, (navItem, index) =>
-            <LinkContainer to={navItem.url}>
+            <LinkContainer key={index} to={navItem.url}>
                 <NavItem key={index}>{navItem.label}</NavItem>
             </LinkContainer>
         );

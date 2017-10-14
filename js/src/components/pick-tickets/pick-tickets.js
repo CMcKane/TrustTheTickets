@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Form, FormGroup, ControlLabel, FormControl, Well} from 'react-bootstrap';
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well} from 'react-bootstrap';
 import '../../seating-chart.css';
 import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
 import { TTTPost } from '../backend/ttt-request';
 
-export default class TestLayout extends Component {
+export default class PickTickets extends Component {
 
     constructor(props) {
         super(props);
@@ -29,7 +29,7 @@ export default class TestLayout extends Component {
 
     renderTickets() {
         return _.map(this.state.tickets, (ticket, index) =>
-            <option value={ticket.ticket_id}>
+            <option key={index} value={ticket.ticket_id}>
                 Section: {ticket.section_number} Row: {ticket.row_number} Seat: {ticket.seat_number}
             </option>
         );

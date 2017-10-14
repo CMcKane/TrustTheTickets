@@ -6,7 +6,7 @@ export default class MyAccount extends Component {
     render() {
         if (this.props.user.loggedIn) {
             return (
-                <div class="text-center">
+                <div className="text-center">
                     <h1>My Account</h1>
                     <h3>Welcome {this.props.user.fname} {this.props.user.lname}!</h3>
                         <Button bsStyle="primary"

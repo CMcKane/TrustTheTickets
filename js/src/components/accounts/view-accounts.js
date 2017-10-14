@@ -14,7 +14,6 @@ export default class ViewAccounts extends Component {
     componentDidMount() {
         TTTGet("/accounts")
             .then(res => {
-                console.log(res);
                 const accounts = res.data.accounts;
                 this.setState({ accounts });
             });
@@ -22,9 +21,10 @@ export default class ViewAccounts extends Component {
 
     render() {
         return (
-            <div class="centered" style={{width: '50%'}}>
-                <h1 class="text-center">Registered Accounts</h1>
+            <div className="centered" style={{width: '50%'}}>
+                <h1 className="text-center">Registered Accounts</h1>
                 <table style={{width: '100%'}}>
+                    <tbody>
                     <tr>
                         <th>Account ID</th>
                         <th>Email</th>
@@ -41,6 +41,7 @@ export default class ViewAccounts extends Component {
                             <td>{account.created_dt}</td>
                         </tr>
                     )}
+                    </tbody>
                 </table>
             </div>
         );
