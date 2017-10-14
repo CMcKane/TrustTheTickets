@@ -17,4 +17,4 @@ class AccountAuthenticator(object):
             cols = cursor.fetchone()
             return dict(authenticated=True, fname=cols[0], lname=cols[1])
         else:
-            return {'authenticated' : True}
+            return {'authenticated' : False}
