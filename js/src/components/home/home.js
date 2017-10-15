@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Jumbotron } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
-
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +12,7 @@ export default class Home extends Component {
 
     render(){
         return (
-            <div class="text-center">
+            <div className="text-center">
                 <Jumbotron>
                     <h1>Hey Sixers fans!</h1>
                     <p>Welcome to Trust The Tickets.</p>

@@ -13,8 +13,6 @@ import Home from './components/home/home';
 import MyAccount from './components/auth/my-account';
 
 import { login, logout, initializeUser } from './components/auth/user';
-
-import WellsFargoChart from './components/pick-tickets/wells-fargo-chart';
 import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
 

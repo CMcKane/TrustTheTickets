@@ -33,8 +33,10 @@ export default class Login extends Component {
             }
             else
             {
-                this.state.fname = res.data.fname;
-                this.state.lname = res.data.lname;
+                this.setState({
+                    fname: res.data.fname,
+                    lname: res.data.lname
+                })
 
                 this.props.logIn(
                     this.state.email,
@@ -50,8 +52,8 @@ export default class Login extends Component {
             return '';
         }
         return (
-            <div class= "centered">
-                <h1 class="text-center">Log In</h1>
+            <div className="centered">
+                <h1 className="text-center">Log In</h1>
                 <form>
                     <FormGroup controlId="formControlsEmail">
                         <ControlLabel id="EmailAddress">Email address</ControlLabel>
