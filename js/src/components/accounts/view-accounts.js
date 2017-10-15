@@ -22,7 +22,7 @@ export default class ViewAccounts extends Component {
     render() {
         return (
             <div className="centered" style={{width: '50%'}}>
-                <h1 className="text-center">Registered Accounts</h1>
+                <h1 className="text-center" style={{color: 'white'}}>Registered Accounts</h1>
                 <table style={{width: '100%'}}>
                     <tbody>
                     <tr>

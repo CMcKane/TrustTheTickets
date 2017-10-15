@@ -59,38 +59,41 @@ export default class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Header navItems={this.state.navItems} />
-          <Switch>
-              <Route exact path='/' component={Home} />
-              <Route path='/view-accounts' component={ViewAccounts} />
-              <Route path='/view-tickets' component={ViewTickets} />
-              <Route path='/pick-tickets' component={PickTickets} />
-              <Route path='/my-account' render={(props) =>
-                  <MyAccount
-                      {...props} logIn={this.userLogIn.bind(this)}
-                      logOut={this.userLogOut.bind(this)}
-                      user={this.state.user}
-                  />}
-              />
-              <Route path='/login' render={(props) =>
-                  <Login
-                      {...props}
-                      logIn={this.userLogIn.bind(this)}
-                      userLoggedIn={this.state.user.loggedIn}
-                  />}
-              />
-              <Route path='/register' render={(props) =>
-                  <Registration
-                      {...props}
-                      userLoggedIn={this.state.user.loggedIn}
-                  />}
-              />
-              <Route path='/about' />
-          </Switch>
-        </div>
-      </Router>
+        <body>
+        <Router>
+            <div className="App">
+                <Header navItems={this.state.navItems} />
+                <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route path='/view-accounts' component={ViewAccounts} />
+                    <Route path='/view-tickets' component={ViewTickets} />
+                    <Route path='/pick-tickets' component={PickTickets} />
+                    <Route path='/my-account' render={(props) =>
+                        <MyAccount
+                            {...props} logIn={this.userLogIn.bind(this)}
+                            logOut={this.userLogOut.bind(this)}
+                            user={this.state.user}
+                        />}
+                    />
+                    <Route path='/login' render={(props) =>
+                        <Login
+                            {...props}
+                            logIn={this.userLogIn.bind(this)}
+                            userLoggedIn={this.state.user.loggedIn}
+                        />}
+                    />
+                    <Route path='/register' render={(props) =>
+                        <Registration
+                            {...props}
+                            userLoggedIn={this.state.user.loggedIn}
+                        />}
+                    />
+                    <Route path='/about' />
+                </Switch>
+            </div>
+        </Router>
+        </body>
+
     );
   }
 }

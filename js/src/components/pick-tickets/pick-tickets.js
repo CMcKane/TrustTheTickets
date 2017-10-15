@@ -39,8 +39,8 @@ export default class PickTickets extends Component {
         return (
 
             <Grid>
-                <h1 style={{textAlign: 'center',color: 'white'}}>
-                    <Well style={{background: '#1E2FA4'}} > Choose Your Desired Section From The Seating Chart </Well>
+                <h1 class="border-white">
+                    <Well style={{background: 'transparent'}}> Choose Your Desired Section From The Seating Chart </Well>
                 </h1>
                 <Row>
                     <Col lg={8}>
@@ -49,7 +49,7 @@ export default class PickTickets extends Component {
                     <Col lg={4}>
                         {<div>
                             <FormGroup controlId="formControlsSelectMultiple">
-                                <ControlLabel>Here are your ticket options for selected section: </ControlLabel>
+                                <ControlLabel style={{color: 'white', fontSize: 25}}>Here are your ticket options for selected section: </ControlLabel>
                                 <FormControl style={{height: '650px'}} componentClass="select" multiple>
                                 {this.renderTickets()}
                                 </FormControl>
