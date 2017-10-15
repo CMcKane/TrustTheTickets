@@ -17,8 +17,8 @@ export default class Home extends Component {
             <body>
             <div className="text-center">
                 <Jumbotron style={{background: 'transparent'}}>
-                    <h1 class="border-white" style={{color: 'rgb(45, 98, 183)', fontSize: 100, fontWeight: 'bold'}}>Hey Sixers fans!</h1>
-                    <p class="border-white" style={{color: 'rgb(45, 98, 183)', fontSize: 43, fontWeight: 'bold'}}>Welcome to Trust The Tickets.</p>
+                    <h1 className="border-white" style={{color: 'rgb(45, 98, 183)', fontSize: 100, fontWeight: 'bold'}}>Hey Sixers fans!</h1>
+                    <p className="border-white" style={{color: 'rgb(45, 98, 183)', fontSize: 43, fontWeight: 'bold'}}>Welcome to Trust The Tickets.</p>
                     <p><LinkContainer to="/pick-tickets"><Button bsStyle="primary">Search for Tickets</Button></LinkContainer></p>
                 </Jumbotron>
             </div>

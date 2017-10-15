@@ -59,7 +59,6 @@ export default class App extends Component {
 
   render() {
     return (
-        <body>
         <Router>
             <div className="App">
                 <Header navItems={this.state.navItems} />
@@ -92,8 +91,6 @@ export default class App extends Component {
                 </Switch>
             </div>
         </Router>
-        </body>
-
     );
   }
 }
