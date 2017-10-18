@@ -1,9 +1,22 @@
-.pick-tickets-well {
+.eventCalendarView {
+  	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+  	background-repeat: no-repeat;
+    position: fixed;
+  	background-color: #FFFFFF;
+  	width: 100%;
+  	height: 100%; 
+}
+
+.events-well {
     color: rgb(45, 98, 183);
     font-size: 60px;
     font-weight: bold;
     text-align: center;
 }
+
 .border-black{
     color: grey;
     /*border white with light shadow*/

@@ -28,6 +28,7 @@ export default class PickTickets extends Component {
                     tickets: res.data.tickets
                 });
             });
+            
         }
     }
 
@@ -41,10 +42,11 @@ export default class PickTickets extends Component {
 
     render(){
         return (
-
             <Grid>
                 <h1 className="border-white">
-                    <Well style={{background: 'transparent'}}> Choose Your Desired Section From The Seating Chart </Well>
+                    <Well className='pick-tickets-well' style={{background: 'transparent'}}>
+                        Choose Your Desired Section From The Seating Chart 
+                    </Well>
                 </h1>
                 <Row>
                     <Col lg={8}>

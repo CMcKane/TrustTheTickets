@@ -1,5 +1,6 @@
 from flask import Flask,request
 from flask_mysqldb import MySQL
+from flask import jsonify
 
 app = Flask(__name__)
 mysql = MySQL(app)
@@ -14,7 +15,7 @@ cursor = conn.cursor()
 
 #Filter the tickets between a min and max given from the user
 # SELECT ticket_price, available_ticket_num, location_id, row_number, seat_number FROM ttt.groups LEFT JOIN ttt.tickets USING (group_id) WHERE ticket_price BETWEEN min AND max
-def between_price(int min, int max):
+def between_price(min, max):
     cursor.execute(
         "SELECT ticket_price, available_ticket_num, location_id, row_number, seat_number "
         "FROM ttt.groups "

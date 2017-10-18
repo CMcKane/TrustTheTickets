@@ -15,6 +15,8 @@ import MyAccount from './components/auth/my-account';
 import { login, logout, initializeUser } from './components/auth/user';
 import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
+import EventCalendarView from './components/events/event-calendar-view';
+import './App.css';
 
 const navItems = [
     {
@@ -28,6 +30,10 @@ const navItems = [
     {
         label: 'My Account',
         url: '/my-account'
+    },
+    {
+      label: 'Event Calendar',
+      url: '/events'
     }
 ];
 
@@ -60,12 +66,13 @@ export default class App extends Component {
   render() {
     return (
         <Router>
-            <div className="App">
+            <div className="homeBody">
                 <Header navItems={this.state.navItems} />
                 <Switch>
                     <Route exact path='/' component={Home} />
                     <Route path='/view-accounts' component={ViewAccounts} />
                     <Route path='/view-tickets' component={ViewTickets} />
+                    <Route path='/events' component={EventCalendarView} />
                     <Route path='/pick-tickets' component={PickTickets} />
                     <Route path='/my-account' render={(props) =>
                         <MyAccount
