@@ -39,7 +39,7 @@ export default class EventCalendarView extends Component {
     }
 
     getRedirect() {
-        return '/pick-tickets?=' + this.state.eventID;
+        return '/pick-tickets?event=' + this.state.eventID;
     }
 
     rerouteToSeatingChart(eventID) {
