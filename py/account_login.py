@@ -1,4 +1,5 @@
 from account import Account
+from sql_handler import SqlHandler
 
 class AccountAuthenticator(object):
 
@@ -10,11 +11,4 @@ class AccountAuthenticator(object):
         return self.verify_credentials(account)
 
     def verify_credentials(self, account):
-        conn = self.mysql.connection
-        cursor = conn.cursor()
-        rowcount = cursor.execute("SELECT first_name, last_name FROM accounts WHERE email = '{}' and password = '{}'".format(account.email, account.password))
-        if rowcount == 1:
-            cols = cursor.fetchone()
-            return dict(authenticated=True, fname=cols[0], lname=cols[1])
-        else:
-            return {'authenticated' : False}
+        return SqlHandler.verify_credentials(self.mysql, account.email, account.password)
