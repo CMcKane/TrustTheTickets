@@ -9,7 +9,7 @@ const games = [
     start: 'Tue Oct 17 2017 21:00:00 GMT-0400 (EDT)',
     title: 'Sixers vs Grizzlies',
     homeTeam: '76ERS',
-    awayTeam: 'GRIZZLIES'
+    awayTeam: 'GRIZZLIES',
     id: 1
 },
 {
@@ -17,7 +17,7 @@ const games = [
     start: 'Fri Oct 20 2017 21:00:00 GMT-0400 (EDT)',
     title: 'Sixers vs Cavaliers',
     homeTeam: '76ERS',
-    awayTeam: 'CAVALIERS'
+    awayTeam: 'CAVALIERS',
     id: 2
 }
 ]

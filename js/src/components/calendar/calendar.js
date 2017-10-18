@@ -28,7 +28,7 @@ export default class EventCalendar extends Component {
                 views={['month']}
                 components={{
                     event: EventComponent
-                }}/>
+                }}
                 onSelectEvent={this.eventSelected.bind(this)}
                 />
         )

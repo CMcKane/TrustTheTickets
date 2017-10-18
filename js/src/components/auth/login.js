@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { TTTPost } from '../backend/ttt-request';
 import './login.css';
 
@@ -48,8 +48,7 @@ export default class Login extends Component {
 
     render() {
         if (this.props.userLoggedIn) {
-            this.props.history.push('/my-account');
-            return '';
+            return <Redirect to='/my-account' />
         }
         return (
             <div className="centered">

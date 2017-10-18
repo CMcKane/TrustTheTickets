@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import queryString from 'query-string';
 import { TTTPost } from '../backend/ttt-request';
+import { Redirect } from 'react-router-dom';
 
 export default class Registration extends Component {
 
@@ -95,8 +96,7 @@ export default class Registration extends Component {
 
     render() {
         if (this.props.userLoggedIn) {
-            this.props.history.push('/myaccount');
-            return '';
+            return <Redirect to='/my-account' />
         }
         const queryParams = queryString.parse(this.props.location.search)
         // If registration process is complete
