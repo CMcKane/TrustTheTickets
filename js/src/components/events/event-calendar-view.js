@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import EventCalendar from '../calendar/calendar';
 import { Well } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import './event-calendar-view.css';
 
 const games = [
@@ -24,16 +25,35 @@ const games = [
 
 export default class EventCalendarView extends Component {
 
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        selected: false,
+        eventID: ''
+      };
+    }
+
     getEvents() {
         return games;
     }
 
+    getRedirect() {
+        return '/pick-tickets?=' + this.state.eventID;
+    }
+
     rerouteToSeatingChart(eventID) {
-        this.props.history.push('/pick-tickets?event=' + eventID);
+        this.setState({
+            'selected': true,
+            'eventID': eventID
+        });
     }
 
     render() {
-        return (
+        if (this.state.selected) {
+            return <Redirect to={this.getRedirect()} />
+        }
+        else return (
             <div className="eventCalendarView">
                 <Well className="events-well"> Choose Your Game </Well>
                 <EventCalendar events={this.getEvents()} eventSelected={this.rerouteToSeatingChart.bind(this)}/>
