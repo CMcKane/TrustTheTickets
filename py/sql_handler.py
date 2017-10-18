@@ -50,3 +50,14 @@ class SqlHandler(object):
             "INSERT INTO account_registration (account_id, registration_code) VALUES ('{}','{}')"
                 .format(newAccountID, registrationID))
         conn.commit()
+
+    def verify_credentials(mysql, email, password):
+        conn = mysql.connection
+        cursor = conn.cursor()
+        rowcount = cursor.execute(
+            "SELECT first_name, last_name FROM accounts WHERE email = '{}' and password = '{}'".format(email, password))
+        if rowcount == 1:
+            cols = cursor.fetchone()
+            return dict(authenticated=True, fname=cols[0], lname=cols[1])
+        else:
+            return {'authenticated': False}
