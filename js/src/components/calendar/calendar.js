@@ -16,6 +16,10 @@ export default class EventCalendar extends Component {
         };
     }
 
+    eventSelected(e) {
+        this.props.eventSelected(e.id);
+    }
+
     render() {
         return (
             <BigCalendar
@@ -25,6 +29,8 @@ export default class EventCalendar extends Component {
                 components={{
                     event: EventComponent
                 }}/>
+                onSelectEvent={this.eventSelected.bind(this)}
+                />
         )
     }
 }
