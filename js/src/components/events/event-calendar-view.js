@@ -7,12 +7,16 @@ const games = [
 {
     end: 'Tue Oct 17 2017 18:00:00 GMT-0400 (EDT)',
     start: 'Tue Oct 17 2017 21:00:00 GMT-0400 (EDT)',
-    title: 'Sixers vs Grizzlies'
+    title: 'Sixers vs Grizzlies',
+    homeTeam: '76ERS',
+    awayTeam: 'GRIZZLIES'
 },
 {
     end: 'Fri Oct 20 2017 18:00:00 GMT-0400 (EDT)',
     start: 'Fri Oct 20 2017 21:00:00 GMT-0400 (EDT)',
-    title: 'Sixers vs Cavaliers'
+    title: 'Sixers vs Cavaliers',
+    homeTeam: '76ERS',
+    awayTeam: 'CAVALIERS'
 }
 ]
 
@@ -26,7 +30,8 @@ export default class EventCalendarView extends Component {
         return (
             <div className="eventCalendarView">
                 <Well className="events-well"> Choose Your Game </Well>
-                <EventCalendar events={this.getEvents()}/>
+                <EventCalendar 
+                    events={this.getEvents()}/>
             </div>
         )
     }

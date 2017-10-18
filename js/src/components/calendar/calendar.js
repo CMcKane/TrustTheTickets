@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import EventComponent from './event-component';
 import style from 'react-big-calendar/lib/css/react-big-calendar.css';
 
 // Honestly don't know why/if we need this
@@ -21,7 +22,9 @@ export default class EventCalendar extends Component {
                 style={style}
                 events={this.state.events}
                 views={['month']}
-                />
+                components={{
+                    event: EventComponent
+                }}/>
         )
     }
 }
