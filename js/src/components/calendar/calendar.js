@@ -15,12 +15,17 @@ export default class EventCalendar extends Component {
         };
     }
 
+    eventSelected(e) {
+        this.props.eventSelected(e.id);
+    }
+
     render() {
         return (
             <BigCalendar
                 style={style}
                 events={this.state.events}
                 views={['month']}
+                onSelectEvent={this.eventSelected.bind(this)}
                 />
         )
     }

@@ -15,7 +15,7 @@ export default class Header extends Component {
 
     render() {
         return (
-        		<Navbar inverse collapseOnSelect style={{'margin-bottom': 0}} >
+        		<Navbar inverse collapseOnSelect style={{'marginBottom': 0}} >
                     <Navbar.Header>
                         <Navbar.Brand>
                             <Link to="/">Trust The Tickets</Link>
