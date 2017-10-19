@@ -167,24 +167,18 @@ export default class Registration extends Component {
                         label="Address"
                         placeholder="Enter Your Address"
                          />
-                        <Form horizontal>
-                            <FormGroup controlId={"formHorizontalText"}>
-                            <Col componentClass={ControlLabel} sm={2}>
-                                City
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl type="text" placeholder="City"/>
-                            </Col>
-                            </FormGroup>
-                            <FormGroup controlId={"formHorizontalText"}>
-                                <Col componentClass={ControlLabel} sm={2}>
-                                    Zip
-                                </Col>
-                                <Col sm={10}>
-                                    <FormControl type="text" placeholder="Zip Code"/>
-                                </Col>
-                            </FormGroup>
-                        </Form>
+                        <FieldGroup
+                            id="formControlsText"
+                            type="text"
+                            label="City"
+                            placeholder="Enter City"
+                        />
+                        <FieldGroup
+                            id="formControlsText"
+                            type="text"
+                            label="Zip Code"
+                            placeholder="Enter Zip Code"
+                        />
                         <Form inline>
                             <FormGroup
                                 controlId="formControlsSelect">
