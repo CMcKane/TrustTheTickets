@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './components/global/header';
+import NotFoundView from './components/global/not-found-view';
 import { 
     BrowserRouter as Router, 
     Route,
@@ -95,6 +96,7 @@ export default class App extends Component {
                         />}
                     />
                     <Route path='/about' />
+                    <Route component={NotFoundView} />
                 </Switch>
             </div>
         </Router>
