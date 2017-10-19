@@ -17,6 +17,7 @@ import { login, logout, initializeUser } from './components/auth/user';
 import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
 import EventCalendarView from './components/events/event-calendar-view';
+import EventListView from './components/events/event-list-view';
 import './App.css';
 
 const navItems = [
@@ -34,7 +35,11 @@ const navItems = [
     },
     {
       label: 'Event Calendar',
-      url: '/events'
+      url: '/event-calendar'
+    },
+    {
+      label: 'Event List',
+      url: '/event-list'
     }
 ];
 
@@ -73,7 +78,8 @@ export default class App extends Component {
                     <Route exact path='/' component={Home} />
                     <Route path='/view-accounts' component={ViewAccounts} />
                     <Route path='/view-tickets' component={ViewTickets} />
-                    <Route path='/events' component={EventCalendarView} />
+                    <Route path='/event-calendar' component={EventCalendarView} />
+                    <Route path='/event-list' component={EventListView} />
                     <Route path='/pick-tickets' component={PickTickets} />
                     <Route path='/my-account' render={(props) =>
                         <MyAccount
