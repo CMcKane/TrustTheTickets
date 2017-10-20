@@ -92,6 +92,7 @@ class SqlHandler(object):
                 "SELECT first_name, last_name FROM accounts WHERE email = '{}' and password = '{}'".format(email, password))
         except:
             Logger.log("Query failed in method verify_credentials")
+            rowcount = 0
 
         if rowcount == 1:
             cols = cursor.fetchone()

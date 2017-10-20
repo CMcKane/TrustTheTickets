@@ -18,7 +18,7 @@ class Logger(object):
 
 
 
-    def log(self, message):
-        self.file = open(file_path, 'a+')
-        self.file.write(message + "\n\n")
-        self.file.close()
+    def log(message):
+        file = open(file_path, 'a+')
+        file.write(message + "\n\n")
+        file.close()

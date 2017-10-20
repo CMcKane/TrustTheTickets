@@ -55,7 +55,6 @@ def get_tickets():
     givenSection = request.get_json()
     sectionNum = givenSection['section_number']
     tickets = SqlHandler.get_tickets(mysql, sectionNum)
-    logger = Logger()
     return jsonify({'tickets': tickets})
 
 # Right now this just returns that the login info is good for testing purposes.
