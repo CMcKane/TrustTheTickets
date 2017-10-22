@@ -1,8 +1,6 @@
-import React, {Component} from 'react';
-import {Button, ControlLabel, FormControl, FormGroup, HelpBlock, Form, Col} from 'react-bootstrap';
-import queryString from 'query-string';
-import {TTTPost} from '../backend/ttt-request';
-import {Redirect} from 'react-router-dom';
+import React, { Component }  from 'react';
+import { FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button } from 'react-bootstrap';
+import { TTTPost } from '../backend/ttt-request';
 
 function FieldGroup({ id, label, help, ...props }) {
     return (
@@ -14,18 +12,16 @@ function FieldGroup({ id, label, help, ...props }) {
     );
 }
 
-export default class Registration extends Component {
+export default class RegistrationView extends Component {
 
     constructor(props) {
-        super(props);
+      super(props);
 
-        this.state = {
-            email: '',
-            password: '',
-            secondPassword: '',
-            inProgress: false,
-            completed: false
-        };
+      this.state = {
+          email: '',
+          password: '',
+          secondPassword: ''
+      };
     }
 
     getValidationState() {
@@ -39,33 +35,36 @@ export default class Registration extends Component {
         const length = this.state.secondPassword.length;
         if (length > 7 && this.state.password === this.state.secondPassword)
             return 'success';
-        else if (length > 5 && this.state.password === this.state.secondPassword)
+        else if (length > 5 && this.state.password === this.state.secondPassword) 
             return 'warning';
-        else if (length > 0) return 'error';
+        else if (length > 0 ) return 'error';
     }
 
     handleChange(e) {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     onSubmit() {
-        if (this.getValidationState() === 'error') {
+        if (this.getValidationState() === 'error')
+        {
             this.alertRegistrationError('Password not long enough.');
         }
-        else if (this.getSecondPasswordValidationState() === 'error') {
+        else if (this.getSecondPasswordValidationState() === 'error')
+        {
             this.alertRegistrationError('Passwords do not match.');
         }
-        else {
+        else
+        {
             TTTPost("/register", {
                 email: this.state.email,
                 password: this.state.password
             })
-                .then(res => {
-                    if (res.data.errorMessage) {
-                        alert(res.data.errorMessage);
-                    }
-                    this.setState({inProgress: res.data.registrationStatus});
-                });
+            .then(res => {
+                if(res.data.errorMessage) {
+                    alert(res.data.errorMessage);
+                }
+                this.props.setInProgress(res.data.registrationStatus);
+            });
         }
     }
 
@@ -75,52 +74,24 @@ export default class Registration extends Component {
     }
 
     validateRegistrationId(registrationID) {
-        TTTPost("/registration-confirm", {
-            registrationID: registrationID
-        })
+            TTTPost("/registration-confirm", {
+                registrationID: registrationID
+            })
             .then(res => {
-                if (res.data.errorMessage) {
+                if(res.data.errorMessage) {
                     alert(res.data.errorMessage);
                 }
-                else {
+                else
+                {
                     this.setState({completed: true});
                 }
             });
     }
 
-    registrationSuccess() {
-        return (
-            "Registration was a success!"
-        );
-    }
-
-    emailConfirmation() {
-        return (
-            "You've been sent a confirmation email."
-        );
-    }
-
     render() {
-        if (this.props.userLoggedIn) {
-            return <Redirect to='/my-account'/>
-        }
-        const queryParams = queryString.parse(this.props.location.search)
-        // If registration process is complete
-        if (this.state.completed) {
-            return "Registration complete!";
-        }
-        else if (queryParams.registrationID) {
-            // Validate the query params by making request to backend
-            this.validateRegistrationId(queryParams.registrationID);
-            return '';
-        }
-        // If waiting on email confirmation!
-        else if (this.state.inProgress) {
-            return this.emailConfirmation();
-        }
-        // If no other conditions are met then we're in the initial state
-        else return (
-                <div className="centered">
+        console.log(this.props);
+        return (
+            <div className="centered">
                     <h1 className="text-center">Registration</h1>
                     <form>
                         <FormGroup
@@ -185,7 +156,7 @@ export default class Registration extends Component {
                                 <ControlLabel>Country</ControlLabel>
                                 <FormControl componentClass="select"
                                              placeholder="Country">
-                                    /*This needs to populated with all countries in future*/
+                                    {/*This needs to populated with all countries in future*/}
                                     <option value="United States">US</option>
                                 </FormControl>
                             </FormGroup>
@@ -194,7 +165,7 @@ export default class Registration extends Component {
                                 <ControlLabel>State</ControlLabel>
                                 <FormControl componentClass="select"
                                              placeholder="State">
-                                    /*This needs to populated via country selection in future*/
+                                    {/*This needs to populated via country selection in future*/}
                                     <option value="Alabama">AL</option>
                                     <option value="Alaska">AK</option>
                                     <option value="Arizona">AZ</option>
@@ -256,6 +227,6 @@ export default class Registration extends Component {
 
                     </form>
                 </div>
-            );
+        );
     }
 }

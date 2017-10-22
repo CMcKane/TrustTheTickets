@@ -62,6 +62,7 @@ export default class EventListView extends Component {
 		}
 		return (
 			<div className="centered" style={{'width': '40%'}}>
+				<h1> Choose Your Game </h1>
 		  		<ListGroup>
 		  			{this.renderEventListItems()}
 		  		</ListGroup>

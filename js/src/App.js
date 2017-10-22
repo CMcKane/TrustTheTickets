@@ -8,8 +8,7 @@ import {
 } from 'react-router-dom';
 
 import Login from './components/auth/login';
-import ViewAccounts from './components/accounts/view-accounts';
-import Registration from './components/auth/registration';
+import Registration from './components/registration/registration';
 import Home from './components/home/home';
 import MyAccount from './components/auth/my-account';
 
@@ -24,10 +23,6 @@ const navItems = [
     {
         label: 'Pick Tickets',
         url: '/pick-tickets'
-    },
-    {
-        label: 'Registered Accounts',
-        url: '/view-accounts'
     },
     {
         label: 'My Account',
@@ -76,7 +71,6 @@ export default class App extends Component {
                 <Header navItems={this.state.navItems} />
                 <Switch>
                     <Route exact path='/' component={Home} />
-                    <Route path='/view-accounts' component={ViewAccounts} />
                     <Route path='/view-tickets' component={ViewTickets} />
                     <Route path='/event-calendar' component={EventCalendarView} />
                     <Route path='/event-list' component={EventListView} />
