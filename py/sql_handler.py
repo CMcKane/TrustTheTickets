@@ -1,3 +1,6 @@
+from logger import Logger
+from passlib.hash import sha256_crypt
+
 class SqlHandler(object):
 
     def __init__(self, mysql):
@@ -45,7 +48,7 @@ class SqlHandler(object):
         newAccountID = cursor.fetchone()[0] + 1
         cursor.execute(
             "INSERT INTO accounts (account_id, email, password, account_status_id, created_dt) VALUES ('{}','{}','{}','{}', NOW())"
-                .format(newAccountID, account.email, account.password, 2))
+                .format(newAccountID, account.email, sha256_crypt.hash(account.password), 2))
         cursor.execute(
             "INSERT INTO account_registration (account_id, registration_code) VALUES ('{}','{}')"
                 .format(newAccountID, registrationID))
@@ -54,10 +57,10 @@ class SqlHandler(object):
     def verify_credentials(mysql, email, password):
         conn = mysql.connection
         cursor = conn.cursor()
-        rowcount = cursor.execute(
-            "SELECT first_name, last_name FROM accounts WHERE email = '{}' and password = '{}'".format(email, password))
-        if rowcount == 1:
-            cols = cursor.fetchone()
+        cursor.execute(
+         "SELECT first_name, last_name, password FROM accounts WHERE email = '{}'".format(email))
+        cols = cursor.fetchone()
+        if cols and sha256_crypt.verify(password, cols[2]):
             return dict(authenticated=True, fname=cols[0], lname=cols[1])
         else:
             return {'authenticated': False}

@@ -6,6 +6,9 @@ from flask import make_response
 from account_register import AccountRegistrator
 from account_login import AccountAuthenticator
 from sql_handler import SqlHandler;
+
+
+
 app = Flask (__name__)
 
 mysql = MySQL(app)
