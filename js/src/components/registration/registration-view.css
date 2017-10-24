@@ -1,0 +1,15 @@
+.register-button {
+    text-align: center;
+}
+.inline-group {
+    text-align: center;
+    padding: 20px;
+}
+.CountryForm {
+    padding-right: 50px;
+    color: black;
+}
+.StateForm {
+    padding-left: 50px;
+    color: white;
+}

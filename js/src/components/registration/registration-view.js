@@ -1,8 +1,9 @@
-import React, { Component }  from 'react';
-import { FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button } from 'react-bootstrap';
-import { TTTPost } from '../backend/ttt-request';
+import React, {Component} from 'react';
+import {FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button, Col, Row, Grid} from 'react-bootstrap';
+import {TTTPost} from '../backend/ttt-request';
+import './registration-view.css';
 
-function FieldGroup({ id, label, help, ...props }) {
+function FieldGroup({id, label, help, ...props}) {
     return (
         <FormGroup controlId={id}>
             <ControlLabel>{label}</ControlLabel>
@@ -15,13 +16,21 @@ function FieldGroup({ id, label, help, ...props }) {
 export default class RegistrationView extends Component {
 
     constructor(props) {
-      super(props);
+        super(props);
 
-      this.state = {
-          email: '',
-          password: '',
-          secondPassword: ''
-      };
+        this.state = {
+            email: '',
+            password: '',
+            secondPassword: '',
+            firstName: '',
+            lastName: '',
+            address: '',
+            city: '',
+            zipCode: '',
+            country: '',
+            state: '',
+            phoneNumber: ''
+        };
     }
 
     getValidationState() {
@@ -35,36 +44,42 @@ export default class RegistrationView extends Component {
         const length = this.state.secondPassword.length;
         if (length > 7 && this.state.password === this.state.secondPassword)
             return 'success';
-        else if (length > 5 && this.state.password === this.state.secondPassword) 
+        else if (length > 5 && this.state.password === this.state.secondPassword)
             return 'warning';
-        else if (length > 0 ) return 'error';
+        else if (length > 0) return 'error';
     }
 
     handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     }
 
     onSubmit() {
-        if (this.getValidationState() === 'error')
-        {
+        if (this.getValidationState() === 'error') {
             this.alertRegistrationError('Password not long enough.');
         }
-        else if (this.getSecondPasswordValidationState() === 'error')
-        {
+        else if (this.getSecondPasswordValidationState() === 'error') {
             this.alertRegistrationError('Passwords do not match.');
         }
-        else
-        {
+        else {
             TTTPost("/register", {
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                address: this.state.address,
+                city: this.state.city,
+                zipCode: this.state.zipCode,
+                country: this.state.country,
+                state: this.state.state,
+                phoneNumber: this.state.phoneNumber
+
             })
-            .then(res => {
-                if(res.data.errorMessage) {
-                    alert(res.data.errorMessage);
-                }
-                this.props.setInProgress(res.data.registrationStatus);
-            });
+                .then(res => {
+                    if (res.data.errorMessage) {
+                        alert(res.data.errorMessage);
+                    }
+                    this.props.setInProgress(res.data.registrationStatus);
+                });
         }
     }
 
@@ -74,159 +89,200 @@ export default class RegistrationView extends Component {
     }
 
     validateRegistrationId(registrationID) {
-            TTTPost("/registration-confirm", {
-                registrationID: registrationID
-            })
+        TTTPost("/registration-confirm", {
+            registrationID: registrationID
+        })
             .then(res => {
-                if(res.data.errorMessage) {
+                if (res.data.errorMessage) {
                     alert(res.data.errorMessage);
                 }
-                else
-                {
+                else {
                     this.setState({completed: true});
                 }
             });
     }
 
+
     render() {
         console.log(this.props);
         return (
-            <div className="centered">
-                    <h1 className="text-center">Registration</h1>
-                    <form>
-                        <FormGroup
-                            controlId="formControlsEmail">
-                            <ControlLabel>Email address</ControlLabel>
-                            <FormControl placeholder="Enter email" type="email"
-                                         value={this.state.email}
-                                         name="email"
-                                         onChange={this.handleChange.bind(this)}/>
-                        </FormGroup>
-                        <FormGroup
-                            controlId="formControlsPassword"
-                            validationState={this.getValidationState()}>
-                            <ControlLabel>Password</ControlLabel>
-                            <FormControl type="password"
-                                         value={this.state.password}
-                                         name="password"
-                                         onChange={this.handleChange.bind(this)}/>
-                        </FormGroup>
-                        <FormGroup
-                            controlId="formControlsPassword"
-                            validationState={this.getSecondPasswordValidationState()}>
-                            <ControlLabel>Re-enter Password</ControlLabel>
-                            <FormControl type="password"
-                                         value={this.state.secondPassword}
-                                         name="secondPassword"
-                                         onChange={this.handleChange.bind(this)}/>
-                        </FormGroup>
-                        <FieldGroup
-                            id="formControlsText"
-                            type="text"
-                            label="First Name"
-                            placeholder="Enter First Name"
-                        />
-                        <FieldGroup
-                            id="formControlsText"
-                            type="text"
-                            label="Last Name"
-                            placeholder="Enter Last Name"
-                        />
-                        <FieldGroup
-                        id="formControlsText"
-                        type="text"
-                        label="Address"
-                        placeholder="Enter Your Address"
-                         />
-                        <FieldGroup
-                            id="formControlsText"
-                            type="text"
-                            label="City"
-                            placeholder="Enter City"
-                        />
-                        <FieldGroup
-                            id="formControlsText"
-                            type="text"
-                            label="Zip Code"
-                            placeholder="Enter Zip Code"
-                        />
-                        <Form inline>
-                            <FormGroup
-                                controlId="formControlsSelect">
-                                <ControlLabel>Country</ControlLabel>
-                                <FormControl componentClass="select"
-                                             placeholder="Country">
-                                    {/*This needs to populated with all countries in future*/}
-                                    <option value="United States">US</option>
-                                </FormControl>
-                            </FormGroup>
-                            <FormGroup
-                                controlId="formControlsSelect">
-                                <ControlLabel>State</ControlLabel>
-                                <FormControl componentClass="select"
-                                             placeholder="State">
-                                    {/*This needs to populated via country selection in future*/}
-                                    <option value="Alabama">AL</option>
-                                    <option value="Alaska">AK</option>
-                                    <option value="Arizona">AZ</option>
-                                    <option value="Arkansas">AR</option>
-                                    <option value="California">CA</option>
-                                    <option value="Colorado">CO</option>
-                                    <option value="Connecticut">CT</option>
-                                    <option value="Delaware">DE</option>
-                                    <option value="Florida">FL</option>
-                                    <option value="Georgia">GA</option>
-                                    <option value="Hawaii">HI</option>
-                                    <option value="Idaho">ID</option>
-                                    <option value="Illinois">IL</option>
-                                    <option value="Indiana">IN</option>
-                                    <option value="Iowa">IA</option>
-                                    <option value="Kansas">KS</option>
-                                    <option value="Kentucky">KY</option>
-                                    <option value="Louisiana">LA</option>
-                                    <option value="Maine">ME</option>
-                                    <option value="Maryland">MD</option>
-                                    <option value="Massachusetts">MA</option>
-                                    <option value="Michigan">MI</option>
-                                    <option value="Minnesota">MN</option>
-                                    <option value="Mississippi">MS</option>
-                                    <option value="Missouri">MO</option>
-                                    <option value="Montana">MT</option>
-                                    <option value="Nebraska">NE</option>
-                                    <option value="Nevada">NV</option>
-                                    <option value="New Hampshire">NH</option>
-                                    <option value="New Jersey">NJ</option>
-                                    <option value="New Mexico">NM</option>
-                                    <option value="New York">NY</option>
-                                    <option value="North Carolina">NC</option>
-                                    <option value="North Dakota">ND</option>
-                                    <option value="Ohio">OH</option>
-                                    <option value="Oklahoma">OK</option>
-                                    <option value="Oregon">OR</option>
-                                    <option value="Pennsylvania">PA</option>
-                                    <option value="Rhode Island">RI</option>
-                                    <option value="South Carolina">SC</option>
-                                    <option value="South Dakota">SD</option>
-                                    <option value="Tennessee">TN</option>
-                                    <option value="Texas">TX</option>
-                                    <option value="Utah">UT</option>
-                                    <option value="Vermont">VT</option>
-                                    <option value="Virginia">VA</option>
-                                    <option value="Washington">WA</option>
-                                    <option value="West Virginia">WV</option>
-                                    <option value="Wisconsin">WI</option>
-                                    <option value="Wyoming">WY</option>
-                                </FormControl>
-                            </FormGroup>
-                        </Form>
+            <div className="wrapper">
+                <h1 className="text-center" style={{color: "white"}}>Registering An Account With Trust The Tickets!</h1>
+                <Grid>
+                    <Row>
+                        <Col style={{color: "white"}} lg={6}>
+                            <Form>
+                                <FormGroup
+                                    controlId="formControlsEmail">
+                                    <ControlLabel>Email address</ControlLabel>
+                                    <FormControl placeholder="Enter email" type="email"
+                                                 value={this.state.email}
+                                                 name="email"
+                                                 onChange={this.handleChange.bind(this)}/>
+                                </FormGroup>
+                                <FormGroup
+                                    controlId="formControlsPassword"
+                                    validationState={this.getValidationState()}>
+                                    <ControlLabel>Password</ControlLabel>
+                                    <FormControl placeholder="Enter Password"
+                                                 type="password"
+                                                 value={this.state.password}
+                                                 name="password"
+                                                 onChange={this.handleChange.bind(this)}/>
+                                </FormGroup>
+                                <FormGroup
+                                    controlId="formControlsPassword"
+                                    validationState={this.getSecondPasswordValidationState()}>
+                                    <ControlLabel>Confirm Password</ControlLabel>
+                                    <FormControl placeholder="Confirm Password"
+                                                 type="password"
+                                                 value={this.state.secondPassword}
+                                                 name="secondPassword"
+                                                 onChange={this.handleChange.bind(this)}/>
+                                </FormGroup>
+                                <FieldGroup
+                                    id="formControlsText"
+                                    type="text"
+                                    label="First Name"
+                                    placeholder="Enter First Name"
+                                    name="firstName"
+                                    value={this.state.firstName}
+                                    onChange={this.handleChange.bind(this)}
+                                />
+                                <FieldGroup
+                                    id="formControlsText"
+                                    type="text"
+                                    label="Last Name"
+                                    placeholder="Enter Last Name"
+                                    name="lastName"
+                                    value={this.state.lastName}
+                                    onChange={this.handleChange.bind(this)}
+                                />
+                            </Form>
+                        </Col>
+                        <Col style={{color: "black"}} lg={6}>
+                            <Form>
+                                <FieldGroup
+                                    id="formControlsText"
+                                    type="text"
+                                    label="Address"
+                                    placeholder="Enter Your Address"
+                                    name="address"
+                                    value={this.state.address}
+                                    onChange={this.handleChange.bind(this)}
+                                />
+                                <FieldGroup
+                                    id="formControlsText"
+                                    type="text"
+                                    label="City"
+                                    placeholder="Enter City"
+                                    name="city"
+                                    value={this.state.city}
+                                    onChange={this.handleChange.bind(this)}
+                                />
+                                <FieldGroup
+                                    id="formControlsText"
+                                    type="text"
+                                    label="Zip Code"
+                                    placeholder="Enter Zip Code"
+                                    name="zipCode"
+                                    value={this.state.zipCode}
+                                    onChange={this.handleChange.bind(this)}
+                                />
+                                <div className="inline-group">
+                                    <Form inline>
+                                        <FormGroup className="CountryForm"
+                                            controlId="formControlsSelect">
+                                            <ControlLabel style={{paddingRight: '10px'}}>Country</ControlLabel>
+                                            <FormControl componentClass="select"
+                                                         placeholder="Country">
+                                                {/*This needs to populated with all countries in future*/}
+                                                <option value={1}>US</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                        <FormGroup className="StateForm"
+                                            controlId="formControlsSelect">
+                                            <ControlLabel style={{paddingRight: '10px'}}>State</ControlLabel>
+                                            <FormControl componentClass="select"
+                                                         placeholder="State">
+                                                {/*This needs to populated via country selection in future*/}
+                                                <option value={1}>AL</option>
+                                                <option value={2}>AK</option>
+                                                <option value={3}>AZ</option>
+                                                <option value={4}>AR</option>
+                                                <option value={5}>CA</option>
+                                                <option value={6}>CO</option>
+                                                <option value={7}>CT</option>
+                                                <option value={8}>DE</option>
+                                                <option value={9}>FL</option>
+                                                <option value={10}>GA</option>
+                                                <option value={11}>HI</option>
+                                                <option value={12}>ID</option>
+                                                <option value={13}>IL</option>
+                                                <option value={14}>IN</option>
+                                                <option value={15}>IA</option>
+                                                <option value={16}>KS</option>
+                                                <option value={17}>KY</option>
+                                                <option value={18}>LA</option>
+                                                <option value={19}>ME</option>
+                                                <option value={20}>MD</option>
+                                                <option value={21}>MA</option>
+                                                <option value={22}>MI</option>
+                                                <option value={23}>MN</option>
+                                                <option value={24}>MS</option>
+                                                <option value={25}>MO</option>
+                                                <option value={26}>MT</option>
+                                                <option value={27}>NE</option>
+                                                <option value={28}>NV</option>
+                                                <option value={29}>NH</option>
+                                                <option value={30}>NJ</option>
+                                                <option value={31}>NM</option>
+                                                <option value={32}>NY</option>
+                                                <option value={33}>NC</option>
+                                                <option value={34}>ND</option>
+                                                <option value={35}>OH</option>
+                                                <option value={36}>OK</option>
+                                                <option value={37}>OR</option>
+                                                <option value={38}>PA</option>
+                                                <option value={39}>RI</option>
+                                                <option value={40}>SC</option>
+                                                <option value={41}>SD</option>
+                                                <option value={42}>TN</option>
+                                                <option value={43}>TX</option>
+                                                <option value={44}>UT</option>
+                                                <option value={45}>VT</option>
+                                                <option value={46}>VA</option>
+                                                <option value={47}>WA</option>
+                                                <option value={48}>WV</option>
+                                                <option value={49}>WI</option>
+                                                <option value={50}>WY</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Form>
+                                </div>
+                                <Form>
+                                    <FieldGroup
+                                        id="formControlsText"
+                                        type="text"
+                                        label="Phone Number"
+                                        placeholder="Enter Phone Number"
+                                        name="phoneNumber"
+                                        value={this.state.phoneNumber}
+                                        onChange={this.handleChange.bind(this)}
+                                    />
+                                </Form>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Grid>
 
-                        <Button bsStyle="primary"
-                                onClick={this.onSubmit.bind(this)}>
-                            Register
-                        </Button>
-
-                    </form>
+                <div className="register-button">
+                    <Button bsStyle="primary"
+                            onClick={this.onSubmit.bind(this)}>
+                        Register
+                    </Button>
                 </div>
+            </div>
         );
     }
 }
