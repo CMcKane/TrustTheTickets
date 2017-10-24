@@ -47,8 +47,8 @@ class SqlHandler(object):
         cursor.execute("SELECT MAX(account_id) FROM accounts")
         newAccountID = cursor.fetchone()[0] + 1
         cursor.execute(
-            "INSERT INTO accounts (account_id, email, password, account_status_id, created_dt) VALUES ('{}','{}','{}','{}', NOW())"
-                .format(newAccountID, account.email, sha256_crypt.hash(account.password), 2))
+            "INSERT INTO accounts (account_id, email, password, account_status_id, created_dt, first_name, last_name, address, city, state_prov_id, zip, country_id, phone1 ) VALUES ('{}','{}','{}','{}', NOW(),'{}','{}','{}','{}','{}','{}','{}','{}')"
+                .format(newAccountID, account.email, sha256_crypt.hash(account.password), 2, account.firstName, account.lastName, account.address, account.city, account.stateprovid, account.zip, account.countryid, account.phone1))
         cursor.execute(
             "INSERT INTO account_registration (account_id, registration_code) VALUES ('{}','{}')"
                 .format(newAccountID, registrationID))
