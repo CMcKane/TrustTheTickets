@@ -7,7 +7,7 @@ class AccountAuthenticator(object):
         self.mysql = mysql
 
     def authenticate_user(self, data):
-        account = Account(data['email'], data['password'])
+        account = Account(data['email'], data['password'], data['firstName'], data['lastName'], data['address'], data['city'], data['stateprovid'], data['zipCode'], data['countryid'], data['phoneNumber'])
         return self.verify_credentials(account)
 
     def verify_credentials(self, account):

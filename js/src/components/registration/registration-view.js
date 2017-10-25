@@ -27,8 +27,8 @@ export default class RegistrationView extends Component {
             address: '',
             city: '',
             zipCode: '',
-            country: '',
-            state: '',
+            countryid: 0,
+            stateprovid: 0,
             phoneNumber: ''
         };
     }
@@ -69,8 +69,8 @@ export default class RegistrationView extends Component {
                 address: this.state.address,
                 city: this.state.city,
                 zipCode: this.state.zipCode,
-                country: this.state.country,
-                state: this.state.state,
+                countryid: this.state.countryid,
+                stateprovid: this.state.stateprovid,
                 phoneNumber: this.state.phoneNumber
 
             })
@@ -195,7 +195,9 @@ export default class RegistrationView extends Component {
                                             controlId="formControlsSelect">
                                             <ControlLabel style={{paddingRight: '10px'}}>Country</ControlLabel>
                                             <FormControl componentClass="select"
-                                                         placeholder="Country">
+                                                         placeholder="Country"
+                                                         name="countryid"
+                                                         onChange={this.handleChange.bind(this)}>
                                                 {/*This needs to populated with all countries in future*/}
                                                 <option value={1}>US</option>
                                             </FormControl>
@@ -204,7 +206,9 @@ export default class RegistrationView extends Component {
                                             controlId="formControlsSelect">
                                             <ControlLabel style={{paddingRight: '10px'}}>State</ControlLabel>
                                             <FormControl componentClass="select"
-                                                         placeholder="State">
+                                                         placeholder="State"
+                                                         name="stateprovid"
+                                                         onChange={this.handleChange.bind(this)}>
                                                 {/*This needs to populated via country selection in future*/}
                                                 <option value={1}>AL</option>
                                                 <option value={2}>AK</option>

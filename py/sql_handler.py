@@ -46,9 +46,10 @@ class SqlHandler(object):
         cursor = conn.cursor()
         cursor.execute("SELECT MAX(account_id) FROM accounts")
         newAccountID = cursor.fetchone()[0] + 1
+        hashedPass = sha256_crypt.hash(account.password)
         cursor.execute(
             "INSERT INTO accounts (account_id, email, password, account_status_id, created_dt, first_name, last_name, address, city, state_prov_id, zip, country_id, phone1 ) VALUES ('{}','{}','{}','{}', NOW(),'{}','{}','{}','{}','{}','{}','{}','{}')"
-                .format(newAccountID, account.email, sha256_crypt.hash(account.password), 2, account.firstName, account.lastName, account.address, account.city, account.stateprovid, account.zip, account.countryid, account.phone1))
+                .format(newAccountID, account.email, hashedPass, 2, account.firstName, account.lastName, account.address, account.city, account.stateprovid, account.zipCode, account.countryid, account.phoneNumber))
         cursor.execute(
             "INSERT INTO account_registration (account_id, registration_code) VALUES ('{}','{}')"
                 .format(newAccountID, registrationID))
@@ -61,6 +62,6 @@ class SqlHandler(object):
          "SELECT first_name, last_name, password FROM accounts WHERE email = '{}'".format(email))
         cols = cursor.fetchone()
         if cols and sha256_crypt.verify(password, cols[2]):
-            return dict(authenticated=True, fname=cols[0], lname=cols[1])
+            return dict(authenticated=True, firstName=cols[0], lastName=cols[1])
         else:
             return {'authenticated': False}

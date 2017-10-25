@@ -12,8 +12,14 @@ export default class Login extends Component {
       this.state = {
           email: '',
           password: '',
-          fname: '',
-          lname: ''
+          firstName: '',
+          lastName: '',
+          address: null,
+          city: null,
+          stateprovid: null,
+          zipCode: null,
+          countryid: null,
+          phoneNumber: null
       };
     }
 
@@ -24,7 +30,15 @@ export default class Login extends Component {
     onSubmit() {
         TTTPost("/login", {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            address: this.state.address,
+            city: this.state.city,
+            stateprovid: this.state.stateprovid,
+            zipCode: this.state.zipCode,
+            countryid: this.state.countryid,
+            phoneNumber: this.state.phoneNumber
         })
         .then(res => {
             if (!res.data.authenticated)
@@ -34,14 +48,14 @@ export default class Login extends Component {
             else
             {
                 this.setState({
-                    fname: res.data.fname,
-                    lname: res.data.lname
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName
                 })
 
                 this.props.logIn(
                     this.state.email,
-                    this.state.fname,
-                    this.state.lname);
+                    this.state.firstName,
+                    this.state.lastName);
             }
         });
     }
