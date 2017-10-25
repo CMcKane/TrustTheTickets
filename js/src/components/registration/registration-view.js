@@ -199,6 +199,7 @@ export default class RegistrationView extends Component {
                                                          name="countryid"
                                                          onChange={this.handleChange.bind(this)}>
                                                 {/*This needs to populated with all countries in future*/}
+                                                <option value={0}>Country</option>
                                                 <option value={1}>US</option>
                                             </FormControl>
                                         </FormGroup>
@@ -210,6 +211,7 @@ export default class RegistrationView extends Component {
                                                          name="stateprovid"
                                                          onChange={this.handleChange.bind(this)}>
                                                 {/*This needs to populated via country selection in future*/}
+                                                <option value={0}>State</option>
                                                 <option value={1}>AL</option>
                                                 <option value={2}>AK</option>
                                                 <option value={3}>AZ</option>
