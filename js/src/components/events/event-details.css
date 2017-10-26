@@ -5,7 +5,14 @@
 	border-color: black;
 }
 
+.event-detail-pane-selected {
+	padding: 2em;
+	border-style: solid;
+	border-width: 0.1em;
+	border-color: red;
+}
+
 .event-detail-container {
 	color: black;
-	padding: 2em;
+	padding: 1em;
 }

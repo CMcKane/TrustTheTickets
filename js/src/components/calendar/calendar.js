@@ -30,6 +30,7 @@ export default class EventCalendar extends Component {
                     event: EventComponent
                 }}
                 onSelectEvent={this.eventSelected.bind(this)}
+                selected={this.props.selected}
                 />
         )
     }

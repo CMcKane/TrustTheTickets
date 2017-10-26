@@ -43,7 +43,6 @@ export default class EventListView extends Component {
     }
 
     onEventClick(e) {
-    	console.log(e.target);
     	this.setState({selectedID: e.target.id});
     }
 
@@ -57,7 +56,6 @@ export default class EventListView extends Component {
 
 	render() {
 		if (this.state.selectedID) {
-			console.log(this.state);
 			return <Redirect to={this.getRedirect()} />;
 		}
 		return (

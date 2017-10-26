@@ -1,35 +1,34 @@
 import React, { Component }  from 'react';
+import EventDetailsPane from './event-details-pane';
+import _ from 'lodash';
 import './event-details.css';
 
 export default class EventDetails extends Component {
 
-    getEventDetails() {
-      if (this.props.populated) {
-        return (
-          <div className="event-detail-pane">
-            <h4>{this.props.home} vs. {this.props.away}</h4>
-            <p>Tip-off at {this.props.gameTime}</p>
-            {this.getMinPrice()}
-            <p>{this.props.numTickets} tickets available</p>
-          </div>
-        );
-      } else return (<div>No game selected</div>)
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        eventList: this.props.eventList
+      };
     }
 
-    getMinPrice() {
-      if (this.props.minPrice !== 'None') {
-        return (<p>Tickets starting at ${this.props.minPrice}</p>);
-      }
+    renderEventDetails() {
+        return _.map(this.state.eventList, (event, index) => 
+            <EventDetailsPane
+            event={event}
+            selectedEvent={this.props.selectedEvent}
+            eventSelected={this.props.eventSelected} />
+        );
     }
 
     render() {
-      if (this.props.event !== null) {
-        this.getEventDetails();
-      }
       return (
-          <div className="event-detail-container">
+          <div>
             <h3 className="text-center">Game Details</h3>
-            {this.getEventDetails()}
+            <div className="event-detail-container">
+              {this.renderEventDetails()}
+            </div>
           </div>
       );
     }
