@@ -52,6 +52,12 @@ def index():
     accounts = SqlHandler.get_accounts(mysql)
     return jsonify({'accounts': accounts})
 
+@app.route('/ticket-details', methods=['POST'])
+def get_ticket_details():
+    if 'application/json' in request.headers.environ['CONTENT_TYPE']:
+        jsonData = request.get_json()
+        return jsonify(SqlHandler.get_ticket_details(mysql, jsonData['eventID']))
+
 @app.route('/tickets', methods=['POST'])
 def get_tickets():
     json = ["2012-03-15", "2012-03-15", 290, 325, 112]

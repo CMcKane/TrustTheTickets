@@ -1,25 +1,29 @@
 import React, { Component }  from 'react';
 import EventCalendar from '../calendar/calendar';
-import { Well } from 'react-bootstrap';
+import { Well, Row, Col, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import './event-calendar-view.css';
+import EventDetails from './event-details';
+import { TTTPost } from '../backend/ttt-request';
 
 const games = [
 {
     end: 'Tue Oct 17 2017 18:00:00 GMT-0400 (EDT)',
-    start: 'Tue Oct 17 2017 21:00:00 GMT-0400 (EDT)',
+    start: 'Tue Oct 17 2017 18:00:00 GMT-0400 (EDT)',
+    gameTime: 'Tue Oct 17 2017 18:00:00 GMT-0400 (EDT)',
     title: 'Sixers vs Grizzlies',
-    homeTeam: '76ERS',
-    awayTeam: 'GRIZZLIES',
-    id: 1
+    homeTeam: 'Philadelphia 76ers',
+    awayTeam: 'Memphis Grizzlies',
+    id: 13
 },
 {
     end: 'Fri Oct 20 2017 18:00:00 GMT-0400 (EDT)',
-    start: 'Fri Oct 20 2017 21:00:00 GMT-0400 (EDT)',
-    title: 'Sixers vs Cavaliers',
-    homeTeam: '76ERS',
-    awayTeam: 'CAVALIERS',
-    id: 2
+    start: 'Fri Oct 20 2017 18:00:00 GMT-0400 (EDT)',
+    gameTime: 'Fri Oct 20 2017 18:00:00 GMT-0400 (EDT)',
+    title: 'Sixers vs Celtics',
+    homeTeam: 'Philadelphia 76ers',
+    awayTeam: 'Boston Celtics',
+    id: 20
 }
 ]
 
@@ -30,7 +34,14 @@ export default class EventCalendarView extends Component {
 
       this.state = {
         selected: false,
-        eventID: ''
+        games: [],
+        eventID: null,
+        home: null,
+        away: null,
+        gameTime: null,
+        numTickets: null,
+        minPrice: null,
+        populated: false
       };
     }
 
@@ -42,11 +53,31 @@ export default class EventCalendarView extends Component {
         return '/pick-tickets?event=' + this.state.eventID;
     }
 
-    rerouteToSeatingChart(eventID) {
-        this.setState({
-            'selected': true,
-            'eventID': eventID
+    eventSelected(event) {
+        TTTPost('/ticket-details', {
+          eventID: event.id
+        }).then(res => {
+          console.log(res);
+          if (res.data.success) { 
+            this.setState({
+                eventID: event.id,
+                home: event.homeTeam,
+                away: event.awayTeam,
+                gameTime: event.gameTime,
+                numTickets: res.data.numTickets,
+                minPrice: res.data.minPrice,
+                populated: true
+            });
+          }
         });
+    }
+
+    onSubmit() {
+        if (this.state.eventID) {
+            this.setState({
+                'selected': true
+            });
+        }
     }
 
     render() {
@@ -56,7 +87,27 @@ export default class EventCalendarView extends Component {
         else return (
             <div className="eventCalendarView">
                 <Well className="events-well"> Choose Your Game </Well>
-                <EventCalendar events={this.getEvents()} eventSelected={this.rerouteToSeatingChart.bind(this)}/>
+                    <Col lg={8} className="eventCalendarView">
+                        <EventCalendar events={this.getEvents()} eventSelected={this.eventSelected.bind(this)}/>
+                    </Col>
+                    <Col lg={4}>
+                        <Row>
+                            <EventDetails 
+                                home={this.state.home}
+                                away={this.state.away}
+                                gameTime={this.state.gameTime}
+                                numTickets={this.state.numTickets}
+                                minPrice={this.state.minPrice}
+                                populated={this.state.populated}
+                                 />
+                        </Row>
+                        <Row style={{'textAlign': 'center'}}>
+                                <Button bsStyle="primary"
+                                    onClick={this.onSubmit.bind(this)}>
+                                    See Tickets
+                                </Button>
+                        </Row>
+                    </Col>
             </div>
         )
     }

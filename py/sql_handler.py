@@ -38,8 +38,20 @@ class SqlHandler(object):
             cursor.execute("DELETE FROM account_registration WHERE account_id = {}".format(accountID))
             conn.commit()
             retVal = True
-
         return retVal
+
+    def get_ticket_details(mysql, event_id):
+        conn = mysql.connection
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT count(*) FROM tickets WHERE event_id = {}".format(event_id))
+            numTickets = cursor.fetchone()[0]
+            cursor.execute("SELECT MIN(ticket_price) FROM tickets JOIN groups USING (event_id)"
+                       "WHERE event_id = {}".format(event_id))
+            minPrice = cursor.fetchone()[0]
+            return {'minPrice': str(minPrice), 'numTickets': str(numTickets), 'success': True}
+        except Exception as e:
+            print(e)
 
     def insert_account_registration(mysql, account, registrationID):
         conn = mysql.connection
@@ -65,54 +77,3 @@ class SqlHandler(object):
             return dict(authenticated=True, firstName=cols[0], lastName=cols[1])
         else:
             return {'authenticated': False}
-
-    def build_filter_select(mysql, dictionary):
-        #query = "SELECT * FROM tickets t"
-        conn = mysql.connection
-        cursor = conn.cursor()
-        join = ""
-        on = ""
-        where = ""
-        section = ""
-        date_from = ""
-        date_to = ""
-        date_range = False
-        price_from = ""
-        price_to = ""
-        price_range = False
-
-        if dictionary['section']:
-            section = " section"
-
-        if dictionary['date_from'] and dictionary['date_to']:
-            join = " JOIN games g ON (t.event_id = g.event_id)"
-            date_range = True
-
-        if dictionary['price_from'] and dictionary['price_to']:
-            join += " JOIN groups r ON (t.event_id = r.event_id)"
-            price_range = True
-
-        if date_range:
-            where = " WHERE date BETWEEN ('2012-03-15' AND '2012-03-31')"
-
-        query = "SELECT * FROM tickets t%s%s%s" % (join, where, " AND section_number =" + str(dictionary['section']))
-        cursor.execute(query)
-        fetch = cursor.fetchall()
-
-        for row in fetch:
-            print(row)
-
-        return fetch
-
-    def get_teams_for_games(mysql):
-        data = None
-        try:
-            conn = mysql.connection
-            cursor = conn.cursor()
-            cursor.callproc('get_teams_for_games')
-            data = cursor.fetchall()
-        except:
-            Logger.log("Unable to call procedure get_teams_for_games in method get_teams_for_games")
-
-        return data
-
