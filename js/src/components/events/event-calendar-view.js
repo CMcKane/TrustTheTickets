@@ -57,7 +57,6 @@ export default class EventCalendarView extends Component {
         TTTPost('/ticket-details', {
           eventID: event.id
         }).then(res => {
-          console.log(res);
           if (res.data.success) { 
             this.setState({
                 eventID: event.id,

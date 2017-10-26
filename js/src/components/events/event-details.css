@@ -1,0 +1,11 @@
+.event-detail-pane {
+	padding: 2em;
+	border-style: solid;
+	border-width: 0.1em;
+	border-color: black;
+}
+
+.event-detail-container {
+	color: black;
+	padding: 2em;
+}
