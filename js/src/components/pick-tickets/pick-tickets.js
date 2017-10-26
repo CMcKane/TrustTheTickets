@@ -24,7 +24,6 @@ export default class PickTickets extends Component {
             })
             .then(res => {
                 if (res.data.tickets) this.setState({
-                    section: section,
                     tickets: res.data.tickets
                 });
             });
