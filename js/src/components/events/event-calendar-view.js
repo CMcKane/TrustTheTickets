@@ -14,8 +14,8 @@ const games = [
     title: 'Sixers vs Grizzlies',
     home: 'Philadelphia 76ers',
     away: 'Memphis Grizzlies',
-    numTickets: '',
-    minPrice: '',
+    numTickets: '0',
+    minPrice: 'None',
     id: 13
 },
 {
@@ -25,8 +25,8 @@ const games = [
     title: 'Sixers vs Celtics',
     home: 'Philadelphia 76ers',
     away: 'Boston Celtics',
-    numTickets: '',
-    minPrice: '',
+    numTickets: '30',
+    minPrice: '$325.00',
     id: 20
 }
 ]
