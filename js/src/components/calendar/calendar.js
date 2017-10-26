@@ -17,7 +17,7 @@ export default class EventCalendar extends Component {
     }
 
     eventSelected(e) {
-        this.props.eventSelected(e.id);
+        this.props.eventSelected(e);
     }
 
     render() {

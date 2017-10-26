@@ -38,8 +38,20 @@ class SqlHandler(object):
             cursor.execute("DELETE FROM account_registration WHERE account_id = {}".format(accountID))
             conn.commit()
             retVal = True
-
         return retVal
+
+    def get_ticket_details(mysql, event_id):
+        conn = mysql.connection
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT count(*) FROM tickets WHERE event_id = {}".format(event_id))
+            numTickets = cursor.fetchone()[0]
+            cursor.execute("SELECT MIN(ticket_price) FROM tickets JOIN groups USING (event_id)"
+                       "WHERE event_id = {}".format(event_id))
+            minPrice = cursor.fetchone()[0]
+            return {'minPrice': str(minPrice), 'numTickets': str(numTickets), 'success': True}
+        except Exception as e:
+            print(e)
 
     def insert_account_registration(mysql, account, registrationID):
         conn = mysql.connection
