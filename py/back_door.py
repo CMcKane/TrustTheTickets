@@ -6,7 +6,7 @@ from flask import make_response
 from account_register import AccountRegistrator
 from account_login import AccountAuthenticator
 from sql_handler import SqlHandler;
-
+from json_dictionary_converter import JsonDictionaryConverter
 
 
 app = Flask (__name__)
@@ -54,6 +54,10 @@ def index():
 
 @app.route('/tickets', methods=['POST'])
 def get_tickets():
+    json = ["2012-03-15", "2012-03-15", 290, 325, 112]
+    SqlHandler.build_filter_select(mysql,
+        JsonDictionaryConverter.build_filter_dictionary(json))
+
     givenSection = request.get_json()
     sectionNum = givenSection['section_number']
     tickets = SqlHandler.get_tickets(mysql, sectionNum)
@@ -69,6 +73,11 @@ def authenticate_credentials():
             .authenticate_user(jsonData))
     else:
         return requestNotSupported()
+
+@app.route('/games')
+def get_games_list():
+    games = SqlHandler.get_teams_for_games(mysql)
+    return jsonify({'games': games})
 
 if __name__ == '__main__':
     app.run()
