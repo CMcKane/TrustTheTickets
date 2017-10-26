@@ -61,8 +61,8 @@ def get_ticket_details():
 @app.route('/tickets', methods=['POST'])
 def get_tickets():
     json = ["2012-03-15", "2012-03-15", 290, 325, 112]
-    SqlHandler.build_filter_select(mysql,
-        JsonDictionaryConverter.build_filter_dictionary(json))
+    #SqlHandler.build_filter_select(mysql,
+     #   JsonDictionaryConverter.build_filter_dictionary(json))
 
     givenSection = request.get_json()
     sectionNum = givenSection['section_number']

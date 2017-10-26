@@ -77,3 +77,10 @@ class SqlHandler(object):
             return dict(authenticated=True, firstName=cols[0], lastName=cols[1])
         else:
             return {'authenticated': False}
+
+    def get_teams_for_games(mysql):
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.callproc("get_teams_for_games")
+        data = [dict(home_team=row[0], home_city=row[1], away_team=row[2], away_city=row[3]) for row in cursor.fetchall()]
+        return data
