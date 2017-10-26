@@ -16,30 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `transactiontickets`
+-- Dumping data for table `account_status`
 --
 
-DROP TABLE IF EXISTS `transactiontickets`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transactiontickets` (
-  `transactionTicketID` int(11) NOT NULL,
-  `transactionID` int(11) NOT NULL,
-  `ticketID` int(11) NOT NULL,
-  PRIMARY KEY (`transactionTicketID`),
-  KEY `ticketID_idx` (`ticketID`),
-  CONSTRAINT `ticketID` FOREIGN KEY (`ticketID`) REFERENCES `tickets` (`ticketID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `transactiontickets`
---
-
-LOCK TABLES `transactiontickets` WRITE;
-/*!40000 ALTER TABLE `transactiontickets` DISABLE KEYS */;
-INSERT INTO `transactiontickets` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4);
-/*!40000 ALTER TABLE `transactiontickets` ENABLE KEYS */;
+LOCK TABLES `account_status` WRITE;
+/*!40000 ALTER TABLE `account_status` DISABLE KEYS */;
+INSERT INTO `account_status` VALUES (1,'Active'),(2,'Unverified'),(3,'Deactivated');
+/*!40000 ALTER TABLE `account_status` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04 15:16:50
+-- Dump completed on 2017-10-26 12:52:29

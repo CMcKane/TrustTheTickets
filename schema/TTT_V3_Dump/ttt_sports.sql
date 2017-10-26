@@ -16,31 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `locations`
+-- Dumping data for table `sports`
 --
 
-DROP TABLE IF EXISTS `locations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `locations` (
-  `locationID` int(11) NOT NULL,
-  `address1` varchar(45) NOT NULL,
-  `address2` varchar(45) DEFAULT NULL,
-  `city` varchar(45) NOT NULL,
-  `state` varchar(45) NOT NULL,
-  `zip` int(11) NOT NULL,
-  PRIMARY KEY (`locationID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `locations`
---
-
-LOCK TABLES `locations` WRITE;
-/*!40000 ALTER TABLE `locations` DISABLE KEYS */;
-INSERT INTO `locations` VALUES (1,'3601 S Broad St',NULL,'Philadelphia','PA',19148);
-/*!40000 ALTER TABLE `locations` ENABLE KEYS */;
+LOCK TABLES `sports` WRITE;
+/*!40000 ALTER TABLE `sports` DISABLE KEYS */;
+INSERT INTO `sports` VALUES (1,1,'Basketball'),(2,1,'Hockey'),(3,1,'Football'),(4,1,'Baseball'),(5,1,'Soccer');
+/*!40000 ALTER TABLE `sports` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04 15:16:50
+-- Dump completed on 2017-10-26 12:52:30

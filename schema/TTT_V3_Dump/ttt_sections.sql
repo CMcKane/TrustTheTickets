@@ -16,30 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `accounts`
+-- Dumping data for table `sections`
 --
 
-DROP TABLE IF EXISTS `accounts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `accounts` (
-  `accountID` int(11) NOT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  `timestamp` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`accountID`),
-  UNIQUE KEY `username_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `accounts`
---
-
-LOCK TABLES `accounts` WRITE;
-/*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'gaffneyd4@students.rowan.edu','1','2017-10-04 14:34:12'),(2,'bailliec7@students.rowan.edu','2','2017-10-04 14:34:16'),(3,'mckanec8@students.rowan.edu','3','2017-10-04 14:34:19'),(4,'harkert2@students.rowan.edu','4','2017-10-04 14:34:22'),(5,'dalonzoj8@students.rowan.edu','5','2017-10-04 14:34:27'),(6,'orioa9@students.rowan.edu','6','2017-10-04 14:34:29');
-/*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
+LOCK TABLES `sections` WRITE;
+/*!40000 ALTER TABLE `sections` DISABLE KEYS */;
+INSERT INTO `sections` VALUES (1,1,'101',1),(1,2,'102',1),(1,3,'103',2),(1,4,'104',3),(1,5,'105',3),(1,6,'106',4),(1,7,'107',4),(1,8,'108',4),(1,9,'109',3),(1,10,'110',3),(1,11,'111',2),(1,12,'112',1),(1,13,'113',1),(1,14,'114',1),(1,15,'115',2),(1,16,'116',3),(1,17,'117',3),(1,18,'118',4),(1,19,'119',4),(1,20,'120',4),(1,21,'121',3),(1,22,'122',3),(1,23,'123',2),(1,24,'124',1),(1,25,'201',5),(1,26,'202',5),(1,27,'203',5),(1,28,'204',6),(1,29,'204A',6),(1,30,'205',6),(1,31,'205A',6),(1,32,'206',7),(1,33,'207',7),(1,34,'207A',7),(1,35,'208',7),(1,36,'209',6),(1,37,'209A',6),(1,38,'210',6),(1,39,'210A',6),(1,40,'211',5),(1,41,'212',5),(1,42,'213',5),(1,43,'214',5),(1,44,'215',5),(1,45,'216',6),(1,46,'216A',6),(1,47,'217',6),(1,48,'217A',6),(1,49,'218',7),(1,50,'219',7),(1,51,'219A',7),(1,52,'220',7),(1,53,'221',6),(1,54,'221A',6),(1,55,'222',6),(1,56,'222A',6),(1,57,'223',5),(1,58,'224',5);
+/*!40000 ALTER TABLE `sections` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04 15:16:51
+-- Dump completed on 2017-10-26 12:52:31

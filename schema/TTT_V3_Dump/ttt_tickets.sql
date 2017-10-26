@@ -16,33 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `games`
+-- Dumping data for table `tickets`
 --
 
-DROP TABLE IF EXISTS `games`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `games` (
-  `eventID` int(11) NOT NULL,
-  `eventTypeID` int(11) NOT NULL DEFAULT '1',
-  `sportTypeID` int(11) NOT NULL,
-  `homeTeamID` int(11) DEFAULT NULL,
-  `awayTeamID` int(11) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  PRIMARY KEY (`eventID`),
-  KEY `sportTypeID_idx` (`sportTypeID`),
-  CONSTRAINT `gameSportTypeID` FOREIGN KEY (`sportTypeID`) REFERENCES `sports` (`sportTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `games`
---
-
-LOCK TABLES `games` WRITE;
-/*!40000 ALTER TABLE `games` DISABLE KEYS */;
-INSERT INTO `games` VALUES (1,1,1,23,20,'2017-10-04 15:07:59');
-/*!40000 ALTER TABLE `games` ENABLE KEYS */;
+LOCK TABLES `tickets` WRITE;
+/*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +33,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04 15:16:51
+-- Dump completed on 2017-10-26 12:52:29

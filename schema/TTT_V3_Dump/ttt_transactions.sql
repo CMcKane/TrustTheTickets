@@ -16,28 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sports`
+-- Dumping data for table `transactions`
 --
 
-DROP TABLE IF EXISTS `sports`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sports` (
-  `sportTypeID` int(11) NOT NULL AUTO_INCREMENT,
-  `eventTypeID` int(11) NOT NULL DEFAULT '1',
-  `sportName` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`sportTypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sports`
---
-
-LOCK TABLES `sports` WRITE;
-/*!40000 ALTER TABLE `sports` DISABLE KEYS */;
-INSERT INTO `sports` VALUES (1,1,'Basketball'),(2,1,'Hockey');
-/*!40000 ALTER TABLE `sports` ENABLE KEYS */;
+LOCK TABLES `transactions` WRITE;
+/*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +33,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-04 15:16:50
+-- Dump completed on 2017-10-26 12:52:28
