@@ -20,6 +20,10 @@ export default class EventCalendar extends Component {
         this.props.eventSelected(e);
     }
 
+    navigate(date, view) {
+        this.props.onNavigate(date, view);
+    }
+
     render() {
         return (
             <BigCalendar
@@ -31,7 +35,7 @@ export default class EventCalendar extends Component {
                 }}
                 onSelectEvent={this.eventSelected.bind(this)}
                 selected={this.props.selected}
-                />
+                onNavigate={this.navigate.bind(this)} />
         )
     }
 }

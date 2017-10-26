@@ -16,6 +16,7 @@ export default class EventDetails extends Component {
     renderEventDetails() {
         return _.map(this.state.eventList, (event, index) => 
             <EventDetailsPane
+            key={event.id}
             event={event}
             selectedEvent={this.props.selectedEvent}
             eventSelected={this.props.eventSelected} />

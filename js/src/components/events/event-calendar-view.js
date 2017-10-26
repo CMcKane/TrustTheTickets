@@ -4,6 +4,7 @@ import { Well, Row, Col, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import EventDetails from './event-details';
 import { TTTPost } from '../backend/ttt-request';
+import moment from 'moment';
 import './event-calendar-view.css';
 
 const games = [
@@ -38,12 +39,14 @@ export default class EventCalendarView extends Component {
 
       this.state = {
         selectedEvent: null,
-        eventList: this.getEvents(),
+        eventList: this.getEvents()
       };
     }
 
-    getEvents() {
-        // Want to make API call to get events here
+    getEvents(date, view) {
+        const start = moment(date).startOf('month')._d;
+        const end = moment(date).endOf('month')._d;
+        // TTTPost to get event data and set state to eventList
         return games;
     }
 
@@ -74,7 +77,8 @@ export default class EventCalendarView extends Component {
                 <Well className="events-well"> Choose Your Game </Well>
                     <Col lg={9} className="eventCalendarView">
                         <EventCalendar events={this.getEvents()} eventSelected={this.eventSelected.bind(this)}
-                            selected={this.state.selectedEvent} />
+                            selected={this.state.selectedEvent}
+                            onNavigate={this.getEvents.bind(this)} />
                     </Col>
                     <Col lg={3}>
                         <Row>
