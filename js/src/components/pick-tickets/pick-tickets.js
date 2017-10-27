@@ -93,7 +93,6 @@ export default class PickTickets extends Component {
                 <Row>
                     <Col lg={8}>
                     <Col lg={4}>
-                        //changes the game depending upon the event_id
                         <button type="game-button" class="btn btn-secondary">
                         76ers vs. Wizards </button>
                     </Col>
@@ -102,8 +101,6 @@ export default class PickTickets extends Component {
                         selectedSection={this.state.section}/>
                     </Col>
                     <Col lg={4}>
-                        //will list every ticket from that section in a scrollable pane
-                        //at first render, every ticket from that game will display
                         <h3 className="text-center"> Tickets </h3>
                         <ListGroup className="list-of-tickets">
                             {this.renderTicketList()}
