@@ -5,16 +5,8 @@ import './event-details.css';
 
 export default class EventDetails extends Component {
 
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        eventList: this.props.eventList
-      };
-    }
-
     renderEventDetails() {
-        return _.map(this.state.eventList, (event, index) => 
+        return _.map(this.props.eventList, (event, index) => 
             <EventDetailsPane
             key={event.id}
             event={event}

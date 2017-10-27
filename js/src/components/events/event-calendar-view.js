@@ -3,34 +3,9 @@ import EventCalendar from '../calendar/calendar';
 import { Well, Row, Col, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import EventDetails from './event-details';
-import { TTTPost } from '../backend/ttt-request';
 import moment from 'moment';
+import { TTTPost } from '../backend/ttt-request';
 import './event-calendar-view.css';
-
-const games = [
-{
-    end: 'Tue Oct 17 2017 18:00:00 GMT-0400 (EDT)',
-    start: 'Tue Oct 17 2017 18:00:00 GMT-0400 (EDT)',
-    gameTime: 'Tue Oct 17 2017 18:00:00 GMT-0400 (EDT)',
-    title: 'Sixers vs Grizzlies',
-    home: 'Philadelphia 76ers',
-    away: 'Memphis Grizzlies',
-    numTickets: '0',
-    minPrice: 'None',
-    id: 13
-},
-{
-    end: 'Fri Oct 20 2017 18:00:00 GMT-0400 (EDT)',
-    start: 'Fri Oct 20 2017 18:00:00 GMT-0400 (EDT)',
-    gameTime: 'Fri Oct 20 2017 18:00:00 GMT-0400 (EDT)',
-    title: 'Sixers vs Celtics',
-    home: 'Philadelphia 76ers',
-    away: 'Boston Celtics',
-    numTickets: '30',
-    minPrice: '$325.00',
-    id: 20
-}
-]
 
 export default class EventCalendarView extends Component {
 
@@ -39,15 +14,23 @@ export default class EventCalendarView extends Component {
 
       this.state = {
         selectedEvent: null,
-        eventList: this.getEvents()
+        eventList: []
       };
     }
 
     getEvents(date, view) {
-        const start = moment(date).startOf('month')._d;
-        const end = moment(date).endOf('month')._d;
-        // TTTPost to get event data and set state to eventList
-        return games;
+        const start = moment(date).startOf('month').format('YYYY-MM-DD HH:mm:ss');
+        const end = moment(date).endOf('month').format('YYYY-MM-DD HH:mm:ss');
+        TTTPost('/ticket-details', {
+            start: start,
+            end: end
+        }).then(res => {
+            if (res.data.eventDetails) {
+                this.setState({
+                    eventList: res.data.eventDetails
+                });
+            }
+        });
     }
 
     getRedirect() {
@@ -76,7 +59,7 @@ export default class EventCalendarView extends Component {
             <div className="eventCalendarView">
                 <Well className="events-well"> Choose Your Game </Well>
                     <Col lg={9} className="eventCalendarView">
-                        <EventCalendar events={this.getEvents()} eventSelected={this.eventSelected.bind(this)}
+                        <EventCalendar events={this.state.eventList} eventSelected={this.eventSelected.bind(this)}
                             selected={this.state.selectedEvent}
                             onNavigate={this.getEvents.bind(this)} />
                     </Col>
@@ -93,6 +76,6 @@ export default class EventCalendarView extends Component {
                         </Row>
                     </Col>
             </div>
-        )
+        );
     }
 }
