@@ -8,6 +8,7 @@ import WellsFargoChart from './wells-fargo-chart';
 import { TTTPost } from '../backend/ttt-request';
 import TicketListItem from './ticket-list-item';
 
+//"Fake" data -- Thank you DT for the word "fake"
 const tickets = [
 {
     section_number: "112",
@@ -37,6 +38,7 @@ export default class PickTickets extends Component {
         }
     }
 
+    //Retrieves every ticket for a specific event
     getAllTickets(eventID) {
         if (eventID.length != '') {
             TTTPost('/all-tickets', {
@@ -66,10 +68,12 @@ export default class PickTickets extends Component {
         }
     }
 
+    //display faux tickets
     getTickets() {
         return tickets;
     }
 
+    //render the values in the tickets
     renderTicketList() {
         return _.map(this.state.tickets, (ticket, id) =>
             <ListGroupItem className="tickets" id={ticket.event_id} >
@@ -88,11 +92,18 @@ export default class PickTickets extends Component {
                 </h1>
                 <Row>
                     <Col lg={8}>
+                    <Col lg={4}>
+                        //changes the game depending upon the event_id
+                        <button type="game-button" class="btn btn-secondary">
+                        76ers vs. Wizards </button>
+                    </Col>
                         <WellsFargoChart
                         onSectionSelected={this.onChartClick.bind(this)}
                         selectedSection={this.state.section}/>
                     </Col>
                     <Col lg={4}>
+                        //will list every ticket from that section in a scrollable pane
+                        //at first render, every ticket from that game will display
                         <h3 className="text-center"> Tickets </h3>
                         <ListGroup className="list-of-tickets">
                             {this.renderTicketList()}
