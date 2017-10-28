@@ -91,3 +91,12 @@ class SqlHandler(object):
         cursor.callproc("get_teams_for_games")
         data = [dict(home_team=row[0], home_city=row[1], away_team=row[2], away_city=row[3]) for row in cursor.fetchall()]
         return data
+
+    def get_ticket_by_filter(mysql, price, section):
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        query = "SELECT g.ticket_price, t.row_number, t.section_number, t.seat_number FROM tickets t JOIN groups g ON (t.group_id = g.group_id) WHERE g.ticket_price < %s AND section_number = %s" % (price, section)
+        cursor.execute( )
+        tickets = [dict(price=row[0], row_number=row[1], seat_number=row[2], section_number=row[3]) for row in cursor.fetchall()]
+        return tickets

@@ -5,6 +5,7 @@ import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
 import { TTTPost } from '../backend/ttt-request';
+import { TTTGet } from '../backend/ttt-request';
 import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 
 export default class PickTickets extends Component {
@@ -17,6 +18,18 @@ export default class PickTickets extends Component {
             tickets: [],
             price: 0
         }
+    }
+
+    getTicketsWithFilter() {
+        TTTGet("/pick-ticket-filter", {
+            price: this.state.price,
+            section: this.state.section
+        })
+            .then(res => {
+                console.log(res);
+                const tickets = res.data.tickets;
+                this.setState({ tickets });
+            });
     }
 
     onChartClick(section) {
@@ -32,6 +45,13 @@ export default class PickTickets extends Component {
             });
 
         }
+    }
+    firstComponentChangeValue(e) {
+      console.log(this.state.priceChange);
+      this.setState({ firstComponentCurrentValue: e.target.value });
+      this.setState({ priceChange: e.target.value });
+      return e.target.value;
+
     }
 
     renderTickets() {
@@ -77,7 +97,14 @@ export default class PickTickets extends Component {
                             <form>
                                 <ControlLabel style={{color: 'white', fontSize: 15}}>Section #: </ControlLabel>
                                 <input name="param1" value="test"/>
-                                <input type="submit" name="" id="search-submit" class="button" value="Submit"/>
+                                <input
+                                    type="submit"
+                                    name=""
+                                    id="search-submit"
+                                    class="button"
+                                    value="Submit"
+                                    onChange={this.getTicketsWithFilter()}
+                                />
                             </form>
 
 

@@ -70,6 +70,14 @@ def get_tickets():
     tickets = SqlHandler.get_tickets(mysql, sectionNum)
     return jsonify({'tickets': tickets})
 
+@app.route('/pick-ticket-filter', methods=['POST'])
+def pick_tickets_by_filter():
+    jsondata = request.get_json()
+    price = jsondata['price']
+    section = jsondata['section']
+    tickets = SqlHandler.get_ticket_by_filter(mysql, price, section)
+    return jsonify({'tickets': tickets})
+
 # Right now this just returns that the login info is good for testing purposes.
 @app.route('/login', methods=['POST'])
 def authenticate_credentials():
@@ -88,3 +96,7 @@ def get_games_list():
 
 if __name__ == '__main__':
     app.run()
+
+
+
+
