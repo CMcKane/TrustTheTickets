@@ -17,7 +17,7 @@ export default class EventDetailsPane extends Component {
 		return (
           <div className={detailsClass} onClick={this.props.eventSelected.bind(this, this.props.event)}>
             <h4>{this.props.event.homeTeam} vs. {this.props.event.awayTeam}</h4>
-            <p>Tip-off at {this.props.event.startDate}</p>
+            <p>Tip-off at {this.props.event.start}</p>
             {this.getMinPrice()}
             <p>{this.props.event.numTickets} tickets available</p>
           </div>

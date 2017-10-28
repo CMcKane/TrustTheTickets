@@ -13,6 +13,12 @@
 }
 
 .event-detail-container {
-	color: black;
 	padding: 1em;
+	height: 80%;
+	overflow-y: scroll;
+}
+
+.details-header {
+	color: black;
+	font-size: 2em;
 }

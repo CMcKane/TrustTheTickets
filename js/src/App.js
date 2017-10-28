@@ -30,7 +30,7 @@ const navItems = [
     },
     {
       label: 'Event Calendar',
-      url: '/event-calendar'
+      url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
     },
     {
       label: 'Event List',

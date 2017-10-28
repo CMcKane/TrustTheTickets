@@ -49,8 +49,8 @@ class SqlHandler(object):
                            "MIN(ticket_price) AS 'minPrice'FROM games g "
                            "JOIN teams h ON (h.team_id = home_team_id) "
                            "JOIN teams a ON (a.team_id = away_team_id) "
-                           "JOIN tickets USING (event_id) "
-                           "JOIN groups USING (group_id) "
+                           "LEFT JOIN tickets USING (event_id) "
+                           "LEFT JOIN groups USING (group_id) "
                            "WHERE date > '{}' "
                            "AND date < '{}' "
                            "GROUP BY g.event_id;".format(start_date, end_date))
