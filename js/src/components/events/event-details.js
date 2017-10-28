@@ -5,16 +5,8 @@ import './event-details.css';
 
 export default class EventDetails extends Component {
 
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        eventList: this.props.eventList
-      };
-    }
-
     renderEventDetails() {
-        return _.map(this.state.eventList, (event, index) => 
+        return _.map(this.props.eventList, (event, index) => 
             <EventDetailsPane
             key={event.id}
             event={event}
@@ -26,7 +18,7 @@ export default class EventDetails extends Component {
     render() {
       return (
           <div>
-            <h3 className="text-center">Game Details</h3>
+            <h3 className="text-center details-header">Game Details</h3>
             <div className="event-detail-container">
               {this.renderEventDetails()}
             </div>

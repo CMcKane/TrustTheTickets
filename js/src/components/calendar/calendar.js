@@ -8,13 +8,6 @@ import style from 'react-big-calendar/lib/css/react-big-calendar.css';
 BigCalendar.momentLocalizer(moment);
 
 export default class EventCalendar extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            events: this.props.events
-        };
-    }
 
     eventSelected(e) {
         this.props.eventSelected(e);
@@ -24,15 +17,28 @@ export default class EventCalendar extends Component {
         this.props.onNavigate(date, view);
     }
 
+    getDate() {;
+        if (this.props.month) {
+            var d = new Date();
+            d.setMonth(this.props.month, 1);
+            if (this.props.year) {
+                d.setFullYear(this.props.year);
+            }
+            return d;
+        }
+        return new Date();
+    }
+
     render() {
         return (
             <BigCalendar
                 style={style}
-                events={this.state.events}
+                events={this.props.events}
                 views={['month']}
                 components={{
                     event: EventComponent
                 }}
+                date={this.getDate()}
                 onSelectEvent={this.eventSelected.bind(this)}
                 selected={this.props.selected}
                 onNavigate={this.navigate.bind(this)} />

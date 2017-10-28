@@ -56,7 +56,8 @@ def index():
 def get_ticket_details():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
         jsonData = request.get_json()
-        return jsonify(SqlHandler.get_ticket_details(mysql, jsonData['eventID']))
+        eventDetails= SqlHandler.get_games_with_details(mysql, jsonData['start'], jsonData['end'])
+        return jsonify({'eventDetails': eventDetails})
 
 @app.route('/tickets', methods=['POST'])
 def get_tickets():

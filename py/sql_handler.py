@@ -40,16 +40,23 @@ class SqlHandler(object):
             retVal = True
         return retVal
 
-    def get_ticket_details(mysql, event_id):
+    def get_games_with_details(mysql, start_date, end_date):
         conn = mysql.connection
         cursor = conn.cursor()
         try:
-            cursor.execute("SELECT count(*) FROM tickets WHERE event_id = {}".format(event_id))
-            numTickets = cursor.fetchone()[0]
-            cursor.execute("SELECT MIN(ticket_price) FROM tickets JOIN groups USING (event_id)"
-                       "WHERE event_id = {}".format(event_id))
-            minPrice = cursor.fetchone()[0]
-            return {'minPrice': str(minPrice), 'numTickets': str(numTickets), 'success': True}
+            cursor.execute("SELECT g.event_id, h.team_name AS 'Home Team', concat(h.team_name,' vs ', a.team_name) AS Title, "
+                           "a.team_name AS 'Away Team', date, date, COUNT(ticket_id) AS 'numTickets', "
+                           "MIN(ticket_price) AS 'minPrice'FROM games g "
+                           "JOIN teams h ON (h.team_id = home_team_id) "
+                           "JOIN teams a ON (a.team_id = away_team_id) "
+                           "LEFT JOIN tickets USING (event_id) "
+                           "LEFT JOIN groups USING (group_id) "
+                           "WHERE date > '{}' "
+                           "AND date < '{}' "
+                           "GROUP BY g.event_id;".format(start_date, end_date))
+            event_details = [dict(id=row[0], homeTeam=row[1], title=row[2], awayTeam=row[3], start=row[4],
+                                  end=row[5], numTickets=str(row[6]), minPrice=str(row[7])) for row in cursor.fetchall()]
+            return event_details
         except Exception as e:
             print(e)
 
