@@ -64,7 +64,11 @@ class SqlHandler(object):
         conn = mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT MAX(account_id) FROM accounts")
-        newAccountID = cursor.fetchone()[0] + 1
+        newAccountID = cursor.fetchone()[0]
+        if not newAccountID:
+            newAccountID = 1
+        else:
+            newAccountID += 1
         hashedPass = sha256_crypt.hash(account.password)
         cursor.execute(
             "INSERT INTO accounts (account_id, email, password, account_status_id, created_dt, first_name, last_name, address, city, state_prov_id, zip, country_id, phone1 ) VALUES ('{}','{}','{}','{}', NOW(),'{}','{}','{}','{}','{}','{}','{}','{}')"
