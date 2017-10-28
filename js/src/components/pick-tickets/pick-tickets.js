@@ -46,12 +46,13 @@ export default class PickTickets extends Component {
 
         }
     }
-    firstComponentChangeValue(e) {
-      console.log(this.state.priceChange);
-      this.setState({ firstComponentCurrentValue: e.target.value });
-      this.setState({ priceChange: e.target.value });
-      return e.target.value;
 
+    firstComponentChangeValue(e) {
+        console.log(e.target.value);
+      this.setState({ 
+        firstComponentCurrentValue: e.target.value,
+        price: e.target.value
+      });
     }
 
     renderTickets() {
@@ -84,7 +85,7 @@ export default class PickTickets extends Component {
                                      min={1}
                                      step={1}
                                      tooltip="hide"
-                                     change={this.firstComponentChangeValue}
+                                     handleChange={this.firstComponentChangeValue.bind(this)}
                                      value={this.state.firstComponentCurrentValue}
                                 />
 
