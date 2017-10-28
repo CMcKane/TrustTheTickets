@@ -57,7 +57,6 @@ def get_ticket_details():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
         jsonData = request.get_json()
         eventDetails= SqlHandler.get_games_with_details(mysql, jsonData['start'], jsonData['end'])
-        print('api')
         return jsonify({'eventDetails': eventDetails})
 
 @app.route('/tickets', methods=['POST'])
