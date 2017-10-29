@@ -67,7 +67,7 @@ export default class App extends Component {
   render() {
     return (
         <Router>
-            <div className="homeBody">
+            <div>
                 <Header navItems={this.state.navItems} />
                 <Switch>
                     <Route exact path='/' component={Home} />

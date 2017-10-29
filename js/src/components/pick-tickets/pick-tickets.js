@@ -65,7 +65,7 @@ export default class PickTickets extends Component {
 
     render(){
         return (
-            <Grid>
+            <Grid style={{paddingTop: "100px"}}>
                 <h1 className="border-white">
                     <Well className='pick-tickets-well' style={{background: 'transparent'}}>
                         Choose Your Desired Section From The Seating Chart

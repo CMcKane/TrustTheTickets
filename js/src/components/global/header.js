@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { NavItem, Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
+import './header.css';
 
 export default class Header extends Component {
     renderItems() {
@@ -15,7 +16,7 @@ export default class Header extends Component {
 
     render() {
         return (
-        		<Navbar inverse collapseOnSelect style={{'marginBottom': 0}} >
+        		<Navbar className="navbar navbar-default navbar-fixed-top" inverse collapseOnSelect style={{marginBottom: 0, background: 'black', border: '0px'}} >
                     <Navbar.Header>
                         <Navbar.Brand>
                             <Link to="/">Trust The Tickets</Link>
