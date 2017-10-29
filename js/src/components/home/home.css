@@ -12,7 +12,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 300px;
+    padding-top: 20%;
+    padding-bottom: 30%;
 }
 
 .bgimg1 {
@@ -22,12 +23,12 @@
 
 .bgimg2 {
     background-image: url("../../resources/images/NightShotOfWellsFargo.JPG");
-    min-height: 400px;
+    min-height: 100%;
 }
 
 .bgimg3 {
     background-image: url("../../resources/images/76ersBackground.jpg");
-    min-height: 400px;
+    min-height: 100%;
 }
 
 .textsection {
@@ -45,11 +46,12 @@
 
 .caption {
     position: absolute;
-    left: 0;
-    top: 50%;
+    left: 5px;
+    top: 40%;
     width: 100%;
     text-align: center;
     color: black;
+    z-index: 2;
 }
 
 .caption span.border {

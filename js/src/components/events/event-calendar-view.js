@@ -77,7 +77,7 @@ class EventCalendarView extends Component {
             // check if integers
             if (qMonth % 1 === 0 && qYear % 1 === 0) {
                 if (qMonth >=0 && qMonth <= 11) {
-                    if ((qYear == currYear && qMonth >= currMonth) || (qYear == currYear + 1)) {
+                    if ((qYear === currYear && qMonth >= currMonth) || (qYear === currYear + 1)) {
                         return true;
                     }
                 }
