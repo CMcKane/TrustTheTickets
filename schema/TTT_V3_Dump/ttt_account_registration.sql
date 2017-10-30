@@ -1,4 +1,4 @@
-USE ttt;
+use ttt;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ttt
@@ -19,7 +19,6 @@ USE ttt;
 --
 -- Dumping data for table `account_registration`
 --
-USE ttt;
 
 LOCK TABLES `account_registration` WRITE;
 /*!40000 ALTER TABLE `account_registration` DISABLE KEYS */;
@@ -35,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-28 10:00:11
+-- Dump completed on 2017-10-30 18:44:41
