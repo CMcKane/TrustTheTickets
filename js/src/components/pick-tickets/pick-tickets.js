@@ -16,7 +16,10 @@ export default class PickTickets extends Component {
         this.state = {
             section: 112,
             tickets: [],
-            price: 0
+            price: 0,
+            showFilter: false,
+            eventID: '',
+            eventID_string: '76ers vs ...'
         }
     }
 
@@ -82,59 +85,52 @@ export default class PickTickets extends Component {
                         selectedSection={this.state.section}/>
                     </Col>
                     <Col lg={4}>
-
-                        {<div>
-
+                        <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
+                          Filter
+                        </Button>
+                        <Panel collapsible expanded={this.state.showFilter}>
                             <FormGroup controlId="formControlsEmail">
-
                                 <ReactSliderNativeBootstrap
-                                     max={1000}
-                                     min={1}
-                                     step={1}
-                                     tooltip="hide"
-                                     handleChange={this.firstComponentChangeValue.bind(this)}
-                                     value={this.state.firstComponentCurrentValue}
+                                    className="price-slider"
+                                    max={1000}
+                                    min={1}
+                                    step={1}
+                                    tooltip="hide"
+                                    handleChange={this.firstComponentChangeValue.bind(this)}
+                                    value={this.state.firstComponentCurrentValue}
                                 />
 
                                 <ControlLabel
-                                    id = "sliderPrice"
-                                    style={{color: 'white', fontSize: 15}}>
-                                    Ticket Price: ${this.state.price}
+                                   className="slider-price-label">
+                                   Ticket Price: ${this.state.price}
                                 </ControlLabel>
 
-                                    <div>
-                                        <div2>
-                                            <ControlLabel
-                                                id = "sectionNumber"
-                                                style={{color: 'white', fontSize: 15}}>
-                                                Section Number:
-                                            </ControlLabel>
-                                        </div2>
-                                        <div2>
-                                            <FormControl style={{width: 50}} placeholder="Enter section #" type="section"
-                                                value={this.state.section}
-                                                name="section"
-                                                onChange={this.handleChange.bind(this)}  />
-                                        </div2>
-                                    </div>
+                                <div>
+                                   <div2>
+                                       <ControlLabel
+                                           id = "sectionNumber"
+                                           style={{color: 'black', fontSize: 15}}>
+                                           Section Number:
+                                       </ControlLabel>
+                                   </div2>
+                                   <div2>
+                                       <FormControl style={{width: 50}} placeholder="Enter section #" type="section"
+                                           value={this.state.section}
+                                           onChange={this.handleChange.bind(this)}  />
+                                   </div2>
+                                </div>
 
-                                    <div>
-                                        <Button bsStyle="primary"
-                                            onClick={this.getTicketsWithFilter.bind(this)}>
-                                            Apply
-                                        </Button>
-                                    </div>
-
+                                <div>
+                                   <Button bsStyle="primary"
+                                       onClick={this.getTicketsWithFilter.bind(this)}>
+                                       Apply
+                                   </Button>
+                                </div>
                             </FormGroup>
+                        </Panel>
 
-
-                            <FormGroup controlId="formControlsSelectMultiple">
-                                <ControlLabel style={{color: 'white', fontSize: 25}}>Here are your ticket options for selected section: </ControlLabel>
-                                <FormControl style={{height: '650px'}} componentClass="select" multiple>
-                                {this.renderTickets()}
-                                </FormControl>
-                            </FormGroup>
-                        </div>}
+                            <h3 className="Tickets-label"> Tickets </h3>
+                            <TicketListItem/>
                     </Col>
                 </Row>
             </Grid>
