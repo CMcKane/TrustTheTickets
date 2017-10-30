@@ -77,7 +77,7 @@ class EventCalendarView extends Component {
             // check if integers
             if (qMonth % 1 === 0 && qYear % 1 === 0) {
                 if (qMonth >=0 && qMonth <= 11) {
-                    if ((qYear == currYear && qMonth >= currMonth) || (qYear == currYear + 1)) {
+                    if ((qYear === currYear && qMonth >= currMonth) || (qYear === currYear + 1)) {
                         return true;
                     }
                 }
@@ -96,7 +96,7 @@ class EventCalendarView extends Component {
             return <Redirect to={this.getRedirect()} />
         } 
         else return (
-            <div className="eventCalendarView">
+            <div className="eventCalendarView" style={{paddingTop: '50px', paddingBottom: '30px'}}>
                 <Well className="events-well"> Choose Your Game </Well>
                     <Col lg={9} className="eventCalendarView">
                         <EventCalendar events={this.state.eventList} 

@@ -65,11 +65,11 @@ export default class Login extends Component {
             return <Redirect to='/my-account' />
         }
         return (
-            <div className="centered">
-                <h1 className="text-center" style={{color: 'white'}}>Log In</h1>
+            <div className="centered" style={{paddingTop: "75px"}}>
+                <h1 className="text-center" style={{color: 'black'}}>Log In</h1>
                 <form>
                     <FormGroup controlId="formControlsEmail">
-                        <ControlLabel id="EmailAddress" style={{color: 'white'}}>Email address</ControlLabel>
+                        <ControlLabel id="EmailAddress" style={{color: 'black'}}>Email address</ControlLabel>
                         <div id="WrongEmailPassword"> </div>
                         <FormControl style={{width: 350}} placeholder="Enter email" type="email"
                             value={this.state.email}
@@ -77,7 +77,7 @@ export default class Login extends Component {
                             onChange={this.handleChange.bind(this)}  />
                     </FormGroup>
                     <FormGroup controlId="formControlsPassword" >
-                        <ControlLabel style={{color: 'white'}}>Password</ControlLabel>
+                        <ControlLabel style={{color: 'black'}}>Password</ControlLabel>
                         <FormControl style={{width: 350}} placeholder="Password" type="password"
                             value={this.state.password}
                             name="password"
@@ -88,7 +88,7 @@ export default class Login extends Component {
                         Log In
                     </Button>
                 </form>
-                <p style={{color: 'white'}}>Don't have an account? <Link to='/register'> Register here.</Link></p>
+                <p style={{color: 'black'}}>Don't have an account? <Link to='/register'> Register here.</Link></p>
             </div>
         );
     }

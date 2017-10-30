@@ -21,7 +21,7 @@
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'gaffneyd4@students.rowan.edu','password',1,'2017-10-12 12:37:51','Derek','Gaffney','100 Redmond Ave. Rowan Blvd. Apt.#3425','Glassboro',30,'08028',1,'8568349018',NULL,1,NULL),(2,'harkert2@students.rowan.edu','password',1,'2017-10-12 12:38:06','Tom','Harker','201 Mullica Hill Road','Glassboro',30,'08028',1,'8562564000',NULL,1,NULL),(3,'orioa9@students.rowan.edu','password',1,'2017-10-12 12:38:11','Anthony','Orio','201 Mullica Hill Road','Glassboro',30,'08028',1,'8562564000',NULL,1,NULL),(4,'bailliec7@students.rowan.edu','password',1,'2017-10-12 12:38:15','Curtis','Baillie','201 Mullica Hill Road','Glassboro',30,'08028',1,'8562564000',NULL,1,NULL),(5,'dalonzoj8@students.rowan.edu','password',1,'2017-10-12 12:38:16','Jon','D\'Alonzo','201 Mullica Hill Road','Glassboro',30,'08028',1,'8562564000',NULL,1,NULL),(6,'mckanec8@students.rowan.edu','password',1,'2017-10-12 12:38:20','Chris','McKane','201 Mullica Hill Road','Glassboro',30,'08028',1,'8562564000',NULL,1,NULL);
+
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

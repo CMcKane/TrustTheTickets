@@ -7,6 +7,7 @@
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
     "jquery": "^3.2.1",
+    "jquery-parallax.js": "^1.5.0",
     "lodash": "^4.17.4",
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.3",
@@ -27,6 +28,7 @@
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
+    "react-scroll-parallax": "^1.1.1",
     "react-slider": "^0.9.0"
   },
   "scripts": {

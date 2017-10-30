@@ -20,22 +20,22 @@ import EventListView from './components/events/event-list-view';
 import './App.css';
 
 const navItems = [
-    {
-        label: 'Pick Tickets',
-        url: '/pick-tickets'
-    },
+    // {
+    //     label: 'Pick Tickets',
+    //     url: '/pick-tickets'
+    // },
     {
         label: 'My Account',
         url: '/my-account'
-    },
-    {
-      label: 'Event Calendar',
-      url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
-    },
-    {
-      label: 'Event List',
-      url: '/event-list'
-    }
+    }//,
+    // {
+    //   label: 'Event Calendar',
+    //   url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
+    // },
+    // {
+    //   label: 'Event List',
+    //   url: '/event-list'
+    // }
 ];
 
 export default class App extends Component {
@@ -67,7 +67,7 @@ export default class App extends Component {
   render() {
     return (
         <Router>
-            <div className="homeBody">
+            <div>
                 <Header navItems={this.state.navItems} />
                 <Switch>
                     <Route exact path='/' component={Home} />

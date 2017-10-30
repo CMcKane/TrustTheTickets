@@ -59,7 +59,7 @@ export default class EventListView extends Component {
 			return <Redirect to={this.getRedirect()} />;
 		}
 		return (
-			<div className="centered" style={{'width': '40%'}}>
+			<div className="centered" style={{width: '40%', paddingTop: '75px'}}>
 				<h1> Choose Your Game </h1>
 		  		<ListGroup>
 		  			{this.renderEventListItems()}
