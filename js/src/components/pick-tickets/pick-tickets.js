@@ -96,11 +96,17 @@ export default class PickTickets extends Component {
                 </h1>
                 <Row>
                     <Col lg={8}>
-                        <WellsFargoChart
-                        onSectionSelected={this.onChartClick.bind(this)}
-                        selectedSection={this.state.section}/>
+                        <Col lg={4}>
+                            <Button onclick={this.getSelectedGame()}>
+                                {this.state.eventID_string}
+                            </Button>
+                        </Col>
+                    <WellsFargoChart
+                    onSectionSelected={this.onChartClick.bind(this)}
+                    selectedSection={this.state.section}/>
                     </Col>
                     <Col lg={4}>
+
                         <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
                           Filter
                         </Button>
