@@ -110,7 +110,7 @@ export default class RegistrationView extends Component {
                 <h1 className="text-center" style={{color: "white"}}>Registering An Account With Trust The Tickets!</h1>
                 <Grid>
                     <Row>
-                        <Col style={{color: "white"}} lg={6}>
+                        <Col style={{color: "black"}} lg={6}>
                             <Form>
                                 <FormGroup
                                     controlId="formControlsEmail">
