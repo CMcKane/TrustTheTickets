@@ -38,7 +38,22 @@ export default class PickTickets extends Component {
                     tickets: res.data.tickets
                 });
             });
+    }
+
+    getSelectedGame() {
+        if (this.state.eventID === '') {
+            eventID_string: 'Choose a game'
         }
+        else {
+            eventID_string: '76ers vs ...'
+        }
+    }
+
+    _onButtonClick() {
+        this.setState({
+          showFilter: true
+        });
+    }
 
 
     onChartClick(section) {
