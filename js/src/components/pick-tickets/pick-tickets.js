@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well, Button} from 'react-bootstrap';
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well, Button, Panel} from 'react-bootstrap';
 import '../../seating-chart.css';
 import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
@@ -7,6 +7,7 @@ import WellsFargoChart from './wells-fargo-chart';
 import { TTTPost } from '../backend/ttt-request';
 import { TTTGet } from '../backend/ttt-request';
 import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
+import TicketListItem from './ticket-list-item';
 
 export default class PickTickets extends Component {
 
