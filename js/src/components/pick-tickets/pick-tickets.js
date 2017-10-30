@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well} from 'react-bootstrap';
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well, Button} from 'react-bootstrap';
 import '../../seating-chart.css';
 import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
@@ -14,23 +14,28 @@ export default class PickTickets extends Component {
         super(props);
 
         this.state = {
-            section: '',
+            section: 112,
             tickets: [],
             price: 0
         }
     }
 
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
     getTicketsWithFilter() {
-        TTTGet("/pick-ticket-filter", {
+        TTTPost('/pick-ticket-filter', {
             price: this.state.price,
             section: this.state.section
-        })
+            })
             .then(res => {
-                console.log(res);
-                const tickets = res.data.tickets;
-                this.setState({ tickets });
+                if (res.data.tickets) this.setState({
+                    tickets: res.data.tickets
+                });
             });
-    }
+        }
+
 
     onChartClick(section) {
         if(section.length > 0) {
@@ -43,7 +48,6 @@ export default class PickTickets extends Component {
                     tickets: res.data.tickets
                 });
             });
-
         }
     }
 
@@ -78,10 +82,13 @@ export default class PickTickets extends Component {
                         selectedSection={this.state.section}/>
                     </Col>
                     <Col lg={4}>
+
                         {<div>
 
-                            <ReactSliderNativeBootstrap
-                                     max={50}
+                            <FormGroup controlId="formControlsEmail">
+
+                                <ReactSliderNativeBootstrap
+                                     max={1000}
                                      min={1}
                                      step={1}
                                      tooltip="hide"
@@ -92,21 +99,33 @@ export default class PickTickets extends Component {
                                 <ControlLabel
                                     id = "sliderPrice"
                                     style={{color: 'white', fontSize: 15}}>
-                                    {this.state.price}
+                                    Ticket Price: ${this.state.price}
                                 </ControlLabel>
 
-                            <form>
-                                <ControlLabel style={{color: 'white', fontSize: 15}}>Section #: </ControlLabel>
-                                <input name="param1" value="test"/>
-                                <input
-                                    type="submit"
-                                    name=""
-                                    id="search-submit"
-                                    class="button"
-                                    value="Submit"
-                                    onChange={this.getTicketsWithFilter()}
-                                />
-                            </form>
+                                    <div>
+                                        <div2>
+                                            <ControlLabel
+                                                id = "sectionNumber"
+                                                style={{color: 'white', fontSize: 15}}>
+                                                Section Number:
+                                            </ControlLabel>
+                                        </div2>
+                                        <div2>
+                                            <FormControl style={{width: 50}} placeholder="Enter section #" type="section"
+                                                value={this.state.section}
+                                                name="section"
+                                                onChange={this.handleChange.bind(this)}  />
+                                        </div2>
+                                    </div>
+
+                                    <div>
+                                        <Button bsStyle="primary"
+                                            onClick={this.getTicketsWithFilter.bind(this)}>
+                                            Apply
+                                        </Button>
+                                    </div>
+
+                            </FormGroup>
 
 
                             <FormGroup controlId="formControlsSelectMultiple">

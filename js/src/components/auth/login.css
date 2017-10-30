@@ -5,3 +5,7 @@ div.centered {
     margin-left: auto;
     margin-right: auto;
 }
+
+div2 {
+    display: inline-block;
+}

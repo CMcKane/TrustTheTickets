@@ -18,6 +18,7 @@
 --
 -- Dumping data for table `account_registration`
 --
+USE ttt;
 
 LOCK TABLES `account_registration` WRITE;
 /*!40000 ALTER TABLE `account_registration` DISABLE KEYS */;
