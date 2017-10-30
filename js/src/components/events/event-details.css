@@ -1,5 +1,5 @@
 .event-detail-pane {
-	padding: 2em;
+	padding: 1em;
 	border-style: solid;
 	border-width: 0.1em;
 	border-color: black;
@@ -12,10 +12,14 @@
 	border-color: red;
 }
 
-.event-detail-container {
+.event-details {
 	padding: 1em;
-	height: 80%;
+	height: 100%;
 	overflow-y: scroll;
+}
+
+.event-details-container {
+	height: 85%;
 }
 
 .details-header {

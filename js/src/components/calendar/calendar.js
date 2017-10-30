@@ -18,12 +18,10 @@ export default class EventCalendar extends Component {
     }
 
     getDate() {;
-        if (this.props.month) {
+        if (this.props.validateDate(this.props.month, this.props.year)) {
             var d = new Date();
             d.setMonth(this.props.month, 1);
-            if (this.props.year) {
-                d.setFullYear(this.props.year);
-            }
+            d.setFullYear(this.props.year);
             return d;
         }
         return new Date();

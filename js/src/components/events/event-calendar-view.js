@@ -73,13 +73,13 @@ class EventCalendarView extends Component {
     monthAndYearValid(qMonth, qYear) {
         const currMonth = new Date().getMonth();
         const currYear = new Date().getFullYear();
+        // Makes them integers. Null if didn't work.
+        qYear = ~~qYear;
+        qMonth = ~~qMonth;
         if (qMonth !== null && qYear !== null) {
-            // check if integers
-            if (qMonth % 1 === 0 && qYear % 1 === 0) {
-                if (qMonth >=0 && qMonth <= 11) {
-                    if ((qYear === currYear && qMonth >= currMonth) || (qYear === currYear + 1)) {
-                        return true;
-                    }
+            if (qMonth >= 0 && qMonth <= 11) {
+                if ((qYear === currYear && qMonth >= currMonth) || (qYear === currYear + 1)) {
+                    return true;
                 }
             }
         }
@@ -98,22 +98,24 @@ class EventCalendarView extends Component {
         else return (
             <div className="eventCalendarView" style={{paddingTop: '50px', paddingBottom: '30px'}}>
                 <Well className="events-well"> Choose Your Game </Well>
-                    <Col lg={9} className="eventCalendarView">
-                        <EventCalendar events={this.state.eventList} 
+                    <Col lg={9} className="bottomPane">
+                        <EventCalendar 
+                            events={this.state.eventList}
                             eventSelected={this.eventSelected.bind(this)}
                             selected={this.state.selectedEvent}
                             onNavigate={this.getEvents.bind(this)}
                             month={queryParams.m}
-                            year={queryParams.y} />
+                            year={queryParams.y}
+                            validateDate={this.monthAndYearValid.bind(this)} />
                     </Col>
-                    <Col lg={3}>
-                        <Row>
-                        <EventDetails
-                            eventList={this.state.eventList} 
-                            selectedEvent={this.state.selectedEvent}
-                            eventSelected={this.eventSelected.bind(this)} />
+                    <Col lg={3} className="bottomPane">
+                        <Row className="event-calendar-details-row">
+                            <EventDetails
+                                eventList={this.state.eventList}
+                                selectedEvent={this.state.selectedEvent}
+                                eventSelected={this.eventSelected.bind(this)} />
                         </Row>
-                        <Row style={{'textAlign': 'center'}}>
+                        <Row className="event-calendar-button-row">
                                 <Button bsStyle="primary"
                                     onClick={this.onSubmit.bind(this)}>
                                     See Tickets

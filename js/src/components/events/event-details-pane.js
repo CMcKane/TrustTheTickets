@@ -4,7 +4,7 @@ export default class EventDetailsPane extends Component {
 
 	getMinPrice() {
       if (this.props.event.minPrice !== 'None') {
-        return (<p>Tickets starting at ${this.props.event.minPrice}</p>);
+        return "Tickets starting at $" + this.props.event.minPrice;
       }
     }
 
@@ -16,10 +16,11 @@ export default class EventDetailsPane extends Component {
 		} 
 		return (
           <div className={detailsClass} onClick={this.props.eventSelected.bind(this, this.props.event)}>
-            <h4>{this.props.event.homeTeam} vs. {this.props.event.awayTeam}</h4>
-            <p>Tip-off at {this.props.event.start}</p>
-            {this.getMinPrice()}
-            <p>{this.props.event.numTickets} tickets available</p>
+            <h4 style={{"textAlign": "center"}}>
+                {this.props.event.homeTeam} vs. {this.props.event.awayTeam}</h4>
+            <p style={{"padding": "0px"}}>Tip-off at {this.props.event.start} <br />
+              {this.props.event.numTickets} tickets available <br />
+              {this.getMinPrice()}</p>
           </div>
         );
 	}
