@@ -11,4 +11,5 @@ class AccountAuthenticator(object):
         return self.verify_credentials(account)
 
     def verify_credentials(self, account):
-        return SqlHandler.verify_credentials(self.mysql, account.email, account.password)
+        sqlHandler = SqlHandler(self.mysql)
+        return sqlHandler.verify_credentials(account.email, account.password)

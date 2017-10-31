@@ -26,14 +26,16 @@ class AccountRegistrator(object):
                 thr = threading.Thread(target = TTTEmailClient.send_confirmation,
                                        args=(account.email, registrationID))
                 thr.start()
-            except:
+            except Exception as e:
+                print(e)
                 registerResult['errorMessage'] = ERROR_MESSAGES['REGISTRATION_ERROR']
                 registerResult['registrationStatus'] = False
         return registerResult
 
 
     def check_for_email(self, email):
-        existingAccount = SqlHandler.check_for_email(self.mysql, email)
+        sqlHandler = SqlHandler(self.mysql)
+        existingAccount = sqlHandler.check_for_email(email)
         if existingAccount > 0:
            return True
         return False
@@ -42,7 +44,8 @@ class AccountRegistrator(object):
     def confirm_registration(self, data):
         registerResult = {'registrationStatus': True}
         registrationID = data['registrationID']
-        success = SqlHandler.get_account_for_confirmation(self.mysql, registrationID)
+        sqlHandler = SqlHandler(self.mysql)
+        success = sqlHandler.get_account_for_confirmation(registrationID)
 
         if not success:
             registerResult['errorMessage'] = ERROR_MESSAGES['REGISTRATION_CONFIRM_ERROR']
@@ -52,5 +55,6 @@ class AccountRegistrator(object):
 
     def insert_account_registration(self, account):
         registrationID = uuid.uuid4().hex
-        SqlHandler.insert_account_registration(self.mysql, account, registrationID)
+        sqlHandler = SqlHandler(self.mysql)
+        sqlHandler.insert_account_registration(account, registrationID)
         return registrationID

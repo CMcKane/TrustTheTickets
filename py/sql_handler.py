@@ -6,8 +6,8 @@ class SqlHandler(object):
     def __init__(self, mysql):
         self.mysql = mysql
 
-    def get_tickets(mysql, sectionNum):
-        conn = mysql.connection
+    def get_tickets(self, sectionNum):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num "
                        "FROM tickets t  "
@@ -20,22 +20,22 @@ class SqlHandler(object):
                    cursor.fetchall()]
         return tickets
 
-    def get_accounts(mysql):
-        conn = mysql.connection
+    def get_accounts(self):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT account_id, email, created_dt, first_name, last_name FROM accounts")
         accounts = [dict(account_id=row[0], email=row[1], created_dt=row[2], fname=row[3], lname=row[4]) for row in
                     cursor.fetchall()]
         return accounts
 
-    def check_for_email(mysql, email):
-        conn = mysql.connection
+    def check_for_email(self, email):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT account_id FROM accounts WHERE email = '{}'".format(email))
         return len(cursor.fetchall())
 
-    def get_account_for_confirmation(mysql, registrationID):
-        conn = mysql.connection
+    def get_account_for_confirmation(self, registrationID):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         rowcount = cursor.execute(
             "SELECT account_id FROM account_registration WHERE registration_code = '{}'".format(registrationID))
@@ -49,8 +49,8 @@ class SqlHandler(object):
             retVal = True
         return retVal
 
-    def get_games_with_details(mysql, start_date, end_date):
-        conn = mysql.connection
+    def get_games_with_details(self, start_date, end_date):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         try:
             cursor.execute(
@@ -71,8 +71,8 @@ class SqlHandler(object):
         except Exception as e:
             print(e)
 
-    def insert_account_registration(mysql, account, registrationID):
-        conn = mysql.connection
+    def insert_account_registration(self, account, registrationID):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT MAX(account_id) FROM accounts")
         newAccountID = cursor.fetchone()[0]
@@ -91,8 +91,8 @@ class SqlHandler(object):
                 .format(newAccountID, registrationID))
         conn.commit()
 
-    def verify_credentials(mysql, email, password):
-        conn = mysql.connection
+    def verify_credentials(self, email, password):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute(
             "SELECT first_name, last_name, password FROM accounts WHERE email = '{}'".format(email))
@@ -102,16 +102,16 @@ class SqlHandler(object):
         else:
             return {'authenticated': False}
 
-    def get_teams_for_games(mysql):
-        conn = mysql.connection
+    def get_teams_for_games(self):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.callproc("get_teams_for_games")
         data = [dict(home_team=row[0], home_city=row[1], away_team=row[2], away_city=row[3]) for row in
                 cursor.fetchall()]
         return data
 
-    def get_ticket_by_filter(mysql, price, section):
-        conn = mysql.connection
+    def get_ticket_by_filter(self, price, section):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num "
                        "FROM tickets t "

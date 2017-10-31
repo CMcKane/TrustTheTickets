@@ -49,14 +49,16 @@ def confirm_registration():
 
 @app.route('/accounts')
 def index():
-    accounts = SqlHandler.get_accounts(mysql)
+    sqlHandler = SqlHandler(mysql)
+    accounts = sqlHandler.get_accounts()
     return jsonify({'accounts': accounts})
 
 @app.route('/ticket-details', methods=['POST'])
 def get_ticket_details():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
         jsonData = request.get_json()
-        eventDetails= SqlHandler.get_games_with_details(mysql, jsonData['start'], jsonData['end'])
+        sqlHandler = SqlHandler(mysql)
+        eventDetails= sqlHandler.get_games_with_details(jsonData['start'], jsonData['end'])
         return jsonify({'eventDetails': eventDetails})
 
 @app.route('/tickets', methods=['POST'])
@@ -64,18 +66,19 @@ def get_tickets():
     json = ["2012-03-15", "2012-03-15", 290, 325, 112]
     #SqlHandler.build_filter_select(mysql,
      #   JsonDictionaryConverter.build_filter_dictionary(json))
-
+    sqlHandler = SqlHandler(mysql)
     givenSection = request.get_json()
     sectionNum = givenSection['section_number']
-    tickets = SqlHandler.get_tickets(mysql, sectionNum)
+    tickets = sqlHandler.get_tickets(sectionNum)
     return jsonify({'tickets': tickets})
 
 @app.route('/pick-ticket-filter', methods=['POST'])
 def pick_tickets_by_filter():
+    sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
     price = jsondata['price']
     section = jsondata['section']
-    tickets = SqlHandler.get_ticket_by_filter(mysql, price, section)
+    tickets = sqlHandler.get_ticket_by_filter(price, section)
     return jsonify({'tickets': tickets})
 
 # Right now this just returns that the login info is good for testing purposes.
@@ -91,7 +94,8 @@ def authenticate_credentials():
 
 @app.route('/games')
 def get_games_list():
-    games = SqlHandler.get_teams_for_games(mysql)
+    sqlHandler = SqlHandler(mysql)
+    games = sqlHandler.get_teams_for_games()
     return jsonify({'games': games})
 
 if __name__ == '__main__':
