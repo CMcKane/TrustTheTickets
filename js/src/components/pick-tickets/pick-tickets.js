@@ -5,7 +5,6 @@ import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
 import { TTTPost } from '../backend/ttt-request';
-import { TTTGet } from '../backend/ttt-request';
 import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
 
@@ -86,7 +85,7 @@ export default class PickTickets extends Component {
         );
     }
 
-    render(){
+    render() {
         return (
             <Grid style={{paddingTop: "100px"}}>
                 <h1 className="border-white">

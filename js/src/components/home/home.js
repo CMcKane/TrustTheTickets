@@ -7,7 +7,6 @@ export default class Home extends Component {
 
     render() {
         return (
-            <html>
             <body>
             <div className="bgimg1">
                 <div className="caption">
@@ -45,7 +44,7 @@ export default class Home extends Component {
                     <Grid>
                         <Row>
                             <Col xs={6} md={4}>
-                                <Thumbnail src={"../../resources/images/Calendar_Blue.png"}>
+                                <Thumbnail src={require("../../resources/images/Calendar_Blue.png")}>
                                     <h3 style={{color: 'white'}}>Calendar View</h3>
                                     <p style={{color: 'white'}}>Search for games via our game calendar.</p>
                                     <p>
@@ -58,7 +57,7 @@ export default class Home extends Component {
                                 </Thumbnail>
                             </Col>
                             <Col xs={6} md={4}>
-                                <Thumbnail src="../../resources/images/versus.png">
+                                <Thumbnail src={require("../../resources/images/versus.png")}>
                                     <h3 style={{color: 'white'}}>Opponent</h3>
                                     <p style={{color: 'white'}}>Search for a game against a specific opponent.</p>
                                     <p>
@@ -71,7 +70,7 @@ export default class Home extends Component {
                                 </Thumbnail>
                             </Col>
                             <Col xs={6} md={4}>
-                                <Thumbnail src="../../resources/images/money.png">
+                                <Thumbnail src={require("../../resources/images/money.png")}>
                                     <h3 style={{color: 'white'}}>Ticket Prices</h3>
                                     <p style={{color: 'white'}}>Search for a game based off of ticket prices.</p>
                                     <p>
@@ -115,7 +114,6 @@ export default class Home extends Component {
             </div>
 
             </body>
-            </html>
         );
     }
 }

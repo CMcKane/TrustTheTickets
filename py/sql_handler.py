@@ -65,7 +65,7 @@ class SqlHandler(object):
                 "AND date < '{}' "
                 "GROUP BY g.event_id;".format(start_date, end_date))
             event_details = [dict(id=row[0], homeTeam=row[1], title=row[2], awayTeam=row[3], start=row[4],
-                                  end=row[5], numTickets=str(row[6]), minPrice=str(row[7])) for row in
+                                  end=row[5], numTickets=row[6], minPrice=row[7]) for row in
                              cursor.fetchall()]
             return event_details
         except Exception as e:
