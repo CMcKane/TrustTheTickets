@@ -141,7 +141,7 @@ export default class TicketListItem extends Component {
         super(props);
 
         this.state = {
-            tickets: this.getTickets()
+            tickets: this.props.ticketsFromPickTicket
 
         }
     }
@@ -161,7 +161,7 @@ export default class TicketListItem extends Component {
 
     //display faux tickets
     getTickets() {
-        return tickets;
+        return ;
     }
 
 	render() {

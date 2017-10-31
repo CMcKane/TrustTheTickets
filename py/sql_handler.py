@@ -20,8 +20,22 @@ class SqlHandler(object):
                    cursor.fetchall()]
         return tickets
 
-    def get_accounts(self):
-        conn = self.mysql.connection
+    def get_all_tickets(mysql, eventID):
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num "
+                       "FROM tickets t  "
+                       "JOIN sections se ON (t.section_id = se.section_id) "
+                       "JOIN rows r ON (t.row_id = r.row_id) "
+                       "JOIN seats s ON (t.seat_id = s.seat_id) "
+                       "WHERE se.eventID = '{}' "
+                       "ORDER BY row_num".format(eventID))
+        tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2], section_number=row[3]) for row in
+                   cursor.fetchall()]
+        return tickets
+
+    def get_accounts(mysql):
+        conn = mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT account_id, email, created_dt, first_name, last_name FROM accounts")
         accounts = [dict(account_id=row[0], email=row[1], created_dt=row[2], fname=row[3], lname=row[4]) for row in

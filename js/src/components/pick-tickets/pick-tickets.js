@@ -7,6 +7,7 @@ import WellsFargoChart from './wells-fargo-chart';
 import { TTTPost } from '../backend/ttt-request';
 import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
+import queryString from 'query-string';
 
 export default class PickTickets extends Component {
 
@@ -18,7 +19,6 @@ export default class PickTickets extends Component {
             tickets: [],
             price: 0,
             showFilter: false,
-            eventID: '',
             eventID_string: '76ers vs ...'
         }
     }
@@ -31,12 +31,23 @@ export default class PickTickets extends Component {
         TTTPost('/pick-ticket-filter', {
             price: this.state.price,
             section: this.state.section
-            })
-            .then(res => {
-                if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets
-                });
+        })
+        .then(res => {
+            if (res.data.tickets) this.setState({
+                tickets: res.data.tickets
             });
+        });
+    }
+
+    getAllTickets(eventID) {
+        TTTPost('/all-ticket', {
+            eventID: this.state.eventID
+        })
+        .then(res => {
+            if (res.data.tickets) this.setState({
+                tickets: res.data.tickets
+            });
+        });
     }
 
     getSelectedGame() {
@@ -86,6 +97,9 @@ export default class PickTickets extends Component {
     }
 
     render() {
+        const queryParams = queryString.parse(this.props.location.search);
+        const eventID = queryParams.event;
+        this.getAllTickets(eventID);
         return (
             <Grid style={{paddingTop: "100px"}}>
                 <h1 className="border-white">
@@ -97,7 +111,7 @@ export default class PickTickets extends Component {
                     <Col lg={8}>
                         <Col lg={4}>
                             <Button onclick={this.getSelectedGame()}>
-                                {this.state.eventID_string}
+                                {eventID}
                             </Button>
                         </Col>
                     <WellsFargoChart
@@ -151,7 +165,7 @@ export default class PickTickets extends Component {
                         </Panel>
 
                             <h3 className="Tickets-label"> Tickets </h3>
-                            <TicketListItem/>
+                            <TicketListItem ticketsFromPickTicket={this.state.tickets}/>
                     </Col>
                 </Row>
             </Grid>
