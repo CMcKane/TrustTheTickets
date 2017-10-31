@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 import '../../seating-chart.css';
 
 export default class WellsFargoChart extends Component {
@@ -23,7 +24,8 @@ export default class WellsFargoChart extends Component {
 
 	render() {
 		return (
-			<div>
+			<ReactSVGPanZoom
+			  width={700} height={700}>
 			<svg version="1.1" 
 			xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 665 665">
 				<path onClick={this.onChartClick.bind(this)} id="A"  className="st0"  d="M186.3,208.5c0,0-7,7-9.1,9.9l-7.3-7.4c0,0,4-5.1,9.3-10.2L186.3,208.5z"/>
@@ -475,7 +477,7 @@ export default class WellsFargoChart extends Component {
 				<text transform="matrix(9.667346e-03 1.007 -1 9.600105e-03 382.4238 313.1953)"  className="unselectable st2 st8">NORTH</text>
 				<text transform="matrix(-1.257806e-03 -1.007 1 -1.249057e-03 289.12 324.6925)"  className="unselectable st2 st8">SOUTH</text>
 			</svg>
-			</div>
+			</ReactSVGPanZoom>
 		);
 	}
 }
