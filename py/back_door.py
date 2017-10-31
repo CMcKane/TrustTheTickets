@@ -59,6 +59,17 @@ def get_ticket_details():
         eventDetails= SqlHandler.get_games_with_details(mysql, jsonData['start'], jsonData['end'])
         return jsonify({'eventDetails': eventDetails})
 
+@app.route('/all-tickets', methods=['POST'])
+def get_all_tickets():
+    json = ["2012-03-15", "2012-03-15", 290, 325, 112]
+    #SqlHandler.build_filter_select(mysql,
+    #   JsonDictionaryConverter.build_filter_dictionary(json))
+
+    givenEventID = request.get_json()
+    eventID = givenEventID['event_id']
+    tickets = SqlHandler.get_all_tickets(mysql, eventID)
+    return jsonify({'tickets': tickets})
+
 @app.route('/tickets', methods=['POST'])
 def get_tickets():
     json = ["2012-03-15", "2012-03-15", 290, 325, 112]
