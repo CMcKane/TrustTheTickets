@@ -19,12 +19,41 @@ export default class PickTickets extends Component {
             tickets: [],
             price: 0,
             showFilter: false,
-            eventID_string: '76ers vs ...'
+            selectedEvent: [],
+            eventID: '',
+            eventTitle: 'Choose a game'
+        }
+
+        const queryParams = queryString.parse(this.props.location.search);
+        const event_id = queryParams.event;
+        if (event_id !== '' && event_id !== null) {
+            this.setState({
+                eventID: event_id
+            });
+            this.getAllTickets(event_id);
+            this.getEvent(event_id);
+        }
+        else {
+            this.setState({
+                eventID: '-1',
+                eventTitle: 'Choose a game'
+            });
         }
     }
 
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
+    }
+
+    getEvent(eventID) {
+        TTTPost('/get-event', {
+            eventID: eventID
+        })
+        .then(res => {
+            if (res.data.event) this.setState({
+                selectedEvent: res.data.event
+            });
+        });
     }
 
     getTicketsWithFilter() {
@@ -51,11 +80,11 @@ export default class PickTickets extends Component {
     }
 
     getSelectedGame() {
-        if (this.state.eventID === '') {
-            eventID_string: 'Choose a game'
+        if (this.state.selectedEvent === null) {
+            eventTitle: 'Choose a game'
         }
         else {
-            eventID_string: '76ers vs ...'
+            eventTitle: this.state.selectedEvent.Title
         }
     }
 
@@ -97,9 +126,6 @@ export default class PickTickets extends Component {
     }
 
     render() {
-        const queryParams = queryString.parse(this.props.location.search);
-        const eventID = queryParams.event;
-        this.getAllTickets(eventID);
         return (
             <div>
                 <Grid style={{paddingTop: "100px"}}>
@@ -110,19 +136,21 @@ export default class PickTickets extends Component {
                     </h1>
                     <Row>
                         <Col lg={8}>
-                            <Col lg={4}>
-                                <Button onclick={this.getSelectedGame()}>
-                                    {eventID}
-                                </Button>
-                            </Col>
+                            <Row>
+                                <Col lg={8}>
+                                    <Button>
+                                        {this.getSelectedGame()}
+                                        {this.state.eventTitle}
+                                    </Button>
+                                </Col>
+                            </Row>
                             <WellsFargoChart
                                 onSectionSelected={this.onChartClick.bind(this)}
                                 selectedSection={this.state.section}/>
                         </Col>
                         <Col lg={4}>
-
-                            <Button onClick={() => this.setState({showFilter: !this.state.showFilter})}>
-                                Filter
+                            <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
+                              Filter
                             </Button>
                             <Panel collapsible expanded={this.state.showFilter}>
                                 <FormGroup controlId="formControlsEmail">

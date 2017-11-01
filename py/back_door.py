@@ -5,13 +5,13 @@ from flask import request
 from flask import make_response
 from account_register import AccountRegistrator
 from account_login import AccountAuthenticator
-from sql_handler import SqlHandler;
+from sql_handler import SqlHandler
 from json_dictionary_converter import JsonDictionaryConverter
 
 
 app = Flask (__name__)
-
 mysql = MySQL(app)
+
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
@@ -63,10 +63,7 @@ def get_ticket_details():
 
 @app.route('/all-tickets', methods=['POST'])
 def get_all_tickets():
-    json = ["2012-03-15", "2012-03-15", 290, 325, 112]
-    #SqlHandler.build_filter_select(mysql,
-    #   JsonDictionaryConverter.build_filter_dictionary(json))
-
+    #json = ["2012-03-15", "2012-03-15", 290, 325, 112]
     givenEventID = request.get_json()
     eventID = givenEventID['event_id']
     tickets = SqlHandler.get_all_tickets(mysql, eventID)
@@ -82,6 +79,14 @@ def get_tickets():
     sectionNum = givenSection['section_number']
     tickets = sqlHandler.get_tickets(sectionNum)
     return jsonify({'tickets': tickets})
+
+@app.route('/get-event', methods=['POST'])
+def get_event():
+    jsondata = request.get_json()
+    eventID = jsondata['eventID']
+    sqlHandler = SqlHandler(mysql)
+    event = sqlHandler.get_event(mysql, eventID)
+    return jsonify({'event': event})
 
 @app.route('/pick-ticket-filter', methods=['POST'])
 def pick_tickets_by_filter():
