@@ -1,5 +1,4 @@
 import React, { Component }  from 'react';
-import Logo from '../logos/logo';
 import Time from 'react-time';
 import './event-details.css';
 
@@ -21,7 +20,9 @@ export default class EventDetailsPane extends Component {
           <div className={detailsClass} onClick={this.props.eventSelected.bind(this, this.props.event)}>
             <h4 style={{"textAlign": "center"}}>
                 {this.props.event.homeTeam} vs. {this.props.event.awayTeam}</h4>
-            <p style={{"padding": "0px"}}>Tip-off at {this.props.event.start} <br />
+            <h5><Time value={this.props.event.start} format="dddd, MMMM Do"/></h5>
+            <p style={{"padding": "0px"}}>Tip-off at <Time value={this.props.event.start}
+               format="h:mmA" /><br />
               {this.props.event.numTickets} tickets available <br />
               {this.getMinPrice()}</p>
           </div>
