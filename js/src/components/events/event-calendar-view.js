@@ -76,8 +76,12 @@ class EventCalendarView extends Component {
         // Makes them integers. Null if didn't work.
         qYear = ~~qYear;
         qMonth = ~~qMonth;
+        // If month and year were passed
         if (qMonth !== null && qYear !== null) {
+            // If month is between 0 and 11
             if (qMonth >= 0 && qMonth <= 11) {
+                // Valid IF query year is current year and query month <= current month 
+                // OR IF query year is next year
                 if ((qYear === currYear && qMonth >= currMonth) || (qYear === currYear + 1)) {
                     return true;
                 }

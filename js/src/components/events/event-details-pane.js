@@ -1,5 +1,6 @@
 import React, { Component }  from 'react';
 import Logo from '../logos/logo';
+import Time from 'react-time';
 import './event-details.css';
 
 export default class EventDetailsPane extends Component {
@@ -23,7 +24,6 @@ export default class EventDetailsPane extends Component {
             <p style={{"padding": "0px"}}>Tip-off at {this.props.event.start} <br />
               {this.props.event.numTickets} tickets available <br />
               {this.getMinPrice()}</p>
-            <Logo team={this.props.event.homeTeam} /> <Logo team={this.props.event.awayTeam} />
           </div>
         );
 	}

@@ -1,5 +1,6 @@
 .event-detail-pane {
 	padding: 1em;
+	padding-top: 0.5em;
 	border-style: solid;
 	border-width: 0.1em;
 	border-color: black;
@@ -25,9 +26,4 @@
 .details-header {
 	color: black;
 	font-size: 2em;
-}
-
-.teamLogo {
-	height: 50px;
-	width: 50px;
 }

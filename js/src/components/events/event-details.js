@@ -6,7 +6,6 @@ import './event-details.css';
 export default class EventDetails extends Component {
 
     renderEventDetails(eventList) {
-      console.log(eventList);
         return _.map(eventList, (event, index) => 
             <EventDetailsPane
             key={event.id}

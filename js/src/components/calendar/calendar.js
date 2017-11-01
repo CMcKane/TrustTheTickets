@@ -27,6 +27,16 @@ export default class EventCalendar extends Component {
         return new Date();
     }
 
+    getEventStyle() {
+        var style = {
+            backgroundColor: 'white',
+            display: 'block',
+        };
+        return {
+            style: style
+        }
+    }
+
     render() {
         return (
             <BigCalendar
@@ -39,7 +49,8 @@ export default class EventCalendar extends Component {
                 date={this.getDate()}
                 onSelectEvent={this.eventSelected.bind(this)}
                 selected={this.props.selected}
-                onNavigate={this.navigate.bind(this)} />
+                onNavigate={this.navigate.bind(this)} 
+                eventPropGetter={this.getEventStyle.bind(this)}/>
         )
     }
 }
