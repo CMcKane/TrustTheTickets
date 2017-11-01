@@ -10,6 +10,8 @@ export default class Home extends Component {
         const calendarBlue = require("../../resources/images/Calendar_Blue.png");
         const versus = require("../../resources/images/versus.png");
         const money = require("../../resources/images/money.png");
+        const currMonth = new Date().getMonth();
+        const currYear = new Date().getFullYear();
         return (
             <body>
             <div className="bgimg1">
@@ -50,7 +52,7 @@ export default class Home extends Component {
                                 <TThumbnail src={calendarBlue}
                                     heading="Calendar View"
                                     description="Search for a game via our game calendar."
-                                    to="/event-calendar"
+                                    to={"/event-calendar?m=" + currMonth + "&y=" + currYear}
                                     buttonText="Search Games"/>
                             </Col>
                             <Col xs={6} md={4}>
