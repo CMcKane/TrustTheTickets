@@ -1,5 +1,5 @@
 .teamLogo {
-	width: 70px;
+	max-width: 50%;
 	display: block;
 	margin: 0 auto;
 }

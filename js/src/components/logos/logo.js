@@ -11,6 +11,6 @@ export default class Logo extends Component {
 		if (this.props.team === "76ers") teamName = "Sixers";
 		if (this.props.team === "Trail Blazers") teamName= "Trailblazers";
 		return (<Image className={logoClass} 
-              src={getLogo(teamName)} responsive />);
+              src={getLogo(teamName)} />);
 	}
 }

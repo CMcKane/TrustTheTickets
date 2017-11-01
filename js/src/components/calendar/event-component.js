@@ -9,7 +9,6 @@ export default class EventComponent extends Component {
     	<div className="eventComponentContainer">
     		<Logo team={this.props.event.awayTeam} />
     	</div>
-    	//<p>{this.props.event.title}</p>
     );
   }
 }

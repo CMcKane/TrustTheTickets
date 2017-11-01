@@ -37,7 +37,7 @@ export default class EventDetails extends Component {
       const eventList = this.sortEventList();
       return (
           <div className="event-details-container">
-            <h3 className="text-center details-header">Game Details</h3>
+            <h3 className="details-header">Game Details</h3>
             <div className="event-details">
               {this.renderEventDetails(eventList)}
             </div>
