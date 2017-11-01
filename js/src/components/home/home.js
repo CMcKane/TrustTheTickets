@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import {Button, Grid, Row, Col, Thumbnail} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import TThumbnail from './ttt-thumbnail';
 import '../home/home.css';
 
 export default class Home extends Component {
 
     render() {
+        const calendarBlue = require("../../resources/images/Calendar_Blue.png");
+        const versus = require("../../resources/images/versus.png");
+        const money = require("../../resources/images/money.png");
         return (
             <body>
             <div className="bgimg1">
@@ -40,51 +44,31 @@ export default class Home extends Component {
             </div>
 
             <div className="bgimg2">
-                <div>
                     <Grid>
                         <Row>
                             <Col xs={6} md={4}>
-                                <Thumbnail src={require("../../resources/images/Calendar_Blue.png")}>
-                                    <h3 style={{color: 'white'}}>Calendar View</h3>
-                                    <p style={{color: 'white'}}>Search for games via our game calendar.</p>
-                                    <p>
-                                        <LinkContainer to="/event-calendar">
-                                            <Button bsSize="large" bsStyle="default">
-                                                Search Games
-                                            </Button>
-                                        </LinkContainer>
-                                    </p>
-                                </Thumbnail>
+                                <TThumbnail src={calendarBlue}
+                                    heading="Calendar View"
+                                    description="Search for a game via our game calendar."
+                                    to="/event-calendar"
+                                    buttonText="Search Games"/>
                             </Col>
                             <Col xs={6} md={4}>
-                                <Thumbnail src={require("../../resources/images/versus.png")}>
-                                    <h3 style={{color: 'white'}}>Opponent</h3>
-                                    <p style={{color: 'white'}}>Search for a game against a specific opponent.</p>
-                                    <p>
-                                        <LinkContainer to="/event-list">
-                                            <Button bsSize="large" bsStyle="default">
-                                                Search Opponents
-                                            </Button>
-                                        </LinkContainer>
-                                    </p>
-                                </Thumbnail>
+                                <TThumbnail src={versus}
+                                    heading="Opponent"
+                                    description="Search for a game against a specific opponent."
+                                    to="/event-list"
+                                    buttonText="Search Opponents" />
                             </Col>
                             <Col xs={6} md={4}>
-                                <Thumbnail src={require("../../resources/images/money.png")}>
-                                    <h3 style={{color: 'white'}}>Ticket Prices</h3>
-                                    <p style={{color: 'white'}}>Search for a game based off of ticket prices.</p>
-                                    <p>
-                                        <LinkContainer to="/pick-tickets">
-                                            <Button bsSize="large" bsStyle="default">
-                                                Search Prices
-                                            </Button>
-                                        </LinkContainer>
-                                    </p>
-                                </Thumbnail>
+                                <TThumbnail src={money}
+                                    heading="Ticket Prices"
+                                    description="Search for a game based on ticket prices."
+                                    to="/pick-tickets"
+                                    buttonText="Search Prices" />
                             </Col>
                         </Row>
                     </Grid>
-                </div>
             </div>
 
             <div className="textsection">
