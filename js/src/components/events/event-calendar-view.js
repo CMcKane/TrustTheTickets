@@ -32,7 +32,8 @@ class EventCalendarView extends Component {
             }).then(res => {
                 if (res.data.eventDetails) {
                     this.setState({
-                        eventList: res.data.eventDetails
+                        eventList: res.data.eventDetails,
+                        selectedEvent: null
                     });
                 }
             });
