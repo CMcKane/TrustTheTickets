@@ -9,14 +9,16 @@ class SqlHandler(object):
     def get_tickets(self, sectionNum):
         conn = self.mysql.connection
         cursor = conn.cursor()
-        cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num "
+        cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num, g.ticket_price "
                        "FROM tickets t  "
                        "JOIN sections se ON (t.section_id = se.section_id) "
                        "JOIN rows r ON (t.row_id = r.row_id) "
                        "JOIN seats s ON (t.seat_id = s.seat_id) "
+                       "JOIN groups g USING (group_id)"
                        "WHERE se.section_num = '{}' "
                        "ORDER BY row_num".format(sectionNum))
-        tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2], section_number=row[3]) for row in
+        tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
+                        section_number=row[3], ticket_price=row[4]) for row in
                    cursor.fetchall()]
         return tickets
 

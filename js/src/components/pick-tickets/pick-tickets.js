@@ -18,7 +18,7 @@ export default class PickTickets extends Component {
         const event_id = queryParams.event;
 
         this.state = {
-            section: 112,
+            section: 0,
             tickets: [],
             price: 0,
             showFilter: false,
@@ -26,7 +26,7 @@ export default class PickTickets extends Component {
             eventID: event_id,
             eventTitle: 'Choose a game'
         }
-
+        this.getEvent(event_id);
         this.getEventTitle();
     }
 
@@ -116,7 +116,7 @@ export default class PickTickets extends Component {
             <li class="list-group-item" border-color="red" onclick="">
                 Section: {ticket.section_number} Row: {ticket.row_number}
                 <br></br>
-                Seat: {ticket.seat_number} Price: {ticket.price}
+                Seat: {ticket.seat_number} Price: ${ticket.ticket_price}
                 <br></br>
                 <Button className="buy-button" bsSize="xsmall">Buy</Button>
             </li>
