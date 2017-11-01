@@ -124,6 +124,13 @@ class SqlHandler(object):
                 cursor.fetchall()]
         return data
 
+    def get_all_teams(self):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT team_id, city, team_name FROM teams WHERE sport_type_id = 1")
+        data = [dict(team_id=row[0], city=row[1], team_name=row[2]) for row in cursor.fetchall()]
+        return data
+
     def get_ticket_by_filter(self, price, section):
         conn = self.mysql.connection
         cursor = conn.cursor()

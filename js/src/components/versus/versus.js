@@ -1,33 +1,38 @@
 import React, { Component } from 'react';
-import { Button, Jumbotron } from 'react-bootstrap';
 import {Grid, Row, Col, FormGroup, ControlLabel,
         FormControl, Well, ListGroup, ListGroupItem} from 'react-bootstrap';
 import _ from 'lodash';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
-import { LinkContainer } from 'react-router-bootstrap';
 import '../versus/versus.css';
 
 export default class Versus extends Component {
 
-    sportTypeID = 1;
+    constructor(props){
+        super(props);
+        this.state = {
+            teams: [],
+            city: '',
+            name: ''
+        }
+        this.getAllTeams();
+    }
+
     //Retrieves every team
-    getAllTeams(sportTypeID) {
-        TTTGet('/all-teams')
+    getAllTeams() {
+        TTTPost("/all-teams")
             .then(res => {
                 console.log(res);
-                if (res.data.teams) this.setState({
-                    sportTypeID: sportTypeID,
-                    teams: res.data.teams
-                });
+                const teams = res.data.teams;
+                this.setState({teams});
             });
     }
 
     //render the teams in the panel
     renderTeamList() {
-        return _.map(this.state.teams, (team, id) =>
-            <ListGroupItem className="teams" id={team.team_id} >
+        return _.map((team, id) =>
+            <option key={id} value={team.team_id}>
                 City: {team.city} Name: {team.team_name}
-            </ListGroupItem>
+            </option>
         );
     }
 
@@ -35,8 +40,8 @@ export default class Versus extends Component {
         return (
             <Grid>
                 <h1 className="border-white">
-                    <Well className='pick-tickets-well' style={{background: 'transparent'}}>
-                        Choose Your Desired Section From The Seating Chart
+                    <Well className='pick-teams-well' style={{background: 'transparent'}}>
+                        Choose the opponent you would like to see!
                     </Well>
                 </h1>
                 <Row>

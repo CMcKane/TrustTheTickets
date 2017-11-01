@@ -109,6 +109,12 @@ def get_games_list():
     games = sqlHandler.get_teams_for_games()
     return jsonify({'games': games})
 
+@app.route('/all-teams')
+def all_teams():
+    sqlHandler = SqlHandler(mysql)
+    teams = sqlHandler.get_all_teams(mysql)
+    return jsonify({'teams': teams})
+
 if __name__ == '__main__':
     app.run()
 

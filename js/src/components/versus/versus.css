@@ -1,9 +1,50 @@
-.border-white{
+.pick-teams-well {
+    color: rgb(45, 98, 183);
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+}
+.border-black{
+    color: grey;
     /*border white with light shadow*/
     text-shadow:
-            1px  1px     #fff,
-            -1px  1px     #fff,
-            1px -1px     #fff,
-            -1px -1px     #fff,
-            1px  1px 5px #555;
+            2px   0  0   #000,
+            -2px   0  0   #000,
+            0    2px 0   #000,
+            0   -2px 0   #000,
+            1px  1px 0   #000,
+            -1px -1px 0   #000,
+            1px -1px 0   #000,
+            -1px  1px 0   #000,
+            1px  1px 5px #000;
+}
+.text-center{
+    color: white;
+    font-size: 50px;
+}
+
+.list-of-teams {
+    border-style: solid;
+    border-width: 0.75em;
+    border-color: black;
+    background: white;
+    padding: 0.5em;
+}
+
+.unselected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: black;
+}
+
+.selected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: red;
+}
+
+.teams {
+    font-size: 20px;
 }

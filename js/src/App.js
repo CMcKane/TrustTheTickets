@@ -17,6 +17,7 @@ import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
 import EventCalendarView from './components/events/event-calendar-view';
 import EventListView from './components/events/event-list-view';
+import Versus from './components/versus/versus';
 import './App.css';
 
 const navItems = [
@@ -24,19 +25,24 @@ const navItems = [
     //     label: 'Pick Tickets',
     //     url: '/pick-tickets'
     // },
-    {
-        label: 'My Account',
-        url: '/my-account'
-    }//,
-    // {
-    //   label: 'Event Calendar',
-    //   url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
-    // },
-    // {
-    //   label: 'Event List',
-    //   url: '/event-list'
-    // }
-];
+//    {
+//         label: 'My Account',
+//         url: '/my-account'
+//     }//,
+//     // {
+//     //   label: 'Event Calendar',
+//     //   url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
+//     // },
+//     // {
+//     //   label: 'Event List',
+//     //   url: '/event-list'
+//     // },
+//     {
+//       label: 'Versus',
+//       url: '/versus'
+//     }
+// >>>>>>> Stashed changes
+ ];
 
 export default class App extends Component {
   constructor(props) {
@@ -75,6 +81,7 @@ export default class App extends Component {
                     <Route path='/event-calendar' component={EventCalendarView} />
                     <Route path='/event-list' component={EventListView} />
                     <Route path='/pick-tickets' component={PickTickets} />
+                    <Route path='/versus' component={Versus} />
                     <Route path='/my-account' render={(props) =>
                         <MyAccount
                             {...props} logIn={this.userLogIn.bind(this)}
