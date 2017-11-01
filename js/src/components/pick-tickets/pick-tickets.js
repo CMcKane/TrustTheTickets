@@ -14,35 +14,28 @@ export default class PickTickets extends Component {
     constructor(props) {
         super(props);
 
+        const queryParams = queryString.parse(this.props.location.search);
+        const event_id = queryParams.event;
+
         this.state = {
             section: 112,
             tickets: [],
             price: 0,
             showFilter: false,
             selectedEvent: [],
-            eventID: '',
+            eventID: event_id,
             eventTitle: 'Choose a game'
         }
 
-        const queryParams = queryString.parse(this.props.location.search);
-        const event_id = queryParams.event;
-        if (event_id !== '' && event_id !== null) {
-            this.setState({
-                eventID: event_id
-            });
-            this.getAllTickets(event_id);
-            this.getEvent(event_id);
-        }
-        else {
-            this.setState({
-                eventID: '-1',
-                eventTitle: 'Choose a game'
-            });
-        }
+        this.getEventTitle();
     }
 
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
+    }
+
+    getEventTitle() {
+        return this.state.selectedEvent.Title;
     }
 
     getEvent(eventID) {
@@ -68,9 +61,9 @@ export default class PickTickets extends Component {
             });
     }
 
-    getAllTickets(eventID) {
-        TTTPost('/all-ticket', {
-            eventID: this.state.eventID
+    getAllTickets() {
+        TTTPost('/all-tickets', {
+            event_id: this.state.eventID
         })
             .then(res => {
                 if (res.data.tickets) this.setState({
@@ -80,7 +73,7 @@ export default class PickTickets extends Component {
     }
 
     getSelectedGame() {
-        if (this.state.selectedEvent === null) {
+        if (this.state.eventID === '') {
             eventTitle: 'Choose a game'
         }
         else {
@@ -117,15 +110,21 @@ export default class PickTickets extends Component {
         });
     }
 
-    renderTickets() {
-        return _.map(this.state.tickets, (ticket, index) =>
-            <option key={index} value={ticket.ticket_id}>
-                Section: {ticket.section_number} Row: {ticket.row_number} Seat: {ticket.seat_number}
-            </option>
+    //render the values in the tickets
+    renderTicketList() {
+        return _.map(this.state.tickets, (ticket, id) =>
+            <li class="list-group-item" border-color="red" onclick="">
+                Section: {ticket.section_number} Row: {ticket.row_number}
+                <br></br>
+                Seat: {ticket.seat_number} Price: {ticket.price}
+                <br></br>
+                <Button className="buy-button" bsSize="xsmall">Buy</Button>
+            </li>
         );
     }
 
     render() {
+
         return (
             <div>
                 <Grid style={{paddingTop: "100px"}}>
@@ -138,9 +137,8 @@ export default class PickTickets extends Component {
                         <Col lg={8}>
                             <Row>
                                 <Col lg={8}>
-                                    <Button>
-                                        {this.getSelectedGame()}
-                                        {this.state.eventTitle}
+                                    <Button onclick={this.getSelectedGame()}>
+                                        {this.getEventTitle()}
                                     </Button>
                                 </Col>
                             </Row>
@@ -195,7 +193,9 @@ export default class PickTickets extends Component {
                             </Panel>
 
                             <h3 className="Tickets-label"> Tickets </h3>
-                            <TicketListItem ticketsFromPickTicket={this.state.tickets}/>
+                            <div className="ticket-border">
+                                {this.renderTicketList()}
+                            </div>
                         </Col>
                     </Row>
                 </Grid>
