@@ -63,10 +63,10 @@ def get_ticket_details():
 
 @app.route('/all-tickets', methods=['POST'])
 def get_all_tickets():
-    #json = ["2012-03-15", "2012-03-15", 290, 325, 112]
     givenEventID = request.get_json()
     eventID = givenEventID['event_id']
-    tickets = SqlHandler.get_all_tickets(mysql, eventID)
+    sqlHandler = SqlHandler(mysql)
+    tickets = sqlHandler.get_all_tickets(mysql, eventID)
     return jsonify({'tickets': tickets})
 
 @app.route('/tickets', methods=['POST'])
