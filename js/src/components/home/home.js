@@ -8,12 +8,13 @@ export default class Home extends Component {
 
     render() {
         const calendarBlue = require("../../resources/images/Calendar_Blue.png");
+        const calendar2 = require("../../resources/images/Calendar_Blue2.png");
         const versus = require("../../resources/images/versus.png");
         const money = require("../../resources/images/money.png");
         const currMonth = new Date().getMonth();
         const currYear = new Date().getFullYear();
         return (
-            <body>
+            <div>
             <div className="bgimg1">
                 <div className="caption">
                     <span className="border">Hey Philly Fans,</span>
@@ -86,20 +87,18 @@ export default class Home extends Component {
                     <Grid>
                         <Row>
                             <Col xs={6} md={4}>
-                                <Thumbnail src={"../../resources/images/Calendar_Blue.png"}>
-                                    <h3 style={{color: 'black'}}>Sell Your Tickets</h3>
-                                    <p style={{color: 'black'}}>Sell tickets to games you can't make!</p>
-                                    <p>
-                                        <Button bsSize="large" bsStyle="default">Sell Tickets</Button>
-                                    </p>
-                                </Thumbnail>
+                                <TThumbnail src={calendar2}
+                                    heading="Sell Your Tickets"
+                                    description="Sell your tickets to games you can't make!"
+                                    to="/pick-tickets"
+                                    buttonText="Sell Tickets" />
                             </Col>
                         </Row>
                     </Grid>
                 </div>
             </div>
 
-            </body>
+            </div>
         );
     }
 }

@@ -7,7 +7,8 @@ from account_register import AccountRegistrator
 from account_login import AccountAuthenticator
 from sql_handler import SqlHandler
 from json_dictionary_converter import JsonDictionaryConverter
-
+from account_jwt import JWTService
+from functools import wraps
 
 app = Flask (__name__)
 mysql = MySQL(app)
@@ -19,13 +20,40 @@ app.config['MYSQL_DB'] = 'ttt'
 
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-  return response
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
+def require_token(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        jwt_service = JWTService()
+        jsonData = request.get_json()
+        id_token = jsonData['token']
+        if id_token and jwt_service.validate_auth_token(id_token):
+            return f(*args, **kwargs)
+        else:
+            return requestNotSupported()
+    return decorated_function
 
 def requestNotSupported():
-    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
+    return make_response(jsonify({'error': 'Invalid token',
+                                  'authenticated': False}))
+
+@app.route('/token-refresh', methods = ['POST'])
+@require_token
+def refresh_token():
+    if 'application/json' in request.headers.environ['CONTENT_TYPE']:
+        jsonData = request.get_json()
+        jwt_service = JWTService()
+        token =  jwt_service.refresh_token(jsonData['token'])
+        if token:
+            return jsonify({'token': token, 'authenticated': True})
+        else:
+            return jsonify({'authenticated': False})
+    else:
+        return requestNotSupported();
 
 @app.route('/register', methods = ['POST'])
 def register():
@@ -46,6 +74,19 @@ def confirm_registration():
             .confirm_registration(jsonData))
     else:
         return requestNotSupported()
+
+@app.route('/my-account', methods=['POST'])
+@require_token
+def get_account_info():
+    if 'application/json' in request.headers.environ['CONTENT_TYPE']:
+        jsonData = request.get_json()
+        try:
+            jwt_service = JWTService()
+            account_id = jwt_service.get_account(jsonData['token'])
+            sqlHandler = SqlHandler(mysql)
+            return jsonify(sqlHandler.get_account_info(account_id))
+        except Exception as e:
+            return jsonify({'authenticated': False})
 
 @app.route('/accounts')
 def index():
@@ -85,7 +126,7 @@ def get_event():
     jsondata = request.get_json()
     eventID = jsondata['eventID']
     sqlHandler = SqlHandler(mysql)
-    event = sqlHandler.get_event(mysql, eventID)
+    event = sqlHandler.get_event(eventID)
     return jsonify({'event': event})
 
 @app.route('/pick-ticket-filter', methods=['POST'])

@@ -1,27 +1,37 @@
-export function login(email, fname, lname) {
+export function login(email, fname, lname, id_token) {
+    localStorage.setItem('id_token', id_token)
     return ({
         'email': email,
-        'loggedIn': true,
+        'id_token': id_token,
         'fname': fname,
-        'lname': lname
+        'lname': lname,
+        'token': localStorage.getItem('id_token')
     });
 }
 
 export function logout() {
+    localStorage.setItem('id_token', '')
     return ({
         'email': null,
-        'loggedIn': false,
+        'id_token': null,
         'fname': null,
-        'lname': null
+        'lname': null,
+        'token': null
     });
 }
 
 export function initializeUser() {
     return ({
         'email': null,
-        'loggedIn': false,
+        'id_token': localStorage.getItem('id_token'),
         'fname': null,
-        'lname': null
+        'lname': null,
+        'token': localStorage.getItem('id_token')
     });
 }
 
+export function getUserToken() {
+    return ({
+        'id_token': localStorage.getItem('id_token')
+    });
+}

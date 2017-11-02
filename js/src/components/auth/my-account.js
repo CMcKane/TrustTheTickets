@@ -1,25 +1,60 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import {Redirect} from 'react-router-dom';
+import {TTTPost} from '../backend/ttt-request';
+import withAuth from './with-auth';
+import AuthService from './auth-service';
 import '../../App.css';
 
-export default class MyAccount extends Component {
+class MyAccount extends Component {
+
+    constructor(props) {
+      super(props);
+      this.Auth = new AuthService();
+      this.state = {
+        firstName: '',
+        lastName: ''
+      }
+    }
+
+    logOut() {
+        this.Auth.logOut();
+        this.props.logOut();
+    }
+
+    componentDidMount() {
+        TTTPost("/my-account", {
+            token: this.Auth.getToken()
+        })
+        .then(res => {
+            if (res.data.authenticated)
+            {
+                this.setState({
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName,
+                    populated: true
+                });
+            }
+        });
+    }
+
+    getAccountInfo() {
+        if (this.state.populated) return (<h3>Welcome {this.state.firstName} {this.state.lastName}</h3>)
+    }
 
     render() {
-        if (this.props.user.loggedIn) {
-            return (
-                <div className='homeBody'>
-                    <div className='text-center' style={{color: 'white', paddingTop: '5%'}}>
-                        <h1>My Account</h1>
-                        <h3>Welcome {this.props.user.fname} {this.props.user.lname}!</h3>
-                        <Button bsStyle='primary'
-                                onClick={this.props.logOut.bind(this)}>
-                            Log Out
-                        </Button>
-                    </div>
+        return (
+            <div className='homeBody'>
+                <div className='text-center' style={{color: 'white', paddingTop: '5%'}}>
+                    <h1>My Account</h1>
+                    {this.getAccountInfo()}
+                    <Button bsStyle='primary'
+                            onClick={this.logOut.bind(this)}>
+                        Log Out
+                    </Button>
                 </div>
-            );
-        }
-        return <Redirect to='/login'/>
+            </div>
+        );
     }
 }
+
+export default withAuth(MyAccount);

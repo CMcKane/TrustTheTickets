@@ -11,13 +11,12 @@ import Login from './components/auth/login';
 import Registration from './components/registration/registration';
 import Home from './components/home/home';
 import MyAccount from './components/auth/my-account';
-
-import { login, logout, initializeUser } from './components/auth/user';
 import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
 import EventCalendarView from './components/events/event-calendar-view';
 import EventListView from './components/events/event-list-view';
 import Versus from './components/versus/versus';
+import AuthService from './components/auth/auth-service';
 import './App.css';
 
 const navItems = [
@@ -25,10 +24,10 @@ const navItems = [
     //     label: 'Pick Tickets',
     //     url: '/pick-tickets'
     // },
-//    {
-//         label: 'My Account',
-//         url: '/my-account'
-//     }//,
+    {
+         label: 'My Account',
+         url: '/my-account'
+     }//,
 //     // {
 //     //   label: 'Event Calendar',
 //     //   url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
@@ -41,33 +40,37 @@ const navItems = [
 //       label: 'Versus',
 //       url: '/versus'
 //     }
-// >>>>>>> Stashed changes
  ];
 
 export default class App extends Component {
   constructor(props) {
       super(props);
-
+      this.Auth = new AuthService();
       this.state = {
           navItems,
-          user: initializeUser()
+          token: this.Auth.getToken()
       };
+
+      this.Auth.refreshToken()
+        .then(res => {
+          if (res.data.authenticated) {
+            this.setState({
+              token: res.data.token
+            });
+          }
+        });
   }
 
-  sectionSelected(section) {
-    this.setState({selectedSection: section});
-  }
-
-  userLogIn(emailAddress, fname, lname) {
+  userLogIn(token) {
     this.setState({
-      user: login(emailAddress, fname, lname)
+      token: token
     });
   }
 
   userLogOut() {
     this.setState({
-      user: logout()
-    })
+      token: null
+    });
   }
 
   render() {
@@ -86,20 +89,17 @@ export default class App extends Component {
                         <MyAccount
                             {...props} logIn={this.userLogIn.bind(this)}
                             logOut={this.userLogOut.bind(this)}
-                            user={this.state.user}
                         />}
                     />
                     <Route path='/login' render={(props) =>
                         <Login
                             {...props}
                             logIn={this.userLogIn.bind(this)}
-                            userLoggedIn={this.state.user.loggedIn}
                         />}
                     />
                     <Route path='/register' render={(props) =>
                         <Registration
                             {...props}
-                            userLoggedIn={this.state.user.loggedIn}
                         />}
                     />
                     <Route path='/about' />

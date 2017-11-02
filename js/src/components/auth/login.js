@@ -1,25 +1,19 @@
 import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
-import { TTTPost } from '../backend/ttt-request';
+import AuthService from './auth-service';
 import './login.css';
 
 export default class Login extends Component {
 
     constructor(props) {
       super(props);
-
+      this.Auth = new AuthService();
       this.state = {
           email: '',
           password: '',
-          firstName: '',
-          lastName: '',
-          address: null,
-          city: null,
-          stateprovid: null,
-          zipCode: null,
-          countryid: null,
-          phoneNumber: null
+          firstName: null,
+          lastName: null
       };
     }
 
@@ -28,40 +22,16 @@ export default class Login extends Component {
     }
 
     onSubmit() {
-        TTTPost("/login", {
-            email: this.state.email,
-            password: this.state.password,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            address: this.state.address,
-            city: this.state.city,
-            stateprovid: this.state.stateprovid,
-            zipCode: this.state.zipCode,
-            countryid: this.state.countryid,
-            phoneNumber: this.state.phoneNumber
-        })
+        this.Auth.login(this.state.email, this.state.password)
         .then(res => {
-            if (!res.data.authenticated)
-            {
-                this.renderWrongEmailPassword();
-            }
-            else
-            {
-                this.setState({
-                    firstName: res.data.firstName,
-                    lastName: res.data.lastName
-                })
-
-                this.props.logIn(
-                    this.state.email,
-                    this.state.firstName,
-                    this.state.lastName);
+            if (res.data.authenticated) {
+                this.props.logIn();
             }
         });
     }
 
     render() {
-        if (this.props.userLoggedIn) {
+        if (this.Auth.loggedIn()) {
             return <Redirect to='/my-account' />
         }
         return (

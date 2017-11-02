@@ -35,7 +35,7 @@ export default class PickTickets extends Component {
     }
 
     getEventTitle() {
-        return this.state.selectedEvent.Title;
+        return this.state.selectedEvent.title;
     }
 
     getEvent(eventID) {
@@ -43,9 +43,15 @@ export default class PickTickets extends Component {
             eventID: eventID
         })
         .then(res => {
-            if (res.data.event) this.setState({
-                selectedEvent: res.data.event
-            });
+            if (res.data.authenticated) {
+                this.setState({
+                    selectedEvent: {
+                        title: res.data.title,
+                        homeTeam: res.data.title,
+                        awayTeam: res.data.title
+                    }
+                });
+            }
         });
     }
 
@@ -94,7 +100,8 @@ export default class PickTickets extends Component {
                 section_number: section
             })
                 .then(res => {
-                    if (res.data.tickets) this.setState({
+                    if (res.data.tickets) 
+                    this.setState({
                         section: section,
                         tickets: res.data.tickets
                     });
@@ -124,7 +131,6 @@ export default class PickTickets extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <Grid style={{paddingTop: "100px"}}>

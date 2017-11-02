@@ -1,7 +1,6 @@
 from logger import Logger
 from passlib.hash import sha256_crypt
 
-
 class SqlHandler(object):
     def __init__(self, mysql):
         self.mysql = mysql
@@ -35,6 +34,16 @@ class SqlHandler(object):
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2], section_number=row[3]) for row in
                    cursor.fetchall()]
         return tickets
+
+    def get_account_info(self, account_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT first_name, last_name "
+                       "FROM accounts "
+                       "WHERE account_id = '{}'".format(account_id))
+        cols = cursor.fetchone()
+        account_info = dict(authenticated=True, firstName=cols[0], lastName=cols[1])
+        return account_info
 
     def get_accounts(mysql):
         conn = mysql.connection
@@ -87,23 +96,21 @@ class SqlHandler(object):
         except Exception as e:
             print(e)
 
-    def get_event(self, mysql, eventID):
-        conn = mysql.connection
+    def get_event(self, eventID):
+        conn = self.mysql.connection
         cursor = conn.cursor()
         try:
             cursor.execute(
-                "SELECT g.event_id, h.team_name AS 'Home Team', concat(h.team_name,' vs ', a.team_name) AS Title, "
-                "a.team_name AS 'Away Team', date, date, COUNT(ticket_id) AS 'numTickets', "
-                "MIN(ticket_price) AS 'minPrice'FROM games g "
+                "SELECT concat(h.team_name,' vs ', a.team_name) AS Title, "
+                "h.team_name, "
+                "a.team_name "
+                "FROM games g "
                 "JOIN teams h ON (h.team_id = home_team_id) "
                 "JOIN teams a ON (a.team_id = away_team_id) "
-                "LEFT JOIN tickets USING (event_id) "
-                "LEFT JOIN groups USING (group_id) "
                 "WHERE g.event_id = '{}'"
                 "GROUP BY g.event_id;".format(eventID))
-            event_details = [dict(id=row[0], homeTeam=row[1], title=row[2], awayTeam=row[3], start=row[4],
-                                  end=row[5], numTickets=row[6], minPrice=row[7]) for row in
-                             cursor.fetchall()]
+            cols = cursor.fetchone()
+            event_details = dict(authenticated=True, title=cols[0], awayTeam=cols[1], homeTeam=cols[2])
             return event_details
         except Exception as e:
             print(e)
@@ -132,10 +139,10 @@ class SqlHandler(object):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT first_name, last_name, password FROM accounts WHERE email = '{}'".format(email))
+            "SELECT first_name, last_name, password, account_id FROM accounts WHERE email = '{}'".format(email))
         cols = cursor.fetchone()
         if cols and sha256_crypt.verify(password, cols[2]):
-            return dict(authenticated=True, firstName=cols[0], lastName=cols[1])
+            return dict(authenticated=True, firstName=cols[0], lastName=cols[1], account_id=cols[3])
         else:
             return {'authenticated': False}
 
