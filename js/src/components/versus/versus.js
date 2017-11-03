@@ -8,6 +8,7 @@ import '../versus/versus.css';
 export default class Versus extends Component {
 
     constructor(props){
+        console.log("IN constructor");
         super(props);
         this.state = {
             teams: [],
@@ -22,14 +23,14 @@ export default class Versus extends Component {
         TTTPost("/all-teams")
             .then(res => {
                 console.log(res);
-                const teams = res.data.teams;
-                this.setState({teams});
+                console.log("IN TTTPost");
+                this.setState({teams: res.data.teams});
             });
     }
 
     //render the teams in the panel
     renderTeamList() {
-        return _.map((team, id) =>
+        return _.map(this.state.teams, (team, id) =>
             <option key={id} value={team.team_id}>
                 City: {team.city} Name: {team.team_name}
             </option>
@@ -48,7 +49,7 @@ export default class Versus extends Component {
                     <Col lg={4}>
                         <h3 className="text-center"> Teams </h3>
                         <ListGroup className="list-of-teams">
-                            {this.renderTeamList()}
+                            {this.state.teams}
                         </ListGroup>
                     </Col>
                 </Row>
