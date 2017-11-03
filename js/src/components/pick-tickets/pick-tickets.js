@@ -132,6 +132,7 @@ export default class PickTickets extends Component {
 
     render() {
         return (
+        <div className="bgimg4">
             <div>
                 <Grid style={{paddingTop: "100px"}}>
                     <h1 className="border-white">
@@ -206,7 +207,7 @@ export default class PickTickets extends Component {
                     </Row>
                 </Grid>
             </div>
-
+        </div>
         );
     }
 }

@@ -31,6 +31,11 @@
     min-height: 100%;
 }
 
+.bgimg4 {
+    background-image: url("../../resources/images/TexturedGray.jpg");
+    min-height: 100%;
+}
+
 .textsection {
     padding: 50px;
   /*background-color: rgb(45, 98, 183);*/
