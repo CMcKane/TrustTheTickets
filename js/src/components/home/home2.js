@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Grid, Row, Col, Thumbnail, Image} from 'react-bootstrap';
+import {Button, Panel, Grid, Row, Col, Thumbnail, Image} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import Header2 from '../global/header2';
 import { Parallax, Background } from 'react-parallax';
@@ -45,8 +45,8 @@ export default class Home2 extends Component {
             <div>
                 <Header2 navItems={this.state.navItems2} />
                 <Parallax bgImage={require("../../resources/images/city.jpg")} strength={200}>
-                    <div className="blueOverlay">
-                        <Image src={require("../../resources/images/overlay.png")} responsive className="imageOverlay"/>
+                    <div className="parallaxSize blueOverlay">
+                        <Image src={require("../../resources/images/overlay.png")} responsive className="centerThis homeMainLogo"/>
                     </div>
                 </Parallax>
                 <div className="parallaxDivider">
@@ -57,9 +57,50 @@ export default class Home2 extends Component {
 
                     </div>
                 </div>
-                <Parallax bgImage={require("../../resources/images/FishEyeWellsFargo.jpg")} strength={500}>
-                    <div className="blankSpace">
-                        <h1 className="imageOverlay">Sad Day...</h1>
+                <Parallax bgImage={require("../../resources/images/night_wells_fargo.jpg")} strength={500}>
+                    <div className="parallaxSize whiteOverlay">
+                        <Grid>
+                            <Row>
+                                <Col xs={6} md={4}>
+                                    <Panel>
+                                        <Image src={require("../../resources/images/cal.png")} responsive />
+                                    </Panel>
+                                </Col>
+                                <Col xs={6} md={4}>
+                                    <Panel>
+                                        COL 2
+                                    </Panel>
+                                </Col>
+                                <Col xs={6} md={4}>
+                                    <Panel>
+                                        COL 3
+                                    </Panel>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    </div>
+                </Parallax>
+                <Parallax bgImage={require("../../resources/images/night_wells_fargo_blur.png")} strength={500}>
+                    <div className="parallaxSize grayOverlay">
+                        <Grid>
+                            <Row>
+                                <Col xs={6} md={4}>
+                                    <Panel>
+                                        <Image src={require("../../resources/images/cal.png")} responsive />
+                                    </Panel>
+                                </Col>
+                                <Col xs={6} md={4}>
+                                    <Panel>
+                                        COL 2
+                                    </Panel>
+                                </Col>
+                                <Col xs={6} md={4}>
+                                    <Panel>
+                                        COL 3
+                                    </Panel>
+                                </Col>
+                            </Row>
+                        </Grid>
                     </div>
                 </Parallax>
             </div>

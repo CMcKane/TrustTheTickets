@@ -1,7 +1,49 @@
 .blueOverlay
 {
-    height: 900px;
     background-color: rgba(3,107,181,0.75);
+}
+
+.redOverlay
+{
+    background-color: rgba(236,23,76,0.50);
+}
+
+.whiteOverlay
+{
+    background-color: rgba(255,255,255,0.30);
+}
+
+.grayOverlay
+{
+    background-color: rgba(176,176,176,0.35);
+}
+
+.blackOverlay
+{
+    background-color: rgba(0,0,0,0.60);
+}
+
+
+.parallaxSize
+{
+    height: 1000px;
+}
+
+.centerThis
+{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+}
+
+.homeMainLogo
+{
+    height: 75%;
+    width: 75%;
 }
 
 .blankSpace
@@ -32,19 +74,6 @@
 .parallaxDivider.pdText
 {
     font: 20px "Lato", sans-serif;
-}
-
-.imageOverlay
-{
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 75%;
-    width: 75%;
-    border-radius: 3px;
 }
 
 h3
