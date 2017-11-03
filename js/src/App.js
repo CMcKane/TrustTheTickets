@@ -10,6 +10,7 @@ import {
 import Login from './components/auth/login';
 import Registration from './components/registration/registration';
 import Home from './components/home/home';
+import Home2 from './components/home/home2'
 import MyAccount from './components/auth/my-account';
 
 import { login, logout, initializeUser } from './components/auth/user';
@@ -24,6 +25,10 @@ const navItems = [
     //     label: 'Pick Tickets',
     //     url: '/pick-tickets'
     // },
+    {
+        label: 'Home2',
+        url: '/2'
+    },
     {
         label: 'My Account',
         url: '/my-account'
@@ -44,7 +49,8 @@ export default class App extends Component {
 
       this.state = {
           navItems,
-          user: initializeUser()
+          user: initializeUser(),
+          onSecondaryHome: false
       };
   }
 
@@ -64,20 +70,33 @@ export default class App extends Component {
     })
   }
 
+  updateSecondHome(value){
+      this.setState({ onSecondaryHome: value});
+  }
+
   render() {
     return (
         <Router>
             <div>
-                <Header navItems={this.state.navItems} />
+                {!this.state.onSecondaryHome &&
+                    <Header navItems={this.state.navItems} />
+                }
                 <Switch>
                     <Route exact path='/' component={Home} />
+                    <Route exact path='/2' render={(props) =>
+                        <Home2
+                            {...props}
+                            updateSecondHome={this.updateSecondHome.bind(this)}
+                        />}
+                    />
                     <Route path='/view-tickets' component={ViewTickets} />
                     <Route path='/event-calendar' component={EventCalendarView} />
                     <Route path='/event-list' component={EventListView} />
                     <Route path='/pick-tickets' component={PickTickets} />
                     <Route path='/my-account' render={(props) =>
                         <MyAccount
-                            {...props} logIn={this.userLogIn.bind(this)}
+                            {...props}
+                            logIn={this.userLogIn.bind(this)}
                             logOut={this.userLogOut.bind(this)}
                             user={this.state.user}
                         />}
