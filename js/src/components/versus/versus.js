@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, FormGroup, ControlLabel,
-    FormControl, Well, ListGroup, ListGroupItem, Panel} from 'react-bootstrap';
+    FormControl, Well, ListGroup, ListGroupItem, Panel, Button} from 'react-bootstrap';
 import _ from 'lodash';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
 import '../versus/versus.css';
@@ -14,8 +14,7 @@ export default class Versus extends Component {
         super(props);
         this.state = {
             teams: [],
-            city: '',
-            name: '',
+            selectedTeam: 0,
             sportTypeID: sportTypeID
         }
         this.getAllTeams(sportTypeID);
@@ -37,8 +36,9 @@ export default class Versus extends Component {
     renderTeamList() {
         return _.map(this.state.teams, (team, id) =>
             <li class="list-group-item" border-color="red">
-                {team.city} {team.team_name}
+                <Button onClick={() => this.setState({selectedTeam: team.team_id})}> {team.city} {team.team_name} {team.team_id} </Button>
             </li>
+
         );
     }
 
@@ -56,9 +56,13 @@ export default class Versus extends Component {
                         <Panel className="list-of-teams">
                             {this.renderTeamList()}
                         </Panel>
-                        {/*<ListGroup className="list-of-teams">*/}
-                            {/*{this.state.teams}*/}
-                        {/*</ListGroup>*/}
+                    </Col>
+                    <Col lg={4}>
+                        <h3 className="text-center"> Games: </h3>
+                        <Panel className = "list-of-teams">
+                          GAMES HERE
+                            {/*{this.renderGameList()}*/}
+                        </Panel>
                     </Col>
                 </Row>
             </Grid>
