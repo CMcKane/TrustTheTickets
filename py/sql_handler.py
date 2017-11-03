@@ -172,6 +172,6 @@ class SqlHandler(object):
                        "LEFT JOIN seats s ON (t.seat_id = s.seat_id) "
                        "WHERE g.ticket_price <= '{}' AND se.section_num = '{}'".format(price, section))
         #tickets = cursor.fetchall()
-        tickets = [dict(price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in cursor.fetchall()]
+        tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in cursor.fetchall()]
         return tickets
 

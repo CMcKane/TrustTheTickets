@@ -56,6 +56,7 @@ export default class PickTickets extends Component {
     }
 
     getTicketsWithFilter() {
+
         TTTPost('/pick-ticket-filter', {
             price: this.state.price,
             section: this.state.section
@@ -65,6 +66,8 @@ export default class PickTickets extends Component {
                     tickets: res.data.tickets
                 });
             });
+        console.log(String(this.state.tickets['price']))
+        this.renderTicketList()
     }
 
     getAllTickets() {
