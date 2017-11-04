@@ -1,9 +1,14 @@
 .pick-tickets-well {
-    color: rgb(45, 98, 183);
+    color: white;
     font-size: 60px;
     font-weight: bold;
     text-align: center;
 }
+
+.border-white {
+    padding: 0em;
+}
+
 .border-black{
     color: grey;
     /*border white with light shadow*/

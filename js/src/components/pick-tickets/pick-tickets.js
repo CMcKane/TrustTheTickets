@@ -29,7 +29,6 @@ export default class PickTickets extends Component {
             toggleValue: [1,2]
         }
         this.getEvent(event_id);
-        this.getEventTitle();
     }
 
     handleChange(e) {
@@ -45,15 +44,22 @@ export default class PickTickets extends Component {
             eventID: eventID
         })
         .then(res => {
-            if (res.data.authenticated) {
-                this.setState({
-                    selectedEvent: {
-                        title: res.data.title,
-                        homeTeam: res.data.title,
-                        awayTeam: res.data.title
-                    }
-                });
+            try {
+                if (res.data.event.authenticated) {
+                    this.setState({
+                        selectedEvent: {
+                            title: res.data.event.title,
+                            homeTeam: res.data.event.homeTeam,
+                            awayTeam: res.data.event.awayTeam
+                        },
+                        eventTitle: res.data.event.title
+                    });
+                }
             }
+            catch (e) {
+                console.log(e);
+            }
+
         });
     }
 
@@ -104,15 +110,6 @@ export default class PickTickets extends Component {
 
     }
 
-    getSelectedGame() {
-        if (this.state.eventID === '') {
-            eventTitle: 'Choose a game'
-        }
-        else {
-            eventTitle: this.state.selectedEvent.Title
-        }
-    }
-
     _onButtonClick() {
         this.setState({
             showFilter: true
@@ -151,7 +148,16 @@ export default class PickTickets extends Component {
 
     onToggleChange = (value) => {
         this.setState({ value });
-    };
+    }
+
+    hasEventID() {
+        if (this.state.eventID > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     //render the values in the tickets
     renderTicketList() {
@@ -172,19 +178,20 @@ export default class PickTickets extends Component {
             <div>
                 <Grid style={{paddingTop: "100px"}}>
                     <h1 className="border-white">
-                        <Well className='pick-tickets-well' style={{background: 'transparent'}}>
-                            Choose Your Desired Section From The Seating Chart
+                        <Well className='pick-tickets-well' style={{background: '#006BB6'}}>
+                            Pick-A-Ticket
                         </Well>
                     </h1>
                     <Row>
                         <Col lg={8}>
                             <Row>
                                 <Col lg={8}>
-                                    <Button onclick={this.getSelectedGame()}>
-                                        {this.getEventTitle()}
+                                    <Button disabled={this.hasEventID()}>
+                                        {this.state.eventTitle}
                                     </Button>
                                 </Col>
                             </Row>
+                            <br/>
                             <WellsFargoChart
                                 onSectionSelected={this.onChartClick.bind(this)}
                                 selectedSection={this.state.tickets.section_number}

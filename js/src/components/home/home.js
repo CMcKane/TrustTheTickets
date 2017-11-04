@@ -67,7 +67,7 @@ export default class Home extends Component {
                                 <TThumbnail src={money}
                                     heading="Ticket Prices"
                                     description="Search for a game based on ticket prices."
-                                    to="/pick-tickets"
+                                    to="/pick-tickets?event=0"
                                     buttonText="Search Prices" />
                             </Col>
                         </Row>
