@@ -175,3 +175,30 @@ class SqlHandler(object):
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in cursor.fetchall()]
         return tickets
 
+    def get_cheapest_tickets_all_sections(self):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT ticket_price, section_num, row_num, seat_num "
+                       "FROM tickets "
+                       "LEFT JOIN groups USING (group_id) "
+                       "LEFT JOIN sections USING (section_id) "
+                       "LEFT JOIN rows USING (row_id) "
+                       "LEFT JOIN seats USING (seat_id) "
+                       "WHERE ticket_price <= (SELECT min(ticket_price) FROM groups)")
+        # tickets = cursor.fetchall()
+        tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in
+                   cursor.fetchall()]
+        return tickets
+
+    def get_cheapest_tickets_sections(self):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT ticket_price, section_num, row_num, seat_num "
+                       "FROM tickets "
+                       "LEFT JOIN groups USING (group_id) "
+                       "LEFT JOIN sections USING (section_id) "
+                       "LEFT JOIN rows USING (row_id) "
+                       "LEFT JOIN seats USING (seat_id) "
+                       "WHERE ticket_price <= (SELECT min(ticket_price) FROM groups)")
+        sections = [dict(section_number=row[1]) for row in cursor.fetchall()]
+        return sections

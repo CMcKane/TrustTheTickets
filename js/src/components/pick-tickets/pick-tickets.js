@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well, Button, Panel} from 'react-bootstrap';
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well, Button, Panel, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 import '../../seating-chart.css';
 import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
-import {TTTPost} from '../backend/ttt-request';
+import {TTTPost, TTTGet} from '../backend/ttt-request';
 import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
@@ -19,12 +19,14 @@ export default class PickTickets extends Component {
 
         this.state = {
             section: 0,
+            lightedSections: [],
             tickets: [],
             price: 0,
             showFilter: false,
             selectedEvent: [],
             eventID: event_id,
-            eventTitle: 'Choose a game'
+            eventTitle: 'Choose a game',
+            toggleValue: [1,2]
         }
         this.getEvent(event_id);
         this.getEventTitle();
@@ -66,8 +68,28 @@ export default class PickTickets extends Component {
                     tickets: res.data.tickets
                 });
             });
-        console.log(String(this.state.tickets['price']))
-        this.renderTicketList()
+    }
+
+    getCheapestTickets() {
+
+        TTTGet('/pick-cheapest-ticket', {
+        })
+            .then(res => {
+                if (res.data.tickets) this.setState({
+                    tickets: res.data.tickets
+                });
+            });
+    }
+
+     getCheapestTicketsSections() {
+
+        TTTGet('/get-cheapest-ticket-sections', {
+        })
+            .then(res => {
+                if (res.data.sections) this.setState({
+                    lightedSections: res.data.sections
+                });
+            });
     }
 
     getAllTickets() {
@@ -79,6 +101,7 @@ export default class PickTickets extends Component {
                     tickets: res.data.tickets
                 });
             });
+
     }
 
     getSelectedGame() {
@@ -96,7 +119,12 @@ export default class PickTickets extends Component {
         });
     }
 
-
+    test() {
+        this.getCheapestTickets();
+        this.getCheapestTicketsSections();
+        console.log(this.state.tickets[0]);
+        console.log("ello");
+    }
     onChartClick(section) {
         if (section.length > 0) {
             TTTPost('/tickets', {
@@ -110,6 +138,7 @@ export default class PickTickets extends Component {
                     });
                 });
         }
+
     }
 
     firstComponentChangeValue(e) {
@@ -119,6 +148,10 @@ export default class PickTickets extends Component {
             price: e.target.value
         });
     }
+
+    onToggleChange = (value) => {
+        this.setState({ value });
+    };
 
     //render the values in the tickets
     renderTicketList() {
@@ -154,13 +187,25 @@ export default class PickTickets extends Component {
                             </Row>
                             <WellsFargoChart
                                 onSectionSelected={this.onChartClick.bind(this)}
-                                selectedSection={this.state.section}/>
+                                selectedSection={this.state.tickets.section_number}
+                                sections={this.state.lightedSections}/>
                         </Col>
                         <Col lg={4}>
                             <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
                               Filter
                             </Button>
                             <Panel collapsible expanded={this.state.showFilter}>
+                                <div>
+                                    <ToggleButtonGroup
+                                        name = "filterToggleGroup"
+                                        type="radio"
+                                        value={this.state.value}
+                                        onToggleChange={this.onToggleChange}>
+                                            <ToggleButton value={1}>Select Price</ToggleButton>
+                                            <ToggleButton value={2} onClick={this.test.bind(this)} >Lowest Price</ToggleButton>
+                                    </ToggleButtonGroup>
+                                </div>
+                                <span> </span>
                                 <FormGroup controlId="formControlsEmail">
                                     <ReactSliderNativeBootstrap
                                         className="price-slider"
@@ -186,7 +231,7 @@ export default class PickTickets extends Component {
                                             </ControlLabel>
                                         </div2>
                                         <div2>
-                                            <FormControl style={{width: 50}} placeholder="Enter section #"
+                                            <FormControl style={{width: 62}} placeholder="Enter section #"
                                                          type="section"
                                                          value={this.state.section}
                                                          onChange={this.handleChange.bind(this)}/>

@@ -15,11 +15,14 @@ export default class WellsFargoChart extends Component {
 		if(this.props.selectedSection) {
 			this.setSectionColor(this.props.selectedSection, '#2B60DE');
 		}
+		/*for(var i = 0; i < 2; i++) {
+		    this.setSectionColor(this.props.sections, '#2B60DE');
+		}*/
 	}
 
 	setSectionColor(sectionName, color) {
-		var section = document.getElementById(sectionName);
-		section.style.fill = color;
+        var section = document.getElementById(sectionName);
+        section.style.fill = color;
 	}
 
 	render() {
