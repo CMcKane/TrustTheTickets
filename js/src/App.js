@@ -115,6 +115,7 @@ export default class App extends Component {
                         />}
                     />
                     <Route path='/about' />
+                    <Route path="/not-found" component={NotFoundView}/>
                     <Route component={NotFoundView} />
                 </Switch>
             </div>

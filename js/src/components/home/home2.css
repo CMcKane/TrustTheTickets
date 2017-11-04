@@ -23,10 +23,71 @@
     background-color: rgba(0,0,0,0.60);
 }
 
-
 .parallaxSize
 {
     height: 1000px;
+}
+
+.parallaxDivider
+{
+    padding: 10px;
+    padding-top: 20px;
+}
+
+.parallaxText
+{
+    background-color: #FFFFFF;
+
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+
+    text-align: center;
+}
+.parallaxTextHeader
+{
+    font: 50px "Tw Cen MT Condensed";
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.parallaxTextBody
+{
+    padding-top: 20px;
+    font: 35px "Tw Cen MT Condensed";
+}
+
+.parallaxTextBodyBlock
+{
+    text-align: center;
+    padding-top: 10px;
+}
+.parallaxTextBodyBlockText
+{
+    display: inline-block;
+    text-align: left;
+    list-style-position:inside;
+    font: 25px "Calibri";
+    color: #036bb5;
+}
+
+.parallaxSearchSize
+{
+    height: 600px;
+}
+
+.searchCenter
+{
+    padding-top: 10px;
+    text-align: center;
+}
+
+.searchDesc
+{
+    padding-top: 10px;
+    font: 35px "Tw Cen MT Condensed";
 }
 
 .centerThis
@@ -40,41 +101,17 @@
     border-radius: 3px;
 }
 
+.centerThisWithPadding
+{
+    padding-top: 5%;
+}
+
 .homeMainLogo
 {
     height: 75%;
     width: 75%;
 }
 
-.blankSpace
-{
-    height: 900px;
-}
-
-.parallaxDivider
-{
-    height: 300px;
-    background-color: #FFFFFF;
-
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-radius: 3px;
-
-    padding: 50px;
-
-    text-align: center;
-}
-.parallaxDivider.pdHeader
-{
-    font: 30px "Lato", sans-serif;
-}
-.parallaxDivider.pdText
-{
-    font: 20px "Lato", sans-serif;
-}
 
 h3
 {

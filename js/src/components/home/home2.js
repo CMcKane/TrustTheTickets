@@ -4,6 +4,10 @@ import {LinkContainer} from 'react-router-bootstrap';
 import Header2 from '../global/header2';
 import { Parallax, Background } from 'react-parallax';
 
+import GoCalendar from 'react-icons/lib/go/calendar';
+import GoJersey from 'react-icons/lib/go/jersey';
+import IonSocialUsd from 'react-icons/lib/io/social-usd'
+
 import './home2.css';
 
 const navItems2 = [
@@ -40,67 +44,102 @@ export default class Home2 extends Component {
         this.props.updateSecondHome(value);
     }
 
+    renderSearchOptions()
+    {
+        return (
+            <div className="centerThisWithPadding">
+                <Grid>
+                    <Row>
+                        <Col xs={2} md={4}>
+                            <Panel>
+                                <div className="searchCenter">
+                                    <GoCalendar size={200} color="#EC174C"/>
+                                </div>
+                                <div className="searchDesc">
+                                    Not sure when to go? Search our Event Calendar!
+                                </div>
+                                <div className="searchCenter">
+                                    <LinkContainer to="/event-calendar">
+                                        <Button bsStyle="success">Let's go!</Button>
+                                    </LinkContainer>
+                                </div>
+                            </Panel>
+                        </Col>
+                        <Col xs={2} md={4}>
+                            <Panel>
+                                <div className="searchCenter">
+                                    <GoJersey size={200} color="#EC174C"/>
+                                </div>
+                                <div className="searchDesc">
+                                    Want to see a particular team? Search by opponents!
+                                </div>
+                                <div className="searchCenter">
+                                    <LinkContainer to="/event-calendar">
+                                        <Button bsStyle="success">Let's go!</Button>
+                                    </LinkContainer>
+                                </div>
+                            </Panel>
+                        </Col>
+                        <Col xs={2} md={4}>
+                            <Panel>
+                                <div className="searchCenter">
+                                    <IonSocialUsd size={200} color="#EC174C"/>
+                                </div>
+                                <div className="searchDesc">
+                                    Short on dough? Search for the cheapest seats!
+                                </div>
+                                <div className="searchCenter">
+                                    <LinkContainer to="/not-found">
+                                        <Button bsStyle="success">Let's go!</Button>
+                                    </LinkContainer>
+                                </div>
+                            </Panel>
+                        </Col>
+                    </Row>
+                </Grid>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
                 <Header2 navItems={this.state.navItems2} />
                 <Parallax bgImage={require("../../resources/images/city.jpg")} strength={200}>
                     <div className="parallaxSize blueOverlay">
-                        <Image src={require("../../resources/images/overlay.png")} responsive className="centerThis homeMainLogo"/>
+                        <Image src={require("../../resources/images/homeLogo.png")} responsive className="centerThis homeMainLogo"/>
                     </div>
                 </Parallax>
-                <div className="parallaxDivider">
-                    <div className="pdHeader">
-                        Welcome to Trust the Tickets, Philiadelphia's first fan-centered ticket website.
-                    </div>
-                    <div className="pdText">
-
-                    </div>
+                <div className="parallaxDivider blueOverlay">
+                    <Panel>
+                        <div className="parallaxText">
+                            <div className="parallaxTextHeader">
+                                Welcome to Trust the Tickets, Philiadelphia's first fan-centered ticket website.
+                            </div>
+                            <div className="parallaxTextBody">
+                                TTT exists to get you tickets to Philly sports games, quicker, simpler, and cheaper. How?
+                                <div className="parallaxTextBodyBlock">
+                                    <div className="parallaxTextBodyBlockText">
+                                        <ol>
+                                            <li>We specialize in Philly sports tickets - you don't have to wade through irrelevant ticketing events during your search.</li>
+                                            <li>Our search methods were designed with fans in mind - We know how to find what you want, quicker!</li>
+                                            <li>We value the fans that list with us, so we offer the LOWEST transaction fees of any ticket reseller. When you win, we win.</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                So how do I get started?
+                                <div className="parallaxTextBodyBlock">
+                                    <div className="parallaxTextBodyBlockText">
+                                        Check out our three searching methods below to find tickets to your next game, and Trust the Process.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Panel>
                 </div>
-                <Parallax bgImage={require("../../resources/images/night_wells_fargo.jpg")} strength={500}>
-                    <div className="parallaxSize whiteOverlay">
-                        <Grid>
-                            <Row>
-                                <Col xs={6} md={4}>
-                                    <Panel>
-                                        <Image src={require("../../resources/images/cal.png")} responsive />
-                                    </Panel>
-                                </Col>
-                                <Col xs={6} md={4}>
-                                    <Panel>
-                                        COL 2
-                                    </Panel>
-                                </Col>
-                                <Col xs={6} md={4}>
-                                    <Panel>
-                                        COL 3
-                                    </Panel>
-                                </Col>
-                            </Row>
-                        </Grid>
-                    </div>
-                </Parallax>
                 <Parallax bgImage={require("../../resources/images/night_wells_fargo_blur.png")} strength={500}>
-                    <div className="parallaxSize grayOverlay">
-                        <Grid>
-                            <Row>
-                                <Col xs={6} md={4}>
-                                    <Panel>
-                                        <Image src={require("../../resources/images/cal.png")} responsive />
-                                    </Panel>
-                                </Col>
-                                <Col xs={6} md={4}>
-                                    <Panel>
-                                        COL 2
-                                    </Panel>
-                                </Col>
-                                <Col xs={6} md={4}>
-                                    <Panel>
-                                        COL 3
-                                    </Panel>
-                                </Col>
-                            </Row>
-                        </Grid>
+                    <div className="parallaxSearchSize blueOverlay">
+                        {this.renderSearchOptions()}
                     </div>
                 </Parallax>
             </div>
