@@ -4,6 +4,13 @@ import {LinkContainer} from 'react-router-bootstrap';
 import Header2 from '../global/header2';
 import { Parallax, Background } from 'react-parallax';
 
+// import icons from the react-icons/lib directory.
+// There are five libraries of icons that you can view at their websites
+//      Font Awesome: http://fontawesome.io/icons/
+//      TypeIcons: http://s-ings.com/typicons/
+//      IonIcons (IOS): http://ionicons.com/
+//      MaterialIcons (Google): https://material.io/icons/
+//      GithubOcticons: https://octicons.github.com/
 import GoCalendar from 'react-icons/lib/go/calendar';
 import GoJersey from 'react-icons/lib/go/jersey';
 import IonSocialUsd from 'react-icons/lib/io/social-usd'
