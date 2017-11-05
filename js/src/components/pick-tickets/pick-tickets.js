@@ -32,7 +32,6 @@ export default class PickTickets extends Component {
             toggleValue: [1,2]
         }
         this.getEvent(event_id);
-        this.getEventTitle();
     }
 
     handleChange(e) {
@@ -48,15 +47,22 @@ export default class PickTickets extends Component {
             eventID: eventID
         })
         .then(res => {
-            if (true) {
-                this.setState({
-                    selectedEvent: {
-                        title: res.data.event.title,
-                        homeTeam: res.data.title,
-                        awayTeam: res.data.title
-                    }
-                });
+            try {
+                if (res.data.event.authenticated) {
+                    this.setState({
+                        selectedEvent: {
+                            title: res.data.event.title,
+                            homeTeam: res.data.event.homeTeam,
+                            awayTeam: res.data.event.awayTeam
+                        },
+                        eventTitle: res.data.event.title
+                    });
+                }
             }
+            catch (e) {
+                console.log(e);
+            }
+
         });
     }
 
@@ -217,7 +223,16 @@ export default class PickTickets extends Component {
 
     onToggleChange = (value) => {
         this.setState({ value });
-    };
+    }
+
+    hasEventID() {
+        if (this.state.eventID > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     //render the values in the tickets
     renderTicketList() {
@@ -238,19 +253,20 @@ export default class PickTickets extends Component {
             <div>
                 <Grid style={{paddingTop: "100px"}}>
                     <h1 className="border-white">
-                        <Well className='pick-tickets-well' style={{background: 'transparent'}}>
-                            Choose Your Desired Section From The Seating Chart
+                        <Well className='pick-tickets-well' style={{background: '#006BB6'}}>
+                            Pick-A-Ticket
                         </Well>
                     </h1>
                     <Row>
                         <Col lg={8}>
                             <Row>
                                 <Col lg={8}>
-                                    <Button >
-                                        {this.getEventTitle()}
+                                    <Button disabled={this.hasEventID()}>
+                                        {this.state.eventTitle}
                                     </Button>
                                 </Col>
                             </Row>
+                            <br/>
                             <WellsFargoChart
                                 onSectionSelected={this.onChartClick.bind(this)}
                                 selectedSection={this.state.section}
@@ -267,8 +283,8 @@ export default class PickTickets extends Component {
                                         type="radio"
                                         value={this.state.value}
                                         onToggleChange={this.onToggleChange}>
-                                            <ToggleButton value={1} onClick={this.toggleChartHighlight.bind(this)}>Select Price</ToggleButton>
-                                            <ToggleButton value={2} onClick={this.getCheapestTicketsAndSections.bind(this)} >Lowest Price</ToggleButton>
+                                            <ToggleButton value={1}>Select Price</ToggleButton>
+                                            <ToggleButton value={2} onClick={this.test.bind(this)} >Lowest Price</ToggleButton>
                                     </ToggleButtonGroup>
                                 </div>
                                 <span> </span>
