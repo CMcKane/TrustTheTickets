@@ -284,7 +284,7 @@ export default class PickTickets extends Component {
                                         value={this.state.value}
                                         onToggleChange={this.onToggleChange}>
                                             <ToggleButton value={1}>Select Price</ToggleButton>
-                                            <ToggleButton value={2} onClick={this.test.bind(this)} >Lowest Price</ToggleButton>
+                                            <ToggleButton value={2} onClick={this.getCheapestTicketsAndSections.bind(this)} >Lowest Price</ToggleButton>
                                     </ToggleButtonGroup>
                                 </div>
                                 <span> </span>
