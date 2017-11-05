@@ -10,7 +10,7 @@ import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 
 var a = [];
-var toggleLight = false;
+var clickedSection = 0;
 
 export default class PickTickets extends Component {
 
@@ -67,18 +67,16 @@ export default class PickTickets extends Component {
     }
 
     getTicketsWithFilter() {
-        if(a.length == 0) {
-            console.log("empty");
+        if(clickedSection == 0) {
+            console.log("getting tickets");
             TTTPost('/get-cheap-ticket-any-section', {
-            price: this.state.price,
+                price: this.state.price,
             })
             .then(res => {
                 if (res.data.tickets) this.setState({
                     tickets: res.data.tickets
-                }, () => {console.log(this.state.tickets)});
+                }, () => {this.setAndLightSectionsArrayFromTickets(this.state.tickets)});
             });
-
-
         } else {
 
             TTTPost('/pick-ticket-filter', {
@@ -90,9 +88,17 @@ export default class PickTickets extends Component {
                         tickets: res.data.tickets
                     });
                 });
-
         }
+    }
 
+    setAndLightSectionsArrayFromTickets(tickets) {
+        console.log(tickets);
+        for(var i = 0; i < tickets.length; i++) {
+            a[i] = tickets[i].section_number;
+        }
+        this.setState({lightedSections: a});
+        console.log("arr");
+        console.log(a);
     }
 
     getCheapestTickets() {
@@ -135,6 +141,7 @@ export default class PickTickets extends Component {
         }
         this.setState({lightedSections: arr});
         a = arr;
+        console.log(a);
     }
 
     getAllTickets() {
@@ -173,6 +180,7 @@ export default class PickTickets extends Component {
     getCheapestTicketsAndSections() {
         this.getCheapestTickets();
         this.getCheapestTicketsSections();
+        clickedSection = 0;
     }
 
     toggleChartHighlight() {
@@ -181,7 +189,8 @@ export default class PickTickets extends Component {
     }
 
     onChartClick(section) {
-
+        //this.setState({value: 0});
+        clickedSection = section;
         if(section != this.state.section) {
             a = [];
             //var arr = this.state.lightedSections.slice();
@@ -200,12 +209,11 @@ export default class PickTickets extends Component {
                             tickets: res.data.tickets
                         });
                     });
-                //toggleLight = true;
             }
         }
         else {
-            //toggleLight = false;
             a = [];
+            clickedSection = 0;
             this.setState({
                 section: 0,
                 tickets: []
@@ -237,7 +245,7 @@ export default class PickTickets extends Component {
     //render the values in the tickets
     renderTicketList() {
         return _.map(this.state.tickets, (ticket, id) =>
-            <li class="list-group-item" border-color="red" onClick="">
+            <li className="list-group-item" border-color="red">
                 Section: {ticket.section_number} Row: {ticket.row_number}
                 <br></br>
                 Seat: {ticket.seat_number} Price: ${ticket.ticket_price}
@@ -315,7 +323,7 @@ export default class PickTickets extends Component {
                                         <div2>
                                             <FormControl style={{width: 62}} placeholder="Enter section #"
                                                          type="section"
-                                                         value={this.state.section}
+                                                         value={clickedSection}
                                                          onChange={this.handleChange.bind(this)}/>
                                         </div2>
                                     </div>

@@ -189,6 +189,18 @@ class SqlHandler(object):
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in cursor.fetchall()]
         return tickets
 
+    def get_sections_by_less_equal_price(self, price):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT se.section_num "
+                       "FROM tickets t "
+                       "LEFT JOIN groups g ON (t.group_id = g.group_id) "
+                       "LEFT JOIN sections se ON (t.section_id = se.section_id) "
+                       "WHERE g.ticket_price <= '{}'".format(price))
+        #tickets = cursor.fetchall()
+        sections = [dict(section_number=row[0]) for row in cursor.fetchall()]
+        return sections
+
     def get_cheapest_tickets_all_sections(self):
         conn = self.mysql.connection
         cursor = conn.cursor()

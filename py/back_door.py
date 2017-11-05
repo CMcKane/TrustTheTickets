@@ -152,6 +152,14 @@ def get_cheapest_ticket_any_section():
     tickets = sqlHandler.get_cheap_ticket_any_section(price)
     return jsonify({'tickets': tickets})
 
+@app.route('/get-sections-by-less-equal-price', methods=['POST'])
+def get_sections_by_less_equal_price():
+    sqlHandler = SqlHandler(mysql)
+    jsondata = request.get_json()
+    price = jsondata['price']
+    sections = sqlHandler.get_sections_by_less_equal_price(price)
+    return jsonify({'sections': sections})
+
 @app.route('/get-cheapest-ticket-sections', methods=['GET'])
 def get_cheapest_ticket_sections():
     sqlHandler = SqlHandler(mysql)
