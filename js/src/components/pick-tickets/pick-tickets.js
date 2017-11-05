@@ -9,6 +9,9 @@ import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 
+var a = [];
+var toggleLight = false;
+
 export default class PickTickets extends Component {
 
     constructor(props) {
@@ -45,10 +48,10 @@ export default class PickTickets extends Component {
             eventID: eventID
         })
         .then(res => {
-            if (res.data.authenticated) {
+            if (true) {
                 this.setState({
                     selectedEvent: {
-                        title: res.data.title,
+                        title: res.data.event.title,
                         homeTeam: res.data.title,
                         awayTeam: res.data.title
                     }
@@ -58,16 +61,32 @@ export default class PickTickets extends Component {
     }
 
     getTicketsWithFilter() {
-
-        TTTPost('/pick-ticket-filter', {
+        if(a.length == 0) {
+            console.log("empty");
+            TTTPost('/get-cheap-ticket-any-section', {
             price: this.state.price,
-            section: this.state.section
-        })
+            })
             .then(res => {
                 if (res.data.tickets) this.setState({
                     tickets: res.data.tickets
-                });
+                }, () => {console.log(this.state.tickets)});
             });
+
+
+        } else {
+
+            TTTPost('/pick-ticket-filter', {
+                price: this.state.price,
+                section: this.state.section
+            })
+                .then(res => {
+                    if (res.data.tickets) this.setState({
+                        tickets: res.data.tickets
+                    });
+                });
+
+        }
+
     }
 
     getCheapestTickets() {
@@ -88,8 +107,28 @@ export default class PickTickets extends Component {
             .then(res => {
                 if (res.data.sections) this.setState({
                     lightedSections: res.data.sections
+                }, () => {this.processSectionsArray(this.state.lightedSections)});
+            });
+    }
+
+    getCheapestTicketsAllSections() {
+        TTTPost('/get-cheap-ticket-any-section', {
+            price: this.state.price,
+        })
+            .then(res => {
+                if (res.data.tickets) this.setState({
+                    tickets: res.data.tickets
                 });
             });
+    }
+
+    processSectionsArray(sections) {
+        var arr = [];
+        for(var i = 0; i < sections.length; i++) {
+            arr[i] = sections[i].section_number;
+        }
+        this.setState({lightedSections: arr});
+        a = arr;
     }
 
     getAllTickets() {
@@ -102,6 +141,12 @@ export default class PickTickets extends Component {
                 });
             });
 
+    }
+
+    getCurrentSection() {
+        if(this.state.section > 0) {
+            return this.state.section;
+        } else { return "All"; }
     }
 
     getSelectedGame() {
@@ -119,30 +164,51 @@ export default class PickTickets extends Component {
         });
     }
 
-    test() {
+    getCheapestTicketsAndSections() {
         this.getCheapestTickets();
         this.getCheapestTicketsSections();
-        console.log(this.state.tickets[0]);
-        console.log("ello");
     }
-    onChartClick(section) {
-        if (section.length > 0) {
-            TTTPost('/tickets', {
-                section_number: section
-            })
-                .then(res => {
-                    if (res.data.tickets) 
-                    this.setState({
-                        section: section,
-                        tickets: res.data.tickets
-                    });
-                });
-        }
 
+    toggleChartHighlight() {
+        a = [];
+        this.setState({tickets: [], lightedSections: a});
+    }
+
+    onChartClick(section) {
+
+        if(section != this.state.section) {
+            a = [];
+            //var arr = this.state.lightedSections.slice();
+            // TODO: Handle highlighting of multiple sections.
+            //arr[0] = section;
+            a[0] = section;
+            if (section.length > 0) {
+                TTTPost('/tickets', {
+                    section_number: section
+                })
+                    .then(res => {
+                        if (res.data.tickets)
+                        this.setState({
+                            section: section,
+                            lightedSections: a,
+                            tickets: res.data.tickets
+                        });
+                    });
+                //toggleLight = true;
+            }
+        }
+        else {
+            //toggleLight = false;
+            a = [];
+            this.setState({
+                section: 0,
+                tickets: []
+                //lightedSections: []
+            });
+        }
     }
 
     firstComponentChangeValue(e) {
-        console.log(e.target.value);
         this.setState({
             firstComponentCurrentValue: e.target.value,
             price: e.target.value
@@ -156,7 +222,7 @@ export default class PickTickets extends Component {
     //render the values in the tickets
     renderTicketList() {
         return _.map(this.state.tickets, (ticket, id) =>
-            <li class="list-group-item" border-color="red" onclick="">
+            <li class="list-group-item" border-color="red" onClick="">
                 Section: {ticket.section_number} Row: {ticket.row_number}
                 <br></br>
                 Seat: {ticket.seat_number} Price: ${ticket.ticket_price}
@@ -180,15 +246,15 @@ export default class PickTickets extends Component {
                         <Col lg={8}>
                             <Row>
                                 <Col lg={8}>
-                                    <Button onclick={this.getSelectedGame()}>
+                                    <Button >
                                         {this.getEventTitle()}
                                     </Button>
                                 </Col>
                             </Row>
                             <WellsFargoChart
                                 onSectionSelected={this.onChartClick.bind(this)}
-                                selectedSection={this.state.tickets.section_number}
-                                sections={this.state.lightedSections}/>
+                                selectedSection={this.state.section}
+                                sections={a}/>
                         </Col>
                         <Col lg={4}>
                             <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
@@ -201,8 +267,8 @@ export default class PickTickets extends Component {
                                         type="radio"
                                         value={this.state.value}
                                         onToggleChange={this.onToggleChange}>
-                                            <ToggleButton value={1}>Select Price</ToggleButton>
-                                            <ToggleButton value={2} onClick={this.test.bind(this)} >Lowest Price</ToggleButton>
+                                            <ToggleButton value={1} onClick={this.toggleChartHighlight.bind(this)}>Select Price</ToggleButton>
+                                            <ToggleButton value={2} onClick={this.getCheapestTicketsAndSections.bind(this)} >Lowest Price</ToggleButton>
                                     </ToggleButtonGroup>
                                 </div>
                                 <span> </span>

@@ -2,22 +2,34 @@ import React, {Component} from 'react';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 import '../../seating-chart.css';
 
+var LIGHTED_COLOR = '#2B60DE';
+var NOT_LIGHTED_COLOR = '#FFFFFF';
+var a = [];
+
 export default class WellsFargoChart extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
 	onChartClick(e) {
-		if (this.props.selectedSection) {
-			this.setSectionColor(this.props.selectedSection, '#FFFFFF');
+		a = this.props.sections;
+
+		if (this.props.sections[0]) {
+			this.setSectionColor(a[0], NOT_LIGHTED_COLOR);
 		}
 		this.props.onSectionSelected(e.target.id);
 	}
 
 	componentDidUpdate() {
-		if(this.props.selectedSection) {
-			this.setSectionColor(this.props.selectedSection, '#2B60DE');
+	    for(var i = 0; i < a.length; i++) {
+		    this.setSectionColor(a[i], NOT_LIGHTED_COLOR);
 		}
-		/*for(var i = 0; i < 2; i++) {
-		    this.setSectionColor(this.props.sections, '#2B60DE');
-		}*/
+	    a = this.props.sections;
+	    console.log(a);
+        for(var i = 0; i < a.length; i++) {
+            this.setSectionColor(a[i], LIGHTED_COLOR);
+        }
 	}
 
 	setSectionColor(sectionName, color) {

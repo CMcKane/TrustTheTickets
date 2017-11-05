@@ -144,11 +144,21 @@ def pick_cheapest_ticket():
     tickets = sqlHandler.get_cheapest_tickets_all_sections()
     return jsonify({'tickets': tickets})
 
+@app.route('/get-cheap-ticket-any-section', methods=['POST'])
+def get_cheapest_ticket_any_section():
+    sqlHandler = SqlHandler(mysql)
+    jsondata = request.get_json()
+    price = jsondata['price']
+    tickets = sqlHandler.get_cheap_ticket_any_section(price)
+    return jsonify({'tickets': tickets})
+
 @app.route('/get-cheapest-ticket-sections', methods=['GET'])
 def get_cheapest_ticket_sections():
     sqlHandler = SqlHandler(mysql)
     sections = sqlHandler.get_cheapest_tickets_sections()
     return jsonify({'sections': sections})
+
+
 
 # Right now this just returns that the login info is good for testing purposes.
 @app.route('/login', methods=['POST'])
