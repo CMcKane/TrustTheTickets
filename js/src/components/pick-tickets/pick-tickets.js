@@ -93,6 +93,7 @@ export default class PickTickets extends Component {
 
     setAndLightSectionsArrayFromTickets(tickets) {
         console.log(tickets);
+        a = [];
         for(var i = 0; i < tickets.length; i++) {
             a[i] = tickets[i].section_number;
         }
@@ -181,6 +182,17 @@ export default class PickTickets extends Component {
         this.getCheapestTickets();
         this.getCheapestTicketsSections();
         clickedSection = 0;
+    }
+
+    getExpensiveTicketsAndSections() {
+        clickedSection = 0;
+        TTTGet('/pick-expensive-ticket', {
+        })
+            .then(res => {
+                if (res.data.tickets) this.setState({
+                    tickets: res.data.tickets
+                }, () => {this.setAndLightSectionsArrayFromTickets(this.state.tickets)});
+            });
     }
 
     toggleChartHighlight() {
@@ -293,6 +305,7 @@ export default class PickTickets extends Component {
                                         onToggleChange={this.onToggleChange}>
                                             <ToggleButton value={1}>Select Price</ToggleButton>
                                             <ToggleButton value={2} onClick={this.getCheapestTicketsAndSections.bind(this)} >Lowest Price</ToggleButton>
+                                            <ToggleButton value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)} >Highest Price</ToggleButton>
                                     </ToggleButtonGroup>
                                 </div>
                                 <span> </span>
