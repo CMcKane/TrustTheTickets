@@ -14,7 +14,7 @@
 .bottomPane {
   width: 100%;
   height: 80%;
-  overflow-y: scroll;
+  /*overflow-y: scroll; <---- Doesn't allow for scrolling even if scroll bar is there*/
 }
 
 .event-calendar-button-row {

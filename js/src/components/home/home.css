@@ -1,81 +1,113 @@
-.body, .html {
-    height: 100%;
-    margin: 0;
-    font: 400 15px/1.9 "Lato", sans-serif;
-    color: #777;
+.blueOverlay
+{
+    background-color: rgba(3,107,181,0.75);
 }
 
-.bgimg1, .bgimg2, .bgimg3 {
-    position: relative;
-    opacity: .65;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding-top: 20%;
-    padding-bottom: 30%;
+.redOverlay
+{
+    background-color: rgba(236,23,76,0.50);
 }
 
-.bgimg1 {
-    background-image: url("../../resources/images/FishEyeWellsFargo.jpg");
-    min-height: 100%;
+.whiteOverlay
+{
+    background-color: rgba(255,255,255,0.30);
 }
 
-.bgimg2 {
-    background-image: url("../../resources/images/night_wells_fargo.jpg");
-    min-height: 100%;
+.grayOverlay
+{
+    background-color: rgba(176,176,176,0.35);
 }
 
-.bgimg3 {
-    background-image: url("../../resources/images/76ersBackground.jpg");
-    min-height: 100%;
+.blackOverlay
+{
+    background-color: rgba(0,0,0,0.60);
 }
 
-.textsection {
-    padding: 50px;
-  /*background-color: rgb(45, 98, 183);*/
-    background-color: black;
-    width: 100%;
-    height: auto;
+.parallaxSize
+{
+    height: 1000px;
+}
+
+.parallaxDivider
+{
+    padding: 10px;
+    padding-top: 20px;
+}
+
+.parallaxText
+{
+    background-color: #FFFFFF;
+
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+
     text-align: center;
-    position: relative;
-    color: white;
-    font: 20px "Lato", sans-serif;
-
+}
+.parallaxTextHeader
+{
+    font: 50px "Tw Cen MT Condensed";
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.parallaxTextBody
+{
+    padding-top: 20px;
+    font: 35px "Tw Cen MT Condensed";
 }
 
-.caption {
+.parallaxTextBodyBlock
+{
+    text-align: center;
+    padding-top: 10px;
+}
+.parallaxTextBodyBlockText
+{
+    display: inline-block;
+    text-align: left;
+    list-style-position:inside;
+    font: 25px "Calibri";
+    color: #036bb5;
+}
+
+.parallaxSearchSize
+{
+    height: 600px;
+}
+
+.searchCenter
+{
+    padding-top: 10px;
+    text-align: center;
+}
+
+.searchDesc
+{
+    padding-top: 10px;
+    font: 35px "Tw Cen MT Condensed";
+}
+
+.centerThis
+{
     position: absolute;
-    left: 5px;
-    top: 40%;
-    width: 100%;
-    text-align: center;
-    color: black;
-    z-index: 2;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
 }
 
-.caption span.border {
-    /*background-color: rgb(45, 98, 183);*/
-    background-color: black;
-    color: #fff;
-    padding: 18px;
-    font-size: 25px;
-    letter-spacing: 10px;
+.centerThisWithPadding
+{
+    padding-top: 5%;
 }
 
-h3 {
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font: 20px "Lato", sans-serif;
-    color: #111;
-}
-
-p {
-    padding: 25px;
-}
-
-@media only screen and (max-device-width: 1024px){
-    .bgimg1, .bgimg2, .bgimg3 {
-        background-attachment: scroll;
-    }
+.homeMainLogo
+{
+    height: 75%;
+    width: 75%;
 }
