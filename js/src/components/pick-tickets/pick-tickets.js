@@ -8,6 +8,7 @@ import {TTTPost, TTTGet} from '../backend/ttt-request';
 import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
+import { ClimbingBoxLoader } from 'react-spinners';
 
 var a = [];
 var clickedSection = 0;
@@ -29,7 +30,8 @@ export default class PickTickets extends Component {
             selectedEvent: [],
             eventID: event_id,
             eventTitle: 'Choose a game',
-            toggleValue: [1,2]
+            toggleValue: [1,2,3],
+            isLoading: false
         }
         this.getEvent(event_id);
     }
@@ -67,6 +69,7 @@ export default class PickTickets extends Component {
     }
 
     getTicketsWithFilter() {
+        this.setState({isLoading:true, tickets: []});
         if(clickedSection == 0) {
             console.log("getting tickets");
             TTTPost('/get-cheap-ticket-any-section', {
@@ -74,7 +77,8 @@ export default class PickTickets extends Component {
             })
             .then(res => {
                 if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets
+                    tickets: res.data.tickets,
+                    isLoading: false
                 }, () => {this.setAndLightSectionsArrayFromTickets(this.state.tickets)});
             });
         } else {
@@ -85,7 +89,8 @@ export default class PickTickets extends Component {
             })
                 .then(res => {
                     if (res.data.tickets) this.setState({
-                        tickets: res.data.tickets
+                        tickets: res.data.tickets,
+                        isLoading: false
                     });
                 });
         }
@@ -103,13 +108,14 @@ export default class PickTickets extends Component {
     }
 
     getCheapestTickets() {
-
+        a = [];
         TTTGet('/pick-cheapest-ticket', {
         })
             .then(res => {
                 if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets
-                });
+                    tickets: res.data.tickets,
+                    isLoading:false
+                }, () => this.setAndLightSectionsArrayFromTickets(this.state.tickets));
             });
     }
 
@@ -146,6 +152,7 @@ export default class PickTickets extends Component {
     }
 
     getAllTickets() {
+        this.setState({tickets:[]});
         TTTPost('/all-tickets', {
             event_id: this.state.eventID
         })
@@ -179,18 +186,21 @@ export default class PickTickets extends Component {
     }
 
     getCheapestTicketsAndSections() {
+        this.setState({tickets:[], lightedSections: [], isLoading:true});
         this.getCheapestTickets();
-        this.getCheapestTicketsSections();
         clickedSection = 0;
+
     }
 
     getExpensiveTicketsAndSections() {
         clickedSection = 0;
+        this.setState({isLoading: true, lightedSections: [], tickets:[]});
         TTTGet('/pick-expensive-ticket', {
         })
             .then(res => {
                 if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets
+                    tickets: res.data.tickets,
+                    isLoading: false
                 }, () => {this.setAndLightSectionsArrayFromTickets(this.state.tickets)});
             });
     }
@@ -201,7 +211,7 @@ export default class PickTickets extends Component {
     }
 
     onChartClick(section) {
-        //this.setState({value: 0});
+        this.setState({tickets: [], lightedSections: [], isLoading: true});
         clickedSection = section;
         if(section != this.state.section) {
             a = [];
@@ -218,7 +228,8 @@ export default class PickTickets extends Component {
                         this.setState({
                             section: section,
                             lightedSections: a,
-                            tickets: res.data.tickets
+                            tickets: res.data.tickets,
+                            isLoading: false
                         });
                     });
             }
@@ -228,8 +239,9 @@ export default class PickTickets extends Component {
             clickedSection = 0;
             this.setState({
                 section: 0,
-                tickets: []
-                //lightedSections: []
+                tickets: [],
+                lightedSections: [],
+                isLoading: false
             });
         }
     }
@@ -287,10 +299,11 @@ export default class PickTickets extends Component {
                                 </Col>
                             </Row>
                             <br/>
-                            <WellsFargoChart
-                                onSectionSelected={this.onChartClick.bind(this)}
-                                selectedSection={this.state.section}
-                                sections={a}/>
+                                <WellsFargoChart
+                                    onSectionSelected={this.onChartClick.bind(this)}
+                                    selectedSection={this.state.section}
+                                    sections={this.state.lightedSections}/>
+
                         </Col>
                         <Col lg={4}>
                             <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
@@ -353,6 +366,7 @@ export default class PickTickets extends Component {
                             <h3 className="Tickets-label"> Tickets </h3>
                             <div className="ticket-border">
                                 {this.renderTicketList()}
+                                <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
                             </div>
                         </Col>
                     </Row>
