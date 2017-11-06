@@ -104,21 +104,19 @@ def get_ticket_details():
 
 @app.route('/all-tickets', methods=['POST'])
 def get_all_tickets():
-    givenEventID = request.get_json()
-    eventID = givenEventID['event_id']
+    jsondata = request.get_json()
+    event_id = jsondata['eventID']
     sqlHandler = SqlHandler(mysql)
-    tickets = sqlHandler.get_all_tickets(mysql, eventID)
+    tickets = sqlHandler.get_all_tickets(mysql, event_id)
     return jsonify({'tickets': tickets})
 
 @app.route('/tickets', methods=['POST'])
 def get_tickets():
-    json = ["2012-03-15", "2012-03-15", 290, 325, 112]
-    #SqlHandler.build_filter_select(mysql,
-     #   JsonDictionaryConverter.build_filter_dictionary(json))
     sqlHandler = SqlHandler(mysql)
-    givenSection = request.get_json()
-    sectionNum = givenSection['section_number']
-    tickets = sqlHandler.get_tickets(sectionNum)
+    jsondata = request.get_json()
+    sectionNum = jsondata['section_number']
+    event_id = jsondata['eventID']
+    tickets = sqlHandler.get_tickets(sectionNum, event_id)
     return jsonify({'tickets': tickets})
 
 @app.route('/get-event', methods=['POST'])
@@ -134,43 +132,39 @@ def pick_tickets_by_filter():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
     price = jsondata['price']
-    section = jsondata['section']
-    tickets = sqlHandler.get_ticket_by_filter(price, section)
+    sections = jsondata['sections']
+    event_id = jsondata['eventID']
+    tickets = sqlHandler.get_ticket_by_filter(price, event_id, sections)
     return jsonify({'tickets': tickets})
 
-@app.route('/pick-cheapest-ticket', methods=['GET'])
+@app.route('/pick-cheapest-ticket', methods=['POST'])
 def pick_cheapest_ticket():
     sqlHandler = SqlHandler(mysql)
-    tickets = sqlHandler.get_cheapest_tickets_all_sections()
-    return jsonify({'tickets': tickets})
+    jsondata = request.get_json()
+    event_id = jsondata['eventID']
+    tickets = sqlHandler.get_cheapest_tickets_all_sections(event_id)
+    sections = sqlHandler.get_cheapest_tickets_sections(event_id)
+    return jsonify({'tickets': tickets,
+                    'sections': sections})
 
 @app.route('/get-cheap-ticket-any-section', methods=['POST'])
 def get_cheapest_ticket_any_section():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
     price = jsondata['price']
-    tickets = sqlHandler.get_cheap_ticket_any_section(price)
-    return jsonify({'tickets': tickets})
+    event_id = jsondata['eventID']
+    tickets = sqlHandler.get_cheap_ticket_any_section(price, event_id)
+    sections = sqlHandler.get_sections_by_less_equal_price(event_id, price)
+    return jsonify({'tickets': tickets, 'sections': sections})
 
-@app.route('/get-sections-by-less-equal-price', methods=['POST'])
-def get_sections_by_less_equal_price():
-    sqlHandler = SqlHandler(mysql)
-    jsondata = request.get_json()
-    price = jsondata['price']
-    sections = sqlHandler.get_sections_by_less_equal_price(price)
-    return jsonify({'sections': sections})
-
-@app.route('/get-cheapest-ticket-sections', methods=['GET'])
-def get_cheapest_ticket_sections():
-    sqlHandler = SqlHandler(mysql)
-    sections = sqlHandler.get_cheapest_tickets_sections()
-    return jsonify({'sections': sections})
-
-@app.route('/pick-expensive-ticket', methods=['GET'])
+@app.route('/pick-expensive-ticket', methods=['POST'])
 def get_expensive_ticket_sections():
     sqlHandler = SqlHandler(mysql)
-    tickets = sqlHandler.get_expensive_tickets_all_sections()
-    return jsonify({'tickets': tickets})
+    jsondata = request.get_json()
+    event_id = jsondata['eventID']
+    tickets = sqlHandler.get_expensive_tickets_all_sections(event_id)
+    sections = sqlHandler.get_sections_by_max_price(event_id)
+    return jsonify({'tickets': tickets, 'sections': sections})
 
 # Right now this just returns that the login info is good for testing purposes.
 @app.route('/login', methods=['POST'])

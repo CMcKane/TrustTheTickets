@@ -10,8 +10,7 @@ import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 import { ClimbingBoxLoader } from 'react-spinners';
 
-var a = [];
-var clickedSection = 0;
+var clickedSection = ''
 
 export default class PickTickets extends Component {
 
@@ -19,21 +18,21 @@ export default class PickTickets extends Component {
         super(props);
 
         const queryParams = queryString.parse(this.props.location.search);
-        const event_id = queryParams.event;
 
         this.state = {
-            section: 0,
-            lightedSections: [],
+            sections: [],
             tickets: [],
             price: 0,
             showFilter: false,
-            selectedEvent: [],
-            eventID: event_id,
+            selectedEvent: null,
+            eventID: queryParams.event,
             eventTitle: 'Choose a game',
-            toggleValue: [1,2,3],
-            isLoading: false
+            isLoading: false,
+            previousSections: [],
+            sliderValue: 0,
+            toggleValue: 1
         }
-        this.getEvent(event_id);
+        this.getEvent();
     }
 
     handleChange(e) {
@@ -44,9 +43,9 @@ export default class PickTickets extends Component {
         return this.state.selectedEvent.title;
     }
 
-    getEvent(eventID) {
+    getEvent() {
         TTTPost('/get-event', {
-            eventID: eventID
+            eventID: this.state.eventID
         })
         .then(res => {
             try {
@@ -70,104 +69,70 @@ export default class PickTickets extends Component {
 
     getTicketsWithFilter() {
         this.setState({isLoading:true, tickets: []});
-        if(clickedSection == 0) {
-            console.log("getting tickets");
+        if(this.state.sections.length === 0) {
             TTTPost('/get-cheap-ticket-any-section', {
-                price: this.state.price,
+                eventID: this.state.eventID,
+                price: this.state.price
             })
             .then(res => {
-                if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets,
-                    isLoading: false
-                }, () => {this.setAndLightSectionsArrayFromTickets(this.state.tickets)});
-            });
-        } else {
-
-            TTTPost('/pick-ticket-filter', {
-                price: this.state.price,
-                section: this.state.section
-            })
-                .then(res => {
-                    if (res.data.tickets) this.setState({
+                if (res.data.tickets) {
+                    this.setState({
+                        previousSections: this.state.sections,
+                        sections: res.data.sections,
                         tickets: res.data.tickets,
                         isLoading: false
                     });
+                }
+            });
+        } else {
+            TTTPost('/pick-ticket-filter', {
+                eventID: this.state.eventID,
+                price: this.state.price,
+                sections: this.state.sections
+            })
+                .then(res => {
+                    if (res.data.tickets) {
+                        this.setState({
+                            tickets: res.data.tickets,
+                            isLoading: false
+                        });
+                    }
                 });
         }
     }
 
-    setAndLightSectionsArrayFromTickets(tickets) {
-        console.log(tickets);
-        a = [];
-        for(var i = 0; i < tickets.length; i++) {
-            a[i] = tickets[i].section_number;
-        }
-        this.setState({lightedSections: a});
-        console.log("arr");
-        console.log(a);
+    getExpensiveTicketsAndSections() {
+        this.setState({isLoading:true, tickets: []});
+        TTTPost('/pick-expensive-ticket', {
+            eventID: this.state.eventID
+        })
+            .then(res => {
+                if (res.data.tickets) {
+                    this.setState({
+                        previousSections: this.state.sections,
+                        sections: res.data.sections,
+                        tickets: res.data.tickets,
+                        isLoading: false
+                    });
+                }
+            });
     }
 
     getCheapestTickets() {
-        a = [];
-        TTTGet('/pick-cheapest-ticket', {
+        this.setState({isLoading:true, tickets: []});        
+        TTTPost('/pick-cheapest-ticket',{
+            eventID: this.state.eventID            
         })
             .then(res => {
-                if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets,
-                    isLoading:false
-                }, () => this.setAndLightSectionsArrayFromTickets(this.state.tickets));
+                if (res.data.tickets) {
+                    this.setState({
+                        tickets: res.data.tickets,
+                        previousSections: this.state.sections,
+                        sections: res.data.sections,
+                        isLoading: false
+                    });
+                }
             });
-    }
-
-     getCheapestTicketsSections() {
-
-        TTTGet('/get-cheapest-ticket-sections', {
-        })
-            .then(res => {
-                if (res.data.sections) this.setState({
-                    lightedSections: res.data.sections
-                }, () => {this.processSectionsArray(this.state.lightedSections)});
-            });
-    }
-
-    getCheapestTicketsAllSections() {
-        TTTPost('/get-cheap-ticket-any-section', {
-            price: this.state.price,
-        })
-            .then(res => {
-                if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets
-                });
-            });
-    }
-
-    processSectionsArray(sections) {
-        var arr = [];
-        for(var i = 0; i < sections.length; i++) {
-            arr[i] = sections[i].section_number;
-        }
-        this.setState({lightedSections: arr});
-        a = arr;
-        console.log(a);
-    }
-
-    getAllTickets() {
-        this.setState({tickets:[]});
-        TTTPost('/all-tickets', {
-            event_id: this.state.eventID
-        })
-            .then(res => {
-                if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets
-                });
-            });
-
-    }
-
-    getCurrentSection() {
-        if(this.state.section > 0) {
-            return this.state.section;
-        } else { return "All"; }
     }
 
     getSelectedGame() {
@@ -185,76 +150,43 @@ export default class PickTickets extends Component {
         });
     }
 
-    getCheapestTicketsAndSections() {
-        this.setState({tickets:[], lightedSections: [], isLoading:true});
-        this.getCheapestTickets();
-        clickedSection = 0;
-
-    }
-
-    getExpensiveTicketsAndSections() {
-        clickedSection = 0;
-        this.setState({isLoading: true, lightedSections: [], tickets:[]});
-        TTTGet('/pick-expensive-ticket', {
-        })
-            .then(res => {
-                if (res.data.tickets) this.setState({
-                    tickets: res.data.tickets,
-                    isLoading: false
-                }, () => {this.setAndLightSectionsArrayFromTickets(this.state.tickets)});
-            });
-    }
-
-    toggleChartHighlight() {
-        a = [];
-        this.setState({tickets: [], lightedSections: a});
-    }
-
     onChartClick(section) {
-        this.setState({tickets: [], lightedSections: [], isLoading: true});
-        clickedSection = section;
-        if(section != this.state.section) {
-            a = [];
-            //var arr = this.state.lightedSections.slice();
-            // TODO: Handle highlighting of multiple sections.
-            //arr[0] = section;
-            a[0] = section;
-            if (section.length > 0) {
-                TTTPost('/tickets', {
-                    section_number: section
-                })
-                    .then(res => {
-                        if (res.data.tickets)
+        if(this.state.sections.length === 1 && this.state.sections[0] === section) {
+            this.setState({
+                previousSections: this.state.sections,
+                sections: [],
+                tickets: [],
+                toggleValue: null
+            });
+        }
+        else {
+            this.setState({isLoading:true, tickets: []});    
+            TTTPost('/tickets', {
+                eventID: this.state.eventID,
+                section_number: section
+            })
+                .then(res => {
+                    if (res.data.tickets) {
                         this.setState({
-                            section: section,
-                            lightedSections: a,
+                            previousSections: this.state.sections,
+                            sections: [section],
                             tickets: res.data.tickets,
                             isLoading: false
                         });
-                    });
-            }
-        }
-        else {
-            a = [];
-            clickedSection = 0;
-            this.setState({
-                section: 0,
-                tickets: [],
-                lightedSections: [],
-                isLoading: false
-            });
+                    }
+                });
         }
     }
 
-    firstComponentChangeValue(e) {
+    onSliderChange(e) {
         this.setState({
-            firstComponentCurrentValue: e.target.value,
+            sliderValue: e.target.value,
             price: e.target.value
         });
     }
 
-    onToggleChange = (value) => {
-        this.setState({ value });
+    onToggleChange(value) {
+        this.setState({ toggleValue: value });
     }
 
     hasEventID() {
@@ -299,11 +231,10 @@ export default class PickTickets extends Component {
                                 </Col>
                             </Row>
                             <br/>
-                                <WellsFargoChart
-                                    onSectionSelected={this.onChartClick.bind(this)}
-                                    selectedSection={this.state.section}
-                                    sections={this.state.lightedSections}/>
-
+                            <WellsFargoChart
+                                onSectionSelected={this.onChartClick.bind(this)}
+                                selectedSections={this.state.sections}
+                                previousSections={this.state.previousSections}/>
                         </Col>
                         <Col lg={4}>
                             <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
@@ -314,10 +245,10 @@ export default class PickTickets extends Component {
                                     <ToggleButtonGroup
                                         name = "filterToggleGroup"
                                         type="radio"
-                                        value={this.state.value}
-                                        onToggleChange={this.onToggleChange}>
+                                        value={this.state.toggleValue}
+                                        onChange={this.onToggleChange.bind(this)}>
                                             <ToggleButton value={1}>Select Price</ToggleButton>
-                                            <ToggleButton value={2} onClick={this.getCheapestTicketsAndSections.bind(this)} >Lowest Price</ToggleButton>
+                                            <ToggleButton value={2} onClick={this.getCheapestTickets.bind(this)} >Lowest Price</ToggleButton>
                                             <ToggleButton value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)} >Highest Price</ToggleButton>
                                     </ToggleButtonGroup>
                                 </div>
@@ -329,30 +260,13 @@ export default class PickTickets extends Component {
                                         min={1}
                                         step={1}
                                         tooltip="hide"
-                                        handleChange={this.firstComponentChangeValue.bind(this)}
-                                        value={this.state.firstComponentCurrentValue}
-                                    />
+                                        handleChange={this.onSliderChange.bind(this)}
+                                        value={this.state.sliderValue}/>
 
                                     <ControlLabel
                                         className="slider-price-label">
                                         Ticket Price: ${this.state.price}
                                     </ControlLabel>
-
-                                    <div>
-                                        <div2>
-                                            <ControlLabel
-                                                id="sectionNumber"
-                                                style={{color: 'black', fontSize: 15}}>
-                                                Section Number:
-                                            </ControlLabel>
-                                        </div2>
-                                        <div2>
-                                            <FormControl style={{width: 62}} placeholder="Enter section #"
-                                                         type="section"
-                                                         value={clickedSection}
-                                                         onChange={this.handleChange.bind(this)}/>
-                                        </div2>
-                                    </div>
 
                                     <div>
                                         <Button bsStyle="primary"
