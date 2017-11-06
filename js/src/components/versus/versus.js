@@ -3,6 +3,7 @@ import {Grid, Row, Col, FormGroup, ControlLabel,
     FormControl, Well, ListGroup, ListGroupItem, Panel, Button} from 'react-bootstrap';
 import _ from 'lodash';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
+import {LinkContainer} from 'react-router-bootstrap';
 import '../versus/versus.css';
 
 export default class Versus extends Component {
@@ -66,6 +67,10 @@ export default class Versus extends Component {
                 {game.away_team_name} at {game.home_team_name}
                 <br />
                 on {game.date}
+                <br />
+                <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
+                    <Button> Purchase Tickets </Button>
+                </LinkContainer>
             </li>
         );
     }
