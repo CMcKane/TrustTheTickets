@@ -27,7 +27,7 @@ const navItems = [
     },
     {
         label: 'Teams',
-        url: '/versus
+        url: '/versus'
     },
     {
         label: 'My Account',
@@ -36,95 +36,34 @@ const navItems = [
  ];
 
 export default class App extends Component {
-  constructor(props) {
-      super(props);
-      this.Auth = new AuthService();
-      this.state = {
-          navItems,
-          token: this.Auth.getToken()
-      };
-
-      this.Auth.refreshToken()
-        .then(res => {
-          if (res.data.authenticated) {
-            this.setState({
-              token: res.data.token
-            });
-          }
-        });
-  }
-
-  userLogIn(token) {
-    this.setState({
-      token: token
-    });
-  }
-
-  userLogOut() {
-    this.setState({
-      token: null
-    });
-  }
-
-  render() {
-    return (
-        <Router>
-            <div>
-                <Header navItems={this.state.navItems} />
-                <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/view-tickets' component={ViewTickets} />
-                    <Route path='/event-calendar' component={EventCalendarView} />
-                    <Route path='/event-list' component={EventListView} />
-                    <Route path='/pick-tickets' component={PickTickets} />
-                    <Route path='/versus' component={Versus} />
-                    <Route path='/my-account' render={(props) =>
-                        <MyAccount
-                            {...props} logIn={this.userLogIn.bind(this)}
-                            logOut={this.userLogOut.bind(this)}
-                        />}
-                    />
-                    <Route path='/login' render={(props) =>
-                        <Login
-                            {...props}
-                            logIn={this.userLogIn.bind(this)}
-                        />}
-                    />
-                    <Route path='/register' render={(props) =>
-                        <Registration
-                            {...props}
-                        />}
-                    />
-                    <Route path='/about' />
-                    <Route component={NotFoundView} />
-                </Switch>
-            </div>
-        </Router>
-    );
-  }
-]
-
-
-export default class App extends Component {
     constructor(props) {
         super(props);
-
+        this.Auth = new AuthService();
         this.state = {
             navItems,
-            user: initializeUser()
+            token: this.Auth.getToken()
         };
+
+        this.Auth.refreshToken()
+            .then(res => {
+                if (res.data.authenticated) {
+                    this.setState({
+                        token: res.data.token
+                    });
+                }
+            });
     }
 
-    userLogIn(emailAddress, fname, lname) {
+    userLogIn(token) {
         this.setState({
-            user: login(emailAddress, fname, lname)
+            token: token
         });
     }
 
     userLogOut() {
         this.setState({
-            user: logout()
-        })
+            token: null
+        });
     }
 
     render() {
@@ -138,25 +77,22 @@ export default class App extends Component {
                         <Route path='/event-calendar' component={EventCalendarView}/>
                         <Route path='/event-list' component={EventListView}/>
                         <Route path='/pick-tickets' component={PickTickets}/>
+                        <Route path='/versus' component={Versus}/>
                         <Route path='/my-account' render={(props) =>
                             <MyAccount
-                                {...props}
-                                logIn={this.userLogIn.bind(this)}
+                                {...props} logIn={this.userLogIn.bind(this)}
                                 logOut={this.userLogOut.bind(this)}
-                                user={this.state.user}
                             />}
                         />
                         <Route path='/login' render={(props) =>
                             <Login
                                 {...props}
                                 logIn={this.userLogIn.bind(this)}
-                                userLoggedIn={this.state.user.loggedIn}
                             />}
                         />
                         <Route path='/register' render={(props) =>
                             <Registration
                                 {...props}
-                                userLoggedIn={this.state.user.loggedIn}
                             />}
                         />
                         <Route path='/about'/>
