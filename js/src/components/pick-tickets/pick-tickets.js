@@ -226,89 +226,89 @@ export default class PickTickets extends Component {
 
     render() {
         return (
-        <div className="bgimg4">
-            <div>
-                <Grid style={{paddingTop: "25px"}}>
-                    <h1 className="border-white">
-                        <Well className='pick-tickets-well' style={{background: '#006BB6'}}>
-                            Pick-A-Ticket
-                        </Well>
-                    </h1>
-                    <Row>
-                        <Col lg={8}>
-                            <Row>
-                                <Col lg={8}>
-                                    <ButtonGroup>
-                                        <DropdownButton disabled={this.hasEventID()}
-                                            title={this.state.eventTitle} id="bg-nested-dropdown">
-                                            <LinkContainer to='/event-calendar'>
-                                                <MenuItem eventKey="By Team">By Team</MenuItem>
-                                            </LinkContainer>
-                                            <LinkContainer to='/event-calendar'>
-                                                <MenuItem eventKey="By Calendar">By Calendar</MenuItem>
-                                            </LinkContainer>
-                                        </DropdownButton>
-                                    </ButtonGroup>
-                                </Col>
-                            </Row>
-                            <br/>
-                            <WellsFargoChart
-                                onSectionSelected={this.onChartClick.bind(this)}
-                                selectedSections={this.state.sections}
-                                previousSections={this.state.previousSections}/>
-                        </Col>
-                        <Col lg={4}>
-                            <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
-                              Filter
-                            </Button>
-                            <Panel collapsible expanded={this.state.showFilter}>
-                                <div>
-                                    <ToggleButtonGroup
-                                        id = "priceToggleGroup"
-                                        name = "filterToggleGroup"
-                                        type="radio"
-                                        value={this.state.toggleValue}
-                                        onChange={this.onToggleChange.bind(this)}>
-                                            <ToggleButton id="selectPrice" value={1} onClick={this.selectTicket.bind(this)}>Select Price</ToggleButton>
-                                            <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)} >Lowest Price</ToggleButton>
-                                            <ToggleButton id="highestPrice" value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)} >Highest Price</ToggleButton>
-                                    </ToggleButtonGroup>
-                                </div>
-                                <span> </span>
-                                <FormGroup controlId="formControlsEmail">
-                                    <ReactSliderNativeBootstrap
-                                        className="price-slider"
-                                        max={1000}
-                                        min={1}
-                                        step={1}
-                                        tooltip="hide"
-                                        handleChange={this.onSliderChange.bind(this)}
-                                        value={this.state.sliderValue}/>
-
-                                    <ControlLabel
-                                        className="slider-price-label">
-                                        Ticket Price: ${this.state.price}
-                                    </ControlLabel>
-
+            <div className="globalImage pick-tickets-bg-image">
+                <div className="globalImageOverlay">
+                    <Grid style={{paddingTop: "25px"}}>
+                        <h1 className="border-white">
+                            <Well className='pick-tickets-well' style={{background: '#006BB6'}}>
+                                Pick-A-Ticket
+                            </Well>
+                        </h1>
+                        <Row>
+                            <Col lg={8}>
+                                <Row>
+                                    <Col lg={8}>
+                                        <ButtonGroup>
+                                            <DropdownButton disabled={this.hasEventID()}
+                                                title={this.state.eventTitle} id="bg-nested-dropdown">
+                                                <LinkContainer to='/event-calendar'>
+                                                    <MenuItem eventKey="By Team">By Team</MenuItem>
+                                                </LinkContainer>
+                                                <LinkContainer to='/event-calendar'>
+                                                    <MenuItem eventKey="By Calendar">By Calendar</MenuItem>
+                                                </LinkContainer>
+                                            </DropdownButton>
+                                        </ButtonGroup>
+                                    </Col>
+                                </Row>
+                                <br/>
+                                <WellsFargoChart
+                                    onSectionSelected={this.onChartClick.bind(this)}
+                                    selectedSections={this.state.sections}
+                                    previousSections={this.state.previousSections}/>
+                            </Col>
+                            <Col lg={4}>
+                                <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
+                                  Filter
+                                </Button>
+                                <Panel collapsible expanded={this.state.showFilter}>
                                     <div>
-                                        <Button bsStyle="primary"
-                                                onClick={this.getTicketsWithFilter.bind(this)}>
-                                            Apply
-                                        </Button>
+                                        <ToggleButtonGroup
+                                            id = "priceToggleGroup"
+                                            name = "filterToggleGroup"
+                                            type="radio"
+                                            value={this.state.toggleValue}
+                                            onChange={this.onToggleChange.bind(this)}>
+                                                <ToggleButton id="selectPrice" value={1} onClick={this.selectTicket.bind(this)}>Select Price</ToggleButton>
+                                                <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)} >Lowest Price</ToggleButton>
+                                                <ToggleButton id="highestPrice" value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)} >Highest Price</ToggleButton>
+                                        </ToggleButtonGroup>
                                     </div>
-                                </FormGroup>
-                            </Panel>
+                                    <span> </span>
+                                    <FormGroup controlId="formControlsEmail">
+                                        <ReactSliderNativeBootstrap
+                                            className="price-slider"
+                                            max={1000}
+                                            min={1}
+                                            step={1}
+                                            tooltip="hide"
+                                            handleChange={this.onSliderChange.bind(this)}
+                                            value={this.state.sliderValue}/>
 
-                            <h3 className="Tickets-label"> Tickets </h3>
-                            <div className="ticket-border">
-                                {this.renderTicketList()}
-                                <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
-                            </div>
-                        </Col>
-                    </Row>
-                </Grid>
+                                        <ControlLabel
+                                            className="slider-price-label">
+                                            Ticket Price: ${this.state.price}
+                                        </ControlLabel>
+
+                                        <div>
+                                            <Button bsStyle="primary"
+                                                    onClick={this.getTicketsWithFilter.bind(this)}>
+                                                Apply
+                                            </Button>
+                                        </div>
+                                    </FormGroup>
+                                </Panel>
+
+                                <h3 className="Tickets-label"> Tickets </h3>
+                                <div className="ticket-border">
+                                    {this.renderTicketList()}
+                                    <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </div>
             </div>
-        </div>
         );
     }
 }

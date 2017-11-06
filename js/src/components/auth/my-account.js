@@ -3,7 +3,6 @@ import {Button} from 'react-bootstrap';
 import {TTTPost} from '../backend/ttt-request';
 import withAuth from './with-auth';
 import AuthService from './auth-service';
-import '../../App.css';
 
 class MyAccount extends Component {
 
@@ -43,14 +42,16 @@ class MyAccount extends Component {
 
     render() {
         return (
-            <div className='homeBody'>
-                <div className='text-center' style={{color: 'white', paddingTop: '5%'}}>
-                    <h1>My Account</h1>
-                    {this.getAccountInfo()}
-                    <Button bsStyle='primary'
-                            onClick={this.logOut.bind(this)}>
-                        Log Out
-                    </Button>
+            <div className='globalBody globalImage'>
+                <div className='globalBody globalImageOverlay'>
+                    <div className='globalPageTitle'>
+                        <h1>My Account</h1>
+                        {this.getAccountInfo()}
+                        <Button bsStyle='primary'
+                                onClick={this.logOut.bind(this)}>
+                            Log Out
+                        </Button>
+                    </div>
                 </div>
             </div>
         );

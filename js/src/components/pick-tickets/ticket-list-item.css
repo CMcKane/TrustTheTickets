@@ -5,6 +5,7 @@
     overflow: auto;
     height: 580px;
     width: 100%;
+    background-color: white;
 }
 
 .list-group-item {

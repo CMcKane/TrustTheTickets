@@ -54,3 +54,8 @@
     font-size: 20px;
 }
 
+.pick-tickets-bg-image
+{
+    background-size: cover;
+    background-repeat: no-repeat;
+}

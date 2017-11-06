@@ -82,27 +82,31 @@ export default class Versus extends Component {
 
     render(){
         return (
-            <Grid>
-                <h1 className="border-white">
-                    <Well className='pick-teams-well' style={{background: 'transparent'}}>
-                        Choose the opponent you would like to see!
-                    </Well>
-                </h1>
-                <Row>
-                    <Col lg={4}>
-                        <h3 className="text-center"> Opponents: </h3>
-                        <Panel className="list-of-teams">
-                            {this.renderTeamList()}
-                        </Panel>
-                    </Col>
-                    <Col lg={4}>
-                        <h3 className="text-center"> Games: </h3>
-                        <Panel className="list-of-teams">
-                            {this.renderGameList()}
-                        </Panel>
-                    </Col>
-                </Row>
-            </Grid>
+            <div className='globalBody globalImage'>
+                <div className='globalBody globalImageOverlay'>
+                    <Grid>
+                        <h1 className="border-white">
+                            <Well className='pick-teams-well' style={{background: 'transparent'}}>
+                                Choose the opponent you would like to see!
+                            </Well>
+                        </h1>
+                        <Row>
+                            <Col lg={4}>
+                                <h3 className="text-center" style={{color: 'black'}}> Opponents: </h3>
+                                <Panel className="list-of-teams">
+                                    {this.renderTeamList()}
+                                </Panel>
+                            </Col>
+                            <Col lg={4}>
+                                <h3 className="text-center" style={{color: 'black'}}> Games: </h3>
+                                <Panel className="list-of-teams">
+                                    {this.renderGameList()}
+                                </Panel>
+                            </Col>
+                        </Row>
+                    </Grid>
+                </div>
+            </div>
         );
     }
  }
