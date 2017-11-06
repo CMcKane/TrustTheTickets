@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
 import {LinkContainer} from 'react-router-bootstrap';
 import {getLogo} from '../logos/logo-central';
+import Logo from '../logos/logo';
 import '../versus/versus.css';
 
 export default class Versus extends Component {
@@ -42,7 +43,7 @@ export default class Versus extends Component {
     renderTeamList() {
         return _.map(this.state.teams, (team, id) =>
             <li className="list-group-item" border-color="red" key={team.team_id}>
-                <Image src = {getLogo(team.team_name)} height = "40" width = "40" align="left"></Image>
+                <Logo team={team.team_name} class={"teamLogoLeftBig"} />
                 <Button onClick={this.handleClick.bind(this, team.team_id)}>
                 {team.city} {team.team_name} </Button>
             </li>
@@ -70,13 +71,11 @@ export default class Versus extends Component {
                 <br />
                 on {game.date}
                 <br />
-                <Image src = {getLogo("bulls")} height = "40"
-                       width = "40" align="left"></Image>
+                <Logo team={game.away_team_name} class={"teamLogoLeft"} />
                 <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
                     <Button> Purchase Tickets </Button>
                 </LinkContainer>
-                <Image src = {getLogo("76ers")} height = "40"
-                       width = "40" align="right"></Image>
+                <Logo team={game.home_team_name} class={"teamLogoRight"} />
             </li>
         );
     }
