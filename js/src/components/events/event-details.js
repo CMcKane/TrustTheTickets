@@ -15,31 +15,19 @@ export default class EventDetails extends Component {
         );
     }
 
-    // Convoluted spaghetti code courtesy of Tom
-    sortEventList() {
-      if (this.props.selectedEvent) {
-        var eventList = [];
-        eventList[0] = this.props.selectedEvent;
-        var counter = 0;
-        for (var i = 1; i < this.props.eventList.length+1; i++) {
-          if (this.props.eventList[i-1] !== this.props.selectedEvent)
-            eventList[i-counter] = this.props.eventList[i-1];
-          else {
-            counter++;
-          }
+    componentDidUpdate() {
+        if (this.props.selectedEvent) {
+          var topPos = document.getElementById('event'+this.props.selectedEvent.id).offsetTop;
+          document.getElementById('event-details').scrollTop = topPos-75;
         }
-        return eventList;
-      }
-      return this.props.eventList;
     }
 
     render() {
-      const eventList = this.sortEventList();
       return (
           <div className="event-details-container">
             <h3 className="details-header">Game Details</h3>
-            <div className="event-details">
-              {this.renderEventDetails(eventList)}
+            <div id="event-details" className="event-details">
+              {this.renderEventDetails(this.props.eventList)}
             </div>
           </div>
       );

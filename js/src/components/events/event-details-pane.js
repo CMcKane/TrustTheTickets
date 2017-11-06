@@ -12,12 +12,15 @@ export default class EventDetailsPane extends Component {
 
 	render() {
 		var detailsClass = "event-detail-pane";
+    const id = "event"+this.props.event.id;
 		if (this.props.selectedEvent 
 			&& this.props.selectedEvent.id === this.props.event.id) {
 			detailsClass = "event-detail-pane-selected";
 		} 
 		return (
-          <div className={detailsClass} onClick={this.props.eventSelected.bind(this, this.props.event)}>
+          <div id={id}
+            className={detailsClass} 
+            onClick={this.props.eventSelected.bind(this, this.props.event)}>
             <h4 style={{"textAlign": "center"}}>
                 {this.props.event.homeTeam} vs. {this.props.event.awayTeam}</h4>
             <h5><Time value={this.props.event.start} format="dddd, MMMM Do"/></h5>

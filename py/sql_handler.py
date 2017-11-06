@@ -5,7 +5,7 @@ class SqlHandler(object):
     def __init__(self, mysql):
         self.mysql = mysql
 
-    def get_tickets(self, sectionNum):
+    def get_tickets(self, sectionNum, event_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num, g.ticket_price "
@@ -14,8 +14,9 @@ class SqlHandler(object):
                        "JOIN rows r ON (t.row_id = r.row_id) "
                        "JOIN seats s ON (t.seat_id = s.seat_id) "
                        "JOIN groups g USING (group_id)"
-                       "WHERE se.section_num = '{}' "
-                       "ORDER BY row_num".format(sectionNum))
+                       "WHERE t.event_id = '{}'"
+                       "AND se.section_num = '{}' "
+                       "ORDER BY row_num".format(event_id, sectionNum))
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
                         section_number=row[3], ticket_price=row[4]) for row in
                    cursor.fetchall()]
@@ -96,7 +97,7 @@ class SqlHandler(object):
         except Exception as e:
             print(e)
 
-    def get_event(self, eventID):
+    def get_event(self, event_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
         try:
@@ -108,7 +109,7 @@ class SqlHandler(object):
                 "JOIN teams h ON (h.team_id = home_team_id) "
                 "JOIN teams a ON (a.team_id = away_team_id) "
                 "WHERE g.event_id = '{}'"
-                "GROUP BY g.event_id;".format(eventID))
+                "GROUP BY g.event_id;".format(event_id))
             cols = cursor.fetchone()
             event_details = dict(authenticated=True, title=cols[0], awayTeam=cols[1], homeTeam=cols[2])
             return event_details
@@ -174,83 +175,111 @@ class SqlHandler(object):
         data = [dict(team_id=row[0], city=row[1], team_name=row[2]) for row in cursor.fetchall()]
         return data
 
-    def get_ticket_by_filter(self, price, section):
+    def get_ticket_by_filter(self, price, event_id, sections):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        section_string = ""
+        for i in range(0, len(sections)):
+            if (i == len(sections)-1):
+                section_string+="'{}'".format(sections[i])
+            else:
+                section_string+="'{}',".format(sections[i])
+        cursor.execute("SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num "
+                       "FROM tickets t "
+                       "JOIN groups g ON (t.group_id = g.group_id) "
+                       "JOIN sections se ON (t.section_id = se.section_id) "
+                       "JOIN rows r ON (t.row_id = r.row_id) "
+                       "JOIN seats s ON (t.seat_id = s.seat_id) "
+                       "WHERE g.ticket_price <= {} "
+                       "AND t.event_id = '{}' "
+                       "AND se.section_num IN ({})".format(price, event_id, section_string))
+        tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in cursor.fetchall()]
+        return tickets
+
+    def get_cheap_ticket_any_section(self, event_id, price):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num "
                        "FROM tickets t "
-                       "LEFT JOIN groups g ON (t.group_id = g.group_id) "
-                       "LEFT JOIN sections se ON (t.section_id = se.section_id) "
-                       "LEFT JOIN rows r ON (t.row_id = r.row_id) "
-                       "LEFT JOIN seats s ON (t.seat_id = s.seat_id) "
-                       "WHERE g.ticket_price <= '{}' AND se.section_num = '{}'".format(price, section))
-        #tickets = cursor.fetchall()
+                       "JOIN groups g ON (t.group_id = g.group_id) "
+                       "JOIN sections se ON (t.section_id = se.section_id) "
+                       "JOIN rows r ON (t.row_id = r.row_id) "
+                       "JOIN seats s ON (t.seat_id = s.seat_id) "
+                       "WHERE t.event_id ='{}' "
+                       "AND g.ticket_price <= {}".format(price, event_id))
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in cursor.fetchall()]
         return tickets
 
-    def get_cheap_ticket_any_section(self, price):
-        conn = self.mysql.connection
-        cursor = conn.cursor()
-        cursor.execute("SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num "
-                       "FROM tickets t "
-                       "LEFT JOIN groups g ON (t.group_id = g.group_id) "
-                       "LEFT JOIN sections se ON (t.section_id = se.section_id) "
-                       "LEFT JOIN rows r ON (t.row_id = r.row_id) "
-                       "LEFT JOIN seats s ON (t.seat_id = s.seat_id) "
-                       "WHERE g.ticket_price <= '{}'".format(price))
-        #tickets = cursor.fetchall()
-        tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in cursor.fetchall()]
-        return tickets
 
-    def get_sections_by_less_equal_price(self, price):
+    def get_sections_by_less_equal_price(self, event_id, price):
         conn = self.mysql.connection
         cursor = conn.cursor()
-        cursor.execute("SELECT se.section_num "
+        cursor.execute("SELECT DISTINCT se.section_num "
                        "FROM tickets t "
-                       "LEFT JOIN groups g ON (t.group_id = g.group_id) "
-                       "LEFT JOIN sections se ON (t.section_id = se.section_id) "
-                       "WHERE g.ticket_price <= '{}'".format(price))
-        #tickets = cursor.fetchall()
-        sections = [dict(section_number=row[0]) for row in cursor.fetchall()]
+                       "JOIN groups g ON (t.group_id = g.group_id) "
+                       "JOIN sections se ON (t.section_id = se.section_id) "
+                       "WHERE t.event_id = '{}'"
+                       "AND g.ticket_price <= '{}'".format(event_id, price))
+        sections = []
+        for row in cursor.fetchall():
+            sections.append(row[0])
         return sections
 
-    def get_cheapest_tickets_all_sections(self):
+    def get_sections_by_max_price(self, event_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT DISTINCT se.section_num "
+                       "FROM tickets t "
+                       "JOIN groups g ON (t.group_id = g.group_id) "
+                       "JOIN sections se ON (t.section_id = se.section_id) "
+                       "WHERE t.event_id = '{}'"
+                       "AND g.ticket_price >= "
+                       "    (SELECT max(ticket_price) FROM groups g WHERE g.event_id ='{}')".format(event_id, event_id))
+        sections = []
+        for row in cursor.fetchall():
+            sections.append(row[0])
+        return sections
+
+    def get_cheapest_tickets_all_sections(self, event_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT ticket_price, section_num, row_num, seat_num "
-                       "FROM tickets "
-                       "LEFT JOIN groups USING (group_id) "
-                       "LEFT JOIN sections USING (section_id) "
-                       "LEFT JOIN rows USING (row_id) "
-                       "LEFT JOIN seats USING (seat_id) "
-                       "WHERE ticket_price <= (SELECT min(ticket_price) FROM groups)")
-        # tickets = cursor.fetchall()
+                       "FROM tickets t "
+                       "JOIN groups USING (group_id) "
+                       "JOIN sections USING (section_id) "
+                       "JOIN rows USING (row_id) "
+                       "JOIN seats USING (seat_id) "
+                       "WHERE t.event_id = '{}'"
+                       "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id ='{}')".format(event_id, event_id))
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in
                    cursor.fetchall()]
         return tickets
 
-    def get_expensive_tickets_all_sections(self):
+    def get_expensive_tickets_all_sections(self, event_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT ticket_price, section_num, row_num, seat_num "
-                       "FROM tickets "
-                       "LEFT JOIN groups USING (group_id) "
-                       "LEFT JOIN sections USING (section_id) "
-                       "LEFT JOIN rows USING (row_id) "
-                       "LEFT JOIN seats USING (seat_id) "
-                       "WHERE ticket_price >= (SELECT max(ticket_price) FROM groups)")
-        # tickets = cursor.fetchall()
+                       "FROM tickets t "
+                       "JOIN groups USING (group_id) "
+                       "JOIN sections USING (section_id) "
+                       "JOIN rows USING (row_id) "
+                       "JOIN seats USING (seat_id) "
+                       "WHERE t.event_id = '{}'"
+                       "AND ticket_price >= (SELECT max(ticket_price) FROM groups g WHERE g.event_id = '{}')".format(event_id, event_id))
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in
                    cursor.fetchall()]
         return tickets
 
-    def get_cheapest_tickets_sections(self):
+    def get_cheapest_tickets_sections(self, event_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT DISTINCT section_num "
-                       "FROM tickets "
-                       "LEFT JOIN groups USING (group_id) "
-                       "LEFT JOIN sections USING (section_id) "
-                       "WHERE ticket_price <= (SELECT min(ticket_price) FROM groups)")
-        sections = [dict(section_number=row[0]) for row in cursor.fetchall()]
+                       "FROM tickets t "
+                       "JOIN groups USING (group_id) "
+                       "JOIN sections USING (section_id) "
+                       "WHERE t.event_id ='{}'"
+                       "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id = '{}')".format(event_id, event_id))
+        sections = []
+        for row in cursor.fetchall():
+            sections.append(row[0])
         return sections
