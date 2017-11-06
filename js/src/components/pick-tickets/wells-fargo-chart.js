@@ -7,10 +7,6 @@ const NOT_LIGHTED_COLOR = '#FFFFFF';
 
 export default class WellsFargoChart extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
 	onChartClick(e) {
 		this.props.onSectionSelected(e.target.id);
 	}

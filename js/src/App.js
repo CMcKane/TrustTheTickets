@@ -11,7 +11,7 @@ import Registration from './components/registration/registration';
 import Home from './components/home/home'
 import Header from './components/global/header'
 import MyAccount from './components/auth/my-account';
-import {login, logout, initializeUser} from './components/auth/user';
+// import {login, logout, initializeUser} from './components/auth/user';
 import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
 import EventCalendarView from './components/events/event-calendar-view';

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Button, Panel, Grid, Row, Col, Thumbnail, Image} from 'react-bootstrap';
+import {Button, Panel, Grid, Row, Col, Image} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
-import { Parallax, Background } from 'react-parallax';
+import { Parallax } from 'react-parallax';
 
 // import icons from the react-icons/lib directory.
 // There are five libraries of icons that you can view at their websites
@@ -18,10 +18,6 @@ import IonSocialUsd from 'react-icons/lib/io/social-usd'
 import './home.css';
 
 export default class Home extends Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     renderSearchOptions()
     {
@@ -53,7 +49,7 @@ export default class Home extends Component {
                                     Want to see a particular team? Search by opponents!
                                 </div>
                                 <div className="searchCenter">
-                                    <LinkContainer to="/event-calendar">
+                                    <LinkContainer to="/versus">
                                         <Button bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
                                 </div>

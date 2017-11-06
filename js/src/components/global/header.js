@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import _ from 'lodash';
 import { Image, NavItem, Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
 import Headroom from 'react-headroom';
 
 import './header.css';
