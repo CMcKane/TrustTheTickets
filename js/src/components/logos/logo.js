@@ -7,7 +7,7 @@ export default class Logo extends Component {
 
 	render() {
 		var teamName = this.props.team;
-		var logoClass = "teamLogo";
+		var logoClass = this.props.class;
 		if (this.props.team === "76ers") teamName = "Sixers";
 		if (this.props.team === "Trail Blazers") teamName= "Trailblazers";
 		return (<Image className={logoClass} 
