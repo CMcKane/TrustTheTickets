@@ -1,14 +1,14 @@
 .event-detail-pane {
-	padding: 1em;
-	padding-top: 0.5em;
+	padding: 0.5em;
+	padding-left: 1em;
 	border-style: solid;
 	border-width: 0.1em;
 	border-color: black;
 }
 
 .event-detail-pane-selected {
-	padding: 1em;
-	padding-top: 0.5em;
+	padding: 0.5em;
+	padding-left: 1em;
 	border-style: solid;
 	border-width: 0.1em;
 	border-color: red;

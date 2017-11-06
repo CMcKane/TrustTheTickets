@@ -7,7 +7,7 @@ export default class EventComponent extends Component {
   render() {
     return (
     	<div className="eventComponentContainer">
-    		<Logo team={this.props.event.awayTeam} />
+    		<Logo team={this.props.event.awayTeam} class={"teamLogo"} />
     	</div>
     );
   }

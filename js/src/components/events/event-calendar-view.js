@@ -101,8 +101,9 @@ class EventCalendarView extends Component {
             return <Redirect to={this.getRedirect()} />
         } 
         else return (
-            <div className="eventCalendarView">
+            <div>
                 <Well className="events-well"> Choose Your Game </Well>
+                    <div className="eventCalendarView">
                     <Col lg={9} className="bottomPane">
                         <EventCalendar 
                             events={this.state.eventList}
@@ -127,6 +128,7 @@ class EventCalendarView extends Component {
                                 </Button>
                         </Row>
                     </Col>
+                    </div>
             </div>
         );
     }
