@@ -154,6 +154,19 @@ class SqlHandler(object):
                 cursor.fetchall()]
         return data
 
+    def get_games_by_team(self, team_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT g.event_id, g.home_team_id, g.away_team_id, g.date, "
+                       "home.team_name AS `home_team_name`, away.team_name AS `away_team_name` "
+                       "FROM games g "
+                       "JOIN teams home ON (g.home_team_id = home.team_id) "
+                       "JOIN teams away ON (g.away_team_id = away.team_id) "
+                       "WHERE away_team_id = '{}'".format(team_id))
+        data = [dict(event_id=row[0], home_team_id=row[1], away_team_id=row[2], date=row[3],
+                     home_team_name=row[4], away_team_name=row[5]) for row in cursor.fetchall()]
+        return data
+
     def get_all_teams(self):
         conn = self.mysql.connection
         cursor = conn.cursor()

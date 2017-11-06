@@ -195,6 +195,14 @@ def all_teams():
     teams = sqlHandler.get_all_teams()
     return jsonify({'teams': teams})
 
+@app.route('/games-by-team', methods=['POST'])
+def games_by_team():
+    sqlHandler = SqlHandler(mysql)
+    jsondata = request.get_json()
+    team_id = jsondata['team_id']
+    games = sqlHandler.get_games_by_team(team_id)
+    return jsonify({'games': games})
+
 if __name__ == '__main__':
     app.run()
 
