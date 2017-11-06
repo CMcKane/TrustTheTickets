@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, FormGroup, ControlLabel,
-    FormControl, Well, ListGroup, ListGroupItem, Panel, Button} from 'react-bootstrap';
+import {Grid, Row, Col, Well, Panel, Button, Image} from 'react-bootstrap';
 import _ from 'lodash';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
 import {LinkContainer} from 'react-router-bootstrap';
+import {getLogo} from '../logos/logo-central';
 import '../versus/versus.css';
 
 export default class Versus extends Component {
@@ -42,7 +42,9 @@ export default class Versus extends Component {
     renderTeamList() {
         return _.map(this.state.teams, (team, id) =>
             <li className="list-group-item" border-color="red" key={team.team_id}>
-                <Button onClick={this.handleClick.bind(this, team.team_id)}> {team.city} {team.team_name} {team.team_id} </Button>
+                <Image src = {getLogo(team.team_name)} height = "40" width = "40" align="left"></Image>
+                <Button onClick={this.handleClick.bind(this, team.team_id)}>
+                {team.city} {team.team_name} </Button>
             </li>
         );
 
@@ -68,9 +70,13 @@ export default class Versus extends Component {
                 <br />
                 on {game.date}
                 <br />
+                <Image src = {getLogo("bulls")} height = "40"
+                       width = "40" align="left"></Image>
                 <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
                     <Button> Purchase Tickets </Button>
                 </LinkContainer>
+                <Image src = {getLogo("76ers")} height = "40"
+                       width = "40" align="right"></Image>
             </li>
         );
     }
