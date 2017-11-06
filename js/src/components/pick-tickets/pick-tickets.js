@@ -228,7 +228,7 @@ export default class PickTickets extends Component {
         return (
         <div className="bgimg4">
             <div>
-                <Grid style={{paddingTop: "100px"}}>
+                <Grid style={{paddingTop: "25px"}}>
                     <h1 className="border-white">
                         <Well className='pick-tickets-well' style={{background: '#006BB6'}}>
                             Pick-A-Ticket
@@ -239,9 +239,10 @@ export default class PickTickets extends Component {
                             <Row>
                                 <Col lg={8}>
                                     <ButtonGroup>
-                                        <DropdownButton title={this.state.eventTitle} id="bg-nested-dropdown">
+                                        <DropdownButton disabled={this.hasEventID()}
+                                            title={this.state.eventTitle} id="bg-nested-dropdown">
                                             <LinkContainer to='/event-calendar'>
-                                                <MenuItem eventKey="By Event">By Event</MenuItem>
+                                                <MenuItem eventKey="By Team">By Team</MenuItem>
                                             </LinkContainer>
                                             <LinkContainer to='/event-calendar'>
                                                 <MenuItem eventKey="By Calendar">By Calendar</MenuItem>
