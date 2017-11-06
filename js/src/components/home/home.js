@@ -83,7 +83,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                <Parallax bgImage={require("../../resources/images/city.jpg")} strength={250}>
+                <Parallax bgImage={require("../../resources/images/backgrounds/philadelphia.jpg")} strength={250}>
                     <div className="parallaxSize blueOverlay">
                         <Image src={require("../../resources/images/homeLogo.png")} responsive className="centerThis homeMainLogo"/>
                     </div>
@@ -115,7 +115,7 @@ export default class Home extends Component {
                         </div>
                     </Panel>
                 </div>
-                <Parallax bgImage={require("../../resources/images/night_wells_fargo_blur.png")} strength={250}>
+                <Parallax bgImage={require("../../resources/images/backgrounds/wellsFargoNightBlur.png")} strength={250}>
                     <div className="parallaxSearchSize blueOverlay">
                         {this.renderSearchOptions()}
                     </div>
