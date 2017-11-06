@@ -21,11 +21,6 @@ import './App.css';
 
 const navItems = [
     {
-        label: 'Home',
-        url: '/'
-    }
-    ,
-    {
         label: 'Calendar',
         url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
     },
