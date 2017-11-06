@@ -14,8 +14,9 @@ export default class Versus extends Component {
         super(props);
         this.state = {
             teams: [],
+            games: [],
             selectedTeam: 0,
-            sportTypeID: sportTypeID
+            sportTypeID: sportTypeID,
         }
         this.getAllTeams(sportTypeID);
     }
@@ -32,13 +33,38 @@ export default class Versus extends Component {
             });
     }
 
-    //render the teams in the panel
+    handleClick(team) {
+        console.log(team);
+        this.getGamesByTeam(team);
+    }
+    //render the teams in the left panel
     renderTeamList() {
         return _.map(this.state.teams, (team, id) =>
             <li class="list-group-item" border-color="red">
-                <Button onClick={() => this.setState({selectedTeam: team.team_id})}> {team.city} {team.team_name} {team.team_id} </Button>
+                <Button onClick={this.handleClick.bind(this, team)}> {team.city} {team.team_name} {team.team_id} </Button>
             </li>
+        );
 
+    }
+
+    //Retrieves every team
+    getGamesByTeam(team_id) {
+        TTTGet("/games-by-team", {
+            team_id: team_id
+        })
+            .then(res => {
+                console.log(res.data.games);
+                console.log("IN TTTPost GAMES");
+                this.setState({games: res.data.games});
+            });
+    }
+
+    //render the games in the middle panel
+    renderGameList() {
+        return _.map(this.state.games, (game, id) =>
+            <li class="list-group-item" border-color="red">
+                {game.away_team_id} {game.away_team_name} {game.away_team_id}
+            </li>
         );
     }
 
@@ -59,9 +85,8 @@ export default class Versus extends Component {
                     </Col>
                     <Col lg={4}>
                         <h3 className="text-center"> Games: </h3>
-                        <Panel className = "list-of-teams">
-                          GAMES HERE
-                            {/*{this.renderGameList()}*/}
+                        <Panel className="list-of-teams">
+                            {this.renderGameList()}
                         </Panel>
                     </Col>
                 </Row>
