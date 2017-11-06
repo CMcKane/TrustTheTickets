@@ -64,7 +64,7 @@ export default class Home extends Component {
                                     Short on dough? Search for the cheapest seats!
                                 </div>
                                 <div className="searchCenter">
-                                    <LinkContainer to="/not-found">
+                                    <LinkContainer to="/pick-tickets?event=0">
                                         <Button bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
                                 </div>

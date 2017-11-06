@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well, Button, Panel, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
+import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well,
+        Button, Panel, ToggleButtonGroup, ToggleButton, ButtonGroup,
+        DropdownButton, MenuItem} from 'react-bootstrap';
 import '../../seating-chart.css';
 import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
@@ -9,6 +11,7 @@ import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 import { ClimbingBoxLoader } from 'react-spinners';
+import {LinkContainer} from 'react-router-bootstrap';
 
 var clickedSection = ''
 
@@ -198,6 +201,10 @@ export default class PickTickets extends Component {
         }
     }
 
+    eventButtonClick() {
+        return <LinkContainer to='/event-calendar'/>;
+    }
+
     //render the values in the tickets
     renderTicketList() {
         return _.map(this.state.tickets, (ticket, id) =>
@@ -225,9 +232,16 @@ export default class PickTickets extends Component {
                         <Col lg={8}>
                             <Row>
                                 <Col lg={8}>
-                                    <Button disabled={this.hasEventID()}>
-                                        {this.state.eventTitle}
-                                    </Button>
+                                    <ButtonGroup>
+                                        <DropdownButton title={this.state.eventTitle} id="bg-nested-dropdown">
+                                            <LinkContainer to='/event-calendar'>
+                                                <MenuItem eventKey="By Event">By Event</MenuItem>
+                                            </LinkContainer>
+                                            <LinkContainer to='/event-calendar'>
+                                                <MenuItem eventKey="By Calendar">By Calendar</MenuItem>
+                                            </LinkContainer>
+                                        </DropdownButton>
+                                    </ButtonGroup>
                                 </Col>
                             </Row>
                             <br/>
