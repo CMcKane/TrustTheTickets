@@ -16,7 +16,7 @@ export default class Versus extends Component {
             teams: [],
             games: [],
             selectedTeam: 0,
-            sportTypeID: sportTypeID,
+            sportTypeID: sportTypeID
         }
         this.getAllTeams(sportTypeID);
     }
@@ -33,15 +33,15 @@ export default class Versus extends Component {
             });
     }
 
-    handleClick(team) {
-        console.log(team);
-        this.getGamesByTeam(team);
+    handleClick(team_id) {
+        console.log(team_id);
+        this.getGamesByTeam(team_id);
     }
     //render the teams in the left panel
     renderTeamList() {
         return _.map(this.state.teams, (team, id) =>
-            <li class="list-group-item" border-color="red">
-                <Button onClick={this.handleClick.bind(this, team)}> {team.city} {team.team_name} {team.team_id} </Button>
+            <li className="list-group-item" border-color="red" key={team.team_id}>
+                <Button onClick={this.handleClick.bind(this, team.team_id)}> {team.city} {team.team_name} {team.team_id} </Button>
             </li>
         );
 
@@ -49,7 +49,7 @@ export default class Versus extends Component {
 
     //Retrieves every team
     getGamesByTeam(team_id) {
-        TTTGet("/games-by-team", {
+        TTTPost("/games-by-team", {
             team_id: team_id
         })
             .then(res => {
@@ -62,8 +62,10 @@ export default class Versus extends Component {
     //render the games in the middle panel
     renderGameList() {
         return _.map(this.state.games, (game, id) =>
-            <li class="list-group-item" border-color="red">
-                {game.away_team_id} {game.away_team_name} {game.away_team_id}
+            <li className="list-group-item" border-color="red">
+                {game.away_team_name} at {game.home_team_name}
+                <br />
+                on {game.date}
             </li>
         );
     }
