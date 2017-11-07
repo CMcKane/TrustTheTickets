@@ -36,6 +36,7 @@ export default class PickTickets extends Component {
             toggleValue: 1
         }
         this.getEvent();
+        this.displayAllTickets();
     }
 
     handleChange(e) {
@@ -68,6 +69,21 @@ export default class PickTickets extends Component {
             }
 
         });
+    }
+
+    displayAllTickets() {
+        this.setState({isLoading:true, tickets: [], toggleValue: 1});
+        TTTPost('/all-tickets', {
+            eventID: this.state.eventID
+        })
+            .then(res => {
+                if (res.data.tickets) {
+                    this.setState({
+                        tickets: res.data.tickets,
+                        isLoading: false
+                    });
+                }
+            });
     }
 
     selectTicket() {
