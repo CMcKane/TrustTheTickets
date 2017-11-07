@@ -21,10 +21,10 @@ export default class EventDetailsPane extends Component {
           <div id={id}
             className={detailsClass} 
             onClick={this.props.eventSelected.bind(this, this.props.event)}>
-            <h4 style={{"textAlign": "center"}}>
+            <h4 className="event-details-header">
                 {this.props.event.homeTeam} vs. {this.props.event.awayTeam}</h4>
-            <h5><Time value={this.props.event.start} format="dddd, MMMM Do"/></h5>
-            <p style={{"padding": "0px"}}>Tip-off at <Time value={this.props.event.start}
+            <h5 className="event-details-date"><Time value={this.props.event.start} format="dddd, MMMM Do"/></h5>
+            <p className="event-details-content">Tip-off at <Time value={this.props.event.start}
                format="h:mmA" /><br />
               {this.props.event.numTickets} tickets available <br />
               {this.getMinPrice()}</p>

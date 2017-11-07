@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 import {TTTPost} from '../backend/ttt-request';
 import withAuth from './with-auth';
 import AuthService from './auth-service';
@@ -46,7 +47,9 @@ class MyAccount extends Component {
                 <div className='globalBody globalImageOverlay'>
                     <div className='globalPageTitle'>
                         <h1>My Account</h1>
-                        {this.getAccountInfo()}
+                        <LinkContainer to='/my-account/listings-current'>
+                            <Button bsStyle='primary'>Current Listings</Button>
+                        </LinkContainer>
                         <Button bsStyle='primary'
                                 onClick={this.logOut.bind(this)}>
                             Log Out

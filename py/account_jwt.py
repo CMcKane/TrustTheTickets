@@ -1,5 +1,6 @@
 import datetime
 import jwt
+import time
 import json
 
 SECRET_KEY = 'this_is_a_very_secret_key'
@@ -28,7 +29,7 @@ class JWTService(object):
     def validate_auth_token(self, token):
         try:
             decoded_token = jwt.decode(token, SECRET_KEY, algorithm='HS256')
-            if decoded_token['exp'] > int(datetime.datetime.utcnow().strftime("%s")):
+            if decoded_token['exp'] > int(time.mktime(datetime.datetime.utcnow().timetuple())):
                 return True
             return False
             # Do something?
@@ -39,7 +40,7 @@ class JWTService(object):
     def refresh_token(self, token):
         try:
             decoded_token = jwt.decode(token, SECRET_KEY, algorithm='HS256')
-            if decoded_token['exp'] > int(datetime.datetime.utcnow().strftime("%s")):
+            if decoded_token['exp'] > int(time.mktime(datetime.datetime.utcnow().timetuple())):
                 return self.encode_auth_token(decoded_token['sub']).decode('utf-8')
         except Exception as e:
             print(e)

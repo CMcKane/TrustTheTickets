@@ -104,7 +104,7 @@ class EventCalendarView extends Component {
             <div>
                 <Well className="events-well"> Choose Your Game </Well>
                     <div className="eventCalendarView">
-                    <Col lg={9} className="bottomPane">
+                    <Col xs={9} sm={9} md={9} lg={10} className="bottomPane">
                         <EventCalendar 
                             events={this.state.eventList}
                             eventSelected={this.eventSelected.bind(this)}
@@ -114,7 +114,7 @@ class EventCalendarView extends Component {
                             year={queryParams.y}
                             validateDate={this.monthAndYearValid.bind(this)} />
                     </Col>
-                    <Col lg={3} className="bottomPane">
+                    <Col xs={3} sm={3} md={3} lg={2} className="bottomPane">
                         <Row className="event-calendar-details-row">
                             <EventDetails
                                 eventList={this.state.eventList}

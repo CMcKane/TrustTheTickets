@@ -11,12 +11,12 @@ import Registration from './components/registration/registration';
 import Home from './components/home/home'
 import Header from './components/global/header'
 import MyAccount from './components/auth/my-account';
-// import {login, logout, initializeUser} from './components/auth/user';
 import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
 import EventCalendarView from './components/events/event-calendar-view';
 import EventListView from './components/events/event-list-view';
 import Versus from './components/versus/versus';
+import ListingsView from './components/account/listings/listings-view';
 import AuthService from './components/auth/auth-service';
 import './App.css';
 
@@ -78,12 +78,13 @@ export default class App extends Component {
                         <Route path='/event-list' component={EventListView}/>
                         <Route path='/pick-tickets' component={PickTickets}/>
                         <Route path='/versus' component={Versus}/>
-                        <Route path='/my-account' render={(props) =>
+                        <Route exact path='/my-account' render={(props) =>
                             <MyAccount
                                 {...props} logIn={this.userLogIn.bind(this)}
                                 logOut={this.userLogOut.bind(this)}
                             />}
                         />
+                        <Route path='/my-account/listings-current' component={ListingsView} />
                         <Route path='/login' render={(props) =>
                             <Login
                                 {...props}
@@ -95,7 +96,6 @@ export default class App extends Component {
                                 {...props}
                             />}
                         />
-                        <Route path='/about'/>
                         <Route path="/not-found" component={NotFoundView}/>
                         <Route component={NotFoundView}/>
                     </Switch>

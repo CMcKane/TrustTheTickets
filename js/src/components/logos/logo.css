@@ -1,5 +1,24 @@
 .teamLogo {
-	max-width: 35%;
+	max-width: 100%;
+	display: block;
+	margin: 0 auto;
+}
+@media (min-width: 900px) {
+	.teamLogo {
+		max-width: 80%;
+		display: block;
+		margin: 0 auto;
+	}
+}
+@media (min-width: 1300px) {
+	.teamLogo {
+		max-width: 50%;
+		display: block;
+		margin: 0 auto;
+	}
+}
+.mobileTeamLogo{
+	max-width: 100%;
 	display: block;
 	margin: 0 auto;
 }
