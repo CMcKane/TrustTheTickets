@@ -106,14 +106,29 @@ export default class ListingItem extends Component {
 		}
 	}
 
-	render() {
-		return (
-			<div style={{paddingBottom: "0px"}}>
-		    <Panel bsStyle="primary" header={this.getHeader()} style={{marginTop: "10px", marginBottom: "0px"}}>
+	getPanel() {
+		if (this.state.listing.inProgress) {
+			return (
+			<Panel bsStyle='primary' header={this.getHeader()} style={{marginTop: "10px", marginBottom: "0px"}}>
 		    	<Grid>
 		    		{this.getListing()}
 		    	</Grid>
 		    </Panel>
+			);
+		}
+		return (
+			<Panel header={this.getHeader()} style={{marginTop: "10px", marginBottom: "0px"}}>
+		    	<Grid>
+		    		{this.getListing()}
+		    	</Grid>
+		    </Panel>
+		);
+	}
+
+	render() {
+		return (
+			<div style={{paddingBottom: "0px"}}>
+			{this.getPanel()}
 		    {this.getCollapsiblePanel()}
 		    </div>
 		);
