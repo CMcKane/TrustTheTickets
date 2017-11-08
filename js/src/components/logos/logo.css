@@ -17,6 +17,11 @@
 		margin: 0 auto;
 	}
 }
+.listingsTeamLogo {
+	max-width: 100%;
+	align: left;
+	display: inline;
+}
 .mobileTeamLogo{
 	max-width: 100%;
 	display: block;

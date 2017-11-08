@@ -1,13 +1,15 @@
 import React, { Component }  from 'react';
 import { Panel, Button, Grid, Row, Col } from 'react-bootstrap';
+import Logo from '../../logos/logo';
+import './listings.css';
 
 export default class ListingItem extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			editing: this.props.editing,
-			listing: this.props.listing
+			listing: this.props.listing,
+			open: false
 		}
 	}
 
@@ -21,23 +23,63 @@ export default class ListingItem extends Component {
 		this.props.updateListing(this.state.listing.groupID);
 	}
 
+	getStatus() {
+		if (this.state.listing.inProgress) {
+			return 'In progress';
+		}
+		return 'Completed';
+	}
+
+	getHeader() {
+		return (
+			<Grid style={{paddingLeft: "0px"}}>
+				<Col xs={7} sm={6} md={5} lg={6} style={{paddingLeft: "0px"}}>
+					{this.state.listing.date} - {this.getStatus()}
+				</Col>
+				<Col xs={5} sm={2} md={2} lg={1} style={{paddingLeft: "0px", paddingRight: "0px"}}>
+					{this.getButton()}
+				</Col>
+			</Grid>); 
+	}
+
+	getSeats() {
+		var seats = this.state.listing.seats[0];
+		if (this.state.listing.seats.length > 1) {
+			seats = seats + '-' + this.state.listing.seats[this.state.listing.seats.length-1];
+		}
+		return seats;
+	}
+
 	getContent() {
-		return this.props.listing.awayTeam;
+		return (
+			<Grid style={{paddingLeft: "0px"}}>
+				<Col xsHidden sm={1} md={1} lg={1} style={{paddingLeft: "0px"}}>
+					<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
+				</Col>
+				<Col xs={11} sm={7} md={5} lg={5} style={{paddingLeft: "0px"}}>
+					<p style={{paddingLeft: "0px"}}>
+					{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
+					Section: {this.state.listing.section} Row: {this.state.listing.row} Seats: {this.getSeats()} <br/>
+					Price: {this.state.listing.price} <br/>
+					Minimum group size: {this.state.listing.minSellSize} <br/>
+					</p>
+				</Col>
+			</Grid>
+		);
 	}
 
 	getButton() {
-		if (this.state.editing) {
+		if (this.state.listing.inProgress) {
 			return (
-				<Button bsStyle='primary'
-	                onClick={this.submitListing.bind(this)}>
-	                Submit
+				<Button onClick={this.editListing.bind(this)} style={{float: 'right'}}>
+	                Edit
 	        	</Button>
 			);
 		}
 		return (
-			<Button bsStyle='primary'
-                onClick={this.editListing.bind(this)}>
-                Edit
+			<Button style={{float: 'right'}} 
+				onClick={() => this.setState({ open: !this.state.open })}>
+          		Order Details
         	</Button>
 		);
 	}
@@ -45,23 +87,35 @@ export default class ListingItem extends Component {
 	getListing() {
 		return (
 			<Row>
-			    <Col xs={8} sm={7} md={6} lg={6}>
-					{this.getContent()}
-				</Col>
-				<Col xs={2} sm={3} md={2} lg={2}>
-					{this.getButton()}
-				</Col>
+				<div className="listingItem">
+				    <Col xs={10} sm={10} md={10} lg={10} style={{padding: "0px"}}>
+						{this.getContent()}
+					</Col>
+				</div>
 			</Row>
 		);
 	}
 
+	getCollapsiblePanel() {
+		if (!this.state.listing.inProgress){
+			return (
+				<Panel collapsible expanded={this.state.open} style={{marginBottom: "0px"}}>
+		    		Order Details
+		    	</Panel>
+			);
+		}
+	}
+
 	render() {
 		return (
-		    <Panel header={this.props.listing.date}>
+			<div style={{paddingBottom: "0px"}}>
+		    <Panel bsStyle="primary" header={this.getHeader()} style={{marginTop: "10px", marginBottom: "0px"}}>
 		    	<Grid>
 		    		{this.getListing()}
 		    	</Grid>
 		    </Panel>
+		    {this.getCollapsiblePanel()}
+		    </div>
 		);
 	}
 }
