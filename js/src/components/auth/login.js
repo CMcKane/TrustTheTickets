@@ -26,6 +26,8 @@ export default class Login extends Component {
         .then(res => {
             if (res.data.authenticated) {
                 this.props.logIn();
+            } else {
+                this.renderWrongEmailPassword();
             }
         });
     }

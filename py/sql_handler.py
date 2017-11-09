@@ -141,9 +141,11 @@ class SqlHandler(object):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT first_name, last_name, password, account_id FROM accounts WHERE email = '{}'".format(email))
+            "SELECT first_name, last_name, password, account_id, account_status_desc FROM accounts "
+            "JOIN account_status USING (account_status_id)"
+            "WHERE email = '{}'".format(email))
         cols = cursor.fetchone()
-        if cols and sha256_crypt.verify(password, cols[2]):
+        if cols and sha256_crypt.verify(password, cols[2]) and cols[4] == 'Active' :
             return dict(authenticated=True, firstName=cols[0], lastName=cols[1], account_id=cols[3])
         else:
             return {'authenticated': False}

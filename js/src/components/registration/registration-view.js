@@ -104,7 +104,6 @@ export default class RegistrationView extends Component {
 
 
     render() {
-        console.log(this.props);
         return (
             <div className="homeBody">
                 <div className="wrapper" style={{paddingTop: '5%'}}>
