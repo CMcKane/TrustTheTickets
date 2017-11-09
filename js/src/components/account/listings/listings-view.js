@@ -101,9 +101,16 @@ class ListingsView extends Component {
 	        		<Grid style={{height: '80%'}}>
 	        			<Col xs={0} sm={1} md={2} lg={2}>
 	        			</Col>
-	        			<Col xs={12} sm={10} md={8} lg={8} style={{height: '100%'}}>
-	                		<h1 className="listingTitle" style={{color: 'black', padding: '10px'}}> Your Listing History </h1>
-	                		<div style={{overflowY: 'auto', overflowX: 'hidden', height: "100%", paddingBottom: '20px', paddingRight: '10px'}} >
+	        			<Col xs={12} sm={10} md={8} lg={8} style={{height: '100%', paddingBottom: '40px'}}>
+	                		<h1 className="listingTitle" style={{color: 'black', padding: '10px'}}> 
+	                			Your Listing History 
+	             			</h1>
+	                		<div style=
+	                			{{
+	                				overflowY: 'auto',
+	                				overflowX: 'hidden', 
+	                				height: "100%",  
+	                				paddingRight: '20px'}} >
 	                			{this.renderListings()}
 	                		</div>
 	                	</Col>

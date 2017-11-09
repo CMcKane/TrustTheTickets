@@ -38,7 +38,7 @@ export default class Header extends Component {
     renderItems() {
         return _.map(this.props.navItems, (navItem, index) =>
             <LinkContainer key={index} to={navItem.url}>
-                <NavItem key={index}><h3>{navItem.label}</h3></NavItem>
+                <NavItem key={index}><h3 className='nav-item-header'>{navItem.label}</h3></NavItem>
             </LinkContainer>
         );
     }
@@ -55,7 +55,7 @@ export default class Header extends Component {
                     <Navbar>
                         <Navbar.Header>
                             <Navbar.Brand>
-                                <LinkContainer to="/" style={{height: '90px'}}>
+                                <LinkContainer to="/" className='navbar-img'>
                                     <Image onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} src={this.state.img} responsive />
                                 </LinkContainer>
                             </Navbar.Brand>
