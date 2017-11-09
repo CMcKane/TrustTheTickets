@@ -1,5 +1,10 @@
+@media (max-width: 700px) {
+	.event-details {
+		height: 95% !important;
+	}
+}
 
-@media (max-width: 767px) {
+@media (max-width: 1000px) {
 	.event-detail-pane {
 		padding: 0.5em;
 		border-style: solid;
@@ -14,6 +19,7 @@
 	}
 	.event-details {
 		padding-right: 0.5em;
+		padding-left: 0em !important;
 		height: 100%;
 		overflow-y: scroll;
 	}
@@ -22,58 +28,53 @@
 	}
 	.event-details-header {
 		text-align: center;
-		font-size: 0.75em;
+		font-size: 0.75em !important;
 	}
 	.event-details-date {
-		font-size: 0.6em;
+		font-size: 0.6em !important;
 	}
 	.event-details-content {
 		padding: 0em;
-		font-size: 0.6em;
-	}
-	.details-header {
-		text-align: center;
-		color: black;
-		font-size: 1em;
+		font-size: 0.6em !important;
 	}
 }
-
-@media (min-width: 768px) {
-	.event-detail-pane {
-		padding: 0.5em;
-		border-style: solid;
-		border-width: 0.05em;
-		border-color: black;
-	}
-	.event-detail-pane-selected {
-		padding: 0.5em;
-		padding-left: 1em;
-		border-style: solid;
-		border-width: 0.1em;
-		border-color: red;
-	}
-	.event-details {
-		padding: 1em;
-		height: 100%;
-		overflow-y: scroll;
-	}
-	.event-details-container {
-		height: 85%;
-	}
-	.event-details-header {
-		text-align: center;
-		font-size: 1em;
-	}
-	.event-details-date {
-		font-size: 0.8em;
-	}
-	.event-details-content {
-		padding: 0em;
-		font-size: 0.9em;
-	}
-	.details-header {
-		text-align: center;
-		color: black;
-		font-size: 2em;
-	}
+.event-detail-pane {
+	padding: 0.5em;
+	border-style: solid;
+	border-width: 0.05em;
+	border-color: black;
+}
+.event-detail-pane-selected {
+	padding: 0.5em;
+	padding-left: 1em;
+	border-style: solid;
+	border-width: 0.1em;
+	border-color: red;
+}
+.event-details {
+	padding: 1em;
+	padding-top: 0em;
+	padding-bottom: 0em;
+	height: 100%;
+	overflow-y: scroll;
+}
+.event-details-container {
+	height: 85%;
+}
+.event-details-header {
+	text-align: center;
+	font-size: 1em;
+}
+.event-details-date {
+	font-size: 0.8em;
+}
+.event-details-content {
+	padding: 0em;
+	font-size: 0.9em;
+}
+.details-header {
+	text-align: center;
+	color: black;
+	font-size: 16px;
+	margin-top: 10px;
 }
