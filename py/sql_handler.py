@@ -287,6 +287,7 @@ class SqlHandler(object):
             sections.append(row[0])
         return sections
 
+
     def get_tickets_for_selected_sections(self, event_id, section_type_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -306,4 +307,99 @@ class SqlHandler(object):
                        "AND se.section_type_id = '{}'".format(event_id, section_type_id))
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in
                    cursor.fetchall()]
+        return tickets
+
+    def get_seller_transactions(self, account_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        # First get transaction information (the total, total charges, transaction date)
+        cursor.execute("SELECT transaction_id, transaction_dt, SUM(total_transaction_charges) AS 'Transaction Total', SUM(amount) AS 'Total Charges' "
+                       "FROM transactions t "
+                       "JOIN transaction_charges USING (transaction_id) "
+                       "JOIN transaction_detail USING (transaction_id) "
+                       "JOIN rates USING (rate_type_id) "
+                       "WHERE t.seller_account_id={} "
+                       "GROUP BY transaction_id "
+                       "ORDER BY transaction_dt".format(account_id))
+        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal=row[2],chargesTotal=row[3])
+                   for row in cursor.fetchall()]
+        # For each transaction, get related ticket information for that transaction
+        for transaction in transactions:
+            cursor.execute("SELECT ticket_id, transaction_id, "
+                        "ticket_price, g.date, section_num, row_num, seat_num, te.team_name AS 'Home Team', te2.team_name AS 'Away Team' "
+                        "FROM transactions t "
+                        "JOIN transaction_detail USING (transaction_id) "
+                        "JOIN tickets USING (ticket_id) "
+                        "JOIN games g USING (event_id) "
+                        "JOIN groups USING (group_id) "
+                        "JOIN sections USING (section_id) "
+                        "JOIN rows USING (row_id) "
+                        "JOIN seats USING (seat_id) "
+                        "JOIN teams te ON (g.home_team_id = te.team_id) "
+                        "JOIN teams te2 ON (g.away_team_id = te2.team_id) "
+                        "WHERE transaction_id={}".format(transaction['transactionID']))
+            # Using a loop here so I can compile the returned rows into more compact structure
+            # Tried writing a complex SQL query to do this but was unable to do so
+            seats = []
+            homeTeam, awayTeam, row1, section, ticketPrice, date = "", "", "", "", "", ""
+            for row in cursor.fetchall():
+                ticketPrice=row[2]
+                section=row[4]
+                row1=row[5]
+                seats.append(row[6])
+                homeTeam=row[7]
+                awayTeam=row[8]
+                date=row[3]
+            transaction['price'] = ticketPrice
+            transaction['date']= date
+            transaction['homeTeam'] = homeTeam
+            transaction['awayTeam'] = awayTeam
+            transaction['section'] = section
+            transaction['row'] = row1
+            transaction['seats'] = seats
+
+        return transactions
+
+    def get_seller_tickets(self, account_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        print(account_id)
+        # Get all tickets which are still available for purchase which are being sold by this account_id
+        cursor.execute("SELECT group_id, te.city, te.team_name, te2.city, te2.team_name, date, "
+                       "section_type_desc, section_num, row_num, seat_num, min_sell_num, total_ticket_num, available_ticket_num, ticket_price "
+                       "FROM tickets t "
+                       "JOIN ticket_status USING (ticket_status_id) "
+                       "JOIN groups gr USING (group_id) "
+                       "JOIN sections USING (section_id) "
+                       "JOIN section_type USING (section_type_id) "
+                       "JOIN rows USING (row_id) "
+                       "JOIN seats USING (seat_id) "
+                       "JOIN games g ON g.event_id = gr.event_id "
+                       "JOIN teams te ON (home_team_id = te.team_id) "
+                       "JOIN teams te2 ON (away_team_id = te2.team_id) "
+                       "WHERE t.account_id={} "
+                       "AND ticket_status_desc='Available' "
+                       "ORDER BY group_id, seat_num, row_num".format(account_id))
+        # Using a loop here so I can compile the returned rows into more compact structure
+        # Tried writing a complex SQL query to do this but was unable to do so
+        tickets=[]
+        groupNum = -1
+        counter = -1
+        for row in cursor.fetchall():
+            if groupNum == row[0]:
+                tickets[counter]['seats'].append(row[9])
+            else:
+                groupNum = row[0]
+                counter+=1
+                tickets.append({})
+                tickets[counter]['groupID'] = row[0]
+                tickets[counter]['homeTeam'] = row[2]
+                tickets[counter]['awayTeam'] = row[4]
+                tickets[counter]['date'] = row[5]
+                tickets[counter]['sectionType'] = row[6]
+                tickets[counter]['row'] = row[7]
+                tickets[counter]['section'] = row[8]
+                tickets[counter]['seats'] = [row[9]]
+                tickets[counter]['minSellSize'] = row[10]
+                tickets[counter]['price'] = row[13]
         return tickets

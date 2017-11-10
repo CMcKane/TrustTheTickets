@@ -17,8 +17,11 @@ const listings = [
 	row: "12",
 	seats: [12, 13, 14],
 	groupID: 42,
-	minSellSize: 1,
-	inProgress: true
+	transactionID: null,
+	transactionDate: null,
+	transactionTotal: null,
+	chargesTotal: null,
+	minSellSize: 1
 },
 {
 	awayTeam: "Celtics",
@@ -28,9 +31,12 @@ const listings = [
 	section: "211",
 	row: "20",
 	seats: [1, 2, 3,4],
-	groupdID: 20,
-	minSellSize: 2,
-	inProgress: false
+	groupdID: null,
+	transactionID: 1,
+	transactionDate: "11/18/2017",
+	transactionTotal: 528.00,
+	chargesTotal: 48.00,
+	minSellSize: null
 },
 {
 	awayTeam: "Suns",
@@ -40,9 +46,12 @@ const listings = [
 	section: "117",
 	row: "8",
 	seats: [19, 20, 21, 22],
-	groupdID: 20,
-	minSellSize: 2,
-	inProgress: false
+	groupdID: null,
+	transactionID: 2,
+	transactionDate: "10/18/2017",
+	transactionTotal: 440.00,
+	chargesTotal: 40.00,
+	minSellSize: null
 },
 {
 	awayTeam: "Lakers",
@@ -52,9 +61,12 @@ const listings = [
 	section: "217",
 	row: "18",
 	seats: [12, 13],
-	groupdID: 20,
-	minSellSize: 2,
-	inProgress: false
+	groupdID: null,
+	transactionID: 3,
+	transactionDate: "10/18/2017",
+	transactionTotal: 220.00,
+	chargesTotal: 20.00,
+	minSellSize: null
 },
 {
 	awayTeam: "Heat",
@@ -64,9 +76,12 @@ const listings = [
 	section: "110",
 	row: "87",
 	seats: [9, 10],
-	groupdID: 20,
-	minSellSize: 2,
-	inProgress: false
+	groupdID: null,
+	transactionID: 4,
+	transactionDate: "10/19/2017",
+	transactionTotal: 220.00,
+	chargesTotal: 20.00,
+	minSellSize: null
 }
 ]
 
@@ -76,7 +91,7 @@ class ListingsView extends Component {
 		super(props);
 		this.Auth = new AuthService();
 		this.state = {
-
+			listings: null
 		}
 	}
 
@@ -85,7 +100,17 @@ class ListingsView extends Component {
 	}
 
 	getListings() {
-		this.setState({listings: listings});
+		TTTPost('/your-listings', {
+			token: this.Auth.getToken()
+		})
+		.then(res => {
+			console.log(res);
+			if (res.data.authenticated) {
+				this.setState({
+					listings: res.data.listings
+				});
+			}
+		});
 	}
 
 	renderListings() {
