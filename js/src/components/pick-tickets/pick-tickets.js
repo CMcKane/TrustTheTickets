@@ -403,14 +403,15 @@ export default class PickTickets extends Component {
                                             </DropdownButton>
                                         </ButtonGroup>
                                         <div>
-                                            <ToggleButtonGroup
+                                            <ToggleButtonGroup style={{width: '40%', paddingTop: '15px'}}
                                                 id = "chartToggleGroup"
                                                 name = "chartToggleGroup"
                                                 type="radio"
                                                 value={this.state.chartToggleValue}
+                                                bsSize="small"
                                                 onChange={this.toggleSectionOrZone.bind(this)}>
-                                                    <ToggleButton id="section" value={1} >Section</ToggleButton>
-                                                    <ToggleButton id="zone" value={2}>Zone</ToggleButton>
+                                                    <ToggleButton id="section" style={{width: '40%'}} value={1}>Section</ToggleButton>
+                                                    <ToggleButton id="zone" style={{width: '40%'}} value={2}>Zone</ToggleButton>
                                             </ToggleButtonGroup>
                                         </div>
                                     </Col>
@@ -430,6 +431,7 @@ export default class PickTickets extends Component {
                                         <ToggleButtonGroup
                                             id = "priceToggleGroup"
                                             name = "filterToggleGroup"
+                                            style={{paddingBottom: '5px'}}
                                             type="radio"
                                             value={this.state.toggleValue}
                                             onChange={this.onToggleChange.bind(this)}>
