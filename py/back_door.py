@@ -197,6 +197,7 @@ def games_by_team():
     games = sqlHandler.get_games_by_team(team_id)
     return jsonify({'games': games})
 
+
 @app.route('/pick-ticket-zone', methods=['POST'])
 def pick_tickets_by_zone():
     sqlHandler = SqlHandler(mysql)
@@ -205,6 +206,22 @@ def pick_tickets_by_zone():
     section_type_id = jsondata['section_type_id']
     tickets = sqlHandler.get_tickets_for_selected_sections(event_id, section_type_id)
     return jsonify({'tickets': tickets})
+
+@app.route('/your-listings', methods=['POST'])
+@require_token
+def get_seller_listings():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        transactions = sqlHandler.get_seller_transactions(account_id)
+        listings = sqlHandler.get_seller_tickets(account_id)
+        # Concatenate the two arrays into one listings array to be consumed by frontend page
+        return jsonify({'listings':listings + transactions, 'authenticated': True})
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
 
 if __name__ == '__main__':
     app.run()

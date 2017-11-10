@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import { Panel, Button, Grid, Row, Col } from 'react-bootstrap';
 import Logo from '../../logos/logo';
+import Time from 'react-time';
 import '../../../stylesheet.css';
 
 export default class ListingItem extends Component {
@@ -24,17 +25,32 @@ export default class ListingItem extends Component {
 	}
 
 	getStatus() {
-		if (this.state.listing.inProgress) {
+		if (this.inProgress()) {
 			return 'In progress';
 		}
 		return 'Completed';
 	}
 
+	getSellerTotal() {
+		return (this.props.listing.transactionTotal - this.props.listing.chargesTotal);
+	}
+
 	getHeader() {
+		if(this.inProgress()) {
+			return (
+			<Grid className='listingItemGrid'>
+				<Col className='listingItemHeaderStatusColumn' xs={7} sm={6} md={5} lg={6}>
+					{this.getStatus()}
+				</Col>
+				<Col className='listingItemHeaderButtonColumn' xs={5} sm={2} md={2} lg={1}>
+					{this.getButton()}
+				</Col>
+			</Grid>); 
+		}
 		return (
 			<Grid className='listingItemGrid'>
 				<Col className='listingItemHeaderStatusColumn' xs={7} sm={6} md={5} lg={6}>
-					{this.state.listing.date} - {this.getStatus()}
+					<Time value={this.props.listing.transactionDate} format="MMMM D, YYYY" /> - {this.getStatus()}
 				</Col>
 				<Col className='listingItemHeaderButtonColumn' xs={5} sm={2} md={2} lg={1}>
 					{this.getButton()}
@@ -50,26 +66,9 @@ export default class ListingItem extends Component {
 		return seats;
 	}
 
-	getContent() {
-		return (
-			<Grid className='listingItemGrid'>
-				<Col className='listingItemNoLeftPadding' xsHidden sm={1} md={1} lg={1}>
-					<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
-				</Col>
-				<Col className='listingItemNoLeftPadding' xs={11} sm={7} md={5} lg={5}>
-					<p style={{paddingLeft: "0px"}}>
-					{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
-					Section: {this.state.listing.section} Row: {this.state.listing.row} Seats: {this.getSeats()} <br/>
-					Price: {this.state.listing.price} <br/>
-					Minimum group size: {this.state.listing.minSellSize} <br/>
-					</p>
-				</Col>
-			</Grid>
-		);
-	}
 
 	getButton() {
-		if (this.state.listing.inProgress) {
+		if (this.inProgress()) {
 			return (
 				<Button className='listingItemButton' onClick={this.editListing.bind(this)}>
 	                Edit
@@ -81,6 +80,41 @@ export default class ListingItem extends Component {
 				onClick={() => this.setState({ open: !this.state.open })}>
           		Order Details
         	</Button>
+		);
+	}
+
+	getContent() {
+		if (this.inProgress()) {
+			return (
+				<Grid className='listingItemGrid'>
+					<Col className='listingItemNoLeftPadding' xsHidden sm={1} md={1} lg={1}>
+						<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
+					</Col>
+					<Col className='listingItemNoLeftPadding' xs={11} sm={7} md={5} lg={5}>
+						<p style={{paddingLeft: "0px"}}>
+						{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
+						<Time value={this.state.listing.date} format="MMMM D, YYYY h:mmA"/> <br/>
+						Section: {this.state.listing.section} Row: {this.state.listing.row} Seats: {this.getSeats()} <br/>
+						Ticket Price: ${this.state.listing.price} <br/>
+						Minimum group size: {this.state.listing.minSellSize} <br/>
+						</p>
+					</Col>
+				</Grid>
+			);
+		}
+		return (
+			<Grid className='listingItemGrid'>
+				<Col className='listingItemNoLeftPadding' xsHidden sm={1} md={1} lg={1}>
+					<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
+				</Col>
+				<Col className='listingItemNoLeftPadding' xs={11} sm={7} md={5} lg={5}>
+					<p style={{paddingLeft: "0px"}}>
+					{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
+					Total: ${this.getSellerTotal()} <br/>
+					Sell Date: <Time value={this.props.listing.transactionDate} format="MMMM D, YYYY" /> <br/>
+					</p>
+				</Col>
+			</Grid>
 		);
 	}
 
@@ -96,18 +130,8 @@ export default class ListingItem extends Component {
 		);
 	}
 
-	getCollapsiblePanel() {
-		if (!this.state.listing.inProgress){
-			return (
-				<Panel collapsible expanded={this.state.open} style={{marginBottom: "0px"}}>
-		    		Order Details
-		    	</Panel>
-			);
-		}
-	}
-
 	getPanel() {
-		if (this.state.listing.inProgress) {
+		if (this.inProgress()) {
 			return (
 			<Panel className='listingItemPanelMargins' bsStyle='primary' header={this.getHeader()}>
 		    	<Grid>
@@ -125,11 +149,30 @@ export default class ListingItem extends Component {
 		);
 	}
 
+	getCollapsiblePanel() {
+		if (!this.inProgress()){
+			return (
+				<Panel collapsible expanded={this.state.open} style={{marginBottom: "0px"}}>
+					<h5> Order Details - {this.props.listing.transactionDate}</h5>
+		    		<p style={{paddingLeft: "0px"}}>
+		    		Tickets Sold: Section: {this.state.listing.section} Row: {this.state.listing.row} Seats: {this.getSeats()} <br/>
+					Ticket Price: ${this.props.listing.price} <br/>
+					Total: ${this.getSellerTotal()} <br/>
+					</p>
+		    	</Panel>
+			);
+		}
+	}
+
+	inProgress() {
+		return this.props.listing.groupID;
+	}
+
 	render() {
 		return (
 			<div className='listingItemNoBottomPadding'>
-			{this.getPanel()}
-		    {this.getCollapsiblePanel()}
+				{this.getPanel()}
+		    	{this.getCollapsiblePanel()}
 		    </div>
 		);
 	}
