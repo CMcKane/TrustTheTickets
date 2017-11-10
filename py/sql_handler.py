@@ -30,6 +30,7 @@ class SqlHandler(object):
                        "JOIN sections se ON (t.section_id = se.section_id) "
                        "JOIN rows r ON (t.row_id = r.row_id) "
                        "JOIN seats s ON (t.seat_id = s.seat_id) "
+                       "JOIN groups g USING (group_id)"
                        "WHERE t.event_id = '{}' "
                        "ORDER BY row_num".format(eventID))
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
