@@ -286,3 +286,24 @@ class SqlHandler(object):
         for row in cursor.fetchall():
             sections.append(row[0])
         return sections
+
+    def get_tickets_for_selected_sections(self, event_id, section_type_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        section_string = ""
+        #for i in range(0, len(sections)):
+         #   if (i == len(sections) - 1):
+          #      section_string += "'{}'".format(sections[i])
+           # else:
+            #    section_string += "'{}',".format(sections[i])
+        cursor.execute("SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num "
+                       "FROM tickets t "
+                       "JOIN groups g ON (t.group_id = g.group_id) "
+                       "JOIN sections se ON (t.section_id = se.section_id) "
+                       "JOIN rows r ON (t.row_id = r.row_id) "
+                       "JOIN seats s ON (t.seat_id = s.seat_id) "
+                       "WHERE t.event_id = '{}' "
+                       "AND se.section_type_id = '{}'".format(event_id, section_type_id))
+        tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3]) for row in
+                   cursor.fetchall()]
+        return tickets

@@ -197,6 +197,15 @@ def games_by_team():
     games = sqlHandler.get_games_by_team(team_id)
     return jsonify({'games': games})
 
+@app.route('/pick-ticket-zone', methods=['POST'])
+def pick_tickets_by_zone():
+    sqlHandler = SqlHandler(mysql)
+    jsondata = request.get_json()
+    event_id = jsondata['eventID']
+    section_type_id = jsondata['section_type_id']
+    tickets = sqlHandler.get_tickets_for_selected_sections(event_id, section_type_id)
+    return jsonify({'tickets': tickets})
+
 if __name__ == '__main__':
     app.run()
 

@@ -35,6 +35,18 @@ export default class PickTickets extends Component {
             toggleValue: 1,
             chartToggleValue: 1,
             bySection: true,
+            allZones: {
+                        sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
+                        zone: [
+                            ["112", "113", "114", "101", "102", "124"],
+                            ["103", "111", "115", "123"],
+                            ["104", "105", "109", "110", "116", "117", "121", "122"],
+                            ["106", "107", "108", "118", "119", "120"],
+                            ["201", "202", "203", "211", "212", "213", "214", "215", "223", "224"],
+                            ["204", "204A", "205", "205A", "209", "209A", "210", "210A", "216", "216A", "217", "217A", "222A", "222", "221A", "221"],
+                            ["206", "207", "207A", "208", "220", "219A", "219", "218"]]
+                        },
+            /*
             innerZone1: ["112", "113", "114", "101", "102", "124"],
             innerZone2: ["103", "111", "115", "123"],
             innerZone3: ["104", "105", "109", "110", "116", "117", "121", "122"],
@@ -57,7 +69,7 @@ export default class PickTickets extends Component {
             ground: ["R106", "R108", "R118", "R120"],
             letter: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R"],
             special: ["SB1", "SB13"],
-            private: ["PS22"]
+            private: ["PS22"] */
         }
         this.getEvent();
         this.displayAllTickets();
@@ -231,11 +243,24 @@ export default class PickTickets extends Component {
         }
         else
         {
-            this.setState({
-                isLoading:true, tickets: [],
-                previousSections: this.state.sections,
-                sections: this.determineSectionsZone(section)
-            });
+            var sectionsAndZone = this.determineSectionsZone(section);
+            this.setState({isLoading:true, tickets: []});
+
+            TTTPost('/pick-ticket-zone', {
+                    eventID: this.state.eventID,
+                    section_type_id: sectionsAndZone.zone
+                })
+                    .then(res => {
+                        if (res.data.tickets) {
+                            this.setState({
+                                previousSections: this.state.sections,
+                                sections: sectionsAndZone.sections,
+                                tickets: res.data.tickets,
+                                isLoading: false,
+                                toggleValue: 1
+                            });
+                        }
+                    });
         }
 
     }
@@ -247,26 +272,26 @@ export default class PickTickets extends Component {
 
         if(firstChar === '1' && len > 2)
         {
-            for(var i = 0; i < this.state.innerZone1.length; i++)
-                if(section === this.state.innerZone1[i]) { return this.state.innerZone1; }
-            for(var i = 0; i < this.state.innerZone2.length; i++)
-                if(section === this.state.innerZone2[i]) { return this.state.innerZone2; }
-            for(var i = 0; i < this.state.innerZone3.length; i++)
-                if(section === this.state.innerZone3[i]) { return this.state.innerZone3; }
-            for(var i = 0; i < this.state.innerZone4.length; i++)
-                if(section === this.state.innerZone4[i]) { return this.state.innerZone4; }
+            for(var i = 0; i < this.state.allZones.zone[0].length; i++)
+                if(section === this.state.allZones.zone[0][i]) { return {sections: this.state.allZones.zone[0], zone: 1} }
+            for(var i = 0; i < this.state.allZones.zone[1].length; i++)
+                if(section === this.state.allZones.zone[1][i]) { return {sections: this.state.allZones.zone[1], zone: 2} }
+            for(var i = 0; i < this.state.allZones.zone[2].length; i++)
+                if(section === this.state.allZones.zone[2][i]) { return {sections: this.state.allZones.zone[2], zone: 3} }
+            for(var i = 0; i < this.state.allZones.zone[3].length; i++)
+                if(section === this.state.allZones.zone[3][i]) { return {sections: this.state.allZones.zone[3], zone: 4} }
 
         }
         else if(firstChar === '2' && len > 2)
         {
-            for(var i = 0; i < this.state.outerZone1.length; i++)
-                if(section === this.state.outerZone1[i]) { return this.state.outerZone1; }
-            for(var i = 0; i < this.state.outerZone2.length; i++)
-                if(section === this.state.outerZone2[i]) { return this.state.outerZone2; }
-            for(var i = 0; i < this.state.outerZone3.length; i++)
-                if(section === this.state.outerZone3[i]) { return this.state.outerZone3; }
+            for(var i = 0; i < this.state.allZones.zone[4].length; i++)
+                if(section === this.state.allZones.zone[4][i]) { return {sections: this.state.allZones.zone[4], zone: 5} }
+            for(var i = 0; i < this.state.allZones.zone[5].length; i++)
+                if(section === this.state.allZones.zone[5][i]) { return {sections: this.state.allZones.zone[5], zone: 6} }
+            for(var i = 0; i < this.state.allZones.zone[6].length; i++)
+                if(section === this.state.allZones.zone[6][i]) { return {sections: this.state.allZones.zone[6], zone: 7} }
         }
-        else if(firstChar === 'U')
+        /*else if(firstChar === 'U')
         {
             return this.state.noseBleeds;
         }
@@ -299,7 +324,7 @@ export default class PickTickets extends Component {
         else if(firstChar === 'R')
         {
             return this.state.ground;
-        }
+        }*/
         else
         {
             return [];
