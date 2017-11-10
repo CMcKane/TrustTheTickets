@@ -5,7 +5,7 @@ import {TTTGet, TTTPost} from '../backend/ttt-request';
 import {LinkContainer} from 'react-router-bootstrap';
 import {getLogo} from '../logos/logo-central';
 import Logo from '../logos/logo';
-import '../versus/versus.css';
+import '../../stylesheet.css';
 
 export default class Versus extends Component {
     teams = [];
@@ -85,21 +85,21 @@ export default class Versus extends Component {
             <div className='globalBody globalImage'>
                 <div className='globalBody globalImageOverlay'>
                     <Grid>
-                        <h1 className="border-white">
-                            <Well className='pick-teams-well' style={{background: 'transparent'}}>
+                        <h1>
+                            <Well className='versusPickTeamsWell'>
                                 Choose the opponent you would like to see!
                             </Well>
                         </h1>
                         <Row>
                             <Col lg={4}>
-                                <h3 className="text-center" style={{color: 'black'}}> Opponents: </h3>
-                                <Panel className="list-of-teams">
+                                <h3 className="text-center versusH3"> Opponents: </h3>
+                                <Panel className="versusListOfTeams">
                                     {this.renderTeamList()}
                                 </Panel>
                             </Col>
                             <Col lg={4}>
-                                <h3 className="text-center" style={{color: 'black'}}> Games: </h3>
-                                <Panel className="list-of-teams">
+                                <h3 className="text-center versusH3"> Games: </h3>
+                                <Panel className="versusListOfTeams">
                                     {this.renderGameList()}
                                 </Panel>
                             </Col>

@@ -3,8 +3,7 @@ import _ from 'lodash';
 import { Image, NavItem, Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Headroom from 'react-headroom';
-
-import './header.css';
+import '../../stylesheet.css';
 
 const logoMouseOver = require("../../resources/images/header/headerLogoMouseOver.png");
 const logoMouseOut = require("../../resources/images/header/headerLogoMouseOut.png");

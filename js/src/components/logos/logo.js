@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Image } from 'react-bootstrap';
 import { getLogo } from "./logo-central";
-import "./logo.css";
+import '../../stylesheet.css';
 
 export default class Logo extends Component {
 

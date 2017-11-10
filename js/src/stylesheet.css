@@ -1,0 +1,1009 @@
+/*********************************************************************************************************************/
+/****************************************************** Template  ****************************************************/
+/*********************************************************************************************************************/
+
+                                /* When adding a new CSS section use this template */
+
+/*********************************************************************************************************************/
+/**************************************************** End Template ***************************************************/
+/*********************************************************************************************************************/
+
+/*********************************************************************************************************************/
+/***************************************************** App Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+
+.App-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+}
+
+.App-title {
+    font-size: 1.5em;
+}
+
+.App-intro {
+    font-size: large;
+}
+
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.globalBody {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.globalImage
+{
+    background-image: url("./resources/images/backgrounds/cityscapeBW.jpg");
+}
+
+.globalImageOverlay
+{
+    background-color: rgba(255,255,255,0.50);
+}
+
+.globalPageTitle
+{
+    color: black;
+    padding: 5%;
+    text-align: center;
+}
+
+.unselectable {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    pointer-events:none;
+}
+
+/*********************************************************************************************************************/
+/*************************************************** End App Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************** Calendar Styling *************************************************/
+/*********************************************************************************************************************/
+
+.calendarEventComponentContainer {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/*********************************************************************************************************************/
+/************************************************ End Calendar Styling ***********************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/******************************************** Event Calendar View Styling ********************************************/
+/*********************************************************************************************************************/
+
+.eventCalendarView {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: fixed;
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.eventCalendarViewBottomPane {
+    width: 100%;
+    height: 63%;
+}
+
+.eventCalendarViewButtonRow {
+    height: 10%;
+    text-align: center;
+}
+
+.eventCalendarViewDetailsRow {
+    height: 90%;
+}
+
+@media (max-width: 1000px) {
+    .eventCalendarViewEventsWell {
+        color: rgb(45, 98, 183);
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+@media (min-width: 1001px) {
+    .eventCalendarViewEventsWell {
+        color: rgb(45, 98, 183);
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+/*********************************************************************************************************************/
+/****************************************** End Event Calendar View Styling ******************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*********************************************** Event Details Styling ***********************************************/
+/*********************************************************************************************************************/
+
+@media (max-width: 700px) {
+    .event-details {
+        height: 95% !important;
+    }
+}
+
+@media (max-width: 1000px) {
+    .eventDetailPane {
+        padding: 0.5em;
+        border-style: solid;
+        border-width: 0.05em;
+        border-color: black;
+    }
+    .eventDetailPaneSelected {
+        padding: 0.5em;
+        border-style: solid;
+        border-width: 0.05em;
+        border-color: red;
+    }
+    .eventDetails {
+        padding-right: 0.5em;
+        padding-left: 0em !important;
+        height: 100%;
+        overflow-y: scroll;
+    }
+    .eventDetailsContainer {
+        height: 85%;
+    }
+    .eventDetailsHeader {
+        text-align: center;
+        font-size: 0.75em !important;
+    }
+    .eventDetailsDate {
+        font-size: 0.6em !important;
+    }
+    .eventDetailsContent {
+        padding: 0em;
+        font-size: 0.6em !important;
+    }
+}
+.eventDetailPane {
+    padding: 0.5em;
+    border-style: solid;
+    border-width: 0.05em;
+    border-color: black;
+}
+.eventDetailPaneSelected {
+    padding: 0.5em;
+    padding-left: 1em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: red;
+}
+.eventDetails {
+    padding: 1em;
+    padding-top: 0em;
+    padding-bottom: 0em;
+    height: 100%;
+    overflow-y: scroll;
+}
+.eventDetailsContainer {
+    height: 85%;
+}
+.eventDetailsHeader {
+    text-align: center;
+    font-size: 1em;
+}
+.eventDetailsDate {
+    font-size: 0.8em;
+}
+.eventDetailsContent {
+    padding: 0em;
+    font-size: 0.9em;
+}
+.eventDetailsHeader {
+    text-align: center;
+    color: black;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/*********************************************************************************************************************/
+/********************************************* End Event Details Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*************************************************** Header Styling **************************************************/
+/*********************************************************************************************************************/
+
+.navbar
+{
+    background-color: #036bb5 !important ;
+}
+.navbar .navbar-brand
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-brand:hover,
+.navbar .navbar-brand:focus
+{
+    color: #ec174c !important ;
+}
+.navbar .navbar-text
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-nav .nav-link
+{
+    color: #ffffff !important ;
+    border-radius: .25rem !important ;
+    margin: 0 0.25em !important ;
+}
+.navbar .navbar-nav .nav-link:not(.disabled):hover,
+.navbar .navbar-nav .nav-link:not(.disabled):focus
+{
+    color: #ec174c !important ;
+}
+.navbar .navbar-nav .nav-item.active .nav-link,
+.navbar .navbar-nav .nav-item.active .nav-link:hover,
+.navbar .navbar-nav .nav-item.active .nav-link:focus,
+.navbar .navbar-nav .nav-item.show .nav-link,
+.navbar .navbar-nav .nav-item.show .nav-link:hover,
+.navbar .navbar-nav .nav-item.show .nav-link:focus
+{
+    color: #ec174c !important ;
+    background-color: #ffffff !important ;
+}
+.navbar .navbar-toggle
+{
+    border-color: #ffffff !important ;
+}
+.navbar .navbar-toggle:hover,
+.navbar .navbar-toggle:focus
+{
+    background-color: #ffffff !important ;
+}
+.navbar .navbar-toggle .navbar-toggler-icon
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-collapse,
+.navbar .navbar-form
+{
+    border-color: #ffffff !important ;
+}
+.navbar .navbar-link
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-link:hover
+{
+    color: #ec174c !important ;
+}
+.navbar-img {
+    height: 90px !important;
+    padding-left: 0px !important;
+}
+.nav-item {
+
+}
+
+@media (max-width: 575px)
+{
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+}
+
+@media (max-width: 767px)
+{
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-img {
+        height: 60px !important;
+        padding-left: 15px !important;
+    }
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+}
+
+@media (max-width: 1300px)
+{
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+    .nav-item-header {
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 1300px)
+{
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+}
+
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item
+{
+    color: #ffffff !important ;
+}
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:focus
+{
+    color: #ec174c !important ;
+}
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item.active
+{
+    color: #ec174c !important ;
+    background-color: #ffffff !important ;
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Header Styling ************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/**************************************************** Home Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.homeBlueOverlay
+{
+    background-color: rgba(3,107,181,0.75);
+}
+
+.homeRedOverlay
+{
+    background-color: rgba(236,23,76,0.50);
+}
+
+.homeWhiteOverlay
+{
+    background-color: rgba(255,255,255,0.30);
+}
+
+.homeGrayOverlay
+{
+    background-color: rgba(176,176,176,0.35);
+}
+
+.homeBlackOverlay
+{
+    background-color: rgba(0,0,0,0.60);
+}
+
+.homeParallaxSize
+{
+    height: 1000px;
+}
+
+.homeParallaxDivider
+{
+    padding: 10px;
+    padding-top: 20px;
+}
+
+.homeParallaxText
+{
+    background-color: #FFFFFF;
+
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+
+    text-align: center;
+}
+.homeParallaxTextHeader
+{
+    font: 50px "Tw Cen MT Condensed";
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.homeParallaxTextBody
+{
+    padding-top: 20px;
+    font: 35px "Tw Cen MT Condensed";
+}
+
+.homeParallaxTextBodyBlock
+{
+    text-align: center;
+    padding-top: 10px;
+}
+.homeParallaxTextBodyBlockText
+{
+    display: inline-block;
+    text-align: left;
+    list-style-position:inside;
+    font: 25px "Calibri";
+    color: #036bb5;
+}
+
+.homeParallaxSearchSize
+{
+    height: 600px;
+}
+
+.homeSearchCenter
+{
+    padding-top: 10px;
+    text-align: center;
+}
+
+.homeSearchDesc
+{
+    padding-top: 10px;
+    font: 35px "Tw Cen MT Condensed";
+}
+
+.homeCenterThis
+{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+}
+
+.homeCenterThisWithPadding
+{
+    padding-top: 5%;
+}
+
+.homeMainLogo
+{
+    height: 75%;
+    width: 75%;
+}
+
+/*********************************************************************************************************************/
+/************************************************** End Home Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*************************************************** Index Styling ***************************************************/
+/*********************************************************************************************************************/
+
+body.indexBody {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Index Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/*************************************************** Listings Styling ************************************************/
+/*********************************************************************************************************************/
+
+.listingTitle {
+    font-size: 24px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+@media (min-width: 900px) {
+    .listingTitle {
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+        font-size: 50px;
+    }
+
+}
+
+/*********************************************************************************************************************/
+/************************************************ End Listings Styling ***********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/*************************************************** Listing-Item Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.listingItemGrid {
+    padding-left: 0px;
+}
+
+Col.listingItemHeaderStatusColumn {
+    padding-left: 0px;
+}
+
+Col.listingItemHeaderButtonColumn {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+Col.listingItemNoLeftPadding {
+    padding-left: 0px;
+}
+
+div.listingItemNoBottomPadding {
+    padding-bottom: 0;
+}
+
+Col.listingItemNoPadding {
+    padding: 0px;
+}
+
+Button.listingItemButton {
+    float: right;
+}
+
+.listingItemPanelMargins {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+
+/*********************************************************************************************************************/
+/************************************************* End Listing-Item Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/************************************************ Listing View Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.listingsViewGrid {
+    height: 80%;
+}
+
+h1.listingsViewH1 {
+    color: black;
+    padding: 10px;
+}
+
+div.listingsViewTicketListingWindow {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    padding-right: 20px;
+}
+
+/*********************************************************************************************************************/
+/********************************************* End Listing View Styling **********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/*************************************************** Login Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.loginCentered {
+    color: black;
+    width: 350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginTopPadding {
+    padding-top: 5%;
+}
+
+.loginDiv2 {
+    display: inline-block;
+}
+
+h1.loginHeader1 {
+    color: black;
+}
+
+p.loginPara {
+    color: black;
+}
+
+.loginControlLabel {
+    color: black;
+}
+
+.loginFormControl {
+    width: 350px;
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Login Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*************************************************** Logo Styling ****************************************************/
+/*********************************************************************************************************************/
+
+.teamLogo {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+@media (min-width: 767px) and (max-width: 1000px) {
+    .teamLogo {
+        max-width: 60% !important;
+    }
+}
+@media (min-width: 1001px) {
+    .teamLogo {
+        max-width: 40% !important;
+    }
+}
+.listingsTeamLogo {
+    max-width: 100%;
+    align: left;
+    display: inline;
+}
+.mobileTeamLogo{
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+.teamLogoLeftBig {
+    max-width: 15%;
+    max-height: 15%;
+    align: left;
+    display: inline;
+    margin-right: 10%;
+}
+.teamLogoLeft {
+    max-width: 15%;
+    max-height: 15%;
+    align: left;
+    display: inline;
+    margin-right: 10%;
+}
+.teamLogoRight {
+    max-width: 15%;
+    max-height: 15%;
+    align: right;
+    display: inline;
+    margin-left: 10%;
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Logo Styling **************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************ Pick Tickets Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.pickTicketsWell {
+    color: black;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #006BB6;
+}
+
+.pickTicketsBorderBlack{
+    color: grey;
+    /*border white with light shadow*/
+    text-shadow:
+            2px   0  0   #000,
+            -2px   0  0   #000,
+            0    2px 0   #000,
+            0   -2px 0   #000,
+            1px  1px 0   #000,
+            -1px -1px 0   #000,
+            1px -1px 0   #000,
+            -1px  1px 0   #000,
+            1px  1px 5px #000;
+}
+
+.pickTicketsTextCenter{
+    color: white;
+    font-size: 50px;
+}
+
+.pickTicketsListOfTickets {
+    border-style: solid;
+    border-width: 0.75em;
+    border-color: black;
+    background: black;
+    padding: 0.5em;
+}
+
+.pickTicketsUnselected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: black;
+}
+
+.pickTicketsSelected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: red;
+}
+
+.pickTicketsTickets {
+    font-size: 20px;
+}
+
+.pickTicketsBgImage
+{
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/*********************************************************************************************************************/
+/********************************************** End Pick Tickets Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/********************************************* Registration View Styling *********************************************/
+/*********************************************************************************************************************/
+
+.registrationViewRegisterButton {
+    text-align: center;
+}
+.registrationViewInlineGroup {
+    text-align: center;
+    padding: 20px;
+}
+.registrationViewCountryForm {
+    padding-right: 50px;
+}
+.registrationViewStateForm {
+    padding-left: 50px;
+}
+
+div.registrationViewDivPadding {
+    padding: 0%;
+}
+
+h1.registrationViewH1 {
+    color: black;
+}
+
+col.registrationViewCol {
+    color: black;
+}
+
+.registrationViewControlLabel {
+    padding-right: 10px;
+}
+
+/*********************************************************************************************************************/
+/******************************************* End Registration View Styling *******************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*********************************************** Seating Chart Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.seatingChartSt0{fill:#FFFFFF;stroke:#000000;}
+.seatingChartSt1{fill:none;stroke:#000000;stroke-opacity:0;}
+.seatingChartSt2{font-family:'MyriadPro-Regular';}
+.seatingChartSt3{font-size:12px;}
+.seatingChartSt4{font-size:12px;}
+.seatingChartSt5{font-size:12px;}
+.seatingChartSt6{font-size:10px;}
+.seatingChartSt7{font-size:8px;}
+.seatingChartSt8{font-size:3px;}
+.svg{display:block;}
+
+/*********************************************************************************************************************/
+/********************************************* End Seating Chart Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/********************************************** Ticket List Item Styling *********************************************/
+/*********************************************************************************************************************/
+
+.ticketListItemTicketBorder {
+    border-style: solid;
+    border-width: 0.4em;
+    border-color: black;
+    overflow: auto;
+    height: 580px;
+    width: 100%;
+    background-color: white;
+}
+
+.ticketListItemListGroupItem {
+    text-align: center;
+}
+
+/*********************************************************************************************************************/
+/******************************************** End Ticket List Item Styling *******************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************** Versus Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.versusPickTeamsWell {
+    color: rgb(45, 98, 183);
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    background: transparent;
+}
+
+.versusBorderBlack{
+    color: grey;
+    /*border white with light shadow*/
+    text-shadow:
+            2px   0  0   #000,
+            -2px   0  0   #000,
+            0    2px 0   #000,
+            0   -2px 0   #000,
+            1px  1px 0   #000,
+            -1px -1px 0   #000,
+            1px -1px 0   #000,
+            -1px  1px 0   #000,
+            1px  1px 5px #000;
+}
+.versusTextCenter{
+    color: white;
+    font-size: 50px;
+}
+
+.versusListOfTeams {
+    border-style: solid;
+    border-width: 0.75em;
+    border-color: black;
+    background: white;
+    padding: 0.5em;
+}
+
+.versusUnselected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: black;
+}
+
+.versusSelected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: red;
+}
+
+.versusTeams {
+    font-size: 20px;
+}
+
+h3.versusH3 {
+    color: black;
+}
+
+.versusWell {
+    background: transparent;
+}
+
+.list-group-item {
+    text-align: center;
+}
+
+/*********************************************************************************************************************/
+/************************************************ End Versus Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************ View Account Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.viewAccount th, td {
+    color: white;
+}
+
+div.viewAccountDiv {
+    width: 50%;
+}
+
+h1.viewAccountH1 {
+    color: black;
+}
+
+table.viewAccountTable {
+    width: 100%;
+}
+
+/*********************************************************************************************************************/
+/********************************************** End View Account Styling *********************************************/
+/*********************************************************************************************************************/

@@ -7,7 +7,7 @@ import moment from 'moment';
 import { TTTPost } from '../backend/ttt-request';
 import queryString from 'query-string';
 import {withRouter} from "react-router-dom";
-import './event-calendar-view.css';
+import '../../stylesheet.css';
 
 class EventCalendarView extends Component {
 
@@ -106,9 +106,9 @@ class EventCalendarView extends Component {
         } 
         else return (
             <div>
-                <Well className="events-well"> Choose Your Game </Well>
+                <Well className="eventCalendarViewEventsWell"> Choose Your Game </Well>
                     <div className="eventCalendarView">
-                    <Col xs={9} sm={9} md={9} lg={10} className="bottomPane">
+                    <Col xs={9} sm={9} md={9} lg={10} className="eventCalendarViewBottomPane">
                         <EventCalendar 
                             events={this.state.eventList}
                             eventSelected={this.eventSelected.bind(this)}
@@ -118,14 +118,14 @@ class EventCalendarView extends Component {
                             year={queryParams.y}
                             validateDate={this.monthAndYearValid.bind(this)} />
                     </Col>
-                    <Col xs={3} sm={3} md={3} lg={2} className="bottomPane">
-                        <Row className="event-calendar-details-row">
+                    <Col xs={3} sm={3} md={3} lg={2} className="eventCalendarViewBottomPane">
+                        <Row className="eventCalendarViewDetailsRow">
                             <EventDetails
                                 eventList={this.state.eventList}
                                 selectedEvent={this.state.selectedEvent}
                                 eventSelected={this.eventSelected.bind(this)} />
                         </Row>
-                        <Row className="event-calendar-button-row">
+                        <Row className="eventCalendarViewButtonRow">
                                 <Button bsStyle="primary"
                                     onClick={this.onSubmit.bind(this)}>
                                     See Tickets

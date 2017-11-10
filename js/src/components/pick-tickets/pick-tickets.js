@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well,
         Button, Panel, ToggleButtonGroup, ToggleButton, ButtonGroup,
         DropdownButton, MenuItem} from 'react-bootstrap';
-import '../../seating-chart.css';
-import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
 import {TTTPost, TTTGet} from '../backend/ttt-request';
@@ -12,6 +10,7 @@ import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 import { ClimbingBoxLoader } from 'react-spinners';
 import {LinkContainer} from 'react-router-bootstrap';
+import '../../stylesheet.css';
 
 var clickedSection = ''
 
@@ -242,11 +241,11 @@ export default class PickTickets extends Component {
 
     render() {
         return (
-            <div className="globalImage pick-tickets-bg-image">
+            <div className="globalImage pickTicketsBgImage">
                 <div className="globalImageOverlay">
                     <Grid style={{paddingTop: "25px"}}>
-                        <h1 className="border-white">
-                            <Well className='pick-tickets-well' style={{background: '#006BB6'}}>
+                        <h1>
+                            <Well className='pickTicketsWell'>
                                 Pick-A-Ticket
                             </Well>
                         </h1>
@@ -316,7 +315,7 @@ export default class PickTickets extends Component {
                                 </Panel>
 
                                 <h3 className="Tickets-label"> Tickets </h3>
-                                <div className="ticket-border">
+                                <div className="ticketListItemTicketBorder">
                                     {this.renderTicketList()}
                                     <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
                                 </div>
