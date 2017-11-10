@@ -1,8 +1,7 @@
 import React, { Component }  from 'react';
-import '../pick-tickets/pick-tickets.css';
 import _ from 'lodash';
-import './ticket-list-item.css';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
+import '../../stylesheet.css';
 
 
 const tickets = [
@@ -166,7 +165,7 @@ export default class TicketListItem extends Component {
 
 	render() {
 		return (
-            <div className="ticket-border">
+            <div className="ticketListItemTicketBorder">
                 {this.renderTicketList()}
             </div>
 		);

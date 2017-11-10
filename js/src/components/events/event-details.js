@@ -1,7 +1,7 @@
 import React, { Component }  from 'react';
 import EventDetailsPane from './event-details-pane';
 import _ from 'lodash';
-import './event-details.css';
+import '../../stylesheet.css';
 
 export default class EventDetails extends Component {
 
@@ -24,9 +24,9 @@ export default class EventDetails extends Component {
 
     render() {
       return (
-          <div className="event-details-container">
-            <h3 className="details-header">Game Details</h3>
-            <div id="event-details" className="event-details">
+          <div className="eventDetailsContainer">
+            <h3 className="gameDetailsHeader">Game Details</h3>
+            <div id="event-details" className="eventDetails">
               {this.renderEventDetails(this.props.eventList)}
             </div>
           </div>

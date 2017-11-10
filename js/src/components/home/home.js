@@ -13,27 +13,25 @@ import { Parallax } from 'react-parallax';
 import GoCalendar from 'react-icons/lib/go/calendar';
 import GoJersey from 'react-icons/lib/go/jersey';
 import IonSocialUsd from 'react-icons/lib/io/social-usd'
-
-
-import './home.css';
+import '../../stylesheet.css';
 
 export default class Home extends Component {
 
     renderSearchOptions()
     {
         return (
-            <div className="centerThisWithPadding">
+            <div className="homeCenterThisWithPadding">
                 <Grid>
                     <Row>
                         <Col xs={2} md={4}>
                             <Panel>
-                                <div className="searchCenter">
+                                <div className="homeSearchCenter">
                                     <GoCalendar size={200} color="#EC174C"/>
                                 </div>
-                                <div className="searchDesc">
+                                <div className="homeSearchDesc">
                                     Not sure when to go? Search our Event Calendar!
                                 </div>
-                                <div className="searchCenter">
+                                <div className="homeSearchCenter">
                                     <LinkContainer to="/event-calendar">
                                         <Button bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
@@ -42,13 +40,13 @@ export default class Home extends Component {
                         </Col>
                         <Col xs={2} md={4}>
                             <Panel>
-                                <div className="searchCenter">
+                                <div className="homeSearchCenter">
                                     <GoJersey size={200} color="#EC174C"/>
                                 </div>
-                                <div className="searchDesc">
+                                <div className="homeSearchDesc">
                                     Want to see a particular team? Search by opponents!
                                 </div>
-                                <div className="searchCenter">
+                                <div className="homeSearchCenter">
                                     <LinkContainer to="/versus">
                                         <Button bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
@@ -57,13 +55,13 @@ export default class Home extends Component {
                         </Col>
                         <Col xs={2} md={4}>
                             <Panel>
-                                <div className="searchCenter">
+                                <div className="homeSearchCenter">
                                     <IonSocialUsd size={200} color="#EC174C"/>
                                 </div>
-                                <div className="searchDesc">
+                                <div className="homeSearchDesc">
                                     Short on dough? Search for the cheapest seats!
                                 </div>
-                                <div className="searchCenter">
+                                <div className="homeSearchCenter">
                                     <LinkContainer to="/pick-tickets?event=0">
                                         <Button bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
@@ -80,20 +78,20 @@ export default class Home extends Component {
         return (
             <div>
                 <Parallax bgImage={require("../../resources/images/backgrounds/philadelphia.jpg")} strength={250}>
-                    <div className="parallaxSize blueOverlay">
-                        <Image src={require("../../resources/images/homeLogo.png")} responsive className="centerThis homeMainLogo"/>
+                    <div className="homeParallaxSize homeBlueOverlay">
+                        <Image src={require("../../resources/images/homeLogo.png")} responsive className="homeCenterThis homeMainLogo"/>
                     </div>
                 </Parallax>
-                <div className="parallaxDivider blueOverlay">
+                <div className="homeParallaxDivider homeBlueOverlay">
                     <Panel>
-                        <div className="parallaxText">
-                            <div className="parallaxTextHeader">
+                        <div className="homeParallaxText">
+                            <div className="homeParallaxTextHeader">
                                 Welcome to Trust the Tickets, Philadelphia's first fan-centered ticket website.
                             </div>
-                            <div className="parallaxTextBody">
+                            <div className="homeParallaxTextBody">
                                 TTT exists to get you tickets to Philly sports games, quicker, simpler, and cheaper. How?
-                                <div className="parallaxTextBodyBlock">
-                                    <div className="parallaxTextBodyBlockText">
+                                <div className="homeParallaxTextBodyBlock">
+                                    <div className="homeParallaxTextBodyBlockText">
                                         <ol>
                                             <li>We specialize in Philly sports tickets - you don't have to wade through irrelevant ticketing events during your search.</li>
                                             <li>Our search methods were designed with fans in mind - We know how to find what you want, quicker!</li>
@@ -102,8 +100,8 @@ export default class Home extends Component {
                                     </div>
                                 </div>
                                 So how do I get started?
-                                <div className="parallaxTextBodyBlock">
-                                    <div className="parallaxTextBodyBlockText">
+                                <div className="homeParallaxTextBodyBlock">
+                                    <div className="homeParallaxTextBodyBlockText">
                                         Check out our three searching methods below to find tickets to your next game, and Trust the Process.
                                     </div>
                                 </div>
@@ -112,7 +110,7 @@ export default class Home extends Component {
                     </Panel>
                 </div>
                 <Parallax bgImage={require("../../resources/images/backgrounds/wellsFargoNightBlur.png")} strength={250}>
-                    <div className="parallaxSearchSize blueOverlay">
+                    <div className="homeParallaxSearchSize homeBlueOverlay">
                         {this.renderSearchOptions()}
                     </div>
                 </Parallax>

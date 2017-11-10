@@ -2,7 +2,7 @@ import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import AuthService from './auth-service';
-import './login.css';
+import '../../stylesheet.css';
 
 export default class Login extends Component {
 
@@ -39,20 +39,20 @@ export default class Login extends Component {
         return (
             <div className='globalBody globalImage'>
                 <div className='globalBody globalImageOverlay'>
-                    <div className="centered" style={{paddingTop: "75px"}}>
-                        <h1 className="text-center" style={{color: 'black'}}>Log In</h1>
+                    <div className="loginCentered loginTopPadding">
+                        <h1 className="text-center loginHeader1">Log In</h1>
                         <form>
                             <FormGroup controlId="formControlsEmail">
-                                <ControlLabel id="EmailAddress" style={{color: 'black'}}>Email address</ControlLabel>
+                                <ControlLabel className='loginControlLabel' id="EmailAddress">Email address</ControlLabel>
                                 <div id="WrongEmailPassword"> </div>
-                                <FormControl style={{width: 350}} placeholder="Enter email" type="email"
+                                <FormControl className='loginFormControl' placeholder="Enter email" type="email"
                                     value={this.state.email}
                                     name="email"
                                     onChange={this.handleChange.bind(this)}  />
                             </FormGroup>
                             <FormGroup controlId="formControlsPassword" >
-                                <ControlLabel style={{color: 'black'}}>Password</ControlLabel>
-                                <FormControl style={{width: 350}} placeholder="Password" type="password"
+                                <ControlLabel className='loginControlLabel'>Password</ControlLabel>
+                                <FormControl className='loginFormControl' placeholder="Password" type="password"
                                     value={this.state.password}
                                     name="password"
                                     onChange={this.handleChange.bind(this)} />
@@ -62,7 +62,7 @@ export default class Login extends Component {
                                 Log In
                             </Button>
                         </form>
-                        <p style={{color: 'black'}}>Don't have an account? <Link to='/register'> Register here.</Link></p>
+                        <p className='loginPara'>Don't have an account? <Link to='/register'> Register here.</Link></p>
                     </div>
                 </div>
             </div>

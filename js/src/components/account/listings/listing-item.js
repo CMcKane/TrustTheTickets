@@ -1,7 +1,7 @@
 import React, { Component }  from 'react';
 import { Panel, Button, Grid, Row, Col } from 'react-bootstrap';
 import Logo from '../../logos/logo';
-import './listings.css';
+import '../../../stylesheet.css';
 
 export default class ListingItem extends Component {
 
@@ -32,11 +32,11 @@ export default class ListingItem extends Component {
 
 	getHeader() {
 		return (
-			<Grid style={{paddingLeft: "0px"}}>
-				<Col xs={7} sm={6} md={5} lg={6} style={{paddingLeft: "0px"}}>
+			<Grid className='listingItemGrid'>
+				<Col className='listingItemHeaderStatusColumn' xs={7} sm={6} md={5} lg={6}>
 					{this.state.listing.date} - {this.getStatus()}
 				</Col>
-				<Col xs={5} sm={2} md={2} lg={1} style={{paddingLeft: "0px", paddingRight: "0px"}}>
+				<Col className='listingItemHeaderButtonColumn' xs={5} sm={2} md={2} lg={1}>
 					{this.getButton()}
 				</Col>
 			</Grid>); 
@@ -52,11 +52,11 @@ export default class ListingItem extends Component {
 
 	getContent() {
 		return (
-			<Grid style={{paddingLeft: "0px"}}>
-				<Col xsHidden sm={1} md={1} lg={1} style={{paddingLeft: "0px"}}>
+			<Grid className='listingItemGrid'>
+				<Col className='listingItemNoLeftPadding' xsHidden sm={1} md={1} lg={1}>
 					<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
 				</Col>
-				<Col xs={11} sm={7} md={5} lg={5} style={{paddingLeft: "0px"}}>
+				<Col className='listingItemNoLeftPadding' xs={11} sm={7} md={5} lg={5}>
 					<p style={{paddingLeft: "0px"}}>
 					{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
 					Section: {this.state.listing.section} Row: {this.state.listing.row} Seats: {this.getSeats()} <br/>
@@ -71,13 +71,13 @@ export default class ListingItem extends Component {
 	getButton() {
 		if (this.state.listing.inProgress) {
 			return (
-				<Button onClick={this.editListing.bind(this)} style={{float: 'right'}}>
+				<Button className='listingItemButton' onClick={this.editListing.bind(this)}>
 	                Edit
 	        	</Button>
 			);
 		}
 		return (
-			<Button style={{float: 'right'}} 
+			<Button className='listingItemButton'
 				onClick={() => this.setState({ open: !this.state.open })}>
           		Order Details
         	</Button>
@@ -88,7 +88,7 @@ export default class ListingItem extends Component {
 		return (
 			<Row>
 				<div className="listingItem">
-				    <Col xs={10} sm={10} md={10} lg={10} style={{padding: "0px"}}>
+				    <Col className='listingItemNoPadding' xs={10} sm={10} md={10} lg={10}>
 						{this.getContent()}
 					</Col>
 				</div>
@@ -109,7 +109,7 @@ export default class ListingItem extends Component {
 	getPanel() {
 		if (this.state.listing.inProgress) {
 			return (
-			<Panel bsStyle='primary' header={this.getHeader()} style={{marginTop: "10px", marginBottom: "0px"}}>
+			<Panel className='listingItemPanelMargins' bsStyle='primary' header={this.getHeader()}>
 		    	<Grid>
 		    		{this.getListing()}
 		    	</Grid>
@@ -117,7 +117,7 @@ export default class ListingItem extends Component {
 			);
 		}
 		return (
-			<Panel header={this.getHeader()} style={{marginTop: "10px", marginBottom: "0px"}}>
+			<Panel className='listingItemPanelMargins' header={this.getHeader()}>
 		    	<Grid>
 		    		{this.getListing()}
 		    	</Grid>
@@ -127,7 +127,7 @@ export default class ListingItem extends Component {
 
 	render() {
 		return (
-			<div style={{paddingBottom: "0px"}}>
+			<div className='listingItemNoBottomPadding'>
 			{this.getPanel()}
 		    {this.getCollapsiblePanel()}
 		    </div>

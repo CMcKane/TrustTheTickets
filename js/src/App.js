@@ -18,7 +18,7 @@ import EventListView from './components/events/event-list-view';
 import Versus from './components/versus/versus';
 import ListingsView from './components/account/listings/listings-view';
 import AuthService from './components/auth/auth-service';
-import './App.css';
+import './stylesheet.css';
 
 const navItems = [
     {

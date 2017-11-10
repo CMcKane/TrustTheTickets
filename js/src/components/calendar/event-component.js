@@ -1,12 +1,12 @@
 import React, { Component }  from 'react';
 import Logo from '../logos/logo';
-import "./calendar.css";
+import '../../stylesheet.css';
 
 export default class EventComponent extends Component {
 
   render() {
     return (
-    	<div className="eventComponentContainer">
+    	<div className="calendarEventComponentContainer">
     		<Logo team={this.props.event.awayTeam} class={"teamLogo"} />
     	</div>
     );

@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import { TTTGet } from '../backend/ttt-request';
-import '../accounts/view-account.css';
+import '../../stylesheet.css';
 
 export default class ViewAccounts extends Component {
     constructor(props) {
@@ -21,9 +21,9 @@ export default class ViewAccounts extends Component {
 
     render() {
         return (
-            <div className="centered" style={{width: '50%'}}>
-                <h1 className="text-center" style={{color: 'white'}}>Registered Accounts</h1>
-                <table style={{width: '100%'}}>
+            <div className="centered viewAccountDiv">
+                <h1 className="text-center viewAccountH1">Registered Accounts</h1>
+                <table className='viewAccountTable'>
                     <tbody>
                     <tr>
                         <th>Account ID</th>

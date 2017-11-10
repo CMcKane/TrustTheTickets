@@ -5,7 +5,7 @@ import AuthService from '../../auth/auth-service';
 import _ from 'lodash';
 import ListingItem from './listing-item';
 import { Grid, Col } from 'react-bootstrap';
-import './listings.css';
+import '../../../stylesheet.css';
 
 const listings = [
 {
@@ -98,19 +98,14 @@ class ListingsView extends Component {
         return (
             <div className='globalBody globalImage'>
                 <div className='globalBody globalImageOverlay'>
-	        		<Grid style={{height: '80%'}}>
+	        		<Grid className='listingsViewGrid'>
 	        			<Col xs={0} sm={1} md={2} lg={2}>
 	        			</Col>
 	        			<Col xs={12} sm={10} md={8} lg={8} style={{height: '100%', paddingBottom: '40px'}}>
-	                		<h1 className="listingTitle" style={{color: 'black', padding: '10px'}}> 
+	                		<h1 className="listingTitle listingsViewH1">
 	                			Your Listing History 
 	             			</h1>
-	                		<div style=
-	                			{{
-	                				overflowY: 'auto',
-	                				overflowX: 'hidden', 
-	                				height: "100%",  
-	                				paddingRight: '20px'}} >
+	                		<div className='listingsViewTicketListingWindow' >
 	                			{this.renderListings()}
 	                		</div>
 	                	</Col>
