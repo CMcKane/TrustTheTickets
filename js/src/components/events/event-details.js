@@ -25,7 +25,7 @@ export default class EventDetails extends Component {
     render() {
       return (
           <div className="eventDetailsContainer">
-            <h3 className="eventDetailsHeader">Game Details</h3>
+            <h3 className="gameDetailsHeader">Game Details</h3>
             <div id="event-details" className="eventDetails">
               {this.renderEventDetails(this.props.eventList)}
             </div>
