@@ -54,6 +54,8 @@ export default class PickTickets extends Component {
                      "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82"],
             clubBox1: ["CB2", "CB3", "CB4", "CB10", "CB11", "CB12", "CB14", "CB15", "CB16", "CB23", "CB24"],
             clubBox2: ["CC21", "CC20","CC19","CC18","CC17"],
+            ground: ["R106", "R108", "R118", "R120"],
+            letter: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R"],
             special: ["SB1", "SB13"],
             private: ["PS22"]
         }
@@ -289,6 +291,14 @@ export default class PickTickets extends Component {
         else if(firstChar === 'P')
         {
             return this.state.private;
+        }
+        else if(len === 1 && section.match(/[A-R]/i))
+        {
+            return this.state.letter;
+        }
+        else if(firstChar === 'R')
+        {
+            return this.state.ground;
         }
         else
         {
