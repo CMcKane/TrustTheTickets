@@ -2,7 +2,39 @@
 /****************************************************** Template  ****************************************************/
 /*********************************************************************************************************************/
 
-                                /* When adding a new CSS section use this template */
+/*
+When adding a new CSS section use this template
+These are useful when creating mobile friendly CSS.
+These are all the default screen sizes
+*/
+
+/*
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+
+}
+
+@media (max-width: 425px) and (min-width: 376px) {
+
+}
+
+@media (max-width: 375px) and (min-width: 321px) {
+
+}
+
+@media (max-width: 320px) {
+
+}
+
+*/
 
 /*********************************************************************************************************************/
 /**************************************************** End Template ***************************************************/
@@ -495,11 +527,6 @@
     background-color: rgba(0,0,0,0.60);
 }
 
-.homeParallaxSize
-{
-    height: 1000px;
-}
-
 .homeParallaxDivider
 {
     padding: 15px;
@@ -519,47 +546,17 @@
 
     text-align: center;
 }
-.homeParallaxTextHeader
-{
-    font: 50px "Tw Cen MT Condensed";
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-.homeParallaxTextBody
-{
-    padding-top: 20px;
-    font: 35px "Tw Cen MT Condensed";
-}
 
 .homeParallaxTextBodyBlock
 {
     text-align: center;
     padding-top: 10px;
 }
-.homeParallaxTextBodyBlockText
-{
-    display: inline-block;
-    text-align: left;
-    list-style-position:inside;
-    font: 25px "Calibri";
-    color: #036bb5;
-}
-
-.homeParallaxSearchSize
-{
-    height: 800px;
-}
 
 .homeSearchCenter
 {
     padding-top: 10px;
     text-align: center;
-}
-
-.homeSearchDesc
-{
-    padding-top: 10px;
-    font: 38px "Tw Cen MT Condensed";
 }
 
 .homeCenterThis
@@ -581,16 +578,6 @@
     align-items: center;
 }
 
-.homeMainLogo
-{
-    height: 90%;
-    width: 90%;
-}
-
-.homeIcons {
-    font-size: 200px;
-}
-
 .homePanel {
     text-align: center;
     display: flex;
@@ -598,10 +585,215 @@
     align-items: center;
 }
 
-@media (max-width: 767px){
+@media (min-width: 1441px){
+
     .homeParallaxSize
     {
-        height: 300px;
+        height: 2100px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 90px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 55px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 46px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 1500px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 75px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 350px;
+    }
+}
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+    .homeParallaxSize
+    {
+        height: 1200px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 60px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 44px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 36px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 1000px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 50px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 250px;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+
+    .homeParallaxSize
+    {
+        height: 1000px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 50px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 35px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 24px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 650px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 38px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 150px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+
+    .homeParallaxSize
+    {
+        height: 700px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 50px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 30px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 24px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 900px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 28px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 100px;
+    }
+}
+
+@media (max-width: 425px) and (min-width: 376px) {
+
+    .homeParallaxSize
+    {
+        height: 500px;
     }
 
     .homeParallaxTextHeader
@@ -628,21 +820,13 @@
 
     .homeParallaxSearchSize
     {
-        height: 600px;
+        height: 750px;
     }
 
     .homeSearchDesc
     {
         padding-top: 10px;
-        font: 17px "Tw Cen MT Condensed";
-    }
-
-    .homeCenterThisWithPadding
-    {
-        padding: 10%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        font: 19px "Tw Cen MT Condensed";
     }
 
     .homeMainLogo
@@ -651,26 +835,21 @@
         width: 100%;
     }
 
-    .homePanel {
-        text-align: center;
-        height: 215px;
-        width: 175px;
-    }
-
     .homeIcons {
-        font-size: 75px;
+        font-size: 80px;
     }
 }
 
-@media (min-width: 768px) and (max-width: 1023px){
+@media (max-width: 375px) and (min-width: 321px) {
+
     .homeParallaxSize
     {
-        height: 600px;
+        height: 500px;
     }
 
     .homeParallaxTextHeader
     {
-        font: 35px "Tw Cen MT Condensed";
+        font: 25px "Tw Cen MT Condensed";
         font-weight: bold;
         letter-spacing: 2px;
     }
@@ -678,7 +857,7 @@
     .homeParallaxTextBody
     {
         padding-top: 20px;
-        font: 23px "Tw Cen MT Condensed";
+        font: 17px "Tw Cen MT Condensed";
     }
 
     .homeParallaxTextBodyBlockText
@@ -686,31 +865,19 @@
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 18px "Calibri";
+        font: 12px "Calibri";
         color: #036bb5;
     }
 
     .homeParallaxSearchSize
     {
-        height: 600px;
-    }
-
-    .homeSearchCenter
-    {
-        padding-top: 10px;
-        text-align: center;
+        height: 700px;
     }
 
     .homeSearchDesc
     {
         padding-top: 10px;
-        font: 23px "Tw Cen MT Condensed";
-    }
-
-    .homeCenterThisWithPadding
-    {
-        padding-top: 10%;
-        padding-left: 30%;
+        font: 19px "Tw Cen MT Condensed";
     }
 
     .homeMainLogo
@@ -719,14 +886,59 @@
         width: 100%;
     }
 
-    .homePanel {
-        text-align: center;
-        height: 325px;
-        width: 300px;
+    .homeIcons {
+        font-size: 75px;
+    }
+}
+
+@media (max-width: 320px) {
+
+    .homeParallaxSize
+    {
+        height: 500px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 25px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 17px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 12px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 700px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 19px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
     }
 
     .homeIcons {
-        font-size: 150px;
+        font-size: 50px;
     }
 }
 
@@ -881,6 +1093,23 @@ p.loginPara {
     width: 350px;
 }
 
+@media (max-width: 320px) {
+
+    .loginCentered {
+        color: black;
+        width: 200px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h1.loginHeader1 {
+        color: black;
+        font-size: 30px;
+        font-weight: bold;
+    }
+}
+
 /*********************************************************************************************************************/
 /************************************************* End Login Styling *************************************************/
 /*********************************************************************************************************************/
@@ -1031,10 +1260,12 @@ p.loginPara {
     padding: 20px;
 }
 .registrationViewCountryForm {
-    padding-right: 50px;
+    padding-left: 35px;
+    padding-right: 35px;
 }
 .registrationViewStateForm {
-    padding-left: 50px;
+    padding-left: 35px;
+    padding-right: 35px;
 }
 
 div.registrationViewDivPadding {
@@ -1051,6 +1282,115 @@ col.registrationViewCol {
 
 .registrationViewControlLabel {
     padding-right: 10px;
+}
+
+
+@media (max-width: 1024px) and (min-width: 769px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .registrationViewStateForm {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 30px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px){
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 3px;
+    }
+
+    .registrationViewCountryForm {
+
+    }
+    .registrationViewStateForm {
+
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 25px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 425px) and (min-width: 376px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    .registrationViewStateForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 375px) and (min-width: 321px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    .registrationViewStateForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 320px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    .registrationViewStateForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+    }
 }
 
 /*********************************************************************************************************************/

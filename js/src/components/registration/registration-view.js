@@ -112,7 +112,7 @@ export default class RegistrationView extends Component {
                             Tickets!</h1>
                         <Grid>
                             <Row>
-                                <Col className='registrationViewCol' lg={6}>
+                                <Col className='registrationViewCol' sm={6} md={6} lg={6}>
                                     <Form>
                                         <FormGroup
                                             controlId="formControlsEmail">
@@ -162,7 +162,7 @@ export default class RegistrationView extends Component {
                                         />
                                     </Form>
                                 </Col>
-                                <Col className='registrationViewCol' lg={6}>
+                                <Col className='registrationViewCol' sm={6} md={6} lg={6}>
                                     <Form>
                                         <FieldGroup
                                             id="formControlsText"
