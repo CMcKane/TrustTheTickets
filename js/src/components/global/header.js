@@ -42,16 +42,26 @@ export default class Header extends Component {
         );
     }
 
+    setNavExpanded(expanded) {
+        this.setState({ navExpanded: expanded});
+    }
+
+    closeNav() {
+        this.setState({navExpanded: false});
+    }
+
     render() {
         return (
-            <div>
+            <div className="headerContainer">
         		<Headroom style={{
                     WebkitTransition: 'all .5s ease-in-out',
                     MozTransition: 'all .5s ease-in-out',
                     OTransition: 'all .5s ease-in-out',
                     transition: 'all .5s ease-in-out'}}
                 >
-                    <Navbar>
+                    <Navbar
+                            onToggle={this.setNavExpanded.bind(this)}
+                            expanded={this.state.navExpanded}>
                         <Navbar.Header>
                             <Navbar.Brand>
                                 <LinkContainer to="/" className='navbar-img'>
@@ -61,7 +71,8 @@ export default class Header extends Component {
                             <Navbar.Toggle />
                         </Navbar.Header>
                         <Navbar.Collapse>
-                            <Nav pullRight>
+                            <Nav pullRight
+                                onSelect={this.closeNav.bind(this)}>
                                 {this.renderItems()}
                             </Nav>
                         </Navbar.Collapse>

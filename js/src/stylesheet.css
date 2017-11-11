@@ -48,6 +48,16 @@ These are all the default screen sizes
     text-align: center;
 }
 
+.appContent {
+    padding-top: 62px;
+}
+
+@media (min-width: 767px) {
+    .appContent {
+        padding-top: 92px;
+    }
+}
+
 .App-logo {
     animation: App-logo-spin infinite 20s linear;
     height: 80px;
@@ -66,6 +76,10 @@ These are all the default screen sizes
 
 .App-intro {
     font-size: large;
+}
+
+.appContent {
+    position: relative;
 }
 
 @keyframes App-logo-spin {
@@ -325,7 +339,9 @@ These are all the default screen sizes
 /*********************************************************************************************************************/
 /*************************************************** Header Styling **************************************************/
 /*********************************************************************************************************************/
-
+.headroom-wrapper {
+    z-index: 1;
+}
 .navbar
 {
     background-color: #036bb5 !important ;
@@ -381,6 +397,7 @@ These are all the default screen sizes
 .navbar .navbar-form
 {
     border-color: #ffffff !important ;
+    z-index: 1;
 }
 .navbar .navbar-link
 {
@@ -396,6 +413,11 @@ These are all the default screen sizes
 }
 .nav-item {
 
+}
+.headerContainer {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
 }
 
 @media (max-width: 575px)
