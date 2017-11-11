@@ -85,7 +85,6 @@ export default class Versus extends Component {
         return (
             <div className='globalBody globalImage'>
                 <div className='globalBody globalImageOverlay'>
-                    <div className="versusCenterLists">
                         <Grid>
                             <h1>
                                 <Well className='versusPickTeamsWell'>
@@ -93,13 +92,13 @@ export default class Versus extends Component {
                                 </Well>
                             </h1>
                             <Row>
-                                <Col style={{overflowY: "scroll"}} md={5} lg={6}>
+                                <Col xs={12} sm={6} md={6} lg={6}>
                                     <h3 className="versusH3"> Opponents: </h3>
                                     <Panel className="versusListOfTeams">
                                         {this.renderTeamList()}
                                     </Panel>
                                 </Col>
-                                <Col md={5} lg={6}>
+                                <Col xs={12} sm={6} md={6} lg={6}>
                                     <h3 className="versusH3"> Games: </h3>
                                     <Panel className="versusListOfTeams">
                                         {this.renderGameList()}
@@ -107,7 +106,6 @@ export default class Versus extends Component {
                                 </Col>
                             </Row>
                         </Grid>
-                    </div>
                 </div>
             </div>
         );
