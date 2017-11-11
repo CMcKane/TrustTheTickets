@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Grid, Row, Col, Well, Panel, Button, Image} from 'react-bootstrap';
 import _ from 'lodash';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
@@ -10,7 +10,7 @@ import '../../stylesheet.css';
 export default class Versus extends Component {
     teams = [];
 
-    constructor(props){
+    constructor(props) {
         const sportTypeID = 1;
         console.log("IN constructor");
         super(props);
@@ -39,13 +39,14 @@ export default class Versus extends Component {
         console.log(team_id);
         this.getGamesByTeam(team_id);
     }
+
     //render the teams in the left panel
     renderTeamList() {
         return _.map(this.state.teams, (team, id) =>
             <li className="list-group-item" border-color="red" key={team.team_id}>
-                <Logo team={team.team_name} class={"teamLogoLeftBig"} />
+                <Logo team={team.team_name} class={"teamLogoLeftBig"}/>
                 <Button onClick={this.handleClick.bind(this, team.team_id)}>
-                {team.city} {team.team_name} </Button>
+                    {team.city} {team.team_name} </Button>
             </li>
         );
 
@@ -68,45 +69,47 @@ export default class Versus extends Component {
         return _.map(this.state.games, (game, id) =>
             <li className="list-group-item" border-color="red">
                 {game.away_team_name} at {game.home_team_name}
-                <br />
+                <br/>
                 on {game.date}
-                <br />
-                <Logo team={game.away_team_name} class={"teamLogoLeft"} />
+                <br/>
+                <Logo team={game.away_team_name} class={"teamLogoLeft"}/>
                 <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
                     <Button> Purchase Tickets </Button>
                 </LinkContainer>
-                <Logo team={game.home_team_name} class={"teamLogoRight"} />
+                <Logo team={game.home_team_name} class={"teamLogoRight"}/>
             </li>
         );
     }
 
-    render(){
+    render() {
         return (
             <div className='globalBody globalImage'>
                 <div className='globalBody globalImageOverlay'>
-                    <Grid>
-                        <h1>
-                            <Well className='versusPickTeamsWell'>
-                                Choose the opponent you would like to see!
-                            </Well>
-                        </h1>
-                        <Row>
-                            <Col lg={4}>
-                                <h3 className="text-center versusH3"> Opponents: </h3>
-                                <Panel className="versusListOfTeams">
-                                    {this.renderTeamList()}
-                                </Panel>
-                            </Col>
-                            <Col lg={4}>
-                                <h3 className="text-center versusH3"> Games: </h3>
-                                <Panel className="versusListOfTeams">
-                                    {this.renderGameList()}
-                                </Panel>
-                            </Col>
-                        </Row>
-                    </Grid>
+                    <div className="versusCenterLists">
+                        <Grid>
+                            <h1>
+                                <Well className='versusPickTeamsWell'>
+                                    Choose the opponent you would like to see!
+                                </Well>
+                            </h1>
+                            <Row>
+                                <Col style={{overflowY: "scroll"}} md={5} lg={6}>
+                                    <h3 className="versusH3"> Opponents: </h3>
+                                    <Panel className="versusListOfTeams">
+                                        {this.renderTeamList()}
+                                    </Panel>
+                                </Col>
+                                <Col md={5} lg={6}>
+                                    <h3 className="versusH3"> Games: </h3>
+                                    <Panel className="versusListOfTeams">
+                                        {this.renderGameList()}
+                                    </Panel>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    </div>
                 </div>
             </div>
         );
     }
- }
+}

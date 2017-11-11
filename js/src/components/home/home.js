@@ -23,47 +23,47 @@ export default class Home extends Component {
             <div className="homeCenterThisWithPadding">
                 <Grid>
                     <Row>
-                        <Col xs={2} md={4}>
-                            <Panel>
+                        <Col md={4} lg={4} xl={4}>
+                            <Panel className="homePanel">
                                 <div className="homeSearchCenter">
-                                    <GoCalendar size={200} color="#EC174C"/>
+                                    <GoCalendar className="homeIcons" color="#EC174C"/>
                                 </div>
                                 <div className="homeSearchDesc">
                                     Not sure when to go? Search our Event Calendar!
                                 </div>
                                 <div className="homeSearchCenter">
                                     <LinkContainer to="/event-calendar">
-                                        <Button bsStyle="success">Let's go!</Button>
+                                        <Button bsSize="large" bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
                                 </div>
                             </Panel>
                         </Col>
-                        <Col xs={2} md={4}>
-                            <Panel>
+                        <Col md={4} lg={4} xl={4}>
+                            <Panel className="homePanel">
                                 <div className="homeSearchCenter">
-                                    <GoJersey size={200} color="#EC174C"/>
+                                    <GoJersey className="homeIcons" color="#EC174C"/>
                                 </div>
                                 <div className="homeSearchDesc">
                                     Want to see a particular team? Search by opponents!
                                 </div>
                                 <div className="homeSearchCenter">
                                     <LinkContainer to="/versus">
-                                        <Button bsStyle="success">Let's go!</Button>
+                                        <Button bsSize="large" bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
                                 </div>
                             </Panel>
                         </Col>
-                        <Col xs={2} md={4}>
-                            <Panel>
+                        <Col md={4} lg={4} xl={4}>
+                            <Panel className="homePanel">
                                 <div className="homeSearchCenter">
-                                    <IonSocialUsd size={200} color="#EC174C"/>
+                                    <IonSocialUsd className="homeIcons" color="#EC174C"/>
                                 </div>
                                 <div className="homeSearchDesc">
                                     Short on dough? Search for the cheapest seats!
                                 </div>
                                 <div className="homeSearchCenter">
                                     <LinkContainer to="/pick-tickets?event=0">
-                                        <Button bsStyle="success">Let's go!</Button>
+                                        <Button bsSize="large" bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
                                 </div>
                             </Panel>
@@ -77,7 +77,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                <Parallax bgImage={require("../../resources/images/backgrounds/philadelphia.jpg")} strength={250}>
+                <Parallax bgImage={require("../../resources/images/backgrounds/philadelphia.jpg")} strength={300}>
                     <div className="homeParallaxSize homeBlueOverlay">
                         <Image src={require("../../resources/images/homeLogo.png")} responsive className="homeCenterThis homeMainLogo"/>
                     </div>
@@ -109,7 +109,7 @@ export default class Home extends Component {
                         </div>
                     </Panel>
                 </div>
-                <Parallax bgImage={require("../../resources/images/backgrounds/wellsFargoNightBlur.png")} strength={250}>
+                <Parallax bgImage={require("../../resources/images/backgrounds/wellsFargoNightBlur.png")} strength={300}>
                     <div className="homeParallaxSearchSize homeBlueOverlay">
                         {this.renderSearchOptions()}
                     </div>
