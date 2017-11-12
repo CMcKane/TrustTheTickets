@@ -1004,6 +1004,10 @@ body.indexBody {
     }
 
 }
+.modal-dialog {
+  top: 30%;
+  transform: translateY(-50%);
+}
 
 /*********************************************************************************************************************/
 /************************************************ End Listings Styling ***********************************************/
@@ -1015,7 +1019,7 @@ body.indexBody {
 /*********************************************************************************************************************/
 
 .listingItemGrid {
-    padding-left: 0px;
+    padding-left: 0px !important;
 }
 
 Col.listingItemHeaderStatusColumn {
@@ -1028,7 +1032,9 @@ Col.listingItemHeaderButtonColumn {
 }
 
 Col.listingItemNoLeftPadding {
-    padding-left: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: 0px;
 }
 
 div.listingItemNoBottomPadding {
@@ -1036,7 +1042,7 @@ div.listingItemNoBottomPadding {
 }
 
 Col.listingItemNoPadding {
-    padding: 0px;
+    padding-left: 0px !important;
 }
 
 Button.listingItemButton {
@@ -1163,9 +1169,10 @@ p.loginPara {
     }
 }
 .listingsTeamLogo {
-    max-width: 100%;
-    align: left;
-    display: inline;
+    max-width: 80%;
+    display: inline-block;
+    margin: 0 auto;
+    vertical-align: middle;
 }
 .mobileTeamLogo{
     max-width: 100%;

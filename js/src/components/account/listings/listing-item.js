@@ -14,9 +14,10 @@ export default class ListingItem extends Component {
 		}
 	}
 
-	editListing() {
+
+	onHide() {
 		this.setState({
-			editing: true
+			open: false
 		});
 	}
 
@@ -66,11 +67,10 @@ export default class ListingItem extends Component {
 		return seats;
 	}
 
-
 	getButton() {
 		if (this.inProgress()) {
 			return (
-				<Button className='listingItemButton' onClick={this.editListing.bind(this)}>
+				<Button className='listingItemButton' onClick={() => this.props.showModal(this.state.listing)}>
 	                Edit
 	        	</Button>
 			);
@@ -87,10 +87,12 @@ export default class ListingItem extends Component {
 		if (this.inProgress()) {
 			return (
 				<Grid className='listingItemGrid'>
-					<Col className='listingItemNoLeftPadding' xsHidden sm={1} md={1} lg={1}>
+					<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
+						xsHidden sm={2} md={2} lg={2}>
 						<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
 					</Col>
-					<Col className='listingItemNoLeftPadding' xs={11} sm={7} md={5} lg={5}>
+					<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
+						xs={11} sm={7} md={5} lg={5}>
 						<p style={{paddingLeft: "0px"}}>
 						{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
 						<Time value={this.state.listing.date} format="MMMM D, YYYY h:mmA"/> <br/>
@@ -104,10 +106,12 @@ export default class ListingItem extends Component {
 		}
 		return (
 			<Grid className='listingItemGrid'>
-				<Col className='listingItemNoLeftPadding' xsHidden sm={1} md={1} lg={1}>
+				<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
+					xsHidden sm={2} md={2} lg={2}>
 					<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
 				</Col>
-				<Col className='listingItemNoLeftPadding' xs={11} sm={7} md={5} lg={5}>
+				<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
+					xs={11} sm={7} md={5} lg={5}>
 					<p style={{paddingLeft: "0px"}}>
 					{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
 					Total: ${this.getSellerTotal()} <br/>
@@ -122,7 +126,7 @@ export default class ListingItem extends Component {
 		return (
 			<Row>
 				<div className="listingItem">
-				    <Col className='listingItemNoPadding' xs={10} sm={10} md={10} lg={10}>
+				    <Col className='listingItemNoPadding' style={{paddingLeft: "0px"}}xs={10} sm={10} md={10} lg={10}>
 						{this.getContent()}
 					</Col>
 				</div>
