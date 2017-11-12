@@ -52,7 +52,7 @@ These are all the default screen sizes
     padding-top: 62px;
 }
 
-@media (min-width: 767px) {
+@media (min-width: 1023px) {
     .appContent {
         padding-top: 92px;
     }
@@ -607,62 +607,11 @@ These are all the default screen sizes
     align-items: center;
 }
 
-@media (min-width: 1441px){
+@media (max-width: 2560px) and (min-width: 1441px){
 
     .homeParallaxSize
     {
-        height: 2100px;
-    }
-
-    .homeParallaxTextHeader
-    {
-        font: 90px "Tw Cen MT Condensed";
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
-
-    .homeParallaxTextBody
-    {
-        padding-top: 20px;
-        font: 55px "Tw Cen MT Condensed";
-    }
-
-    .homeParallaxTextBodyBlockText
-    {
-        display: inline-block;
-        text-align: left;
-        list-style-position:inside;
-        font: 46px "Calibri";
-        color: #036bb5;
-    }
-
-    .homeParallaxSearchSize
-    {
-        height: 1500px;
-    }
-
-    .homeSearchDesc
-    {
-        padding-top: 10px;
-        font: 75px "Tw Cen MT Condensed";
-    }
-
-    .homeMainLogo
-    {
-        height: 100%;
-        width: 100%;
-    }
-
-    .homeIcons {
-        font-size: 350px;
-    }
-}
-
-@media (max-width: 1440px) and (min-width: 1025px) {
-
-    .homeParallaxSize
-    {
-        height: 1200px;
+        height: 1000px;
     }
 
     .homeParallaxTextHeader
@@ -675,7 +624,7 @@ These are all the default screen sizes
     .homeParallaxTextBody
     {
         padding-top: 20px;
-        font: 44px "Tw Cen MT Condensed";
+        font: 40px "Tw Cen MT Condensed";
     }
 
     .homeParallaxTextBodyBlockText
@@ -683,7 +632,58 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 36px "Calibri";
+        font: 30px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 1100px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 50px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 75%;
+        width: 75%;
+    }
+
+    .homeIcons {
+        font-size: 250px;
+    }
+}
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+    .homeParallaxSize
+    {
+        height: 1000px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 55px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 40px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 25px "Calibri";
         color: #036bb5;
     }
 
@@ -700,8 +700,8 @@ These are all the default screen sizes
 
     .homeMainLogo
     {
-        height: 100%;
-        width: 100%;
+        height: 90%;
+        width: 90%;
     }
 
     .homeIcons {
@@ -713,12 +713,12 @@ These are all the default screen sizes
 
     .homeParallaxSize
     {
-        height: 1000px;
+        height: 800px;
     }
 
     .homeParallaxTextHeader
     {
-        font: 50px "Tw Cen MT Condensed";
+        font: 45px "Tw Cen MT Condensed";
         font-weight: bold;
         letter-spacing: 2px;
     }
@@ -734,7 +734,7 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 24px "Calibri";
+        font: 20px "Calibri";
         color: #036bb5;
     }
 
@@ -764,12 +764,12 @@ These are all the default screen sizes
 
     .homeParallaxSize
     {
-        height: 700px;
+        height: 800px;
     }
 
     .homeParallaxTextHeader
     {
-        font: 50px "Tw Cen MT Condensed";
+        font: 40px "Tw Cen MT Condensed";
         font-weight: bold;
         letter-spacing: 2px;
     }
@@ -785,13 +785,13 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 24px "Calibri";
+        font: 20px "Calibri";
         color: #036bb5;
     }
 
     .homeParallaxSearchSize
     {
-        height: 900px;
+        height: 550px;
     }
 
     .homeSearchDesc
