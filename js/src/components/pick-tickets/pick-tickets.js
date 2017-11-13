@@ -24,6 +24,7 @@ export default class PickTickets extends Component {
         this.state = {
             sections: [],
             tickets: [],
+            ticketGroups: [],
             price: 0,
             showFilter: false,
             selectedEvent: null,
@@ -35,6 +36,7 @@ export default class PickTickets extends Component {
             toggleValue: 1,
             chartToggleValue: 1,
             bySection: true,
+            groups: [],
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -141,7 +143,7 @@ export default class PickTickets extends Component {
                         sections: res.data.sections,
                         tickets: res.data.tickets,
                         isLoading: false
-                    });
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
         } else {
@@ -155,7 +157,7 @@ export default class PickTickets extends Component {
                         this.setState({
                             tickets: res.data.tickets,
                             isLoading: false
-                        });
+                        }, () => {this.createTicketGroupArrays(this.state.tickets)});
                     }
                 });
         }
@@ -173,7 +175,7 @@ export default class PickTickets extends Component {
                         sections: res.data.sections,
                         tickets: res.data.tickets,
                         isLoading: false
-                    });
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
     }
@@ -190,7 +192,7 @@ export default class PickTickets extends Component {
                         previousSections: this.state.sections,
                         sections: res.data.sections,
                         isLoading: false
-                    });
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
     }
@@ -211,7 +213,6 @@ export default class PickTickets extends Component {
     }
 
     onChartClick(section) {
-        console.log(section);
         if(this.state.bySection)
         {
             if(this.state.sections.length === 1 && this.state.sections[0] === section) {
@@ -220,7 +221,7 @@ export default class PickTickets extends Component {
                     sections: [],
                     tickets: [],
                     toggleValue: 1
-                });
+                }, () => {this.createTicketGroupArrays(this.state.tickets)});
             }
             else {
                 this.setState({isLoading:true, tickets: []});
@@ -236,7 +237,7 @@ export default class PickTickets extends Component {
                                 tickets: res.data.tickets,
                                 isLoading: false,
                                 toggleValue: 1
-                            });
+                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
                         }
                     });
             }
@@ -258,11 +259,24 @@ export default class PickTickets extends Component {
                                 tickets: res.data.tickets,
                                 isLoading: false,
                                 toggleValue: 1
-                            });
+                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
                         }
                     });
         }
 
+    }
+
+    createTicketGroupArrays(tickets) {
+        var groups;
+        TTTPost('/create-groups', {
+                    tickets: tickets
+                })
+                    .then(res => {
+                        if (res.data.groups) {
+                            this.setState({groups: res.data.groups});
+                        }
+                    });
+        console.log(this.state.groups);
     }
 
     determineSectionsZone(section) {
@@ -366,15 +380,28 @@ export default class PickTickets extends Component {
 
     //render the values in the tickets
     renderTicketList() {
-        return _.map(this.state.tickets, (ticket, id) =>
-            <li className="list-group-item" border-color="red">
-                Section: {ticket.section_number} Row: {ticket.row_number}
-                <br></br>
-                Seat: {ticket.seat_number} Price: ${ticket.ticket_price}
-                <br></br>
-                <Button className="buy-button" bsSize="xsmall">Buy</Button>
-            </li>
-        );
+        var list = [];
+        for(var group in this.state.groups)
+        {
+            var seats = []
+            for(var i = 0; i < this.state.groups[group].length; i++) {
+                seats.push(this.state.groups[group][i].seat_number);
+            }
+            seats.sort();
+            list.push(
+                <li className="list-group-item" border-color="red">
+                    Tickets for sale: {this.state.groups[group].length}
+                    <br></br>
+                    <li> Section: {this.state.groups[group][0].section_number}</li>
+                    <li>Row: {this.state.groups[group][0].row_number}</li>
+                    <li>Seat(s): {seats.join(", ")}</li>
+                    <li>Price: ${this.state.groups[group][0].ticket_price} /ea</li>
+                    <br></br>
+                    <Button className="buy-button" bsSize="xsmall">Buy</Button>
+                </li>
+            )
+        }
+        return(list)
     }
 
     render() {

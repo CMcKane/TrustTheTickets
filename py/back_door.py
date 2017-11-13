@@ -9,6 +9,9 @@ from sql_handler import SqlHandler
 from json_dictionary_converter import JsonDictionaryConverter
 from account_jwt import JWTService
 from functools import wraps
+from collections import defaultdict
+from itertools import groupby
+from operator import itemgetter
 
 app = Flask (__name__)
 mysql = MySQL(app)
@@ -222,6 +225,14 @@ def get_seller_listings():
     except Exception as e:
         print(e)
         return jsonify({'authenticated': False})
+
+@app.route('/create-groups', methods=['POST'])
+def create_groups():
+    jsonData = request.get_json()
+    tickets_list = jsonData['tickets']
+    tickets_list = sorted(tickets_list, key = itemgetter('group_id'))
+    groups = dict((k, list(g)) for k, g in groupby(tickets_list, key = itemgetter('group_id')))
+    return jsonify({'groups': groups})
 
 if __name__ == '__main__':
     app.run()
