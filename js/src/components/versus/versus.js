@@ -43,10 +43,10 @@ export default class Versus extends Component {
     //render the teams in the left panel
     renderTeamList() {
         return _.map(this.state.teams, (team, id) =>
-            <li className="list-group-item" border-color="red" key={team.team_id}>
+            <li className="list-group-item" border-color="red" key={team.team_id}
+                onClick={this.handleClick.bind(this, team.team_id)}>
                 <Logo team={team.team_name} class={"teamLogoLeftBig"}/>
-                <Button onClick={this.handleClick.bind(this, team.team_id)}>
-                    {team.city} {team.team_name} </Button>
+                    {team.city} {team.team_name}
             </li>
         );
 
