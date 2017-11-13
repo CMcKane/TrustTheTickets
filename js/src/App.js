@@ -71,6 +71,7 @@ export default class App extends Component {
             <Router>
                 <div>
                     <Header navItems={this.state.navItems}/>
+                    <div className="appContent">
                     <Switch>
                         <Route exact path='/' component={Home}/>
                         <Route path='/view-tickets' component={ViewTickets}/>
@@ -99,6 +100,7 @@ export default class App extends Component {
                         <Route path="/not-found" component={NotFoundView}/>
                         <Route component={NotFoundView}/>
                     </Switch>
+                    </div>
                 </div>
             </Router>
         );

@@ -31,9 +31,9 @@ export default class WellsFargoChart extends Component {
 	render() {
 		return (
 			<ReactSVGPanZoom
-			  width={700} height={700}>
+			  width='100%' height={650}>
 			<svg version="1.1" 
-			xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 665 665">
+			xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 665 665" preserveAspectRatio="xMidYMid meet">
 				<path onClick={this.onChartClick.bind(this)} id="A"  className="seatingChartSt0"  d="M186.3,208.5c0,0-7,7-9.1,9.9l-7.3-7.4c0,0,4-5.1,9.3-10.2L186.3,208.5z"/>
 				<path onClick={this.onChartClick.bind(this)} id="B"  className="seatingChartSt0"  d="M177.2,218.3c0,0-6.8,8.7-8.4,11.3l-7.9-6.5c0,0,4.6-7.1,8.9-12.2L177.2,218.3z"/>
 				<path onClick={this.onChartClick.bind(this)} id="C"  className="seatingChartSt0"  d="M153.6,235.8c2.4-5.2,7.3-12.6,7.3-12.6l7.9,6.5c-2.3,3.8-6.7,11.5-6.7,11.5L153.6,235.8z"/>

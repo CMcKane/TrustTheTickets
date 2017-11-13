@@ -406,8 +406,8 @@ export default class PickTickets extends Component {
 
     render() {
         return (
-            <div className="globalImage pickTicketsBgImage">
-                <div className="globalImageOverlay">
+            <div className=" globalBody globalImage">
+                <div className=" globalBody globalImageOverlay">
                     <Grid style={{paddingTop: "25px"}}>
                         <h1>
                             <Well className='pickTicketsWell'>
@@ -415,9 +415,9 @@ export default class PickTickets extends Component {
                             </Well>
                         </h1>
                         <Row>
-                            <Col lg={8}>
+                            <Col xs={12} sm={12} md={12} lg={12}>
                                 <Row>
-                                    <Col lg={8}>
+                                    <Col xs={12} sm={12} md={12} lg={12}>
                                         <ButtonGroup>
                                             <DropdownButton disabled={this.hasEventID()}
                                                 title={this.state.eventTitle} id="bg-nested-dropdown">
@@ -449,7 +449,8 @@ export default class PickTickets extends Component {
                                     selectedSections={this.state.sections}
                                     previousSections={this.state.previousSections}/>
                             </Col>
-                            <Col lg={4}>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                                <div style={{width:'60%', height: '30%', paddingTop: '20%'}} className="homeCenterThis">
                                 <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
                                   Filter
                                 </Button>
@@ -499,6 +500,7 @@ export default class PickTickets extends Component {
                                 <div className="ticketListItemTicketBorder">
                                     {this.renderTicketList()}
                                     <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
+                                </div>
                                 </div>
                             </Col>
                         </Row>

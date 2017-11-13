@@ -48,6 +48,16 @@ These are all the default screen sizes
     text-align: center;
 }
 
+.appContent {
+    padding-top: 62px;
+}
+
+@media (min-width: 1023px) {
+    .appContent {
+        padding-top: 92px;
+    }
+}
+
 .App-logo {
     animation: App-logo-spin infinite 20s linear;
     height: 80px;
@@ -66,6 +76,10 @@ These are all the default screen sizes
 
 .App-intro {
     font-size: large;
+}
+
+.appContent {
+    position: relative;
 }
 
 @keyframes App-logo-spin {
@@ -93,6 +107,7 @@ These are all the default screen sizes
 .globalImageOverlay
 {
     background-color: rgba(255,255,255,0.50);
+    padding-bottom: 100px;
 }
 
 .globalPageTitle
@@ -325,7 +340,9 @@ These are all the default screen sizes
 /*********************************************************************************************************************/
 /*************************************************** Header Styling **************************************************/
 /*********************************************************************************************************************/
-
+.headroom-wrapper {
+    z-index: 1;
+}
 .navbar
 {
     background-color: #036bb5 !important ;
@@ -381,6 +398,7 @@ These are all the default screen sizes
 .navbar .navbar-form
 {
     border-color: #ffffff !important ;
+    z-index: 1;
 }
 .navbar .navbar-link
 {
@@ -396,6 +414,11 @@ These are all the default screen sizes
 }
 .nav-item {
 
+}
+.headerContainer {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
 }
 
 @media (max-width: 575px)
@@ -585,62 +608,11 @@ These are all the default screen sizes
     align-items: center;
 }
 
-@media (min-width: 1441px){
+@media (max-width: 2560px) and (min-width: 1441px){
 
     .homeParallaxSize
     {
-        height: 2100px;
-    }
-
-    .homeParallaxTextHeader
-    {
-        font: 90px "Tw Cen MT Condensed";
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
-
-    .homeParallaxTextBody
-    {
-        padding-top: 20px;
-        font: 55px "Tw Cen MT Condensed";
-    }
-
-    .homeParallaxTextBodyBlockText
-    {
-        display: inline-block;
-        text-align: left;
-        list-style-position:inside;
-        font: 46px "Calibri";
-        color: #036bb5;
-    }
-
-    .homeParallaxSearchSize
-    {
-        height: 1500px;
-    }
-
-    .homeSearchDesc
-    {
-        padding-top: 10px;
-        font: 75px "Tw Cen MT Condensed";
-    }
-
-    .homeMainLogo
-    {
-        height: 100%;
-        width: 100%;
-    }
-
-    .homeIcons {
-        font-size: 350px;
-    }
-}
-
-@media (max-width: 1440px) and (min-width: 1025px) {
-
-    .homeParallaxSize
-    {
-        height: 1200px;
+        height: 1000px;
     }
 
     .homeParallaxTextHeader
@@ -653,7 +625,7 @@ These are all the default screen sizes
     .homeParallaxTextBody
     {
         padding-top: 20px;
-        font: 44px "Tw Cen MT Condensed";
+        font: 40px "Tw Cen MT Condensed";
     }
 
     .homeParallaxTextBodyBlockText
@@ -661,7 +633,58 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 36px "Calibri";
+        font: 30px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 1100px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 50px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 75%;
+        width: 75%;
+    }
+
+    .homeIcons {
+        font-size: 250px;
+    }
+}
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+    .homeParallaxSize
+    {
+        height: 1000px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 55px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 40px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 25px "Calibri";
         color: #036bb5;
     }
 
@@ -678,8 +701,8 @@ These are all the default screen sizes
 
     .homeMainLogo
     {
-        height: 100%;
-        width: 100%;
+        height: 90%;
+        width: 90%;
     }
 
     .homeIcons {
@@ -691,12 +714,12 @@ These are all the default screen sizes
 
     .homeParallaxSize
     {
-        height: 1000px;
+        height: 800px;
     }
 
     .homeParallaxTextHeader
     {
-        font: 50px "Tw Cen MT Condensed";
+        font: 45px "Tw Cen MT Condensed";
         font-weight: bold;
         letter-spacing: 2px;
     }
@@ -712,7 +735,7 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 24px "Calibri";
+        font: 20px "Calibri";
         color: #036bb5;
     }
 
@@ -742,12 +765,12 @@ These are all the default screen sizes
 
     .homeParallaxSize
     {
-        height: 700px;
+        height: 800px;
     }
 
     .homeParallaxTextHeader
     {
-        font: 50px "Tw Cen MT Condensed";
+        font: 40px "Tw Cen MT Condensed";
         font-weight: bold;
         letter-spacing: 2px;
     }
@@ -763,13 +786,13 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 24px "Calibri";
+        font: 20px "Calibri";
         color: #036bb5;
     }
 
     .homeParallaxSearchSize
     {
-        height: 900px;
+        height: 550px;
     }
 
     .homeSearchDesc
@@ -982,6 +1005,10 @@ body.indexBody {
     }
 
 }
+.modal-dialog {
+  top: 30%;
+  transform: translateY(-50%);
+}
 
 /*********************************************************************************************************************/
 /************************************************ End Listings Styling ***********************************************/
@@ -993,7 +1020,7 @@ body.indexBody {
 /*********************************************************************************************************************/
 
 .listingItemGrid {
-    padding-left: 0px;
+    padding-left: 0px !important;
 }
 
 Col.listingItemHeaderStatusColumn {
@@ -1006,7 +1033,9 @@ Col.listingItemHeaderButtonColumn {
 }
 
 Col.listingItemNoLeftPadding {
-    padding-left: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: 0px;
 }
 
 div.listingItemNoBottomPadding {
@@ -1014,7 +1043,7 @@ div.listingItemNoBottomPadding {
 }
 
 Col.listingItemNoPadding {
-    padding: 0px;
+    padding-left: 0px !important;
 }
 
 Button.listingItemButton {
@@ -1141,9 +1170,10 @@ p.loginPara {
     }
 }
 .listingsTeamLogo {
-    max-width: 100%;
-    align: left;
-    display: inline;
+    max-width: 80%;
+    display: inline-block;
+    margin: 0 auto;
+    vertical-align: middle;
 }
 .mobileTeamLogo{
     max-width: 100%;
