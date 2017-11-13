@@ -93,7 +93,6 @@ These are all the default screen sizes
     -o-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
-    position: fixed;
     width: 100%;
     height: 100%;
     overflow: auto;
