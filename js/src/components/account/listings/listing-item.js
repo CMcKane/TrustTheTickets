@@ -87,18 +87,18 @@ export default class ListingItem extends Component {
 		if (this.inProgress()) {
 			return (
 				<Grid className='listingItemGrid'>
-					<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
+					<Col className='listingItemLeftCol' style={{padding: "0px"}}
 						xsHidden sm={2} md={2} lg={2}>
 						<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
 					</Col>
-					<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
-						xs={11} sm={7} md={5} lg={5}>
+					<Col className='listingItemRightCol' style={{padding: "0px"}}
+						xs={12} sm={7} md={5} lg={5}>
 						<p style={{paddingLeft: "0px"}}>
-						{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
-						<Time value={this.state.listing.date} format="MMMM D, YYYY h:mmA"/> <br/>
-						Section: {this.state.listing.section} Row: {this.state.listing.row} Seats: {this.getSeats()} <br/>
-						Ticket Price: ${this.state.listing.price} <br/>
-						Minimum group size: {this.state.listing.minSellSize} <br/>
+						{this.props.listing.homeTeam} vs {this.props.listing.awayTeam} <br/>
+						<Time value={this.props.listing.date} format="MMMM D, YYYY h:mmA"/> <br/>
+						Section: {this.props.listing.section}, Row: {this.props.listing.row}, Seats: {this.getSeats()} <br/>
+						Ticket Price: ${this.props.listing.price} <br/>
+						Minimum group size: {this.props.listing.minSellSize} <br/>
 						</p>
 					</Col>
 				</Grid>
@@ -106,14 +106,14 @@ export default class ListingItem extends Component {
 		}
 		return (
 			<Grid className='listingItemGrid'>
-				<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
+				<Col className='listingItemLeftCol' style={{padding: "0px"}}
 					xsHidden sm={2} md={2} lg={2}>
 					<Logo class="listingsTeamLogo" team={this.props.listing.awayTeam}/>
 				</Col>
-				<Col className='listingItemNoLeftPadding' style={{padding: "0px"}}
-					xs={11} sm={7} md={5} lg={5}>
+				<Col className='listingItemRightCol' style={{padding: "0px"}}
+					xs={12} sm={7} md={5} lg={5}>
 					<p style={{paddingLeft: "0px"}}>
-					{this.state.listing.homeTeam} vs {this.state.listing.awayTeam} <br/>
+					{this.props.listing.homeTeam} vs {this.props.listing.awayTeam} <br/>
 					Total: ${this.getSellerTotal()} <br/>
 					Sell Date: <Time value={this.props.listing.transactionDate} format="MMMM D, YYYY" /> <br/>
 					</p>
@@ -159,9 +159,9 @@ export default class ListingItem extends Component {
 				<Panel collapsible expanded={this.state.open} style={{marginBottom: "0px"}}>
 					<h5> Order Details - {this.props.listing.transactionDate}</h5>
 		    		<p style={{paddingLeft: "0px"}}>
-		    		Tickets Sold: Section: {this.state.listing.section} Row: {this.state.listing.row} Seats: {this.getSeats()} <br/>
+		    		Tickets Sold: Section: {this.props.listing.section} Row: {this.props.listing.row} Seats: {this.getSeats()} <br/>
 					Ticket Price: ${this.props.listing.price} <br/>
-					Total: ${this.getSellerTotal()} <br/>
+					Transaction Total: ${this.getSellerTotal()} <br/>
 					</p>
 		    	</Panel>
 			);

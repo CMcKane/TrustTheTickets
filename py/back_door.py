@@ -10,6 +10,8 @@ from account_jwt import JWTService
 from functools import wraps
 from itertools import groupby
 from operator import itemgetter
+from pyPdf import PdfFileWriter, PdfFileReader
+
 
 app = Flask (__name__)
 mysql = MySQL(app)
@@ -42,6 +44,16 @@ def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
 
+@app.route('/split-pdf', methods=['POST'])
+def splitPDF(pdfFilePath):
+    inputpdf = PdfFileReader(open(pdfFilePath, "rb"))
+    splitfiles = []
+
+    for i in xrange(inputpdf.numPages):
+        splitfiles[i] = inputpdf.getPage(i)
+
+    return jsonify({'splitfiles': splitfiles})
+
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
 def refresh_token():
@@ -54,7 +66,7 @@ def refresh_token():
         else:
             return jsonify({'authenticated': False})
     else:
-        return requestNotSupported();
+        return requestNotSupported()
 
 @app.route('/register', methods = ['POST'])
 def register():
@@ -218,6 +230,23 @@ def get_seller_listings():
         jwt_service = JWTService()
         account_id = jwt_service.get_account(jsonData['token'])
         sqlHandler = SqlHandler(mysql)
+        transactions = sqlHandler.get_seller_transactions(account_id)
+        listings = sqlHandler.get_seller_tickets(account_id)
+        # Concatenate the two arrays into one listings array to be consumed by frontend page
+        return jsonify({'listings':listings + transactions, 'authenticated': True})
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
+@app.route('/update-listing', methods=['POST'])
+@require_token
+def update_listing():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        sqlHandler.update_group(jsonData['groupID'], jsonData['newPrice'])
         transactions = sqlHandler.get_seller_transactions(account_id)
         listings = sqlHandler.get_seller_tickets(account_id)
         # Concatenate the two arrays into one listings array to be consumed by frontend page

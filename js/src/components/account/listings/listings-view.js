@@ -17,7 +17,8 @@ class ListingsView extends Component {
 		this.state = {
 			listings: null,
 			show: false,
-			selectedListing: null
+			selectedListing: null,
+			modalSubmitError: null
 		}
 	}
 
@@ -51,7 +52,27 @@ class ListingsView extends Component {
 		})
 	}
 
-	submitListing() {
+
+	submitListing(price, groupID) {
+		var newListings = this.state.listings;
+		var show = true;
+		TTTPost('/update-listing', {
+			token: this.Auth.getToken(),
+			newPrice: price,
+			groupID: groupID
+		})
+		.then(res => {
+			if (res.data.authenticated) {
+				newListings=res.data.listings;
+				show=false;
+			}
+			this.setState({
+				listings: newListings,
+				show: show,
+				modalSubmitError: true,
+				busy: false
+			});
+		});
 
 	}
 
@@ -65,9 +86,11 @@ class ListingsView extends Component {
         return (
             <div className='globalBody globalImage'>
             	<EditListingModal listing={this.state.selectedListing}
+            		modalSubmitError={this.state.modalSubmitError}
             		show={this.state.show} 
-            		onHide={this.onHide.bind(this)} />
-                <div className='globalBody globalImageOverlay'>
+            		onHide={this.onHide.bind(this)}
+            		submitListing={this.submitListing.bind(this)} />
+                <div className='globalBody globalImageOverlay' style={{paddingBottom: '0px'}}>
 	        		<Grid className='listingsViewGrid'>
 	        			<Col xs={0} sm={1} md={2} lg={2}>
 	        			</Col>
