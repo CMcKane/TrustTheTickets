@@ -10,7 +10,6 @@ from account_jwt import JWTService
 from functools import wraps
 from itertools import groupby
 from operator import itemgetter
-from pyPdf import PdfFileWriter, PdfFileReader
 
 
 app = Flask (__name__)
@@ -43,16 +42,6 @@ def require_token(f):
 def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
-
-@app.route('/split-pdf', methods=['POST'])
-def splitPDF(pdfFilePath):
-    inputpdf = PdfFileReader(open(pdfFilePath, "rb"))
-    splitfiles = []
-
-    for i in xrange(inputpdf.numPages):
-        splitfiles[i] = inputpdf.getPage(i)
-
-    return jsonify({'splitfiles': splitfiles})
 
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
