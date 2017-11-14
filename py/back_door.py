@@ -9,6 +9,11 @@ from sql_handler import SqlHandler
 from json_dictionary_converter import JsonDictionaryConverter
 from account_jwt import JWTService
 from functools import wraps
+from collections import defaultdict
+from itertools import groupby
+from operator import itemgetter
+from pyPdf import PdfFileWriter, PdfFileReader
+
 
 app = Flask (__name__)
 mysql = MySQL(app)
@@ -41,6 +46,16 @@ def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
 
+@app.route('/split-pdf', methods=['POST'])
+def splitPDF(pdfFilePath):
+    inputpdf = PdfFileReader(open(pdfFilePath, "rb"))
+    splitfiles = []
+
+    for i in xrange(inputpdf.numPages):
+        splitfiles[i] = inputpdf.getPage(i)
+
+    return jsonify({'splitfiles': splitfiles})
+
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
 def refresh_token():
@@ -53,7 +68,7 @@ def refresh_token():
         else:
             return jsonify({'authenticated': False})
     else:
-        return requestNotSupported();
+        return requestNotSupported()
 
 @app.route('/register', methods = ['POST'])
 def register():
@@ -239,6 +254,15 @@ def update_listing():
     except Exception as e:
         print(e)
         return jsonify({'authenticated': False})
+
+@app.route('/create-groups', methods=['POST'])
+def create_groups():
+    jsonData = request.get_json()
+    tickets_list = jsonData['tickets']
+    tickets_list = sorted(tickets_list, key = itemgetter('group_id'))
+    groups = dict((k, list(g)) for k, g in groupby(tickets_list, key = itemgetter('group_id')))
+    return jsonify({'groups': groups})
+
 
 if __name__ == '__main__':
     app.run()
