@@ -314,7 +314,7 @@ class SqlHandler(object):
         conn = self.mysql.connection
         cursor = conn.cursor()
         # First get transaction information (the total, total charges, transaction date)
-        cursor.execute("SELECT transaction_id, transaction_dt, SUM(total_transaction_charges) AS 'Transaction Total', SUM(amount) AS 'Total Charges' "
+        cursor.execute("SELECT transaction_id, transaction_dt, AVG(total_transaction_charges) AS 'Transaction Total', AVG(amount) AS 'Total Charges' "
                        "FROM transactions t "
                        "JOIN transaction_charges USING (transaction_id) "
                        "JOIN transaction_detail USING (transaction_id) "
@@ -364,7 +364,6 @@ class SqlHandler(object):
     def get_seller_tickets(self, account_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
-        print(account_id)
         # Get all tickets which are still available for purchase which are being sold by this account_id
         cursor.execute("SELECT group_id, te.city, te.team_name, te2.city, te2.team_name, date, "
                        "section_type_desc, section_num, row_num, seat_num, min_sell_num, total_ticket_num, available_ticket_num, ticket_price "
@@ -398,9 +397,17 @@ class SqlHandler(object):
                 tickets[counter]['awayTeam'] = row[4]
                 tickets[counter]['date'] = row[5]
                 tickets[counter]['sectionType'] = row[6]
-                tickets[counter]['row'] = row[7]
-                tickets[counter]['section'] = row[8]
+                tickets[counter]['row'] = row[8]
+                tickets[counter]['section'] = row[7]
                 tickets[counter]['seats'] = [row[9]]
                 tickets[counter]['minSellSize'] = row[10]
                 tickets[counter]['price'] = row[13]
         return tickets
+
+    def update_group(self, groupID, newPrice):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("UPDATE groups "
+                       "SET ticket_price={} "
+                       "WHERE group_id={}".format(newPrice, groupID))
+        conn.commit()

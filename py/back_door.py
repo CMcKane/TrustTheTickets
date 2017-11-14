@@ -223,6 +223,23 @@ def get_seller_listings():
         print(e)
         return jsonify({'authenticated': False})
 
+@app.route('/update-listing', methods=['POST'])
+@require_token
+def update_listing():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        sqlHandler.update_group(jsonData['groupID'], jsonData['newPrice'])
+        transactions = sqlHandler.get_seller_transactions(account_id)
+        listings = sqlHandler.get_seller_tickets(account_id)
+        # Concatenate the two arrays into one listings array to be consumed by frontend page
+        return jsonify({'listings':listings + transactions, 'authenticated': True})
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
 if __name__ == '__main__':
     app.run()
 
