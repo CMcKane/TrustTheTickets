@@ -87,7 +87,7 @@ class ListingsView extends Component {
             <div className='globalBody globalImage'>
             	<EditListingModal listing={this.state.selectedListing}
             		modalSubmitError={this.state.modalSubmitError}
-            		show={this.state.show} 
+            		show={this.state.show}
             		onHide={this.onHide.bind(this)}
             		submitListing={this.submitListing.bind(this)} />
                 <div className='globalBody globalImageOverlay' style={{paddingBottom: '0px'}}>

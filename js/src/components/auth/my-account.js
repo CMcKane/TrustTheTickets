@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Button} from 'react-bootstrap';
+import {Button, Tabs, Tab} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import {TTTPost} from '../backend/ttt-request';
 import withAuth from './with-auth';
 import AuthService from './auth-service';
+import ListingsView from '../../components/account/listings/listings-view';
+import CreateListingView from '../../components/account/listings/create-listing-view';
 
 class MyAccount extends Component {
 
@@ -38,23 +40,36 @@ class MyAccount extends Component {
     }
 
     getAccountInfo() {
-        if (this.state.populated) return (<h3>Welcome {this.state.firstName} {this.state.lastName}</h3>)
+        if (this.state.populated) return (<h1>Welcome {this.state.firstName} {this.state.lastName}</h1>)
     }
 
     render() {
         return (
             <div className='globalBody globalImage'>
                 <div className='globalBody globalImageOverlay'>
-                    <div className='globalPageTitle'>
-                        <h1>My Account</h1>
-                        <LinkContainer to='/my-account/listings-current'>
-                            <Button bsStyle='primary'>Current Listings</Button>
-                        </LinkContainer>
-                        <Button bsStyle='primary'
-                                onClick={this.logOut.bind(this)}>
-                            Log Out
-                        </Button>
-                    </div>
+                        <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                            <Tab eventKey={1} title="Account Settings">
+                                <div className="globalCenterThis">
+                                    {this.getAccountInfo()}
+                                    <div className="globalCenterThis">
+                                    <Button bsStyle='primary'
+                                            onClick={this.logOut.bind(this)}>
+                                        Log Out
+                                    </Button>
+                                    </div>
+                                </div>
+                            </Tab>
+                            <Tab eventKey={2} title="My Listings">
+                                <div>
+                                    <ListingsView/>
+                                </div>
+                            </Tab>
+                            <Tab eventKey={3} title="Create A Listing">
+                                <div>
+                                   <CreateListingView/>
+                                </div>
+                            </Tab>
+                        </Tabs>
                 </div>
             </div>
         );
