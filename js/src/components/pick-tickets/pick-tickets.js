@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well,
         Button, Panel, ToggleButtonGroup, ToggleButton, ButtonGroup,
-        DropdownButton, MenuItem} from 'react-bootstrap';
+        DropdownButton, MenuItem, Modal} from 'react-bootstrap';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
 import {TTTPost, TTTGet} from '../backend/ttt-request';
-import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 import { ClimbingBoxLoader } from 'react-spinners';
 import {LinkContainer} from 'react-router-bootstrap';
 import '../../stylesheet.css';
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
 
 var clickedSection = ''
 
@@ -25,7 +27,8 @@ export default class PickTickets extends Component {
             sections: [],
             tickets: [],
             ticketGroups: [],
-            price: 0,
+            minPrice: 0,
+            maxPrice: 100,
             showFilter: false,
             selectedEvent: null,
             eventID: queryParams.event,
@@ -37,6 +40,7 @@ export default class PickTickets extends Component {
             chartToggleValue: 1,
             bySection: true,
             groups: [],
+            show: false,
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -134,7 +138,8 @@ export default class PickTickets extends Component {
         if(this.state.sections.length === 0) {
             TTTPost('/get-cheap-ticket-any-section', {
                 eventID: this.state.eventID,
-                price: this.state.price
+                minPrice: this.state.minPrice,
+                maxPrice: this.state.maxPrice,
             })
             .then(res => {
                 if (res.data.tickets) {
@@ -149,7 +154,8 @@ export default class PickTickets extends Component {
         } else {
             TTTPost('/pick-ticket-filter', {
                 eventID: this.state.eventID,
-                price: this.state.price,
+                minPrice: this.state.minPrice,
+                maxPrice: this.state.maxPrice,
                 sections: this.state.sections
             })
                 .then(res => {
@@ -276,7 +282,6 @@ export default class PickTickets extends Component {
                             this.setState({groups: res.data.groups});
                         }
                     });
-        console.log(this.state.groups);
     }
 
     determineSectionsZone(section) {
@@ -345,10 +350,10 @@ export default class PickTickets extends Component {
         }
     }
 
-    onSliderChange(e) {
+    onRangeSliderChange(value) {
         this.setState({
-            sliderValue: e.target.value,
-            price: e.target.value
+            minPrice: value[0],
+            maxPrice: value[1]
         });
     }
 
@@ -470,18 +475,19 @@ export default class PickTickets extends Component {
                                     </div>
                                     <span> </span>
                                     <FormGroup controlId="formControlsEmail">
-                                        <ReactSliderNativeBootstrap
-                                            className="price-slider"
+
+                                        <Range
+                                            className="range-slider"
                                             max={1000}
-                                            min={1}
-                                            step={1}
-                                            tooltip="hide"
-                                            handleChange={this.onSliderChange.bind(this)}
-                                            value={this.state.sliderValue}/>
+                                            min={0}
+                                            step={5}
+                                            defaultValue={[0, 100]}
+                                            onChange={this.onRangeSliderChange.bind(this)}
+                                        />
 
                                         <ControlLabel
                                             className="slider-price-label">
-                                            Ticket Price: ${this.state.price}
+                                            Price Range: ${this.state.minPrice} - ${this.state.maxPrice}
                                         </ControlLabel>
 
                                         <div>
