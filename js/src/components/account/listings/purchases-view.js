@@ -13,10 +13,7 @@ class PurchasesView extends Component {
 		super(props);
 		this.Auth = new AuthService();
 		this.state = {
-			listings: null,
-			show: false,
-			selectedListing: null,
-			modalSubmitError: null
+			purchases: []
 		}
 	}
 
@@ -30,6 +27,7 @@ class PurchasesView extends Component {
 		})
 		.then(res => {
 			if (res.data.authenticated) {
+				console.log(res.data);
 				this.setState({
 					purchases: res.data.purchases
 				});
@@ -38,7 +36,7 @@ class PurchasesView extends Component {
 	}
 
 	renderListings() {
-		return _.map(this.props.purchases, (purchase, index) =>
+		return _.map(this.state.purchases, (purchase, index) =>
             <PurchaseItem key={index} purchase={purchase} />
         );
 	}

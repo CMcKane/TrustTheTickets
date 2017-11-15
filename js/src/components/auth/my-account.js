@@ -8,48 +8,6 @@ import ListingsView from '../account/listings/listings-view';
 import CreateListingView from '../account/listings/create-listing-view';
 import PurchasesView from '../account/listings/purchases-view';
 
-const purchases = [
-{
-    homeTeam: '76ers',
-    awayTeam: 'Heat',
-    date: '11/15/2017',
-    price: 120,
-    transactionDate: '11/04/2017',
-    transactionTotal: 524,
-    chargesTotal: 48,
-    rate: 0.1,
-    section: '101',
-    row: '18',
-    seats: [1,2,3,4]
-},
-{
-    homeTeam: '76ers',
-    awayTeam: 'Warriors',
-    price: 200,
-    date: '10/20/2017',
-    transactionDate: '10/01/2017',
-    transactionTotal: 880,
-    chargesTotal: 80,
-    rate: 0.1,
-    section: '116',
-    row: '1',
-    seats: [5,6,7,8]
-},
-{
-    homeTeam: '76ers',
-    awayTeam: 'Cavaliers',
-    price: 150,
-    date: '11/01/2017',
-    transactionDate: '09/13/2017',
-    transactionTotal: 330,
-    chargesTotal: 30,
-    rate: 0.1,
-    section: '221',
-    row: '7',
-    seats: [21,22]
-}
-]
-
 class MyAccount extends Component {
 
     constructor(props) {

@@ -228,6 +228,20 @@ def get_seller_listings():
         print(e)
         return jsonify({'authenticated': False})
 
+@app.route('/your-purchases', methods=['POST'])
+@require_token
+def get_buyer_purchases():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        transactions = sqlHandler.get_buyer_transactions(account_id)
+        return jsonify({'purchases': transactions, 'authenticated': True})
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
 @app.route('/update-listing', methods=['POST'])
 @require_token
 def update_listing():
