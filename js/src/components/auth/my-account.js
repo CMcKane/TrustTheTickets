@@ -72,7 +72,7 @@ class MyAccount extends Component {
                             </Tab>
                             <Tab eventKey={4} title="My Purchase History">
                                 <div>
-                                   <PurchasesView purchases={purchases} />
+                                   <PurchasesView />
                                 </div>
                             </Tab>
                         </Tabs>
