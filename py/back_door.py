@@ -10,7 +10,7 @@ from account_jwt import JWTService
 from functools import wraps
 from itertools import groupby
 from operator import itemgetter
-from pyPdf import PdfFileWriter, PdfFileReader
+# from pyPdf import PdfFileWriter, PdfFileReader
 
 
 app = Flask (__name__)
