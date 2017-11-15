@@ -318,7 +318,7 @@ class SqlHandler(object):
                        "AND rate_type_id > 1 "
                        "GROUP BY transaction_id, rate_type_id "
                        "ORDER BY transaction_dt".format(account_id))
-        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal=row[2],chargesTotal=row[3])
+        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal="{0:.2f}".format(row[2]),chargesTotal="{0:.2f}".format(row[3]))
                    for row in cursor.fetchall()]
         # For each transaction, get related ticket information for that transaction
         return self.read_transactions(transactions, cursor)
@@ -335,7 +335,7 @@ class SqlHandler(object):
                        "AND rate_type_id > 1 "
                        "GROUP BY transaction_id "
                        "ORDER BY transaction_dt".format(account_id))
-        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal=row[2],chargesTotal=row[3])
+        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal="{0:.2f}".format(row[2]),chargesTotal="{0:.2f}".format(row[3]))
                    for row in cursor.fetchall()]
         # For each transaction, get related ticket information for that transaction
         return self.read_transactions(transactions, cursor)
