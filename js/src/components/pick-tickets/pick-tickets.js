@@ -143,7 +143,13 @@ export default class PickTickets extends Component {
     }
 
     selectTicket() {
-         this.setState({tickets: [], previousSections: [], sections: []});
+         this.setState({
+            tickets: [],
+            previousSections: this.state.sections,
+            sections: [],
+            groups: [],
+            isLoading: true
+            });
          this.getTicketsWithFilter();
     }
 
@@ -184,7 +190,7 @@ export default class PickTickets extends Component {
     }
 
     getExpensiveTicketsAndSections() {
-        this.setState({isLoading:true, tickets: []});
+        this.setState({isLoading:true, tickets: [], groups: []});
         TTTPost('/pick-expensive-ticket', {
             eventID: this.state.eventID
         })
@@ -201,7 +207,7 @@ export default class PickTickets extends Component {
     }
 
     getCheapestTickets() {
-        this.setState({isLoading:true, tickets: []});        
+        this.setState({isLoading:true, tickets: [], groups: []});
         TTTPost('/pick-cheapest-ticket',{
             eventID: this.state.eventID            
         })
@@ -512,6 +518,13 @@ export default class PickTickets extends Component {
                                                 <ToggleButton id="selectPrice" value={1} onClick={this.selectTicket.bind(this)}>Select Price</ToggleButton>
                                                 <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)} >Lowest Price</ToggleButton>
                                                 <ToggleButton id="highestPrice" value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)} >Highest Price</ToggleButton>
+                                        </ToggleButtonGroup>
+                                    </div>
+                                    <div>
+                                        <ToggleButtonGroup type="checkbox">
+                                            <ToggleButton value={1}>Handicap</ToggleButton>
+                                            <ToggleButton value={2}>Aisle</ToggleButton>
+                                            <ToggleButton value={3}>Early Entry</ToggleButton>
                                         </ToggleButtonGroup>
                                     </div>
                                     <span> </span>
