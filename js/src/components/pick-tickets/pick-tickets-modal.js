@@ -10,19 +10,12 @@ export default class PickTicketsModal extends Component {
     super(props);
 
     this.state = {
-      group: this.props.group,
-      tickets: []
+      group: this.props.group
     }
   }
 
   getHeader() {
       return ("Tickets for sale");
-  }
-
-  getDate() {
-    if (this.props.listing) {
-      return (<Time value={this.props.listing.date} format="MMMM D, YYYY h:mmA"/>);
-    }
   }
 
   getTicketContent() {
@@ -44,29 +37,6 @@ export default class PickTicketsModal extends Component {
 
         }
         return(<div> {list} </div>);
-    }
-  }
-
-  getListingPrice() {
-    if (this.props.listing) {
-      return this.props.listing.price;
-    }
-  }
-
-  handleChange(e) {
-    this.setState({[e.target.name]: e.target.value});
-  }
-
-  getValidationState() {
-    return null;
-  }
-
-  onSubmit() {
-    if (this.state.price && ~~this.state.price) {
-      this.setState({
-        busy: true
-      });
-      this.props.submitListing(this.state.price, this.props.listing.groupID)
     }
   }
 
@@ -107,7 +77,6 @@ export default class PickTicketsModal extends Component {
         </Modal.Body>
         <Modal.Footer>
           {this.getErrorText()}
-          <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
           <Button onClick={() => this.props.onHide()}>Close</Button>
         </Modal.Footer>
       </Modal>
