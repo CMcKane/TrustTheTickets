@@ -27,7 +27,7 @@ export default class ListingItem extends Component {
 
 	getStatus() {
 		if (this.inProgress()) {
-			return 'In progress';
+			return 'In Progress';
 		}
 		return 'Completed';
 	}

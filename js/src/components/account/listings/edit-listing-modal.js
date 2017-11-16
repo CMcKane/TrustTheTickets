@@ -105,8 +105,10 @@ export default class MyListingModal extends Component {
                 <Col xs={1} sm={1} style={{paddingTop: '7px'}}>
                   $
                 </Col>
-                <Col xs={7} sm={7} style={{paddingLeft: '0px'}}>
-                  <FormControl disabled value={this.getListingPrice()} />
+                <Col xs={8} sm={7} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+                  <FormControl 
+                        style={{paddingRight: '0px', fontSize: '12px'}}
+                        disabled value={this.getListingPrice()} />
                 </Col>
               </Col>
             </FormGroup>
@@ -119,8 +121,8 @@ export default class MyListingModal extends Component {
                 <Col xs={1} sm={1} style={{paddingTop: '7px'}}>
                   $
                 </Col>
-                <Col xs={7} sm={7} style={{paddingLeft: '0px'}}>
-                <FormControl style={{paddingRight: '0px'}} 
+                <Col xs={8} sm={7} style={{paddingLeft: '0px', paddingRight: '0px'}}>
+                <FormControl style={{paddingRight: '0px', fontSize: '12px'}} 
                              placeholder="Enter new ticket price"
                              value={this.state.price}
                              name="price"
