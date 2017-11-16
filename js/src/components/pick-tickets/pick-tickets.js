@@ -409,9 +409,9 @@ export default class PickTickets extends Component {
 
     clearSections() {
         this.setState({
-            previousSections: [],
-            sections: [],
-            tickets: []
+            previousSections: this.state.sections,
+            groups: [],
+            sections: []
         });
     }
 

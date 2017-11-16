@@ -12,8 +12,8 @@ export default class WellsFargoChart extends Component {
 	}
 
 	componentDidUpdate() {
-		//console.log(1);
 		const previousSections = this.props.previousSections;
+
 	    for(var i = 0; i < previousSections.length; i++) {
 		    this.setSectionColor(previousSections[i], NOT_LIGHTED_COLOR);
 		}
