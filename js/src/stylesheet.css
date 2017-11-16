@@ -1279,6 +1279,12 @@ p.loginPara {
     background-color: #006BB6;
 }
 
+.ticketBorder {
+    border-style: solid;
+    border-width: 0.15em;
+    border-color: black;
+}
+
 .pickTicketsBorderBlack{
     color: grey;
     /*border white with light shadow*/

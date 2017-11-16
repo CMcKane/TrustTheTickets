@@ -32,24 +32,18 @@ export default class PickTicketsModal extends Component {
         for(var i = 0; i < this.props.group.length; i++)
         {
             var currTicket = this.props.group[i];
-            console.log(currTicket);
             list.push(
-                <p>
-                    Section: {currTicket.section_number}
-                    <br></br>
-                    Row: {currTicket.row_number}
-                    <br></br>
-                    Seat: {currTicket.seat_number}
-                    <br></br>
-                    Price: ${currTicket.ticket_price}
-                    <br></br>
+                <p className="ticketBorder">
+                    <p> Section: {currTicket.section_number} </p>
+                    <p>Row: {currTicket.row_number} </p>
+                    <p> Seat: {currTicket.seat_number} </p>
+                    <p> Price: ${currTicket.ticket_price} </p>
                     <Button id={i} className="buy-ticket-button" bsSize="xsmall" >Buy</Button>
                 </p>
             );
 
         }
-        console.log(list);
-        return(<div border="1px"> {list} </div>);
+        return(<div> {list} </div>);
     }
   }
 
