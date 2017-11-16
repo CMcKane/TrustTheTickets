@@ -39,7 +39,7 @@ export default class CreateListingView extends Component {
         super(props);
 
         this.state = {
-            numberOfTickets: 5,
+            numberOfTickets: 1,
             section: 0,
             opponentName: null,
             ticketPrice: 0,
@@ -70,14 +70,15 @@ export default class CreateListingView extends Component {
     }
 
     renderSeatNumberForms() {
-        for (var i = 1; i <= this.state.numberOfTickets; i++) {
-            return ( <FieldGroup className="createListingSeatNumberForms"
-                                 id={"seatNumberForm " + i}
-                                 type={"text"}
-                                 label={"Seat Number " + i + " Form"}
-                                 placeholder={"Enter the Seat Number for Seat " + i}
-            />);
+        var fieldGroups = []
+        for (var i = 1; i < this.state.numberOfTickets+1; i++) {
+            fieldGroups.push(<FieldGroup className="createListingSeatNumberForms"
+                                         id={"seatNumberForm " + i}
+                                         type={"text"}
+                                         label={"Seat Number " + i + " Form"}
+                                         placeholder={"Enter the Seat Number for Seat " + i}/>)
         }
+        return fieldGroups;
     }
 
     handleChange(e) {

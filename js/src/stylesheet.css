@@ -101,6 +101,11 @@ These are all the default screen sizes
     overflow: auto;
 }
 
+.svg {
+    width: 50% !important;
+    height: auto !important;
+}
+
 .globalImage
 {
     background-image: url("./resources/images/backgrounds/cityscapeBW.jpg");
@@ -149,6 +154,20 @@ These are all the default screen sizes
     display: block;
     margin: 0 auto;
 }
+
+@media (max-width: 767px) {
+    .rbc-toolbar {
+        font-size: 12px !important;
+    }
+    .rbc-event {
+        padding: 0px !important;
+    }
+    .rbc-date-cell {
+        font-size: 8px !important;
+    }
+}
+
+
 
 /*********************************************************************************************************************/
 /************************************************ End Calendar Styling ***********************************************/
@@ -272,11 +291,15 @@ These are all the default screen sizes
     .eventDetails {
         height: 100% !important;
         display: flex;
-        overflow-x: auto;
+        overflow-x: auto;    
+    }
+    .eventDetailsHeader {
+        margin: 5px !important;
     }
     .eventDetailPane {
         float: left;
         padding-right: 20px !important;
+        padding-bottom: 0px !important;
         flex: 0 0 130px;
     }
     .eventCalendarViewBottomPane {
@@ -286,17 +309,19 @@ These are all the default screen sizes
         height: 30%;
     }
     .eventCalendarViewDetailsRow {
-        height: 80%;
+        height: 90%;
     }
     .eventCalendarViewEventsWell {
-        margin-bottom: 10px !important;
+        margin-bottom: 5px !important;
         padding: 5px !important;
+        font-size: 20px !important;
     }
     .eventDetailsContainer {
         height: 70% !important;
     }
     .gameDetailsHeader {
         font-size: 16px !important;
+        margin: 5px !important;
     }
     .btn {
         font-size: 10px !important;
@@ -328,17 +353,17 @@ These are all the default screen sizes
     }
     .eventDetailsHeader {
         text-align: center;
-        font-size: 0.6em !important;
+        font-size: 0.8em !important;
     }
     .gameDetailsHeader {
-        font-size: 0.75em !important;
+        font-size: 0.8em !important;
     }
     .eventDetailsDate {
-        font-size: 0.6em !important;
+        font-size: 0.8em !important;
     }
     .eventDetailsContent {
         padding: 0em;
-        font-size: 0.6em !important;
+        font-size: 0.8em !important;
     }
 }
 .eventDetailPane {
@@ -1071,13 +1096,14 @@ body.indexBody {
 /*************************************************** Listing-Item Styling ***************************************************/
 /*********************************************************************************************************************/
 
-Col.listingItemGrid {
+.listingItemGrid {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
 
-Col.listingItemHeaderStatusColumn {
-    padding-left: 0px;
+.listingItemHeaderStatusColumn {
+    padding-top: 5px;
+    padding-left: 0px !important;
 }
 
 Col.listingItemHeaderButtonColumn {
@@ -1097,11 +1123,20 @@ Col.listingItemRightCol {
     margin-right: 0px;
 }
 
+@media (max-width: 767px) {
+    .listingItemRightCol {
+        font-size: 11px;
+    }
+    .listingItemHeaderStatusColumn {
+        font-size: 14px;
+    }
+}
+
 div.listingItemNoBottomPadding {
     padding-bottom: 0;
 }
 
-Col.listingItemNoPadding {
+.listingItemNoPadding {
     padding: 0px !important;
 }
 
@@ -1119,13 +1154,23 @@ Button.listingItemButton {
 /************************************************* End Listing-Item Styling *************************************************/
 /*********************************************************************************************************************/
 
+@media (max-width: 767px) {
+    .listingItemRightCol {
+        font-size: 11px;
+    }
+}
+@media (min-width: 768px) {
+    .listingItemRightCol {
+        font-size: 14px;
+    }
+}
 
 /*********************************************************************************************************************/
 /************************************************ Listing View Styling ***********************************************/
 /*********************************************************************************************************************/
 
 .listingsViewGrid {
-    height: 80%;
+    height: 70%;
 }
 
 h1.listingsViewH1 {
@@ -1142,6 +1187,18 @@ div.listingsViewTicketListingWindow {
 
 /*********************************************************************************************************************/
 /********************************************* End Listing View Styling **********************************************/
+/*********************************************************************************************************************/
+
+/*********************************************************************************************************************/
+/************************************************ Edit Modal Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.editModalText {
+
+}
+
+/*********************************************************************************************************************/
+/************************************************ End Edit Modal Styling ***********************************************/
 /*********************************************************************************************************************/
 
 
@@ -1209,23 +1266,124 @@ p.loginPara {
 /*********************************************************************************************************************/
 
 .teamLogo {
-    max-width: 80%;
     display: block;
     margin: 0 auto;
 }
-@media (min-width: 350px) and (max-width: 420px) {
+.circularLogo {
+    display: block;
+    margin: 0 auto;
+}
+.circularLogo-s {
+    display: block;
+    margin: 0 auto;
+}
+.circularLogo-ss {
+    display: block;
+    margin: 0 auto;
+}
+.wideLogo {
+    display: block;
+    margin: 0 auto;
+}
+.bigLogo {
+    display: block;
+    margin: 0 auto;
+}
+@media (max-width: 420px) {
     .teamLogo {
         max-width: 70% !important;
+    }
+    .circularLogo {
+        width: 80% !important; 
+    }
+    .circularLogo-ss {
+        width: 60% !important; 
+    }
+    .circularLogo-s {
+        width: 70% !important;
+    }
+    .wideLogo {
+        width: 90%;
+    }
+    .bigLogo {
+        width: 50%;
     }
 }
 @media (min-width: 421px) and (max-width: 521px) {
     .teamLogo {
         max-width: 50% !important;
     }
+    .circularLogo {
+        width: 80% !important; 
+    }
+    .circularLogo-ss {
+        width: 70% !important; 
+    }
+    .circularLogo-s {
+        width: 60% !important;
+    }
+    .wideLogo {
+        width: 80%;
+    }
+    .bigLogo {
+        width: 50%;
+    }
 }
-@media (min-width: 522px) {
+@media (min-width: 522px) and (max-width: 767px)  {
     .teamLogo {
         max-width: 40% !important;
+    }
+    .circularLogo {
+        width: 60% !important; 
+    }
+    .circularLogo-ss {
+        width: 60% !important; 
+    }
+    .circularLogo-s {
+        width: 60% !important;
+    }
+    .wideLogo {
+        width: 70%;
+    }
+    .bigLogo {
+        width: 50%;
+    }
+}
+@media (min-width: 768px) and (max-width: 1200px)  {
+    .teamLogo {
+        max-width: 40% !important;
+    }
+    .circularLogo {
+        width: 70% !important; 
+    }
+    .circularLogo-ss {
+        width: 70% !important; 
+    }
+    .circularLogo-s {
+        width: 70% !important;
+    }
+    .wideLogo {
+        width: 80%;
+    }
+    .bigLogo {
+        width: 40%;
+    }
+}
+@media (min-width: 1201px)  {
+    .circularLogo {
+        width: 35% !important; 
+    }
+    .circularLogo-ss {
+        width: 27% !important; 
+    }
+    .circularLogo-s {
+        width: 30% !important;
+    }
+    .wideLogo {
+        width: 45%;
+    }
+    .bigLogo {
+        width: 25%;
     }
 }
 .listingsTeamLogo {
@@ -1277,6 +1435,12 @@ p.loginPara {
     font-weight: bold;
     text-align: center;
     background-color: #006BB6;
+}
+
+.ticketBorder {
+    border-style: solid;
+    border-width: 0.15em;
+    border-color: black;
 }
 
 .pickTicketsBorderBlack{
