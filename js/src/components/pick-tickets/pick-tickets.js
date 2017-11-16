@@ -26,7 +26,6 @@ export default class PickTickets extends Component {
         this.state = {
             sections: [],
             tickets: [],
-            ticketGroups: [],
             minPrice: 0,
             maxPrice: 100,
             showFilter: false,
@@ -35,7 +34,6 @@ export default class PickTickets extends Component {
             eventTitle: 'Choose a game',
             isLoading: false,
             previousSections: [],
-            sliderValue: 0,
             toggleValue: 1,
             chartToggleValue: 1,
             bySection: true,
