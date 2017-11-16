@@ -12,7 +12,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 import '../../stylesheet.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-
+import PickTicketsModal from './pick-tickets-modal';
 
 var clickedSection = ''
 
@@ -41,6 +41,9 @@ export default class PickTickets extends Component {
             bySection: true,
             groups: [],
             show: false,
+            modalSubmitError: null,
+            selectedGroup: null,
+            currGroups: [],
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -80,6 +83,19 @@ export default class PickTickets extends Component {
         this.getEvent();
         this.displayAllTickets();
     }
+
+    onHide() {
+		this.setState({
+			show: false
+		});
+	}
+
+	showModal(listing) {
+		this.setState({
+			selectedListing: listing,
+			show: true
+		})
+	}
 
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
@@ -383,12 +399,30 @@ export default class PickTickets extends Component {
         }
     }
 
+    createModal(e) {
+        var group = this.state.currGroups[e.target.id];
+        this.setState({
+            show: !this.state.show,
+            selectedGroup: group
+         });
+    }
+
+    clearSections() {
+        this.setState({
+            previousSections: [],
+            sections: [],
+            tickets: []
+        });
+    }
+
     //render the values in the tickets
     renderTicketList() {
         var list = [];
+        var counter = 1;
         for(var group in this.state.groups)
         {
-            var seats = []
+            var id = "";
+            var seats = [];
             for(var i = 0; i < this.state.groups[group].length; i++) {
                 seats.push(this.state.groups[group][i].seat_number);
             }
@@ -397,21 +431,30 @@ export default class PickTickets extends Component {
                 <li className="list-group-item" border-color="red">
                     Tickets for sale: {this.state.groups[group].length}
                     <br></br>
-                    <li> Section: {this.state.groups[group][0].section_number}</li>
+                    <li>Section: {this.state.groups[group][0].section_number}</li>
                     <li>Row: {this.state.groups[group][0].row_number}</li>
                     <li>Seat(s): {seats.join(", ")}</li>
                     <li>Price: ${this.state.groups[group][0].ticket_price} /ea</li>
                     <br></br>
-                    <Button className="buy-button" bsSize="xsmall">Buy</Button>
+                    <Button id={counter} className="see-tickets-button" bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets</Button>
                 </li>
             )
+            this.state.currGroups[counter] = this.state.groups[group];
+            counter = counter + 1;
         }
+
         return(list)
     }
 
     render() {
         return (
             <div className=" globalBody globalImage">
+                 <PickTicketsModal
+                    modalSubmitError={this.state.modalSubmitError}
+                    show={this.state.show}
+                    onHide={this.onHide.bind(this)}
+                    group={this.state.selectedGroup}
+                 />
                 <div className=" globalBody globalImageOverlay">
                     <Grid style={{paddingTop: "25px"}}>
                         <h1>
@@ -490,13 +533,21 @@ export default class PickTickets extends Component {
                                             Price Range: ${this.state.minPrice} - ${this.state.maxPrice}
                                         </ControlLabel>
 
-                                        <div>
 
-                                            <Button bsStyle="primary"
-                                                    onClick={this.getTicketsWithFilter.bind(this)}>
-                                                Apply
+
+                                        <div>
+                                            <Button
+                                                style={{marginRight: "5px"}}
+                                                bsStyle="primary"
+                                                onClick={this.clearSections.bind(this)}>
+                                                Clear
                                             </Button>
 
+                                            <Button
+                                                bsStyle="primary"
+                                                onClick={this.getTicketsWithFilter.bind(this)}>
+                                                Apply
+                                            </Button>
                                         </div>
 
                                     </FormGroup>
