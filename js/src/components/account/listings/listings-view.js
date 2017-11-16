@@ -82,13 +82,13 @@ class ListingsView extends Component {
 
 	render() {
         return (
-            <div className='globalBody globalImage'>
+            <div>
             	<EditListingModal listing={this.state.selectedListing}
             		modalSubmitError={this.state.modalSubmitError}
             		show={this.state.show}
             		onHide={this.onHide.bind(this)}
             		submitListing={this.submitListing.bind(this)} />
-                <div className='globalBody globalImageOverlay' style={{paddingBottom: '0px'}}>
+                <div style={{paddingBottom: '0px'}}>
 	        		<Grid className='listingsViewGrid'>
 	        			<Col xs={0} sm={1} md={2} lg={2}>
 	        			</Col>
