@@ -43,8 +43,8 @@ class PurchasesView extends Component {
 
 	render() {
         return (
-            <div className='globalBody globalImage'>
-                <div className='globalBody globalImageOverlay' style={{paddingBottom: '0px'}}>
+            <div>
+                <div style={{paddingBottom: '0px'}}>
 	        		<Grid className='listingsViewGrid'>
 	        			<Col xs={0} sm={1} md={2} lg={2}>
 	        			</Col>

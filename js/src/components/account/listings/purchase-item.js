@@ -11,6 +11,7 @@ export default class PurchaseItem extends Component {
 		this.state = {
 			open: false
 		}
+		console.log(this.props);
 	}
 
 	getSeats() {

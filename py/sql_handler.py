@@ -310,15 +310,15 @@ class SqlHandler(object):
         conn = self.mysql.connection
         cursor = conn.cursor()
         # First get transaction information (the total, total charges, transaction date)
-        cursor.execute("SELECT transaction_id, transaction_dt, AVG(total_transaction_charges) AS 'Transaction Total', AVG(amount) AS 'Total Charges' "
+        cursor.execute("SELECT transaction_id, transaction_dt, AVG(total_transaction_charges) AS 'Transaction Total', SUM(amount) AS 'Total Charges' "
                        "FROM transactions t "
                        "JOIN transaction_charges USING (transaction_id) "
-                       "JOIN transaction_detail USING (transaction_id) "
                        "JOIN rates USING (rate_type_id) "
                        "WHERE t.seller_account_id={} "
-                       "GROUP BY transaction_id "
+                       "AND rate_type_id > 1 "
+                       "GROUP BY transaction_id, rate_type_id "
                        "ORDER BY transaction_dt".format(account_id))
-        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal=row[2],chargesTotal=row[3])
+        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal="{0:.2f}".format(row[2]),chargesTotal="{0:.2f}".format(row[3]))
                    for row in cursor.fetchall()]
         # For each transaction, get related ticket information for that transaction
         return self.read_transactions(transactions, cursor)
@@ -327,15 +327,15 @@ class SqlHandler(object):
         conn = self.mysql.connection
         cursor = conn.cursor()
         # First get transaction information (the total, total charges, transaction date)
-        cursor.execute("SELECT transaction_id, transaction_dt, AVG(total_transaction_charges) AS 'Transaction Total', AVG(amount) AS 'Total Charges' "
+        cursor.execute("SELECT transaction_id, transaction_dt, AVG(total_transaction_charges) AS 'Transaction Total', SUM(amount) AS 'Total Charges' "
                        "FROM transactions t "
                        "JOIN transaction_charges USING (transaction_id) "
-                       "JOIN transaction_detail USING (transaction_id) "
                        "JOIN rates USING (rate_type_id) "
                        "WHERE t.buyer_account_id={} "
+                       "AND rate_type_id > 1 "
                        "GROUP BY transaction_id "
                        "ORDER BY transaction_dt".format(account_id))
-        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal=row[2],chargesTotal=row[3])
+        transactions = [dict(transactionID=row[0], transactionDate=row[1],transactionTotal="{0:.2f}".format(row[2]),chargesTotal="{0:.2f}".format(row[3]))
                    for row in cursor.fetchall()]
         # For each transaction, get related ticket information for that transaction
         return self.read_transactions(transactions, cursor)
