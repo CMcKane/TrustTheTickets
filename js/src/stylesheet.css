@@ -1260,7 +1260,6 @@ p.loginPara {
 /*********************************************************************************************************************/
 
 .teamLogo {
-    max-width: 80%;
     display: block;
     margin: 0 auto;
 }
@@ -1364,24 +1363,21 @@ p.loginPara {
         width: 40%;
     }
 }
-@media (min-width: 1101px)  {
+@media (min-width: 1201px)  {
     .circularLogo {
-        width: 40% !important; 
-    }
-    .circularLogo {
-        width: 40% !important; 
+        width: 35% !important; 
     }
     .circularLogo-ss {
-        width: 30% !important; 
+        width: 27% !important; 
     }
     .circularLogo-s {
-        width: 35% !important;
+        width: 30% !important;
     }
     .wideLogo {
-        width: 55%;
+        width: 45%;
     }
     .bigLogo {
-        width: 30%;
+        width: 25%;
     }
 }
 .listingsTeamLogo {
