@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Image } from 'react-bootstrap';
-import { getLogo } from "./logo-central";
+import { getLogo, getSVGLogo } from "./logo-central";
 import '../../stylesheet.css';
 
 export default class Logo extends Component {
@@ -10,6 +10,13 @@ export default class Logo extends Component {
 		var logoClass = this.props.class;
 		if (this.props.team === "76ers") teamName = "Sixers";
 		if (this.props.team === "Trail Blazers") teamName= "Trailblazers";
+		if (this.props.svg) {
+			return (
+				<div>
+				{getSVGLogo(teamName)}
+				</div>
+			);
+		}
 		return (<Image className={logoClass} 
               src={getLogo(teamName)} />);
 	}

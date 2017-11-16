@@ -49,9 +49,8 @@ class ListingsView extends Component {
 		this.setState({
 			selectedListing: listing,
 			show: true
-		})
+		});
 	}
-
 
 	submitListing(price, groupID) {
 		var newListings = this.state.listings;
@@ -73,7 +72,6 @@ class ListingsView extends Component {
 				busy: false
 			});
 		});
-
 	}
 
 	renderListings() {

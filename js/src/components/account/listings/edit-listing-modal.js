@@ -29,7 +29,7 @@ export default class MyListingModal extends Component {
   getListingContent() {
     if (this.props.listing) {
       return (
-        <p>
+        <p className="editModalText">
         Tickets: Section: {this.props.listing.section}, 
         Row: {this.props.listing.row}, 
         Seats: {this.props.listing.seats[0]} - {this.props.listing.seats[this.props.listing.seats.length-1]} <br />
@@ -64,7 +64,7 @@ export default class MyListingModal extends Component {
   getErrorText() {
     if (this.props.modalSubmitError) {
       return (
-        <div style={{color: 'red', float: 'left'}}>
+        <div className="editModalText" style={{color: 'red', float: 'left'}}>
           There was an error updating your ticket price. Please try again. 
         </div>
       );
