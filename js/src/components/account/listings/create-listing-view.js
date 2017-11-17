@@ -16,12 +16,13 @@ import {
     Radio,
     Row
 } from 'react-bootstrap';
-import {TTTGet, TTTPost} from '../../backend/ttt-request';
+import {TTTGet, TTTPost, TTTPostFile} from '../../backend/ttt-request';
 import _ from 'lodash';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../../stylesheet.css';
+import axios from 'axios';
 
 function FieldGroup({id, label, help, ...props}) {
     return (
@@ -91,6 +92,13 @@ export default class CreateListingView extends Component {
         });
     }
 
+    onFileChange(e) {
+        console.log('onfilechange')
+        var formData = new FormData();;
+        formData.append("pdf", e.target.files[0]);
+        TTTPostFile('/upload-pdf', formData);
+    }
+
     render() {
         return (
             <div style={{width: '80%', paddingTop: '3%', paddingLeft: '20%'}}>
@@ -122,10 +130,8 @@ export default class CreateListingView extends Component {
                                                 showTimeSelect
                                                 timeIntervals={30}
                                                 dateFormat="LLL"
-                                                withPortal
-                                    />
+                                                withPortal />
                                 </Col>
-
                             </Grid>
                         </div>
                     </Panel>
@@ -196,11 +202,11 @@ export default class CreateListingView extends Component {
                         <div className="globalCenterThis">
                             <Form>
                                 <FieldGroup
-                                    id="fromControlsFile"
+                                    id="formControlsFile"
                                     type="file"
                                     label="Upload a PDF of the Tickets"
                                     help="First scan your tickets to a PDF file, then upload them here!"
-                                />
+                                    onChange={this.onFileChange.bind(this)}/>
                             </Form>
                         </div>
                     </Panel>
