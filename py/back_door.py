@@ -10,7 +10,9 @@ from account_jwt import JWTService
 from functools import wraps
 from itertools import groupby
 from operator import itemgetter
-# from pyPdf import PdfFileWriter, PdfFileReader
+from PyPDF2 import PdfFileWriter, PdfFileReader
+from werkzeug.utils import secure_filename
+import os
 
 
 app = Flask (__name__)
@@ -20,6 +22,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'ttt'
+app.config['UPLOAD_FOLDER'] = '/uploads/'
 
 @app.after_request
 def after_request(response):
@@ -258,6 +261,13 @@ def update_listing():
     except Exception as e:
         print(e)
         return jsonify({'authenticated': False})
+
+@app.route('/upload-pdf', methods=['POST'])
+def upload_pdf():
+    file = request.files['pdf']
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return ''
 
 @app.route('/create-groups', methods=['POST'])
 def create_groups():
