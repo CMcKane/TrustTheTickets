@@ -138,7 +138,11 @@ def pick_tickets_by_filter():
     maxPrice = jsondata['maxPrice']
     sections = jsondata['sections']
     event_id = jsondata['eventID']
-    tickets = sqlHandler.get_ticket_by_filter(minPrice, maxPrice, event_id, sections)
+    earlyAccess = jsondata['earlyAccess']
+    aisleSeating = jsondata['aisleSeating']
+    handicap = jsondata['handicap']
+    tickets = sqlHandler.get_ticket_by_filter(minPrice, maxPrice, event_id, sections,
+                                              earlyAccess, aisleSeating, handicap)
     return jsonify({'tickets': tickets})
 
 @app.route('/pick-cheapest-ticket', methods=['POST'])

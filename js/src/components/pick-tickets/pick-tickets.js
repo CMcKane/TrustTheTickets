@@ -42,6 +42,9 @@ export default class PickTickets extends Component {
             modalSubmitError: null,
             selectedGroup: null,
             currGroups: [],
+            aisleSeatToggle: 0,
+            handicapToggle: 0,
+            earlyAccessToggle: 0,
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -176,7 +179,10 @@ export default class PickTickets extends Component {
                 eventID: this.state.eventID,
                 minPrice: this.state.minPrice,
                 maxPrice: this.state.maxPrice,
-                sections: this.state.sections
+                sections: this.state.sections,
+                earlyAccess: this.state.earlyAccessToggle,
+                aisleSeating: this.state.aisleSeatToggle,
+                handicap: this.state.handicapToggle
             })
                 .then(res => {
                     if (res.data.tickets) {
@@ -419,6 +425,36 @@ export default class PickTickets extends Component {
         });
     }
 
+    toggleEarlyAccess(e) {
+        var currState;
+        if(e.target.checked) {
+            currState = 1;
+        } else {
+            currState = 0;
+        }
+        this.state.earlyAccessToggle = currState;
+    }
+
+    toggleHandicap(e) {
+        var currState;
+        if(e.target.checked) {
+            currState = 1;
+        } else {
+            currState = 0;
+        }
+       this.state.handicapToggle = currState;
+    }
+
+    toggleAisleSeating(e) {
+        var currState;
+        if(e.target.checked) {
+            currState = 1;
+        } else {
+            currState = 0;
+        }
+        this.state.aisleSeatToggle = currState;
+    }
+
     //render the values in the tickets
     renderTicketList() {
         var list = [];
@@ -497,6 +533,7 @@ export default class PickTickets extends Component {
                                 </Row>
                                 <br/>
                                 <WellsFargoChart
+                                    allZones={this.state.allZones}
                                     onSectionSelected={this.onChartClick.bind(this)}
                                     selectedSections={this.state.sections}
                                     previousSections={this.state.previousSections}/>
@@ -522,9 +559,9 @@ export default class PickTickets extends Component {
                                     </div>
                                     <div>
                                         <ToggleButtonGroup type="checkbox">
-                                            <ToggleButton value={1}>Handicap</ToggleButton>
-                                            <ToggleButton value={2}>Aisle</ToggleButton>
-                                            <ToggleButton value={3}>Early Entry</ToggleButton>
+                                            <ToggleButton value={1} onChange={this.toggleHandicap.bind(this)}>Handicap</ToggleButton>
+                                            <ToggleButton value={2} onChange={this.toggleAisleSeating.bind(this)}>Aisle</ToggleButton>
+                                            <ToggleButton value={3} onChange={this.toggleEarlyAccess.bind(this)}>Early Entry</ToggleButton>
                                         </ToggleButtonGroup>
                                     </div>
                                     <span> </span>

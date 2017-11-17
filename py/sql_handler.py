@@ -178,7 +178,8 @@ class SqlHandler(object):
         data = [dict(team_id=row[0], city=row[1], team_name=row[2]) for row in cursor.fetchall()]
         return data
 
-    def get_ticket_by_filter(self, minPrice, maxPrice, event_id, sections):
+    def get_ticket_by_filter(self, minPrice, maxPrice, event_id, sections,
+                             earlyAccess, aisleSeating, handicap):
         conn = self.mysql.connection
         cursor = conn.cursor()
         section_string = ""
@@ -187,6 +188,7 @@ class SqlHandler(object):
                 section_string+="'{}'".format(sections[i])
             else:
                 section_string+="'{}',".format(sections[i])
+
         cursor.execute("SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id "
                        "FROM tickets t "
                        "JOIN groups g ON (t.group_id = g.group_id) "
