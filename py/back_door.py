@@ -6,8 +6,10 @@ from flask import make_response
 from account_register import AccountRegistrator
 from account_login import AccountAuthenticator
 from sql_handler import SqlHandler
+from json_dictionary_converter import JsonDictionaryConverter
 from account_jwt import JWTService
 from functools import wraps
+from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
 from PyPDF2 import PdfFileWriter, PdfFileReader
@@ -47,6 +49,19 @@ def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
 
+@app.route('/split-pdf', methods=['POST'])
+def splitPDF():
+    files = request.files['pdf']
+
+    #file = open(jsonData, "r")
+    inputpdf = PdfFileReader(files)
+    splitfiles = []
+
+    for i in xrange(inputpdf.numPages):
+        splitfiles.append(inputpdf.getPage(i))
+
+    return splitfiles
+
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
 def refresh_token():
@@ -67,7 +82,7 @@ def register():
         jsonData = request.get_json()
         return jsonify(
             AccountRegistrator(mysql)
-            .register_account(jsonData))
+                .register_account(jsonData))
     else:
         return requestNotSupported()
 
@@ -77,7 +92,7 @@ def confirm_registration():
         jsonData = request.get_json()
         return jsonify(
             AccountRegistrator(mysql)
-            .confirm_registration(jsonData))
+                .confirm_registration(jsonData))
     else:
         return requestNotSupported()
 
@@ -137,11 +152,10 @@ def get_event():
 def pick_tickets_by_filter():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
-    minPrice = jsondata['minPrice']
-    maxPrice = jsondata['maxPrice']
+    price = jsondata['price']
     sections = jsondata['sections']
     event_id = jsondata['eventID']
-    tickets = sqlHandler.get_ticket_by_filter(minPrice, maxPrice, event_id, sections)
+    tickets = sqlHandler.get_ticket_by_filter(price, event_id, sections)
     return jsonify({'tickets': tickets})
 
 @app.route('/pick-cheapest-ticket', methods=['POST'])
@@ -158,11 +172,10 @@ def pick_cheapest_ticket():
 def get_cheapest_ticket_any_section():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
-    minPrice = jsondata['minPrice']
-    maxPrice = jsondata['maxPrice']
+    price = jsondata['price']
     event_id = jsondata['eventID']
-    tickets = sqlHandler.get_cheap_ticket_any_section(event_id, minPrice, maxPrice)
-    sections = sqlHandler.get_sections_by_less_equal_price(event_id, minPrice, maxPrice)
+    tickets = sqlHandler.get_cheap_ticket_any_section(price, event_id)
+    sections = sqlHandler.get_sections_by_less_equal_price(event_id, price)
     return jsonify({'tickets': tickets, 'sections': sections})
 
 @app.route('/pick-expensive-ticket', methods=['POST'])
@@ -181,7 +194,7 @@ def authenticate_credentials():
         jsonData = request.get_json()
         return jsonify(
             AccountAuthenticator(mysql)
-            .authenticate_user(jsonData))
+                .authenticate_user(jsonData))
     else:
         return requestNotSupported()
 
@@ -277,18 +290,5 @@ def create_groups():
     groups = dict((k, list(g)) for k, g in groupby(tickets_list, key = itemgetter('group_id')))
     return jsonify({'groups': groups})
 
-@app.route('/get-tickets-for-sections', methods=['POST'])
-def get_tickets_for_sections():
-    sqlHandler = SqlHandler(mysql)
-    jsondata = request.get_json()
-    sections = jsondata['sections']
-    event_id = jsondata['eventID']
-    tickets = sqlHandler.get_ticket_by_filter(event_id, sections)
-    return jsonify({'tickets': tickets})
-
 if __name__ == '__main__':
     app.run()
-
-
-
-
