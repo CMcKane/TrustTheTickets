@@ -9,3 +9,11 @@ export function TTTPost(path, json) {
 export function TTTGet(path) {
   return axios.get(devURL + path);
 }
+
+export function TTTPostFile(path, formData) {
+	return axios.post(devURL + path, formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        });
+}
