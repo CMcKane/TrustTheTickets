@@ -163,10 +163,11 @@ def get_event():
 def pick_tickets_by_filter():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
-    price = jsondata['price']
+    minPrice = jsondata['minPrice']
+    maxPrice = jsondata['maxPrice']
     sections = jsondata['sections']
     event_id = jsondata['eventID']
-    tickets = sqlHandler.get_ticket_by_filter(price, event_id, sections)
+    tickets = sqlHandler.get_ticket_by_filter(minPrice, maxPrice, event_id, sections)
     return jsonify({'tickets': tickets})
 
 @app.route('/pick-cheapest-ticket', methods=['POST'])
@@ -183,10 +184,11 @@ def pick_cheapest_ticket():
 def get_cheapest_ticket_any_section():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
-    price = jsondata['price']
+    minPrice = jsondata['minPrice']
+    maxPrice = jsondata['maxPrice']
     event_id = jsondata['eventID']
-    tickets = sqlHandler.get_cheap_ticket_any_section(price, event_id)
-    sections = sqlHandler.get_sections_by_less_equal_price(event_id, price)
+    tickets = sqlHandler.get_cheap_ticket_any_section(event_id, minPrice, maxPrice)
+    sections = sqlHandler.get_sections_by_less_equal_price(event_id, minPrice, maxPrice)
     return jsonify({'tickets': tickets, 'sections': sections})
 
 @app.route('/pick-expensive-ticket', methods=['POST'])

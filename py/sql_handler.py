@@ -178,8 +178,8 @@ class SqlHandler(object):
         data = [dict(team_id=row[0], city=row[1], team_name=row[2]) for row in cursor.fetchall()]
         return data
 
-    def get_ticket_by_filter(self, minPrice, maxPrice, event_id, sections,
-                             earlyAccess, aisleSeating, handicap):
+    def get_ticket_by_filter(self, minPrice, maxPrice, event_id, sections
+                             ):
         conn = self.mysql.connection
         cursor = conn.cursor()
         section_string = ""
