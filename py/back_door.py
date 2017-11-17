@@ -15,16 +15,27 @@ from operator import itemgetter
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from werkzeug.utils import secure_filename
 import os
+import configparser
 
+# Use config file to get these values
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+configHost = config.get('mysql-config', 'Host')
+configUser = config.get('mysql-config', 'User')
+configPassword = config.get('mysql-config', 'Password')
+configDB = config.get('mysql-config', 'DB')
+configUploadFolder = config.get('py-app-config', 'UploadFolder')
 
 app = Flask (__name__)
 mysql = MySQL(app)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'ttt'
-app.config['UPLOAD_FOLDER'] = '/uploads/'
+# Start app with values from config file
+app.config['MYSQL_HOST'] = configHost
+app.config['MYSQL_USER'] = configUser
+app.config['MYSQL_PASSWORD'] = configPassword
+app.config['MYSQL_DB'] = configDB
+app.config['UPLOAD_FOLDER'] = configUploadFolder
 
 @app.after_request
 def after_request(response):
