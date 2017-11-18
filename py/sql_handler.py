@@ -450,3 +450,12 @@ class SqlHandler(object):
                        "AND se.section_num IN ({})".format(event_id, section_string))
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3], group_id=row[4]) for row in cursor.fetchall()]
         return tickets
+
+    def get_game_dates(self):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT g.date "
+                       "FROM games g "
+                       "WHERE g.date >= CURDATE()")
+        date = [dict(date=row[0]) for row in cursor.fetchall()]
+        return date

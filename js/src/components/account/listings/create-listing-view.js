@@ -22,7 +22,6 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../../stylesheet.css';
-import axios from 'axios';
 
 function FieldGroup({id, label, help, ...props}) {
     return (
@@ -51,9 +50,11 @@ export default class CreateListingView extends Component {
             sellAsGroup: false,
             teams: [],
             startDate: moment(),
+            gameDates: [],
         };
 
         this.getOpponentNames();
+        this.getGameDates();
         this.handleDateChange = this.handleDateChange.bind(this);
     }
 
@@ -64,6 +65,13 @@ export default class CreateListingView extends Component {
             });
     }
 
+    getGameDates(){
+        TTTGet("/get-game-dates")
+            .then(res => {
+                this.setState({gameDates: res.data.date});
+            });
+    }
+
     renderOpponentNames() {
         return _.map(this.state.teams, (team) =>
             <option value={team.team_name}>{team.team_name}</option>
@@ -71,7 +79,7 @@ export default class CreateListingView extends Component {
     }
 
     renderSeatNumberForms() {
-        var fieldGroups = []
+        var fieldGroups = [];
         for (var i = 1; i < this.state.numberOfTickets+1; i++) {
             fieldGroups.push(<FieldGroup className="createListingSeatNumberForms"
                                          id={"seatNumberForm " + i}
@@ -127,10 +135,10 @@ export default class CreateListingView extends Component {
                                     <ControlLabel>Pick Game Date/Time</ControlLabel>
                                     <DatePicker selected={this.state.startDate}
                                                 onChange={this.handleDateChange}
-                                                showTimeSelect
-                                                timeIntervals={30}
+                                                inline
+                                                includeDates= {this.gameDates}
                                                 dateFormat="LLL"
-                                                withPortal />
+                                    />
                                 </Col>
                             </Grid>
                         </div>
