@@ -18,6 +18,7 @@ import EventListView from './components/events/event-list-view';
 import Versus from './components/versus/versus';
 import ListingsView from './components/account/listings/listings-view';
 import AuthService from './components/auth/auth-service';
+import ImportDownload from './components/importPDF/importDownload';
 import './stylesheet.css';
 
 const navItems = [
@@ -71,6 +72,7 @@ export default class App extends Component {
             <Router>
                 <div>
                     <Header navItems={this.state.navItems}/>
+                    <div className="appContent">
                     <Switch>
                         <Route exact path='/' component={Home}/>
                         <Route path='/view-tickets' component={ViewTickets}/>
@@ -78,6 +80,7 @@ export default class App extends Component {
                         <Route path='/event-list' component={EventListView}/>
                         <Route path='/pick-tickets' component={PickTickets}/>
                         <Route path='/versus' component={Versus}/>
+                        <Route path='/import-download' component={ImportDownload}/>
                         <Route exact path='/my-account' render={(props) =>
                             <MyAccount
                                 {...props} logIn={this.userLogIn.bind(this)}
@@ -99,6 +102,7 @@ export default class App extends Component {
                         <Route path="/not-found" component={NotFoundView}/>
                         <Route component={NotFoundView}/>
                     </Switch>
+                    </div>
                 </div>
             </Router>
         );

@@ -42,10 +42,6 @@ class EventCalendarView extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log('mounted');
-    }
-
     getRedirect() {
         return ('/pick-tickets?event=' + this.state.selectedEvent.id);
     }

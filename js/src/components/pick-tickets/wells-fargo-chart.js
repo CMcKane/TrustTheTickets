@@ -2,23 +2,52 @@ import React, {Component} from 'react';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 import '../../stylesheet.css';
 
-const LIGHTED_COLOR = '#2B60DE';
+const LIGHTED_COLOR = '#c70505';
 const NOT_LIGHTED_COLOR = '#FFFFFF';
+const ZONE_ONE_COLOR = '#ffb3b3';
+const ZONE_TWO_COLOR = '#b3b3ff';
+const ZONE_THREE_COLOR = '#b3ffb3';
+const ZONE_FOUR_COLOR = '#ffd9b3';
+const ZONE_FIVE_COLOR = '#ecb3ff';
+const ZONE_SIX_COLOR = '#ffff99';
+const ZONE_SEVEN_COLOR = '#ffff4d';
+
 
 export default class WellsFargoChart extends Component {
+
+    constructor(props) {
+        super(props);
+        var section = document.getElementById(113);
+        console.log(section);
+        //this.initializeChartZoneColors();
+    }
+
+    paintChartZoneColors() {
+        var zones = this.props.allZones.zone;
+        var colors = [ZONE_ONE_COLOR, ZONE_TWO_COLOR, ZONE_THREE_COLOR, ZONE_FOUR_COLOR,
+                  ZONE_FIVE_COLOR, ZONE_SIX_COLOR, ZONE_SEVEN_COLOR];
+
+        for(var i = 0; i < zones.length; i++) {
+            var currColor = colors[i];
+            for(var ii = 0; ii < zones[i].length; ii++) {
+                this.setSectionColor(zones[i][ii], currColor);
+            }
+        }
+    }
 
 	onChartClick(e) {
 		this.props.onSectionSelected(e.target.id);
 	}
 
 	componentDidUpdate() {
-		//console.log(1);
+	    this.paintChartZoneColors();
 		const previousSections = this.props.previousSections;
-	    for(var i = 0; i < previousSections.length; i++) {
+
+	    /*for(var i = 0; i < previousSections.length; i++) {
 		    this.setSectionColor(previousSections[i], NOT_LIGHTED_COLOR);
-		}
+		}*/
 	    const sections = this.props.selectedSections;
-        for(i = 0; i < sections.length; i++) {
+        for(var i = 0; i < sections.length; i++) {
             this.setSectionColor(sections[i], LIGHTED_COLOR);
         }
 	}
@@ -31,9 +60,9 @@ export default class WellsFargoChart extends Component {
 	render() {
 		return (
 			<ReactSVGPanZoom
-			  width={700} height={700}>
-			<svg version="1.1" 
-			xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 665 665">
+			  width='100%' height={650}>
+			<svg version="1.1"
+			xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 665 665" preserveAspectRatio="xMidYMid meet">
 				<path onClick={this.onChartClick.bind(this)} id="A"  className="seatingChartSt0"  d="M186.3,208.5c0,0-7,7-9.1,9.9l-7.3-7.4c0,0,4-5.1,9.3-10.2L186.3,208.5z"/>
 				<path onClick={this.onChartClick.bind(this)} id="B"  className="seatingChartSt0"  d="M177.2,218.3c0,0-6.8,8.7-8.4,11.3l-7.9-6.5c0,0,4.6-7.1,8.9-12.2L177.2,218.3z"/>
 				<path onClick={this.onChartClick.bind(this)} id="C"  className="seatingChartSt0"  d="M153.6,235.8c2.4-5.2,7.3-12.6,7.3-12.6l7.9,6.5c-2.3,3.8-6.7,11.5-6.7,11.5L153.6,235.8z"/>

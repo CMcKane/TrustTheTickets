@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well,
         Button, Panel, ToggleButtonGroup, ToggleButton, ButtonGroup,
-        DropdownButton, MenuItem} from 'react-bootstrap';
+        DropdownButton, MenuItem, Modal} from 'react-bootstrap';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
 import {TTTPost, TTTGet} from '../backend/ttt-request';
-import ReactSliderNativeBootstrap from 'react-bootstrap-native-slider';
 import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 import { ClimbingBoxLoader } from 'react-spinners';
 import {LinkContainer} from 'react-router-bootstrap';
 import '../../stylesheet.css';
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import PickTicketsModal from './pick-tickets-modal';
 
 var clickedSection = ''
 
@@ -24,17 +26,25 @@ export default class PickTickets extends Component {
         this.state = {
             sections: [],
             tickets: [],
-            price: 0,
+            minPrice: 0,
+            maxPrice: 100,
             showFilter: false,
             selectedEvent: null,
             eventID: queryParams.event,
             eventTitle: 'Choose a game',
             isLoading: false,
             previousSections: [],
-            sliderValue: 0,
             toggleValue: 1,
             chartToggleValue: 1,
             bySection: true,
+            groups: [],
+            show: false,
+            modalSubmitError: null,
+            selectedGroup: null,
+            currGroups: [],
+            aisleSeatToggle: 0,
+            handicapToggle: 0,
+            earlyAccessToggle: 0,
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -74,6 +84,19 @@ export default class PickTickets extends Component {
         this.getEvent();
         this.displayAllTickets();
     }
+
+    onHide() {
+		this.setState({
+			show: false
+		});
+	}
+
+	showModal(listing) {
+		this.setState({
+			selectedListing: listing,
+			show: true
+		})
+	}
 
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
@@ -123,7 +146,13 @@ export default class PickTickets extends Component {
     }
 
     selectTicket() {
-         this.setState({tickets: [], previousSections: [], sections: []});
+         this.setState({
+            tickets: [],
+            previousSections: this.state.sections,
+            sections: [],
+            groups: [],
+            isLoading: true
+            });
          this.getTicketsWithFilter();
     }
 
@@ -132,7 +161,8 @@ export default class PickTickets extends Component {
         if(this.state.sections.length === 0) {
             TTTPost('/get-cheap-ticket-any-section', {
                 eventID: this.state.eventID,
-                price: this.state.price
+                minPrice: this.state.minPrice,
+                maxPrice: this.state.maxPrice,
             })
             .then(res => {
                 if (res.data.tickets) {
@@ -141,28 +171,32 @@ export default class PickTickets extends Component {
                         sections: res.data.sections,
                         tickets: res.data.tickets,
                         isLoading: false
-                    });
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
         } else {
             TTTPost('/pick-ticket-filter', {
                 eventID: this.state.eventID,
-                price: this.state.price,
-                sections: this.state.sections
+                minPrice: this.state.minPrice,
+                maxPrice: this.state.maxPrice,
+                sections: this.state.sections,
+                earlyAccess: this.state.earlyAccessToggle,
+                aisleSeating: this.state.aisleSeatToggle,
+                handicap: this.state.handicapToggle
             })
                 .then(res => {
                     if (res.data.tickets) {
                         this.setState({
                             tickets: res.data.tickets,
                             isLoading: false
-                        });
+                        }, () => {this.createTicketGroupArrays(this.state.tickets)});
                     }
                 });
         }
     }
 
     getExpensiveTicketsAndSections() {
-        this.setState({isLoading:true, tickets: []});
+        this.setState({isLoading:true, tickets: [], groups: []});
         TTTPost('/pick-expensive-ticket', {
             eventID: this.state.eventID
         })
@@ -173,13 +207,13 @@ export default class PickTickets extends Component {
                         sections: res.data.sections,
                         tickets: res.data.tickets,
                         isLoading: false
-                    });
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
     }
 
     getCheapestTickets() {
-        this.setState({isLoading:true, tickets: []});        
+        this.setState({isLoading:true, tickets: [], groups: []});
         TTTPost('/pick-cheapest-ticket',{
             eventID: this.state.eventID            
         })
@@ -190,7 +224,7 @@ export default class PickTickets extends Component {
                         previousSections: this.state.sections,
                         sections: res.data.sections,
                         isLoading: false
-                    });
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
     }
@@ -211,7 +245,6 @@ export default class PickTickets extends Component {
     }
 
     onChartClick(section) {
-        console.log(section);
         if(this.state.bySection)
         {
             if(this.state.sections.length === 1 && this.state.sections[0] === section) {
@@ -220,7 +253,7 @@ export default class PickTickets extends Component {
                     sections: [],
                     tickets: [],
                     toggleValue: 1
-                });
+                }, () => {this.createTicketGroupArrays(this.state.tickets)});
             }
             else {
                 this.setState({isLoading:true, tickets: []});
@@ -236,7 +269,7 @@ export default class PickTickets extends Component {
                                 tickets: res.data.tickets,
                                 isLoading: false,
                                 toggleValue: 1
-                            });
+                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
                         }
                     });
             }
@@ -258,11 +291,23 @@ export default class PickTickets extends Component {
                                 tickets: res.data.tickets,
                                 isLoading: false,
                                 toggleValue: 1
-                            });
+                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
                         }
                     });
         }
 
+    }
+
+    createTicketGroupArrays(tickets) {
+        var groups;
+        TTTPost('/create-groups', {
+                    tickets: tickets
+                })
+                    .then(res => {
+                        if (res.data.groups) {
+                            this.setState({groups: res.data.groups});
+                        }
+                    });
     }
 
     determineSectionsZone(section) {
@@ -331,10 +376,10 @@ export default class PickTickets extends Component {
         }
     }
 
-    onSliderChange(e) {
+    onRangeSliderChange(value) {
         this.setState({
-            sliderValue: e.target.value,
-            price: e.target.value
+            minPrice: value[0],
+            maxPrice: value[1]
         });
     }
 
@@ -364,23 +409,93 @@ export default class PickTickets extends Component {
         }
     }
 
+    createModal(e) {
+        var group = this.state.currGroups[e.target.id];
+        this.setState({
+            show: !this.state.show,
+            selectedGroup: group
+         });
+    }
+
+    clearSections() {
+        this.setState({
+            previousSections: this.state.sections,
+            groups: [],
+            sections: []
+        });
+    }
+
+    toggleEarlyAccess(e) {
+        var currState;
+        if(e.target.checked) {
+            currState = 1;
+        } else {
+            currState = 0;
+        }
+        this.state.earlyAccessToggle = currState;
+    }
+
+    toggleHandicap(e) {
+        var currState;
+        if(e.target.checked) {
+            currState = 1;
+        } else {
+            currState = 0;
+        }
+       this.state.handicapToggle = currState;
+    }
+
+    toggleAisleSeating(e) {
+        var currState;
+        if(e.target.checked) {
+            currState = 1;
+        } else {
+            currState = 0;
+        }
+        this.state.aisleSeatToggle = currState;
+    }
+
     //render the values in the tickets
     renderTicketList() {
-        return _.map(this.state.tickets, (ticket, id) =>
-            <li className="list-group-item" border-color="red">
-                Section: {ticket.section_number} Row: {ticket.row_number}
-                <br></br>
-                Seat: {ticket.seat_number} Price: ${ticket.ticket_price}
-                <br></br>
-                <Button className="buy-button" bsSize="xsmall">Buy</Button>
-            </li>
-        );
+        var list = [];
+        var counter = 1;
+        for(var group in this.state.groups)
+        {
+            var id = "";
+            var seats = [];
+            for(var i = 0; i < this.state.groups[group].length; i++) {
+                seats.push(this.state.groups[group][i].seat_number);
+            }
+            seats.sort();
+            list.push(
+                <li className="list-group-item" border-color="red">
+                    Tickets for sale: {this.state.groups[group].length}
+                    <br></br>
+                    <li>Section: {this.state.groups[group][0].section_number}</li>
+                    <li>Row: {this.state.groups[group][0].row_number}</li>
+                    <li>Seat(s): {seats.join(", ")}</li>
+                    <li>Price: ${this.state.groups[group][0].ticket_price} /ea</li>
+                    <br></br>
+                    <Button id={counter} className="see-tickets-button" bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets</Button>
+                </li>
+            )
+            this.state.currGroups[counter] = this.state.groups[group];
+            counter = counter + 1;
+        }
+
+        return(list)
     }
 
     render() {
         return (
-            <div className="globalImage pickTicketsBgImage">
-                <div className="globalImageOverlay">
+            <div className=" globalBody globalImage">
+                 <PickTicketsModal
+                    modalSubmitError={this.state.modalSubmitError}
+                    show={this.state.show}
+                    onHide={this.onHide.bind(this)}
+                    group={this.state.selectedGroup}
+                 />
+                <div className=" globalBody globalImageOverlay">
                     <Grid style={{paddingTop: "25px"}}>
                         <h1>
                             <Well className='pickTicketsWell'>
@@ -388,9 +503,9 @@ export default class PickTickets extends Component {
                             </Well>
                         </h1>
                         <Row>
-                            <Col lg={8}>
+                            <Col xs={12} sm={12} md={12} lg={12}>
                                 <Row>
-                                    <Col lg={8}>
+                                    <Col xs={12} sm={12} md={12} lg={12}>
                                         <ButtonGroup>
                                             <DropdownButton disabled={this.hasEventID()}
                                                 title={this.state.eventTitle} id="bg-nested-dropdown">
@@ -418,11 +533,13 @@ export default class PickTickets extends Component {
                                 </Row>
                                 <br/>
                                 <WellsFargoChart
+                                    allZones={this.state.allZones}
                                     onSectionSelected={this.onChartClick.bind(this)}
                                     selectedSections={this.state.sections}
                                     previousSections={this.state.previousSections}/>
                             </Col>
-                            <Col lg={4}>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                                <div style={{width:'60%', height: '30%', paddingTop: '20%'}} className="homeCenterThis">
                                 <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
                                   Filter
                                 </Button>
@@ -440,29 +557,45 @@ export default class PickTickets extends Component {
                                                 <ToggleButton id="highestPrice" value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)} >Highest Price</ToggleButton>
                                         </ToggleButtonGroup>
                                     </div>
+                                    <div>
+                                        <ToggleButtonGroup type="checkbox">
+                                            <ToggleButton value={1} onChange={this.toggleHandicap.bind(this)}>Handicap</ToggleButton>
+                                            <ToggleButton value={2} onChange={this.toggleAisleSeating.bind(this)}>Aisle</ToggleButton>
+                                            <ToggleButton value={3} onChange={this.toggleEarlyAccess.bind(this)}>Early Entry</ToggleButton>
+                                        </ToggleButtonGroup>
+                                    </div>
                                     <span> </span>
                                     <FormGroup controlId="formControlsEmail">
-                                        <ReactSliderNativeBootstrap
-                                            className="price-slider"
+
+                                        <Range
+                                            className="range-slider"
                                             max={1000}
-                                            min={1}
-                                            step={1}
-                                            tooltip="hide"
-                                            handleChange={this.onSliderChange.bind(this)}
-                                            value={this.state.sliderValue}/>
+                                            min={0}
+                                            step={5}
+                                            defaultValue={[0, 100]}
+                                            onChange={this.onRangeSliderChange.bind(this)}
+                                        />
 
                                         <ControlLabel
                                             className="slider-price-label">
-                                            Ticket Price: ${this.state.price}
+                                            Price Range: ${this.state.minPrice} - ${this.state.maxPrice}
                                         </ControlLabel>
 
-                                        <div>
 
-                                            <Button bsStyle="primary"
-                                                    onClick={this.getTicketsWithFilter.bind(this)}>
-                                                Apply
+
+                                        <div>
+                                            <Button
+                                                style={{marginRight: "5px"}}
+                                                bsStyle="primary"
+                                                onClick={this.clearSections.bind(this)}>
+                                                Clear
                                             </Button>
 
+                                            <Button
+                                                bsStyle="primary"
+                                                onClick={this.getTicketsWithFilter.bind(this)}>
+                                                Apply
+                                            </Button>
                                         </div>
 
                                     </FormGroup>
@@ -472,6 +605,7 @@ export default class PickTickets extends Component {
                                 <div className="ticketListItemTicketBorder">
                                     {this.renderTicketList()}
                                     <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
+                                </div>
                                 </div>
                             </Col>
                         </Row>

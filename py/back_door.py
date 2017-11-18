@@ -9,14 +9,33 @@ from sql_handler import SqlHandler
 from json_dictionary_converter import JsonDictionaryConverter
 from account_jwt import JWTService
 from functools import wraps
+from collections import defaultdict
+from itertools import groupby
+from operator import itemgetter
+from PyPDF2 import PdfFileWriter, PdfFileReader
+from werkzeug.utils import secure_filename
+import os
+import configparser
+
+# Use config file to get these values
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+configHost = config.get('mysql-config', 'Host')
+configUser = config.get('mysql-config', 'User')
+configPassword = config.get('mysql-config', 'Password')
+configDB = config.get('mysql-config', 'DB')
+configUploadFolder = config.get('py-app-config', 'UploadFolder')
 
 app = Flask (__name__)
 mysql = MySQL(app)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'ttt'
+# Start app with values from config file
+app.config['MYSQL_HOST'] = configHost
+app.config['MYSQL_USER'] = configUser
+app.config['MYSQL_PASSWORD'] = configPassword
+app.config['MYSQL_DB'] = configDB
+app.config['UPLOAD_FOLDER'] = configUploadFolder
 
 @app.after_request
 def after_request(response):
@@ -41,6 +60,19 @@ def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
 
+@app.route('/split-pdf', methods=['POST'])
+def splitPDF():
+    files = request.files['pdf']
+
+    #file = open(jsonData, "r")
+    inputpdf = PdfFileReader(files)
+    splitfiles = []
+
+    for i in xrange(inputpdf.numPages):
+        splitfiles.append(inputpdf.getPage(i))
+
+    return splitfiles
+
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
 def refresh_token():
@@ -53,7 +85,7 @@ def refresh_token():
         else:
             return jsonify({'authenticated': False})
     else:
-        return requestNotSupported();
+        return requestNotSupported()
 
 @app.route('/register', methods = ['POST'])
 def register():
@@ -61,7 +93,7 @@ def register():
         jsonData = request.get_json()
         return jsonify(
             AccountRegistrator(mysql)
-            .register_account(jsonData))
+                .register_account(jsonData))
     else:
         return requestNotSupported()
 
@@ -71,7 +103,7 @@ def confirm_registration():
         jsonData = request.get_json()
         return jsonify(
             AccountRegistrator(mysql)
-            .confirm_registration(jsonData))
+                .confirm_registration(jsonData))
     else:
         return requestNotSupported()
 
@@ -131,10 +163,11 @@ def get_event():
 def pick_tickets_by_filter():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
-    price = jsondata['price']
+    minPrice = jsondata['minPrice']
+    maxPrice = jsondata['maxPrice']
     sections = jsondata['sections']
     event_id = jsondata['eventID']
-    tickets = sqlHandler.get_ticket_by_filter(price, event_id, sections)
+    tickets = sqlHandler.get_ticket_by_filter(minPrice, maxPrice, event_id, sections)
     return jsonify({'tickets': tickets})
 
 @app.route('/pick-cheapest-ticket', methods=['POST'])
@@ -151,10 +184,11 @@ def pick_cheapest_ticket():
 def get_cheapest_ticket_any_section():
     sqlHandler = SqlHandler(mysql)
     jsondata = request.get_json()
-    price = jsondata['price']
+    minPrice = jsondata['minPrice']
+    maxPrice = jsondata['maxPrice']
     event_id = jsondata['eventID']
-    tickets = sqlHandler.get_cheap_ticket_any_section(price, event_id)
-    sections = sqlHandler.get_sections_by_less_equal_price(event_id, price)
+    tickets = sqlHandler.get_cheap_ticket_any_section(event_id, minPrice, maxPrice)
+    sections = sqlHandler.get_sections_by_less_equal_price(event_id, minPrice, maxPrice)
     return jsonify({'tickets': tickets, 'sections': sections})
 
 @app.route('/pick-expensive-ticket', methods=['POST'])
@@ -173,7 +207,7 @@ def authenticate_credentials():
         jsonData = request.get_json()
         return jsonify(
             AccountAuthenticator(mysql)
-            .authenticate_user(jsonData))
+                .authenticate_user(jsonData))
     else:
         return requestNotSupported()
 
@@ -223,9 +257,51 @@ def get_seller_listings():
         print(e)
         return jsonify({'authenticated': False})
 
+@app.route('/your-purchases', methods=['POST'])
+@require_token
+def get_buyer_purchases():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        transactions = sqlHandler.get_buyer_transactions(account_id)
+        return jsonify({'purchases': transactions, 'authenticated': True})
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
+@app.route('/update-listing', methods=['POST'])
+@require_token
+def update_listing():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        sqlHandler.update_group(jsonData['groupID'], jsonData['newPrice'])
+        transactions = sqlHandler.get_seller_transactions(account_id)
+        listings = sqlHandler.get_seller_tickets(account_id)
+        # Concatenate the two arrays into one listings array to be consumed by frontend page
+        return jsonify({'listings':listings + transactions, 'authenticated': True})
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
+@app.route('/upload-pdf', methods=['POST'])
+def upload_pdf():
+    file = request.files['pdf']
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return ''
+
+@app.route('/create-groups', methods=['POST'])
+def create_groups():
+    jsonData = request.get_json()
+    tickets_list = jsonData['tickets']
+    tickets_list = sorted(tickets_list, key = itemgetter('group_id'))
+    groups = dict((k, list(g)) for k, g in groupby(tickets_list, key = itemgetter('group_id')))
+    return jsonify({'groups': groups})
+
 if __name__ == '__main__':
     app.run()
-
-
-
-

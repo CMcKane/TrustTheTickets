@@ -106,7 +106,7 @@ export default class RegistrationView extends Component {
     render() {
         return (
             <div className="globalBody globalImage">
-                <div className=" globalBody globalImageOverlay">
+                <div className="globalBody globalImageOverlay">
                     <div className="wrapper registrationViewDivPadding">
                         <h1 className="text-center registrationViewH1">Registering An Account With Trust The
                             Tickets!</h1>

@@ -48,6 +48,17 @@ These are all the default screen sizes
     text-align: center;
 }
 
+.appContent {
+    padding-top: 62px;
+    overflow-y: auto;
+}
+
+@media (min-width: 767px) {
+    .appContent {
+        padding-top: 92px;
+    }
+}
+
 .App-logo {
     animation: App-logo-spin infinite 20s linear;
     height: 80px;
@@ -68,6 +79,10 @@ These are all the default screen sizes
     font-size: large;
 }
 
+.appContent {
+    position: relative;
+}
+
 @keyframes App-logo-spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -77,12 +92,18 @@ These are all the default screen sizes
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
+    position: fixed;
     background-size: cover;
     background-repeat: no-repeat;
     position: fixed;
     width: 100%;
     height: 100%;
     overflow: auto;
+}
+
+.svg {
+    width: 50% !important;
+    height: auto !important;
 }
 
 .globalImage
@@ -93,7 +114,9 @@ These are all the default screen sizes
 .globalImageOverlay
 {
     background-color: rgba(255,255,255,0.50);
+    padding-bottom: 100px;
 }
+
 
 .globalPageTitle
 {
@@ -108,6 +131,12 @@ These are all the default screen sizes
     -ms-user-select: none; /* IE10+/Edge */
     user-select: none; /* Standard */
     pointer-events:none;
+}
+
+.globalCenterThis {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /*********************************************************************************************************************/
@@ -126,8 +155,65 @@ These are all the default screen sizes
     margin: 0 auto;
 }
 
+@media (max-width: 767px) {
+    .rbc-toolbar {
+        font-size: 12px !important;
+    }
+    .rbc-event {
+        padding: 0px !important;
+    }
+    .rbc-date-cell {
+        font-size: 8px !important;
+    }
+}
+
+
+
 /*********************************************************************************************************************/
 /************************************************ End Calendar Styling ***********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/******************************************** Create Listing View Styling  *******************************************/
+/*********************************************************************************************************************/
+
+
+.createListingSeatNumberForms{
+    width: 400px;
+}
+
+
+/*
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+
+}
+
+@media (max-width: 425px) and (min-width: 376px) {
+
+}
+
+@media (max-width: 375px) and (min-width: 321px) {
+
+}
+
+@media (max-width: 320px) {
+
+}
+
+*/
+
+/*********************************************************************************************************************/
+/****************************************** End Create Listing View Styling ******************************************/
 /*********************************************************************************************************************/
 
 
@@ -205,11 +291,15 @@ These are all the default screen sizes
     .eventDetails {
         height: 100% !important;
         display: flex;
-        overflow-x: auto;
+        overflow-x: auto;    
+    }
+    .eventDetailsHeader {
+        margin: 5px !important;
     }
     .eventDetailPane {
         float: left;
         padding-right: 20px !important;
+        padding-bottom: 0px !important;
         flex: 0 0 130px;
     }
     .eventCalendarViewBottomPane {
@@ -219,17 +309,19 @@ These are all the default screen sizes
         height: 30%;
     }
     .eventCalendarViewDetailsRow {
-        height: 80%;
+        height: 90%;
     }
     .eventCalendarViewEventsWell {
-        margin-bottom: 10px !important;
+        margin-bottom: 5px !important;
         padding: 5px !important;
+        font-size: 20px !important;
     }
     .eventDetailsContainer {
         height: 70% !important;
     }
     .gameDetailsHeader {
         font-size: 16px !important;
+        margin: 5px !important;
     }
     .btn {
         font-size: 10px !important;
@@ -261,17 +353,17 @@ These are all the default screen sizes
     }
     .eventDetailsHeader {
         text-align: center;
-        font-size: 0.6em !important;
+        font-size: 0.8em !important;
     }
     .gameDetailsHeader {
-        font-size: 0.75em !important;
+        font-size: 0.8em !important;
     }
     .eventDetailsDate {
-        font-size: 0.6em !important;
+        font-size: 0.8em !important;
     }
     .eventDetailsContent {
         padding: 0em;
-        font-size: 0.6em !important;
+        font-size: 0.8em !important;
     }
 }
 .eventDetailPane {
@@ -325,7 +417,9 @@ These are all the default screen sizes
 /*********************************************************************************************************************/
 /*************************************************** Header Styling **************************************************/
 /*********************************************************************************************************************/
-
+.headroom-wrapper {
+    z-index: 1;
+}
 .navbar
 {
     background-color: #036bb5 !important ;
@@ -381,6 +475,7 @@ These are all the default screen sizes
 .navbar .navbar-form
 {
     border-color: #ffffff !important ;
+    z-index: 1;
 }
 .navbar .navbar-link
 {
@@ -396,6 +491,11 @@ These are all the default screen sizes
 }
 .nav-item {
 
+}
+.headerContainer {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
 }
 
 @media (max-width: 575px)
@@ -585,62 +685,11 @@ These are all the default screen sizes
     align-items: center;
 }
 
-@media (min-width: 1441px){
+@media (max-width: 2560px) and (min-width: 1441px){
 
     .homeParallaxSize
     {
-        height: 2100px;
-    }
-
-    .homeParallaxTextHeader
-    {
-        font: 90px "Tw Cen MT Condensed";
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
-
-    .homeParallaxTextBody
-    {
-        padding-top: 20px;
-        font: 55px "Tw Cen MT Condensed";
-    }
-
-    .homeParallaxTextBodyBlockText
-    {
-        display: inline-block;
-        text-align: left;
-        list-style-position:inside;
-        font: 46px "Calibri";
-        color: #036bb5;
-    }
-
-    .homeParallaxSearchSize
-    {
-        height: 1500px;
-    }
-
-    .homeSearchDesc
-    {
-        padding-top: 10px;
-        font: 75px "Tw Cen MT Condensed";
-    }
-
-    .homeMainLogo
-    {
-        height: 100%;
-        width: 100%;
-    }
-
-    .homeIcons {
-        font-size: 350px;
-    }
-}
-
-@media (max-width: 1440px) and (min-width: 1025px) {
-
-    .homeParallaxSize
-    {
-        height: 1200px;
+        height: 1000px;
     }
 
     .homeParallaxTextHeader
@@ -653,7 +702,7 @@ These are all the default screen sizes
     .homeParallaxTextBody
     {
         padding-top: 20px;
-        font: 44px "Tw Cen MT Condensed";
+        font: 40px "Tw Cen MT Condensed";
     }
 
     .homeParallaxTextBodyBlockText
@@ -661,7 +710,58 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 36px "Calibri";
+        font: 30px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 1100px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 50px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 75%;
+        width: 75%;
+    }
+
+    .homeIcons {
+        font-size: 250px;
+    }
+}
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+    .homeParallaxSize
+    {
+        height: 1000px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 55px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 40px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 25px "Calibri";
         color: #036bb5;
     }
 
@@ -678,8 +778,8 @@ These are all the default screen sizes
 
     .homeMainLogo
     {
-        height: 100%;
-        width: 100%;
+        height: 90%;
+        width: 90%;
     }
 
     .homeIcons {
@@ -691,12 +791,12 @@ These are all the default screen sizes
 
     .homeParallaxSize
     {
-        height: 1000px;
+        height: 800px;
     }
 
     .homeParallaxTextHeader
     {
-        font: 50px "Tw Cen MT Condensed";
+        font: 45px "Tw Cen MT Condensed";
         font-weight: bold;
         letter-spacing: 2px;
     }
@@ -712,7 +812,7 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 24px "Calibri";
+        font: 20px "Calibri";
         color: #036bb5;
     }
 
@@ -742,12 +842,12 @@ These are all the default screen sizes
 
     .homeParallaxSize
     {
-        height: 700px;
+        height: 800px;
     }
 
     .homeParallaxTextHeader
     {
-        font: 50px "Tw Cen MT Condensed";
+        font: 40px "Tw Cen MT Condensed";
         font-weight: bold;
         letter-spacing: 2px;
     }
@@ -763,13 +863,13 @@ These are all the default screen sizes
         display: inline-block;
         text-align: left;
         list-style-position:inside;
-        font: 24px "Calibri";
+        font: 20px "Calibri";
         color: #036bb5;
     }
 
     .homeParallaxSearchSize
     {
-        height: 900px;
+        height: 550px;
     }
 
     .homeSearchDesc
@@ -982,6 +1082,10 @@ body.indexBody {
     }
 
 }
+.modal-dialog {
+  top: 20%;
+  transform: translateY(-50%);
+}
 
 /*********************************************************************************************************************/
 /************************************************ End Listings Styling ***********************************************/
@@ -993,11 +1097,13 @@ body.indexBody {
 /*********************************************************************************************************************/
 
 .listingItemGrid {
-    padding-left: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
-Col.listingItemHeaderStatusColumn {
-    padding-left: 0px;
+.listingItemHeaderStatusColumn {
+    padding-top: 5px;
+    padding-left: 0px !important;
 }
 
 Col.listingItemHeaderButtonColumn {
@@ -1005,16 +1111,33 @@ Col.listingItemHeaderButtonColumn {
     padding-right: 0px;
 }
 
-Col.listingItemNoLeftPadding {
-    padding-left: 0px;
+Col.listingItemLeftCol {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: 0px;
+}
+
+Col.listingItemRightCol {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: 0px;
+}
+
+@media (max-width: 767px) {
+    .listingItemRightCol {
+        font-size: 11px;
+    }
+    .listingItemHeaderStatusColumn {
+        font-size: 14px;
+    }
 }
 
 div.listingItemNoBottomPadding {
     padding-bottom: 0;
 }
 
-Col.listingItemNoPadding {
-    padding: 0px;
+.listingItemNoPadding {
+    padding: 0px !important;
 }
 
 Button.listingItemButton {
@@ -1031,13 +1154,23 @@ Button.listingItemButton {
 /************************************************* End Listing-Item Styling *************************************************/
 /*********************************************************************************************************************/
 
+@media (max-width: 767px) {
+    .listingItemRightCol {
+        font-size: 11px;
+    }
+}
+@media (min-width: 768px) {
+    .listingItemRightCol {
+        font-size: 14px;
+    }
+}
 
 /*********************************************************************************************************************/
 /************************************************ Listing View Styling ***********************************************/
 /*********************************************************************************************************************/
 
 .listingsViewGrid {
-    height: 80%;
+    height: 70%;
 }
 
 h1.listingsViewH1 {
@@ -1054,6 +1187,18 @@ div.listingsViewTicketListingWindow {
 
 /*********************************************************************************************************************/
 /********************************************* End Listing View Styling **********************************************/
+/*********************************************************************************************************************/
+
+/*********************************************************************************************************************/
+/************************************************ Edit Modal Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.editModalText {
+
+}
+
+/*********************************************************************************************************************/
+/************************************************ End Edit Modal Styling ***********************************************/
 /*********************************************************************************************************************/
 
 
@@ -1121,29 +1266,131 @@ p.loginPara {
 /*********************************************************************************************************************/
 
 .teamLogo {
-    max-width: 80%;
     display: block;
     margin: 0 auto;
 }
-@media (min-width: 350px) and (max-width: 420px) {
+.circularLogo {
+    display: block;
+    margin: 0 auto;
+}
+.circularLogo-s {
+    display: block;
+    margin: 0 auto;
+}
+.circularLogo-ss {
+    display: block;
+    margin: 0 auto;
+}
+.wideLogo {
+    display: block;
+    margin: 0 auto;
+}
+.bigLogo {
+    display: block;
+    margin: 0 auto;
+}
+@media (max-width: 420px) {
     .teamLogo {
         max-width: 70% !important;
+    }
+    .circularLogo {
+        width: 80% !important; 
+    }
+    .circularLogo-ss {
+        width: 60% !important; 
+    }
+    .circularLogo-s {
+        width: 70% !important;
+    }
+    .wideLogo {
+        width: 90%;
+    }
+    .bigLogo {
+        width: 50%;
     }
 }
 @media (min-width: 421px) and (max-width: 521px) {
     .teamLogo {
         max-width: 50% !important;
     }
+    .circularLogo {
+        width: 80% !important; 
+    }
+    .circularLogo-ss {
+        width: 70% !important; 
+    }
+    .circularLogo-s {
+        width: 60% !important;
+    }
+    .wideLogo {
+        width: 80%;
+    }
+    .bigLogo {
+        width: 50%;
+    }
 }
-@media (min-width: 522px) {
+@media (min-width: 522px) and (max-width: 767px)  {
     .teamLogo {
         max-width: 40% !important;
     }
+    .circularLogo {
+        width: 60% !important; 
+    }
+    .circularLogo-ss {
+        width: 60% !important; 
+    }
+    .circularLogo-s {
+        width: 60% !important;
+    }
+    .wideLogo {
+        width: 70%;
+    }
+    .bigLogo {
+        width: 50%;
+    }
+}
+@media (min-width: 768px) and (max-width: 1200px)  {
+    .teamLogo {
+        max-width: 40% !important;
+    }
+    .circularLogo {
+        width: 70% !important; 
+    }
+    .circularLogo-ss {
+        width: 70% !important; 
+    }
+    .circularLogo-s {
+        width: 70% !important;
+    }
+    .wideLogo {
+        width: 80%;
+    }
+    .bigLogo {
+        width: 40%;
+    }
+}
+@media (min-width: 1201px)  {
+    .circularLogo {
+        width: 35% !important; 
+    }
+    .circularLogo-ss {
+        width: 27% !important; 
+    }
+    .circularLogo-s {
+        width: 30% !important;
+    }
+    .wideLogo {
+        width: 45%;
+    }
+    .bigLogo {
+        width: 25%;
+    }
 }
 .listingsTeamLogo {
-    max-width: 100%;
-    align: left;
-    display: inline;
+    max-width: 70%;
+    display: inline-block;
+    margin: 0 auto;
+    vertical-align: middle;
 }
 .mobileTeamLogo{
     max-width: 100%;
@@ -1188,6 +1435,12 @@ p.loginPara {
     font-weight: bold;
     text-align: center;
     background-color: #006BB6;
+}
+
+.ticketBorder {
+    border-style: solid;
+    border-width: 0.15em;
+    border-color: black;
 }
 
 .pickTicketsBorderBlack{
@@ -1403,7 +1656,7 @@ col.registrationViewCol {
 /*********************************************** Seating Chart Styling ***********************************************/
 /*********************************************************************************************************************/
 
-.seatingChartSt0{fill:#FFFFFF;stroke:#000000;}
+.seatingChartSt0{fill:#6d6d46;stroke:#000000;}
 .seatingChartSt1{fill:none;stroke:#000000;stroke-opacity:0;}
 .seatingChartSt2{font-family:'MyriadPro-Regular';}
 .seatingChartSt3{font-size:12px;}
