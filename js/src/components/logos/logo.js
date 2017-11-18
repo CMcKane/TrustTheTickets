@@ -12,7 +12,7 @@ export default class Logo extends Component {
 		if (this.props.team === "Trail Blazers") teamName= "Trailblazers";
 		if (this.props.svg) {
 			return (
-				<div>
+				<div className="svgLogo">
 				{getSVGLogo(teamName)}
 				</div>
 			);
