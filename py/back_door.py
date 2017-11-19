@@ -309,5 +309,13 @@ def game_dates():
     date = sqlHandler.get_game_dates()
     return jsonify({'date': date})
 
+@app.route('/get-opponent-by-date', methods=['POST'])
+def get_opponent_by_date():
+    jsonData = request.get_json()
+    date = jsonData['gameDate']
+    sqlHandler = SqlHandler(mysql)
+    opponentName = sqlHandler.get_opponent_by_date(date)
+    return jsonify({'opponentName': opponentName})
+
 if __name__ == '__main__':
     app.run()

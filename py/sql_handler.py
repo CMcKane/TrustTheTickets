@@ -457,5 +457,15 @@ class SqlHandler(object):
         cursor.execute("SELECT g.date "
                        "FROM games g "
                        "WHERE g.date >= CURDATE()")
-        date = [dict(date=row[0]) for row in cursor.fetchall()]
-        return date
+        data = [dict(date=row[0]) for row in cursor.fetchall()]
+        return data
+
+    def get_opponent_by_date(self, date):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT t.team_name "
+                       "FROM teams t "
+                       "JOIN games g ON (t.team_id = g.away_team_id) "
+                       "WHERE g.date = '{}'".format(date))
+        data = [dict(team_name=row[0]) for row in cursor.fetchall()]
+        return data
