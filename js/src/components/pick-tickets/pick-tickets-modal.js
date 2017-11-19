@@ -27,16 +27,17 @@ export default class PickTicketsModal extends Component {
             var currTicket = this.props.group[i];
             list.push(
                 <p className="ticketBorder">
-                    <p> Section: {currTicket.section_number} </p>
-                    <p>Row: {currTicket.row_number} </p>
-                    <p> Seat: {currTicket.seat_number} </p>
-                    <p> Price: ${currTicket.ticket_price} </p>
-                    <Button id={i} className="buy-ticket-button" bsSize="xsmall" >Buy</Button>
+                    <p className="ticketAttributes">Section: {currTicket.section_number} </p>
+                    <p className="ticketAttributes">Row: {currTicket.row_number} </p>
+                    <p className="ticketAttributes">Seat: {currTicket.seat_number} </p>
+                    <p className="ticketAttributes">Price: ${currTicket.ticket_price}
+                    <Button id={i} style={{marginLeft: "60px", color: "black"}} >Buy</Button>
+                    </p>
                 </p>
             );
 
         }
-        return(<div> {list} </div>);
+        return(<div > {list} </div>);
     }
   }
 
@@ -68,14 +69,14 @@ export default class PickTicketsModal extends Component {
     return (
       <Modal style={this.getCursorStatus()} onHide={this.onHide.bind(this)} 
         show={this.props.show} bsSize="large" aria-labelledby="contained-modal-title-sm">
-        <Modal.Header closeButton>
+        <Modal.Header className="pickTicketModalHeader" closeButton>
           <Modal.Title id="contained-modal-title-sm">Tickets</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="pickTicketModalBody">
           <h4>{this.getHeader()}</h4>
           {this.getTicketContent()}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="pickTicketModalHeader">
           {this.getErrorText()}
           <Button onClick={() => this.props.onHide()}>Close</Button>
         </Modal.Footer>

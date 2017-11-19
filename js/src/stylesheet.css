@@ -1437,10 +1437,46 @@ p.loginPara {
     background-color: #006BB6;
 }
 
+.pickTicketModalBody {
+    background-image: url("./resources/images/TexturedGray.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: white;
+}
+
+.pickTicketModalHeader {
+    background-image: url("./resources/images/TexturedRed.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: white;
+}
+
 .ticketBorder {
     border-style: solid;
     border-width: 0.15em;
     border-color: black;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+    background-image: url("./resources/images/backgrounds/TicketBackground.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.ticketAttributes {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 9100;
+    font-size: 20px;
+    color: white;
+    padding-top: 5px;
+    padding-left: 35px;
+
+}
+
+.ticketBuyButton {
+    padding-bottom: 5px;
+    padding-left: 60px;
 }
 
 .pickTicketsBorderBlack{

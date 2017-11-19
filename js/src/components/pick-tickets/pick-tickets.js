@@ -608,16 +608,16 @@ export default class PickTickets extends Component {
             }
             seats.sort();
             list.push(
-                <li className="list-group-item" border-color="red">
+                <p className="ticketBorder" border-color="red">
                     Tickets for sale: {this.state.groups[group].length}
                     <br></br>
-                    <li>Section: {this.state.groups[group][0].section_number}</li>
-                    <li>Row: {this.state.groups[group][0].row_number}</li>
-                    <li>Seat(s): {seats.join(", ")}</li>
-                    <li>Price: ${this.state.groups[group][0].ticket_price} /ea</li>
+                    <li className="ticketAttributes">Section: {this.state.groups[group][0].section_number}</li>
+                    <li className="ticketAttributes">Row: {this.state.groups[group][0].row_number}</li>
+                    <li className="ticketAttributes">Seat(s): {seats.join(", ")}</li>
+                    <li className="ticketAttributes">Price: ${this.state.groups[group][0].ticket_price} /ea</li>
                     <br></br>
-                    <Button id={counter} className="see-tickets-button" bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets</Button>
-                </li>
+                    <Button id={counter} style={{marginLeft: "60px", color: "black"}} bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets</Button>
+                </p>
             )
             this.state.currGroups[counter] = this.state.groups[group];
             counter = counter + 1;
@@ -714,6 +714,7 @@ export default class PickTickets extends Component {
 
                                         <Range
                                             className="range-slider"
+                                            style={{paddingTop: "15px", paddingBottom: "15px"}}
                                             max={1000}
                                             min={0}
                                             step={5}
