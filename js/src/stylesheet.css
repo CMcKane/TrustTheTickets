@@ -332,11 +332,13 @@ These are all the default screen sizes
     .eventDetailPane {
         padding: 0.5em;
         border-style: solid;
+        padding-left: 1em;
         border-width: 0.05em;
         border-color: black;
     }
     .eventDetailPaneSelected {
         padding: 0.5em;
+        padding-left: 1em;
         border-style: solid;
         border-width: 0.05em;
         border-color: red;
@@ -374,7 +376,6 @@ These are all the default screen sizes
 }
 .eventDetailPaneSelected {
     padding: 0.5em;
-    padding-left: 1em;
     border-style: solid;
     border-width: 0.1em;
     border-color: red;
@@ -1354,13 +1355,13 @@ p.loginPara {
         max-width: 40% !important;
     }
     .circularLogo {
-        width: 70% !important; 
+        width: 70%; 
     }
     .circularLogo-ss {
-        width: 70% !important; 
+        width: 70%; 
     }
     .circularLogo-s {
-        width: 70% !important;
+        width: 70%;
     }
     .wideLogo {
         width: 80%;
@@ -1368,22 +1369,52 @@ p.loginPara {
     .bigLogo {
         width: 40%;
     }
+    .versusLogo .svgLogo .circularLogo {
+        width: 70% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-ss {
+        width: 60% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-s {
+        width: 100%;      
+    }
+    .versusLogo .svgLogo .wideLogo {
+        width: 100% !important;
+    }
+    .versusLogo .svgLogo .bigLogo {
+        width: 60% !important;   
+    }
 }
 @media (min-width: 1201px)  {
     .circularLogo {
-        width: 35% !important; 
+        width: 35%; 
     }
     .circularLogo-ss {
-        width: 27% !important; 
+        width: 27%; 
     }
     .circularLogo-s {
-        width: 30% !important;
+        width: 30%;
     }
     .wideLogo {
         width: 45%;
     }
     .bigLogo {
         width: 25%;
+    }
+    .versusLogo .svgLogo .circularLogo {
+        width: 60% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-ss {
+        width: 43% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-s {
+        width: 50% !important;      
+    }
+    .versusLogo .svgLogo .wideLogo {
+        width: 80% !important;
+    }
+    .versusLogo .svgLogo .bigLogo {
+        width: 40% !important;   
     }
 }
 .listingsTeamLogo {

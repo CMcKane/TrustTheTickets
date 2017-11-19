@@ -27,7 +27,6 @@ class PurchasesView extends Component {
 		})
 		.then(res => {
 			if (res.data.authenticated) {
-				console.log(res.data);
 				this.setState({
 					purchases: res.data.purchases
 				});
