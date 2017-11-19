@@ -95,7 +95,7 @@ export default class CreateListingView extends Component {
 
     renderSeatNumberForms() {
         var fieldGroups = [];
-        for (var i = 1; i < this.state.numberOfTickets + 1; i++) {
+        for (var i = 1; i <= this.state.numberOfTickets; i++) {
             fieldGroups.push(<FieldGroup className="createListingSeatNumberForms"
                                          id={"seatNumberForm " + i}
                                          type={"text"}
@@ -113,7 +113,7 @@ export default class CreateListingView extends Component {
         switch(this.state.activeKey){
             case 1:
                 if(this.state.gameDate !== null){
-                    this.setState({ activeKey: this.state.activeKey +=1 });
+                    this.setState({ activeKey: ++this.state.activeKey });
                 } else {
                     alert("Please pick a game to move onto the next step.");
                 }
@@ -121,34 +121,34 @@ export default class CreateListingView extends Component {
                 break;
             case 2:
                 if(this.state.numberOfTickets > 0){
-                    this.setState({ activeKey: this.state.activeKey +=1 });
+                    this.setState({ activeKey: ++this.state.activeKey });
                 } else {
-                    alert("Please select a number of to move onto the next step.");
+                    alert("Please select a number of tickets to move onto the next step.");
                 }
                 break;
             case 3:
                 //if(this.state.section !== null && this.state.row !== null && this.state.seatNumbers !== null){
-                    this.setState({ activeKey: this.state.activeKey +=1 });
+                    this.setState({ activeKey: ++this.state.activeKey });
                 //} else {
                 //    alert("Please fill out section, row and seat numbers to move onto the next step.");
                 //}
                 break;
             case 4:
-                this.setState({ activeKey: this.state.activeKey +=1 })
+                this.setState({ activeKey: ++this.state.activeKey });
                 break;
             case 5:
-                this.setState({ activeKey: this.state.activeKey +=1 })
+                this.setState({ activeKey: ++this.state.activeKey });
                 break;
             case 6:
-                this.setState({ activeKey: this.state.activeKey +=1 })
+                this.setState({ activeKey: ++this.state.activeKey });
                 break;
             default:
-                //Lul wut
+                this.setState({activeKey: 1});
         }
     }
 
     handleSelectBack(){
-        this.setState({ activeKey: this.state.activeKey -=1 })
+        this.setState({ activeKey: --this.state.activeKey})
     }
 
     handleDateChoice(e) {
@@ -271,6 +271,7 @@ export default class CreateListingView extends Component {
                             <Grid>
                                 <Row>
                                     <Col lg={6}>
+                                        <Row>
                                         <Form id="seatsForm">
                                             <FieldGroup className="createListingSeatNumberForms"
                                                         id="sectionNumberForm"
@@ -283,8 +284,10 @@ export default class CreateListingView extends Component {
                                                         label="Row Number"
                                                         placeholder="Enter Row Number"/>
                                             </Form>
+                                        </Row>
                                     </Col>
                                     <Col lg={6}>
+                                        {this.renderSeatNumberForms()}
                                     </Col>
                                 </Row>
                                 <Row>
