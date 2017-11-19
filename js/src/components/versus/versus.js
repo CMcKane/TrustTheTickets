@@ -6,6 +6,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {getLogo} from '../logos/logo-central';
 import Logo from '../logos/logo';
 import TeamLogo from './team-logo';
+import Time from 'react-time';
 import '../../stylesheet.css';
 
 export default class Versus extends Component {
@@ -28,8 +29,6 @@ export default class Versus extends Component {
             sportTypeID: sportTypeID
         })
             .then(res => {
-                console.log(res.data.teams);
-                console.log("IN TTTPost");
                 this.setState({teams: res.data.teams});
             });
     }
@@ -41,18 +40,15 @@ export default class Versus extends Component {
                     <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
                         <ListGroupItem>
                             <div className='unselectable text-center'>
-                                {game.away_team_name} at {game.home_team_name}
-                                <br/>
-                                on {game.date}
-                                <br/>
+                                <Time value={game.date} format="MMMM D, YYYY h:mmA"/>
                             </div>
                         </ListGroupItem>
                     </LinkContainer>
                 );
             }
-            return <h4 className='unselectable text-center'>No games against selected team.</h4>;
+            return <h4 className='unselectable text-center'>No games against selected team</h4>;
         }
-        return <h3 className='unselectable text-center'>Select a team logo to find your game</h3>
+        return <h3 className='unselectable text-center' style={{paddingTop: '30px'}}>Select a team logo to find your game</h3>
     }
 
     getGamesByTeam(team) {
