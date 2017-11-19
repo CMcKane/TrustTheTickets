@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col, Well, Panel, Button, Image} from 'react-bootstrap';
+import {Grid, Row, Col, Well, Panel, Button, Image, ListGroup, ListGroupItem} from 'react-bootstrap';
 import _ from 'lodash';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
 import {LinkContainer} from 'react-router-bootstrap';
 import {getLogo} from '../logos/logo-central';
 import Logo from '../logos/logo';
+import TeamLogo from './team-logo';
+import Time from 'react-time';
 import '../../stylesheet.css';
 
 export default class Versus extends Component {
@@ -12,11 +14,9 @@ export default class Versus extends Component {
 
     constructor(props) {
         const sportTypeID = 1;
-        console.log("IN constructor");
         super(props);
         this.state = {
             teams: [],
-            games: [],
             selectedTeam: 0,
             sportTypeID: sportTypeID
         }
@@ -29,55 +29,53 @@ export default class Versus extends Component {
             sportTypeID: sportTypeID
         })
             .then(res => {
-                console.log(res.data.teams);
-                console.log("IN TTTPost");
                 this.setState({teams: res.data.teams});
             });
     }
 
-    handleClick(team_id) {
-        console.log(team_id);
-        this.getGamesByTeam(team_id);
+    renderGameList() {
+        if (this.state.games) {
+            if (this.state.games.length > 0) {
+                return _.map(this.state.games, (game, id) =>
+                    <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
+                        <ListGroupItem>
+                            <div className='unselectable text-center'>
+                                <Time value={game.date} format="MMMM D, YYYY h:mmA"/>
+                            </div>
+                        </ListGroupItem>
+                    </LinkContainer>
+                );
+            }
+            return <h4 className='unselectable text-center'>No games against selected team</h4>;
+        }
+        return <h3 className='unselectable text-center' style={{paddingTop: '30px'}}>
+                Select a team logo to find your game</h3>
     }
 
-    //render the teams in the left panel
-    renderTeamList() {
-        return _.map(this.state.teams, (team, id) =>
-            <li className="list-group-item" border-color="red" key={team.team_id}
-                onClick={this.handleClick.bind(this, team.team_id)}>
-                <Logo team={team.team_name} class={"teamLogoLeftBig"}/>
-                    {team.city} {team.team_name}
-            </li>
-        );
-
-    }
-
-    //Retrieves every team
-    getGamesByTeam(team_id) {
+    getGamesByTeam(team) {
         TTTPost("/games-by-team", {
-            team_id: team_id
+            team_id: team.team_id
         })
             .then(res => {
-                console.log(res.data.games);
-                console.log("IN TTTPost GAMES");
-                this.setState({games: res.data.games});
+                this.setState({team: team, games: res.data.games});
             });
     }
 
-    //render the games in the middle panel
-    renderGameList() {
-        return _.map(this.state.games, (game, id) =>
-            <li className="list-group-item" border-color="red">
-                {game.away_team_name} at {game.home_team_name}
-                <br/>
-                on {game.date}
-                <br/>
-                <Logo team={game.away_team_name} class={"teamLogoLeft"}/>
-                <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
-                    <Button> Purchase Tickets </Button>
-                </LinkContainer>
-                <Logo team={game.home_team_name} class={"teamLogoRight"}/>
-            </li>
+    getGamesHeader() {
+        if(this.state.team) {
+            return (
+                <h3 className='unselectable text-center'>76ers vs {this.state.team.team_name}</h3>
+            );
+        }
+    }
+
+    onTeamSelect(team) {
+        this.getGamesByTeam(team);
+    }
+
+    renderLogos() {
+        return _.map(this.state.teams, (team, id) =>
+            <TeamLogo team={team} onClick={this.onTeamSelect.bind(this)} />
         );
     }
 
@@ -85,24 +83,25 @@ export default class Versus extends Component {
         return (
             <div className='globalBody globalImage'>
                 <div className='globalBody globalImageOverlay'>
+                        <Well className='eventCalendarViewEventsWell'>
+                            Choose Your Opponent
+                        </Well>
                         <Grid>
-                            <h1>
-                                <Well className='versusPickTeamsWell'>
-                                    Choose the opponent you would like to see!
-                                </Well>
-                            </h1>
                             <Row>
-                                <Col xs={12} sm={6} md={6} lg={6}>
-                                    <h3 className="versusH3"> Opponents: </h3>
-                                    <Panel className="versusListOfTeams">
-                                        {this.renderTeamList()}
-                                    </Panel>
+                                <div style={{display: 'flex', overflowX: 'scroll'}}>
+                                    {this.renderLogos()}
+                                </div>
+                            </Row>
+                            <Row>
+                                <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>
-                                <Col xs={12} sm={6} md={6} lg={6}>
-                                    <h3 className="versusH3"> Games: </h3>
-                                    <Panel className="versusListOfTeams">
+                                <Col xs={10} sm={10} md={6} lg={8}>
+                                    {this.getGamesHeader()}
+                                    <div>
                                         {this.renderGameList()}
-                                    </Panel>
+                                    </div>
+                                </Col>
+                                <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>
                             </Row>
                         </Grid>
