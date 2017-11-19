@@ -361,5 +361,19 @@ def create_groups():
     groups = dict((k, list(g)) for k, g in groupby(tickets_list, key = itemgetter('group_id')))
     return jsonify({'groups': groups})
 
+@app.route('/get-game-dates', methods=['GET'])
+def game_dates():
+    sqlHandler = SqlHandler(mysql)
+    date = sqlHandler.get_game_dates()
+    return jsonify({'date': date})
+
+@app.route('/get-opponent-by-date', methods=['POST'])
+def get_opponent_by_date():
+    jsonData = request.get_json()
+    date = jsonData['gameDate']
+    sqlHandler = SqlHandler(mysql)
+    opponentName = sqlHandler.get_opponent_by_date(date)
+    return jsonify({'opponentName': opponentName})
+
 if __name__ == '__main__':
     app.run()

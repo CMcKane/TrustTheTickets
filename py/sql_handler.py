@@ -558,3 +558,21 @@ class SqlHandler(object):
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3], group_id=row[4]) for row in cursor.fetchall()]
         return tickets
 
+    def get_game_dates(self):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT g.date "
+                       "FROM games g "
+                       "WHERE g.date >= CURDATE()")
+        data = [dict(date=row[0]) for row in cursor.fetchall()]
+        return data
+
+    def get_opponent_by_date(self, date):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT t.team_name "
+                       "FROM teams t "
+                       "JOIN games g ON (t.team_id = g.away_team_id) "
+                       "WHERE g.date = '{}'".format(date))
+        data = [dict(team_name=row[0]) for row in cursor.fetchall()]
+        return data
