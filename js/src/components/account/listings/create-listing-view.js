@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {render} from 'react-dom';
 import {
     Accordion,
     Button,
@@ -65,19 +64,15 @@ export default class CreateListingView extends Component {
         this.getGameDates();
     }
 
-    getOpponentName() {
-        var d;
-        TTTPost("/get-opponent-by-date", {gameDate: this.state.gameDate})
+    getOpponentName(gameDate) {
+        TTTPost("/get-opponent-by-date", {gameDate: gameDate})
             .then(res => {
-                this.setState({opponentName: res.data.opponentName})
-            }, () => {
-                d = this.state.opponentName
+                this.setState({
+                    opponentNames: res.data.opponentName,
+                    gameDate: gameDate,
+                    disableChooseOpponent: false
+                });
             });
-
-        console.log(this.state.gameDate);
-        console.log(new Date(this.state.gameDate).toISOString().slice(0, 19).replace('T', ' '));
-        console.log(d);
-        return this.state.opponentName;
     }
 
     getGameDates() {
@@ -88,15 +83,25 @@ export default class CreateListingView extends Component {
     }
 
     renderGameDates() {
-        return _.map(this.state.gameDates, (date) =>
+        return _.map(this.state.gameDates, (date, index) =>
             <option
-                value={new Date(date.date).toISOString().slice(0, 19).replace('T', ' ')}>{new Date(date.date).toISOString().slice(0, 19).replace('T', ' ')}</option>)
+                key={index} value={new Date(date.date).toISOString().slice(0, 19).replace('T', ' ')}>{new Date(date.date).toISOString().slice(0, 19).replace('T', ' ')}</option>)
+    }
+
+    renderOpponent() {
+        return _.map(this.state.opponentNames, (name, index) =>
+            <option key={index}
+                value={name.team_name}>
+                {name.team_name}
+            </option>
+        );
     }
 
     renderSeatNumberForms() {
         var fieldGroups = [];
         for (var i = 1; i <= this.state.numberOfTickets; i++) {
             fieldGroups.push(<FieldGroup className="createListingSeatNumberForms"
+                                         key={i}
                                          id={"seatNumberForm " + i}
                                          type={"text"}
                                          label={"Seat Number " + i + " Form"}
@@ -113,7 +118,7 @@ export default class CreateListingView extends Component {
         switch(this.state.activeKey){
             case 1:
                 if(this.state.gameDate !== null){
-                    this.setState({ activeKey: ++this.state.activeKey });
+                    this.setState({ activeKey: this.state.activeKey +1 });
                 } else {
                     alert("Please pick a game to move onto the next step.");
                 }
@@ -121,26 +126,26 @@ export default class CreateListingView extends Component {
                 break;
             case 2:
                 if(this.state.numberOfTickets > 0){
-                    this.setState({ activeKey: ++this.state.activeKey });
+                    this.setState({ activeKey: this.state.activeKey +1 });
                 } else {
                     alert("Please select a number of tickets to move onto the next step.");
                 }
                 break;
             case 3:
                 //if(this.state.section !== null && this.state.row !== null && this.state.seatNumbers !== null){
-                    this.setState({ activeKey: ++this.state.activeKey });
+                    this.setState({ activeKey: this.state.activeKey +1 });
                 //} else {
                 //    alert("Please fill out section, row and seat numbers to move onto the next step.");
                 //}
                 break;
             case 4:
-                this.setState({ activeKey: ++this.state.activeKey });
+                this.setState({ activeKey: this.state.activeKey +1 })
                 break;
             case 5:
-                this.setState({ activeKey: ++this.state.activeKey });
+                this.setState({ activeKey: this.state.activeKey +1 })
                 break;
             case 6:
-                this.setState({ activeKey: ++this.state.activeKey });
+                this.setState({ activeKey: this.state.activeKey +1 })
                 break;
             default:
                 this.setState({activeKey: 1});
@@ -152,14 +157,10 @@ export default class CreateListingView extends Component {
     }
 
     handleDateChoice(e) {
-        this.setState({[e.target.name]: e.target.value});
-        this.state.disableChooseOpponent = false;
-        console.log("Game date: " + this.state.gameDate);
-        this.getOpponentName()
+        this.getOpponentName(e.target.value);
     }
 
     onFileChange(e) {
-        console.log('onfilechange')
         var formData = new FormData();
         formData.append("pdf", e.target.files[0]);
         TTTPostFile('/upload-pdf', formData);
@@ -208,10 +209,7 @@ export default class CreateListingView extends Component {
                                                  name="opponentName"
                                                  onChange={this.handleChange.bind(this)}
                                                  style={{width: '200px'}}>
-                                        <option
-                                            value={1}>
-                                            {this.state.opponentName}
-                                        </option>
+                                        {this.renderOpponent()}
                                     </FormControl>
                                 </FormGroup>
                                 <ButtonToolbar className="globalCenterThis">
@@ -251,8 +249,7 @@ export default class CreateListingView extends Component {
                                             modalSubmitError={this.state.modalSubmitError}
                                             show={this.state.show}
                                             onHide={this.onHide.bind(this)}
-                                            changeNumberOfTickets={this.changeNumberOfTickets.bind(this)}
-                                        />
+                                            changeNumberOfTickets={this.changeNumberOfTickets.bind(this)}/>
                                         </Row>
                                         <br/>
                                         <Row>
@@ -263,7 +260,6 @@ export default class CreateListingView extends Component {
                                         </Row>
                                     </Col>
                                 </Grid>
-                            {console.log(this.state.numberOfTickets)}
                         </div>
                     </Panel>
                     <Panel header="Step 3: Where are the seats located?" eventKey={3}>
@@ -306,7 +302,7 @@ export default class CreateListingView extends Component {
                                     <Col md={2} lg={4}>
                                         <h2>Ticket Groupings</h2>
                                         <FormGroup>
-                                            <Radio active={true} name={"splitTicketsGroup"}>Sell tickets in groups of </Radio>
+                                            <Radio name={"splitTicketsGroup"}>Sell tickets in groups of </Radio>
                                             <Radio name={"splitTicketsGroup"}>Sell any quantity of tickets</Radio>
                                         </FormGroup>
                                     </Col>
@@ -339,7 +335,6 @@ export default class CreateListingView extends Component {
                                             value={this.state.ticketPrice}
                                             onChange={this.handleChange.bind(this)}
                                 />
-                                {console.log("Ticket Price: " + this.state.ticketPrice)}
                             </Form>
                             <ButtonToolbar className="globalCenterThis">
                                 <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
