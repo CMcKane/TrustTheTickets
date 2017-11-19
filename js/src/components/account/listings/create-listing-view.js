@@ -17,6 +17,7 @@ import {
     Radio,
     Row
 } from 'react-bootstrap';
+import Time from 'react-time';
 import {TTTGet, TTTPost, TTTPostFile} from '../../backend/ttt-request';
 import _ from 'lodash';
 import moment from 'moment';
@@ -85,7 +86,11 @@ export default class CreateListingView extends Component {
     renderGameDates() {
         return _.map(this.state.gameDates, (date, index) =>
             <option
-                key={index} value={new Date(date.date).toISOString().slice(0, 19).replace('T', ' ')}>{new Date(date.date).toISOString().slice(0, 19).replace('T', ' ')}</option>)
+                key={index} 
+                value={date.date}>
+                {<Time value={date.date} format="MMMM D, YYYY h:mmA" />}
+            </option>
+        );
     }
 
     renderOpponent() {
