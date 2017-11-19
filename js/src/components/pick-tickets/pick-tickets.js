@@ -45,6 +45,7 @@ export default class PickTickets extends Component {
             aisleSeatToggle: 0,
             handicapToggle: 0,
             earlyAccessToggle: 0,
+            activeCheckBoxes: [],
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -56,6 +57,9 @@ export default class PickTickets extends Component {
                             ["204", "204A", "205", "205A", "209", "209A", "210", "210A", "216", "216A", "217", "217A", "222A", "222", "221A", "221"],
                             ["206", "207", "207A", "208", "220", "219A", "219", "218"]]
                         },
+            validSections: ["112", "113", "114", "101", "102", "124", "103", "111", "115", "123", "104", "105", "109", "110", "116", "117", "121", "122",
+            "106", "107", "108", "118", "119", "120", "201", "202", "203", "211", "212", "213", "214", "215", "223", "224", "204", "204A", "205", "205A",
+            "209", "209A", "210", "210A", "216", "216A", "217", "217A", "222A", "222", "221A", "221", "206", "207", "207A", "208", "220", "219A", "219", "218"]
             /*
             innerZone1: ["112", "113", "114", "101", "102", "124"],
             innerZone2: ["103", "111", "115", "123"],
@@ -163,6 +167,9 @@ export default class PickTickets extends Component {
                 eventID: this.state.eventID,
                 minPrice: this.state.minPrice,
                 maxPrice: this.state.maxPrice,
+                earlyAccess: this.state.earlyAccessToggle,
+                aisleSeating: this.state.aisleSeatToggle,
+                handicap: this.state.handicapToggle
             })
             .then(res => {
                 if (res.data.tickets) {
@@ -196,9 +203,16 @@ export default class PickTickets extends Component {
     }
 
     getExpensiveTicketsAndSections() {
-        this.setState({isLoading:true, tickets: [], groups: []});
+        this.setState({
+            isLoading:true,
+            tickets: [],
+            groups: [],
+        });
         TTTPost('/pick-expensive-ticket', {
-            eventID: this.state.eventID
+            eventID: this.state.eventID,
+            earlyAccess: this.state.earlyAccessToggle,
+            aisleSeating: this.state.aisleSeatToggle,
+            handicap: this.state.handicapToggle
         })
             .then(res => {
                 if (res.data.tickets) {
@@ -206,16 +220,29 @@ export default class PickTickets extends Component {
                         previousSections: this.state.sections,
                         sections: res.data.sections,
                         tickets: res.data.tickets,
-                        isLoading: false
+                        isLoading: false,
+                        aisleSeatToggle: 0,
+                        handicapToggle: 0,
+                        earlyAccessToggle: 0
                     }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
+
     }
 
     getCheapestTickets() {
-        this.setState({isLoading:true, tickets: [], groups: []});
+        this.setState({
+            isLoading:true,
+            tickets: [],
+            groups: [],
+        });
+
+
         TTTPost('/pick-cheapest-ticket',{
-            eventID: this.state.eventID            
+            eventID: this.state.eventID,
+            earlyAccess: this.state.earlyAccessToggle,
+            aisleSeating: this.state.aisleSeatToggle,
+            handicap: this.state.handicapToggle
         })
             .then(res => {
                 if (res.data.tickets) {
@@ -244,34 +271,124 @@ export default class PickTickets extends Component {
         });
     }
 
-    onChartClick(section) {
-        if(this.state.bySection)
+    filterCurrentSelectedSectionsWithCheckboxes(aisle, early, handicap) {
+        var currToggleValue = this.state.toggleValue;
+        this.setState({tickets: [], groups: [], isLoading: true});
+        switch(currToggleValue)
         {
-            if(this.state.sections.length === 1 && this.state.sections[0] === section) {
-                this.setState({
-                    previousSections: this.state.sections,
-                    sections: [],
-                    tickets: [],
-                    toggleValue: 1
-                }, () => {this.createTicketGroupArrays(this.state.tickets)});
-            }
-            else {
-                this.setState({isLoading:true, tickets: []});
-                TTTPost('/tickets', {
+            case 1:
+                if(this.state.sections.length === 0)
+                {
+                    this.getTicketsWithFilter();
+                }
+                else
+                {
+                    TTTPost('/get-tickets-for-sections', {
+                        eventID: this.state.eventID,
+                        sections: this.state.sections,
+                        aisleSeating: aisle,
+                        earlyAccess: early,
+                        handicap: handicap
+                    })
+                    .then(res => {
+                        if (res.data.tickets) {
+                            this.setState({
+                                previousSections: this.state.sections,
+                                sections: res.data.sections,
+                                tickets: res.data.tickets,
+                                isLoading: false
+                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                        }
+                    });
+                }
+                break;
+
+            case 2:
+                TTTPost('/pick-cheapest-ticket',{
                     eventID: this.state.eventID,
-                    section_number: section
+                    earlyAccess: early,
+                    aisleSeating: aisle,
+                    handicap: handicap
+                })
+                    .then(res => {
+                        if (res.data.tickets) {
+                            this.setState({
+                                tickets: res.data.tickets,
+                                previousSections: this.state.sections,
+                                sections: res.data.sections,
+                                isLoading: false
+                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                        }
+                    });
+                break;
+
+            case 3:
+                TTTPost('/pick-expensive-ticket', {
+                    eventID: this.state.eventID,
+                    earlyAccess: early,
+                    aisleSeating: aisle,
+                    handicap: handicap
                 })
                     .then(res => {
                         if (res.data.tickets) {
                             this.setState({
                                 previousSections: this.state.sections,
-                                sections: [section],
+                                sections: res.data.sections,
                                 tickets: res.data.tickets,
-                                isLoading: false,
-                                toggleValue: 1
+                                isLoading: false
                             }, () => {this.createTicketGroupArrays(this.state.tickets)});
                         }
                     });
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    validSection(section) {
+        var valid = false;
+        for(var i = 0; i < this.state.validSections.length; i++) {
+            if(this.state.validSections[i] === section) {
+                valid = true;
+            }
+        }
+        return (valid);
+    }
+
+    onChartClick(section) {
+        if(this.state.bySection)
+        {
+            if(this.validSection(section)) {
+                if(this.state.sections.length === 1 && this.state.sections[0] === section) {
+                    this.setState({
+                        previousSections: this.state.sections,
+                        sections: [],
+                        tickets: [],
+                        toggleValue: 1
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                }
+                else {
+                    this.setState({isLoading:true, tickets: []});
+                    TTTPost('/tickets', {
+                        eventID: this.state.eventID,
+                        section_number: section,
+                        aisleSeat: this.state.aisleSeatToggle,
+                        earlyAccess: this.state.earlyAccessToggle,
+                        handicap: this.state.handicapToggle
+                    })
+                        .then(res => {
+                            if (res.data.tickets) {
+                                this.setState({
+                                    previousSections: this.state.sections,
+                                    sections: [section],
+                                    tickets: res.data.tickets,
+                                    isLoading: false,
+                                    toggleValue: 1,
+                                }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                            }
+                        });
+                }
             }
         }
         else
@@ -281,7 +398,10 @@ export default class PickTickets extends Component {
 
             TTTPost('/pick-ticket-zone', {
                     eventID: this.state.eventID,
-                    section_type_id: sectionsAndZone.zone
+                    section_type_id: sectionsAndZone.zone,
+                    aisleSeat: this.state.aisleSeatToggle,
+                    earlyAccess: this.state.earlyAccessToggle,
+                    handicap: this.state.handicapToggle
                 })
                     .then(res => {
                         if (res.data.tickets) {
@@ -290,7 +410,7 @@ export default class PickTickets extends Component {
                                 sections: sectionsAndZone.sections,
                                 tickets: res.data.tickets,
                                 isLoading: false,
-                                toggleValue: 1
+                                toggleValue: 1,
                             }, () => {this.createTicketGroupArrays(this.state.tickets)});
                         }
                     });
@@ -387,6 +507,7 @@ export default class PickTickets extends Component {
         this.setState({ toggleValue: value });
     }
 
+
     hasEventID() {
         if (this.state.eventID > 0) {
             return true;
@@ -432,7 +553,12 @@ export default class PickTickets extends Component {
         } else {
             currState = 0;
         }
-        this.state.earlyAccessToggle = currState;
+
+        this.setState({
+            earlyAccessToggle: currState
+        });
+
+        this.filterCurrentSelectedSectionsWithCheckboxes(this.state.aisleSeatToggle, currState, this.state.handicapToggle);
     }
 
     toggleHandicap(e) {
@@ -442,7 +568,12 @@ export default class PickTickets extends Component {
         } else {
             currState = 0;
         }
-       this.state.handicapToggle = currState;
+
+       this.setState({
+            handicapToggle: currState
+        });
+
+        this.filterCurrentSelectedSectionsWithCheckboxes(this.state.aisleSeatToggle, this.state.earlyAccessToggle, currState);
     }
 
     toggleAisleSeating(e) {
@@ -452,7 +583,16 @@ export default class PickTickets extends Component {
         } else {
             currState = 0;
         }
-        this.state.aisleSeatToggle = currState;
+
+        this.setState({
+            aisleSeatToggle: currState
+        });
+
+        this.filterCurrentSelectedSectionsWithCheckboxes(currState, this.state.earlyAccessToggle, this.state.handicapToggle);
+    }
+
+    addCheckBox(value) {
+        this.setState({activeCheckBoxes: value});
     }
 
     //render the values in the tickets
@@ -558,10 +698,15 @@ export default class PickTickets extends Component {
                                         </ToggleButtonGroup>
                                     </div>
                                     <div>
-                                        <ToggleButtonGroup type="checkbox">
-                                            <ToggleButton value={1} onChange={this.toggleHandicap.bind(this)}>Handicap</ToggleButton>
-                                            <ToggleButton value={2} onChange={this.toggleAisleSeating.bind(this)}>Aisle</ToggleButton>
-                                            <ToggleButton value={3} onChange={this.toggleEarlyAccess.bind(this)}>Early Entry</ToggleButton>
+                                        <ToggleButtonGroup
+                                            id="checkBoxes"
+                                            style={{paddingTop: '5px'}}
+                                            type="checkbox"
+                                            value={this.state.activeCheckBoxes}
+                                            onChange={this.addCheckBox.bind(this)}>
+                                                <ToggleButton id="handicap" value={1} onClick={this.toggleHandicap.bind(this)}>Handicap</ToggleButton>
+                                                <ToggleButton id="aisle" value={2} onClick={this.toggleAisleSeating.bind(this)}>Aisle</ToggleButton>
+                                                <ToggleButton id="early" value={3} onClick={this.toggleEarlyAccess.bind(this)}>Early Entry</ToggleButton>
                                         </ToggleButtonGroup>
                                     </div>
                                     <span> </span>

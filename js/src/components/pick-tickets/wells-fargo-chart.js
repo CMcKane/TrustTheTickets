@@ -17,9 +17,6 @@ export default class WellsFargoChart extends Component {
 
     constructor(props) {
         super(props);
-        var section = document.getElementById(113);
-        console.log(section);
-        //this.initializeChartZoneColors();
     }
 
     paintChartZoneColors() {
