@@ -16,7 +16,6 @@ export default class Versus extends Component {
         super(props);
         this.state = {
             teams: [],
-            games: [],
             selectedTeam: 0,
             sportTypeID: sportTypeID
         }
@@ -36,31 +35,45 @@ export default class Versus extends Component {
     }
 
     renderGameList() {
-        return _.map(this.state.games, (game, id) =>
-            <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
-                <ListGroupItem>
-                    <div className='unselectable text-center'>
-                        {game.away_team_name} at {game.home_team_name}
-                        <br/>
-                        on {game.date}
-                        <br/>
-                    </div>
-                </ListGroupItem>
-            </LinkContainer>
-        );
+        if (this.state.games) {
+            if (this.state.games.length > 0) {
+                return _.map(this.state.games, (game, id) =>
+                    <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
+                        <ListGroupItem>
+                            <div className='unselectable text-center'>
+                                {game.away_team_name} at {game.home_team_name}
+                                <br/>
+                                on {game.date}
+                                <br/>
+                            </div>
+                        </ListGroupItem>
+                    </LinkContainer>
+                );
+            }
+            return <h4 className='unselectable text-center'>No games against selected team.</h4>;
+        }
+        return <h3 className='unselectable text-center'>Select a team logo to find your game</h3>
     }
 
-    getGamesByTeam(team_id) {
+    getGamesByTeam(team) {
         TTTPost("/games-by-team", {
-            team_id: team_id
+            team_id: team.team_id
         })
             .then(res => {
-                this.setState({games: res.data.games});
+                this.setState({team: team, games: res.data.games});
             });
     }
 
+    getGamesHeader() {
+        if(this.state.team) {
+            return (
+                <h3 className='unselectable text-center'>76ers vs {this.state.team.team_name}</h3>
+            );
+        }
+    }
+
     onTeamSelect(team) {
-        this.getGamesByTeam(team.team_id);
+        this.getGamesByTeam(team);
     }
 
     renderLogos() {
@@ -86,6 +99,7 @@ export default class Versus extends Component {
                                 <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>
                                 <Col xs={10} sm={10} md={6} lg={8}>
+                                    {this.getGamesHeader()}
                                     <div>
                                         {this.renderGameList()}
                                     </div>
