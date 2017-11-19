@@ -87,7 +87,7 @@ export default class CreateListingView extends Component {
         return _.map(this.state.gameDates, (date, index) =>
             <option
                 key={index} 
-                value={date.date}>
+                value={new Date(date.date).toISOString().slice(0, 19).replace('T', ' ')}>
                 {<Time value={date.date} format="MMMM D, YYYY h:mmA" />}
             </option>
         );
