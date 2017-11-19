@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Button, Tabs, Tab} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
 import {TTTPost} from '../backend/ttt-request';
 import withAuth from './with-auth';
 import AuthService from './auth-service';

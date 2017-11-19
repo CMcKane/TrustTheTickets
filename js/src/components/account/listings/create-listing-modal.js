@@ -73,7 +73,7 @@ export default class CreateListingModal extends Component {
                             <FormControl
                                 type="text"
                                 value={this.state.ticketsEntered}
-                                placeHolder="Enter Number of Tickets"
+                                placeholder="Enter Number of Tickets"
                                 onChange={this.handleChange.bind(this)}/>
                         </FormGroup>
                     </Form>

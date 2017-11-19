@@ -23,7 +23,7 @@ export default class Home extends Component {
             <div className="homeCenterThisWithPadding">
                 <Grid>
                     <Row>
-                        <Col sm={4} md={4} lg={4} xl={4}>
+                        <Col sm={4} md={4} lg={4}>
                             <Panel className="homePanel">
                                 <div className="homeSearchCenter">
                                     <GoCalendar className="homeIcons" color="#EC174C"/>
@@ -38,7 +38,7 @@ export default class Home extends Component {
                                 </div>
                             </Panel>
                         </Col>
-                        <Col sm={4} md={4} lg={4} xl={4}>
+                        <Col sm={4} md={4} lg={4}>
                             <Panel className="homePanel">
                                 <div className="homeSearchCenter">
                                     <GoJersey className="homeIcons" color="#EC174C"/>
@@ -53,7 +53,7 @@ export default class Home extends Component {
                                 </div>
                             </Panel>
                         </Col>
-                        <Col sm={4} md={4} lg={4} xl={4}>
+                        <Col sm={4} md={4} lg={4}>
                             <Panel className="homePanel">
                                 <div className="homeSearchCenter">
                                     <IonSocialUsd className="homeIcons" color="#EC174C"/>
