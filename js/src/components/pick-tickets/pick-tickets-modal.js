@@ -1,5 +1,6 @@
 import React, { Component }  from 'react';
 import { Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 import Time from 'react-time';
 import '../../stylesheet.css';
 
@@ -31,7 +32,9 @@ export default class PickTicketsModal extends Component {
                     <p className="ticketAttributes">Row: {currTicket.row_number} </p>
                     <p className="ticketAttributes">Seat: {currTicket.seat_number} </p>
                     <p className="ticketAttributes">Price: ${currTicket.ticket_price}
-                    <Button id={i} style={{marginLeft: "60px", color: "black"}} >Buy</Button>
+                    <LinkContainer to="/checkout-view">
+                        <Button id={i} style={{marginLeft: "60px", color: "black"}} >Buy</Button>
+                    </LinkContainer>
                     </p>
                 </p>
             );
