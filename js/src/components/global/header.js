@@ -14,7 +14,8 @@ export default class Header extends Component {
         super(props);
 
         this.state = {
-            img: logoMouseOut
+            img: logoMouseOut,
+            navExpanded: false
         };
         this.handleMouseOver = this.handleMouseOver.bind(this);
         this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -43,6 +44,7 @@ export default class Header extends Component {
     }
 
     setNavExpanded(expanded) {
+        console.log(expanded);
         this.setState({ navExpanded: expanded});
     }
 
@@ -57,8 +59,7 @@ export default class Header extends Component {
                     WebkitTransition: 'all .5s ease-in-out',
                     MozTransition: 'all .5s ease-in-out',
                     OTransition: 'all .5s ease-in-out',
-                    transition: 'all .5s ease-in-out'}}
-                >
+                    transition: 'all .5s ease-in-out'}} disableInlineStyles>
                     <Navbar
                             onToggle={this.setNavExpanded.bind(this)}
                             expanded={this.state.navExpanded}>
