@@ -185,7 +185,8 @@ class SqlHandler(object):
     def get_all_teams(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
-        cursor.execute("SELECT team_id, city, team_name FROM teams WHERE sport_type_id = 1")
+        # by specifying team_id != 23, we are excluding the 76ers from this query
+        cursor.execute("SELECT team_id, city, team_name FROM teams WHERE sport_type_id = 1 AND team_id != 23")
         data = [dict(team_id=row[0], city=row[1], team_name=row[2]) for row in cursor.fetchall()]
         return data
 
