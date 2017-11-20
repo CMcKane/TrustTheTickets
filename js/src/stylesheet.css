@@ -2065,6 +2065,42 @@ table.viewAccountTable {
     background-color: #006BB6;
 }
 
+.checkoutBody {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #e0e0d1;
+}
+
+.checkoutTable {
+    border: 1px solid black;
+}
+
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tableHeading {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    font-size: 24px;
+}
+
+td {
+    border: 3px solid black;
+    padding: 8px;
+    text-align: center;
+    color: black;
+    font-size: 21px;
+}
+
 /*********************************************************************************************************************/
 /********************************************** End View Checkout Styling *********************************************/
 /*********************************************************************************************************************/
