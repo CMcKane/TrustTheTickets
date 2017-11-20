@@ -17,6 +17,7 @@ import EventCalendarView from './components/events/event-calendar-view';
 import EventListView from './components/events/event-list-view';
 import Versus from './components/versus/versus';
 import ListingsView from './components/account/listings/listings-view';
+import CheckoutView from './components/checkout/checkout-view';
 import AuthService from './components/auth/auth-service';
 import ImportDownload from './components/importPDF/importDownload';
 import './stylesheet.css';
@@ -81,6 +82,7 @@ export default class App extends Component {
                         <Route path='/pick-tickets' component={PickTickets}/>
                         <Route path='/versus' component={Versus}/>
                         <Route path='/import-download' component={ImportDownload}/>
+                        <Route path='/checkout-view' component={CheckoutView}/>
                         <Route exact path='/my-account' render={(props) =>
                             <MyAccount
                                 {...props} logIn={this.userLogIn.bind(this)}

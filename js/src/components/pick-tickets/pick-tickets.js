@@ -13,6 +13,7 @@ import '../../stylesheet.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import PickTicketsModal from './pick-tickets-modal';
+import { Redirect } from 'react-router-dom';
 
 var clickedSection = ''
 
