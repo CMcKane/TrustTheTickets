@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    Accordion,
     Button,
     ButtonToolbar,
     Checkbox,
@@ -11,7 +10,6 @@ import {
     FormGroup,
     Grid,
     HelpBlock,
-    Modal,
     OverlayTrigger,
     Panel,
     PanelGroup,
@@ -22,7 +20,6 @@ import {
 import Time from 'react-time';
 import {TTTGet, TTTPost, TTTPostFile} from '../../backend/ttt-request';
 import _ from 'lodash';
-import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../../stylesheet.css';
 import CreateListingModal from "./create-listing-modal";
@@ -48,7 +45,7 @@ export default class CreateListingView extends Component {
             section: null,
             row: null,
             seatNumbers: [],
-            opponentName: "76ers vs ????",
+            opponentName: "",
             ticketPrice: 0.00,
             minPurchaseSize: 0,
             isAisleSeat: false,
@@ -73,8 +70,7 @@ export default class CreateListingView extends Component {
             .then(res => {
                 this.setState({
                     opponentNames: res.data.opponentName,
-                    gameDate: gameDate,
-                    disableChooseOpponent: false
+                    gameDate: gameDate
                 });
             });
     }
@@ -115,13 +111,13 @@ export default class CreateListingView extends Component {
                         <Col lg={6}>
                             <FieldGroup className="createListingSeatNumberForms"
                                         key={i}
-                                        id={"seatNumberForm " + i}
+                                        id={"seatNumberForm" + i}
                                         type={"text"}
                                         label={"Ticket " + i + " Seat Number"}
                                         placeholder={"Enter Seat Number"}/>
                         </Col>
                         <Col lg={6}>
-                            <FormGroup id={"extrasGroup " + i}>
+                            <FormGroup id={"extrasGroup" + i}>
                                 <Checkbox>Aisle Seat</Checkbox>
                                 <Checkbox>Early Entry</Checkbox>
                                 <Checkbox>Handicap Accessible</Checkbox>
@@ -209,84 +205,92 @@ export default class CreateListingView extends Component {
             <div style={{width: '80%', paddingTop: '3%', paddingLeft: '20%'}}>
                 <PanelGroup activeKey={this.state.activeKey} accordion={true}>
                     <Panel header="Step 1: What game are you selling tickets for?" eventKey={1}>
-                        <div className='globalCenterThis'>
-                            <Form>
-                                <FormGroup>
-                                    <ControlLabel>Choose Game Date</ControlLabel>
-                                    <FormControl componentClass="select"
-                                                 bsSize="small"
-                                                 placeholder="Game Date"
-                                                 name="gameDate"
-                                                 onChange={this.handleDateChoice.bind(this)}
-                                                 style={{width: '200px'}}>
-                                        {this.renderGameDates()}
-                                    </FormControl>
+                        <Panel>
+                            <div className='globalCenterThis'>
+                                <Form>
+                                    <FormGroup>
+                                        <ControlLabel>Choose Game Date</ControlLabel>
+                                        <FormControl componentClass="select"
+                                                     bsSize="small"
+                                                     placeholder="Game Date"
+                                                     name="gameDate"
+                                                     onChange={this.handleDateChoice.bind(this)}
+                                                     style={{width: '200px'}}>
+                                            <option value={null}>Select a Game Date</option>
+                                            {this.renderGameDates()}
+                                        </FormControl>
 
-                                    <ControlLabel>Opponent Team</ControlLabel>
-                                    <FormControl componentClass="select"
-                                                 id="opponentSelect"
-                                                 disabled={this.state.disableChooseOpponent}
-                                                 bsSize="small"
-                                                 placeholder="Opponent"
-                                                 name="opponentName"
-                                                 onChange={this.handleChange.bind(this)}
-                                                 style={{width: '200px'}}>
-                                        {this.renderOpponent()}
-                                    </FormControl>
-                                </FormGroup>
-                                <ButtonToolbar className="globalCenterThis">
-                                    <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
-                                </ButtonToolbar>
-                            </Form>
+                                        <ControlLabel>Opponent Team</ControlLabel>
+                                        <FormControl componentClass="select"
+                                                     id="opponentSelect"
+                                                     disabled={this.state.disableChooseOpponent}
+                                                     bsSize="small"
+                                                     placeholder="Opponent"
+                                                     name="opponentName"
+                                                     onChange={this.handleChange.bind(this)}
+                                                     style={{width: '200px'}}>
+                                            {this.renderOpponent()}
+                                        </FormControl>
+                                    </FormGroup>
+                                </Form>
+                            </div>
+                        </Panel>
+                        <div className="globalCenterThis" style={{paddingTop: "15px"}}>
+                            <ButtonToolbar className="globalCenterThis">
+                                <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                            </ButtonToolbar>
                         </div>
                     </Panel>
                     <Panel header="Step 2: How many tickets are you selling?" eventKey={2}>
-                        <div className="globalCenterThis">
-                            <Grid>
-                                <Col>
-                                    <Row>
-                                        <div className="globalCenterThis">
-                                            <ButtonToolbar>
-                                                <Button bsSize="large" onClick={this.handleChange.bind(this)}
-                                                        name='numberOfTickets'
-                                                        value={1}>1</Button>
-                                                <Button bsSize="large" onClick={this.handleChange.bind(this)}
-                                                        name='numberOfTickets'
-                                                        value={2}>2</Button>
-                                                <Button bsSize="large" onClick={this.handleChange.bind(this)}
-                                                        name='numberOfTickets'
-                                                        value={3}>3</Button>
-                                            </ButtonToolbar>
-                                        </div>
-                                    </Row>
-                                    <br/>
-                                    <Row>
-                                        <div className="globalCenterThis">
-                                            <ButtonToolbar>
-                                                <Button bsSize="large" onClick={this.handleChange.bind(this)}
-                                                        name='numberOfTickets'
-                                                        value={4}>4</Button>
-                                                <Button bsSize="large" onClick={this.handleChange.bind(this)}
-                                                        name='numberOfTickets'
-                                                        value={5}>5</Button>
-                                                <Button bsSize="large" onClick={this.createModal.bind(this)}>?</Button>
-                                            </ButtonToolbar>
-                                        </div>
-                                        <CreateListingModal
-                                            modalSubmitError={this.state.modalSubmitError}
-                                            show={this.state.show}
-                                            onHide={this.onHide.bind(this)}
-                                            changeNumberOfTickets={this.changeNumberOfTickets.bind(this)}/>
-                                    </Row>
-                                    <br/>
-                                    <Row>
-                                        <ButtonToolbar className="globalCenterThis">
-                                            <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                            <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
-                                        </ButtonToolbar>
-                                    </Row>
-                                </Col>
-                            </Grid>
+                        <Panel>
+                            <div className="globalCenterThis">
+                                <Grid>
+                                    <Col>
+                                        <Row>
+                                            <div className="globalCenterThis" style={{paddingTop: "10px"}}>
+                                                <ButtonToolbar>
+                                                    <Button bsSize="large" onClick={this.handleChange.bind(this)}
+                                                            name='numberOfTickets'
+                                                            value={1}>1</Button>
+                                                    <Button bsSize="large" onClick={this.handleChange.bind(this)}
+                                                            name='numberOfTickets'
+                                                            value={2}>2</Button>
+                                                    <Button bsSize="large" onClick={this.handleChange.bind(this)}
+                                                            name='numberOfTickets'
+                                                            value={3}>3</Button>
+                                                </ButtonToolbar>
+                                            </div>
+                                        </Row>
+                                        <br/>
+                                        <Row>
+                                            <div className="globalCenterThis">
+                                                <ButtonToolbar>
+                                                    <Button bsSize="large" onClick={this.handleChange.bind(this)}
+                                                            name='numberOfTickets'
+                                                            value={4}>4</Button>
+                                                    <Button bsSize="large" onClick={this.handleChange.bind(this)}
+                                                            name='numberOfTickets'
+                                                            value={5}>5</Button>
+                                                    <Button bsSize="large"
+                                                            onClick={this.createModal.bind(this)}>?</Button>
+                                                </ButtonToolbar>
+                                            </div>
+                                            <CreateListingModal
+                                                modalSubmitError={this.state.modalSubmitError}
+                                                show={this.state.show}
+                                                onHide={this.onHide.bind(this)}
+                                                changeNumberOfTickets={this.changeNumberOfTickets.bind(this)}/>
+                                        </Row>
+                                        <br/>
+                                    </Col>
+                                </Grid>
+                            </div>
+                        </Panel>
+                        <div className="globalCenterThis" style={{paddingTop: "15px"}}>
+                            <ButtonToolbar className="globalCenterThis">
+                                <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
+                                <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                            </ButtonToolbar>
                         </div>
                     </Panel>
                     <Panel header="Step 3: Where are the seats located?" eventKey={3}>
@@ -302,9 +306,12 @@ export default class CreateListingView extends Component {
                                                                         is applied to all tickets.</Tooltip>}>
                                                         <FieldGroup className="createListingSeatNumberForms"
                                                                     id="sectionNumberForm"
+                                                                    name="section"
+                                                                    value={this.state.section}
                                                                     type="text"
                                                                     label="Section Number"
-                                                                    placeholder="Enter Section Number"/>
+                                                                    placeholder="Enter Section Number"
+                                                                    onChange={this.handleChange.bind(this)}/>
                                                     </OverlayTrigger>
                                                 </Form>
                                             </Col>
@@ -315,9 +322,12 @@ export default class CreateListingView extends Component {
                                                                         applied to all tickets.</Tooltip>}>
                                                         <FieldGroup className="createListingSeatNumberForms"
                                                                     id="rowNumberForm"
+                                                                    name="row"
+                                                                    value={this.state.row}
                                                                     type="text"
                                                                     label="Row Number"
-                                                                    placeholder="Enter Row Number"/>
+                                                                    placeholder="Enter Row Number"
+                                                                    onChange={this.handleChange.bind(this)}/>
                                                     </OverlayTrigger>
                                                 </Form>
                                             </Col>
@@ -332,95 +342,117 @@ export default class CreateListingView extends Component {
                                         </Col>
                                     </Panel>
                                 </div>
-                                <div style={{paddingTop: "15px"}}>
-                                    <Row>
-                                        <ButtonToolbar className="globalCenterThis">
-                                            <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                            <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
-                                        </ButtonToolbar>
-                                    </Row>
-                                </div>
-                            </Grid>
-                        </div>
-                    </Panel>
-                    <Panel header="Step 4: Selling Information" eventKey={4}>
-                        <div className="globalCenterThis">
-                            <Grid>
-                                <div className="globalCenterThis">
-                                    <Col>
-                                        <Row>
-                                            <h2>Ticket Groupings</h2>
-                                        </Row>
-                                        <Row>
-                                            <FormGroup>
-                                                <Radio name={"splitTicketsGroup"}>Sell tickets in groups of
-                                                    <Form>
-                                                        <FieldGroup id="minPurchaseSizeForm"
-                                                                    type="text"
-                                                                    placeholder="Min Purchase Size"
-                                                                    name="minPurchaseSize"
-                                                                    value={this.state.minPurchaseSize}
-                                                                    onChange={this.handleChange.bind(this)}
-                                                        />
-                                                    </Form>
-                                                </Radio>
-                                                <Radio name={"splitTicketsGroup"}>Sell any quantity of tickets</Radio>
-                                            </FormGroup>
-                                        </Row>
 
-                                        <Row>
-                                            <ButtonToolbar className="globalCenterThis">
-                                                <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                                <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
-                                            </ButtonToolbar>
-                                        </Row>
-                                    </Col>
-                                </div>
                             </Grid>
                         </div>
-                    </Panel>
-                    <Panel header="Step 5: How much per ticket?" eventKey={5}>
-                        <div>
-                            <Form>
-                                <FieldGroup id="ticketPriceForm"
-                                            type="text"
-                                            label="Price Per Ticket ($)"
-                                            placeholder="Enter Ticket Price"
-                                            name="ticketPrice"
-                                            value={this.state.ticketPrice}
-                                            onChange={this.handleChange.bind(this)}
-                                />
-                            </Form>
+                        <div style={{paddingTop: "15px"}}>
                             <ButtonToolbar className="globalCenterThis">
                                 <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
                                 <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
                             </ButtonToolbar>
                         </div>
                     </Panel>
+                    <Panel header="Step 4: Selling Information" eventKey={4}>
+                        <div className="globalCenterThis">
+                            <Grid>
+                                <Panel>
+                                    <div className="globalCenterThis">
+                                        <Col>
+                                            <Row>
+                                                <h2>Ticket Groupings</h2>
+                                            </Row>
+                                            <Row>
+                                                <FormGroup>
+                                                    <Radio name={"splitTicketsGroup"}>Sell tickets in groups of
+                                                        <Form>
+                                                            <FieldGroup id="minPurchaseSizeForm"
+                                                                        type="text"
+                                                                        placeholder="Min Purchase Size"
+                                                                        name="minPurchaseSize"
+                                                                        value={this.state.minPurchaseSize}
+                                                                        onChange={this.handleChange.bind(this)}
+                                                            />
+                                                        </Form>
+                                                    </Radio>
+                                                    <Radio name={"splitTicketsGroup"}>Sell any quantity of
+                                                        tickets</Radio>
+                                                </FormGroup>
+                                            </Row>
+                                            <br/>
+                                        </Col>
+                                    </div>
+                                </Panel>
+                            </Grid>
+                        </div>
+                        <div className="globalCenterThis" style={{paddingTop: "15px"}}>
+                            <ButtonToolbar className="globalCenterThis">
+                                <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
+                                <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                            </ButtonToolbar>
+                        </div>
+                    </Panel>
+                    <Panel header="Step 5: How much per ticket?" eventKey={5}>
+                        <div className="globalCenterThis">
+                            <Grid>
+                                <Panel>
+                                    <div className="globalCenterThis">
+                                        <Col lg={4}>
+                                            <Form>
+                                                <Row>
+                                                    <OverlayTrigger placement="bottom"
+                                                                    overlay={<Tooltip id="ticketPriceToolTip">Price entered
+                                                                        is applied to each ticket.</Tooltip>}>
+                                                    <FieldGroup id="ticketPriceForm"
+                                                                type="text"
+                                                                label="Price Per Ticket ($)"
+                                                                placeholder="Enter Ticket Price"
+                                                                name="ticketPrice"
+                                                                value={this.state.ticketPrice}
+                                                                onChange={this.handleChange.bind(this)}
+                                                    />
+                                                    </OverlayTrigger>
+                                                </Row>
+                                            </Form>
+                                        </Col>
+                                    </div>
+                                </Panel>
+                            </Grid>
+                        </div>
+                        <div className="globalCenterThis" style={{paddingTop: "15px"}}>
+                            <ButtonToolbar className="globalCenterThis">
+                                <Button onClick={this.handleSelectBack.bind(this)}>Prev
+                                    Step</Button>
+                                <Button onClick={this.handleSelectNext.bind(this)}>Next
+                                    Step</Button>
+                            </ButtonToolbar>
+                        </div>
+                    </Panel>
                     <Panel header="Step 6: Upload Ticket" eventKey={6}>
+                        <Panel>
                         <div className="globalCenterThis">
                             <Grid>
                                 <Col>
                                     <div className="globalCenterThis">
-                                    <Row>
-                                        <Form>
-                                            <FieldGroup
-                                                id="formControlsFile"
-                                                type="file"
-                                                label="Upload a PDF of the Tickets"
-                                                help="First scan your tickets to a PDF file, then upload them here!"
-                                                onChange={this.onFileChange.bind(this)}/>
-                                        </Form>
-                                    </Row>
+                                        <Row>
+                                            <Form>
+                                                <FieldGroup
+                                                    id="formControlsFile"
+                                                    type="file"
+                                                    label="Upload a PDF of the Tickets"
+                                                    help="First scan your tickets to a PDF file, then upload them here!"
+                                                    onChange={this.onFileChange.bind(this)}/>
+                                            </Form>
+                                        </Row>
                                     </div>
-                                    <Row>
-                                        <ButtonToolbar className="globalCenterThis">
-                                            <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                            <Button>Create Listing</Button>
-                                        </ButtonToolbar>
-                                    </Row>
                                 </Col>
                             </Grid>
+                        </div>
+                        </Panel>
+                        <div className="globalCenterThis" style={{paddingTop: "15px"}}>
+                            <ButtonToolbar className="globalCenterThis">
+                                <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
+                                <Button>Create Listing</Button>
+                            </ButtonToolbar>
                         </div>
                     </Panel>
                 </PanelGroup>
