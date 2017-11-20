@@ -615,12 +615,22 @@ export default class PickTickets extends Component {
                 <p className="ticketBorder" border-color="red">
                     Tickets for sale: {this.state.groups[group].length}
                     <br></br>
-                    <li className="ticketAttributes">Section: {this.state.groups[group][0].section_number}</li>
-                    <li className="ticketAttributes">Row: {this.state.groups[group][0].row_number}</li>
-                    <li className="ticketAttributes">Seat(s): {seats.join(", ")}</li>
-                    <li className="ticketAttributes">Price: ${this.state.groups[group][0].ticket_price} /ea</li>
-                    <br></br>
-                    <Button id={counter} style={{marginLeft: "60px", color: "black"}} bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets</Button>
+                    <div className="ticketAttributes">
+                        Section: {this.state.groups[group][0].section_number}
+                        <span style={{display:"inline-block", width: "25"}}></span>
+                        Row: {this.state.groups[group][0].row_number}
+                    </div>
+
+                    <div className="ticketAttributes">
+                        Seat(s): {seats.join(", ")}
+                        <span style={{display:"inline-block", width: "25"}}></span>
+                        Price: ${this.state.groups[group][0].ticket_price} /ea
+                    </div>
+                    <Button
+                        id={counter}
+                        style={{marginLeft: "165px", marginTop: "10px", color: "black"}}
+                        bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets
+                    </Button>
                 </p>
             )
             this.state.currGroups[counter] = this.state.groups[group];

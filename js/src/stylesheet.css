@@ -1514,6 +1514,11 @@ p.loginPara {
     color: white;
 }
 
+.checkBox {
+    width: 23px; /*Desired width*/
+    height: 23px; /*Desired height*/
+}
+
 .ticketBorder {
     border-style: solid;
     border-width: 0.15em;
@@ -1530,10 +1535,10 @@ p.loginPara {
 .ticketAttributes {
     font-family: "Times New Roman", Times, serif;
     font-weight: 9100;
-    font-size: 20px;
+    font-size: 16px;
     color: white;
-    padding-top: 5px;
-    padding-left: 35px;
+    padding-top: 1px;
+    padding-left: 15px;
 
 }
 

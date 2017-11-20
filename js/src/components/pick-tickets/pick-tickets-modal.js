@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl, ToggleButton } from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import Time from 'react-time';
 import { Redirect } from 'react-router-dom';
@@ -14,7 +14,9 @@ export default class PickTicketsModal extends Component {
     this.state = {
       group: this.props.group,
       redirect: false,
-      redirectLink: ''
+      redirectLink: '',
+      ticketsInTransaction: [],
+      isValidTicketAmount: false
     }
   }
 
@@ -29,29 +31,69 @@ export default class PickTicketsModal extends Component {
       });
   }
 
+  addTicketToTransaction(e) {
+     var ticket = this.props.group[e.target.id];
+     var transactionTickets = this.state.ticketsInTransaction;
+
+     if(e.target.checked)
+     {
+         transactionTickets.push(ticket);
+         this.setState({ticketsInTransaction: transactionTickets});
+         console.log(this.state.ticketsInTransaction);
+     }
+     else
+     {
+        var existTicketInfo = this.ticketInTransaction(ticket);
+        if(existTicketInfo.ticketFound) {
+            transactionTickets[existTicketInfo.index] = null;
+        }
+     }
+  }
+
   getHeader() {
       return ("Tickets for sale");
+  }
+
+  handleTicketSelect(e) {
+    var id = e.target.id;
+    var selectedArr = this.state.ticketsInTransaction;
+
+    if(e.target.checked === true) {
+        selectedArr.push(this.props.group[id]);
+    } else {
+        selectedArr.splice(id, 1);
+    }
+    this.setState({ticketsInTransaction: selectedArr});
   }
 
   getTicketContent() {
     if(this.props.group)
     {
         var list = [];
+        var tempTicket = this.props.group[0];
+        list.push(
+            <p>
+                Section: {tempTicket.section_number} &emsp;
+                Row: {tempTicket.row_number} &emsp;
+                Price: ${tempTicket.ticket_price} /ea
+            </p>
+        );
+
+
         for(var i = 0; i < this.props.group.length; i++)
         {
             var currTicket = this.props.group[i];
             list.push(
                 <p className="ticketBorder">
-                    <p className="ticketAttributes">Section: {currTicket.section_number} </p>
-                    <p className="ticketAttributes">Row: {currTicket.row_number} </p>
-                    <p className="ticketAttributes">Seat: {currTicket.seat_number} </p>
-                    <p className="ticketAttributes">Price: ${currTicket.ticket_price}
-                    <Button
-                        id={i}
-                        style={{marginLeft: "60px", color: "black"}}
-                        onClick={this.createCheckoutRedirectLink.bind(this)}>
-                        Buy
-                    </Button>
+                    <p className="ticketAttributes">Seat: {currTicket.seat_number}
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        <input
+                            className="checkBox"
+                            type="checkbox"
+                            id={i}
+                            value={i+1}
+                            onChange={this.handleTicketSelect.bind(this)}>
+                        </input>
                     </p>
                 </p>
             );
