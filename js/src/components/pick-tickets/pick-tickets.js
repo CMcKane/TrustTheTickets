@@ -13,6 +13,7 @@ import '../../stylesheet.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import PickTicketsModal from './pick-tickets-modal';
+import { Redirect } from 'react-router-dom';
 
 var clickedSection = ''
 
@@ -85,8 +86,11 @@ export default class PickTickets extends Component {
             special: ["SB1", "SB13"],
             private: ["PS22"] */
         }
+    }
+
+    componentDidMount() {
         this.getEvent();
-        this.displayAllTickets();
+        this.displayAllTickets();   
     }
 
     onHide() {
@@ -633,17 +637,14 @@ export default class PickTickets extends Component {
                     modalSubmitError={this.state.modalSubmitError}
                     show={this.state.show}
                     onHide={this.onHide.bind(this)}
-                    group={this.state.selectedGroup}
-                 />
+                    group={this.state.selectedGroup} />
                 <div className=" globalBody globalImageOverlay">
-                    <Grid style={{paddingTop: "25px"}}>
-                        <h1>
-                            <Well className='pickTicketsWell'>
-                                Pick-A-Ticket
-                            </Well>
-                        </h1>
+                    <Well className='eventCalendarViewEventsWell'>
+                        Choose Your Seats
+                    </Well>
+                    <Grid>
                         <Row>
-                            <Col xs={12} sm={12} md={12} lg={12}>
+                            <Col xs={12} sm={12} md={7} lg={7}>
                                 <Row>
                                     <Col xs={12} sm={12} md={12} lg={12}>
                                         <ButtonGroup>
@@ -678,8 +679,11 @@ export default class PickTickets extends Component {
                                     selectedSections={this.state.sections}
                                     previousSections={this.state.previousSections}/>
                             </Col>
-                            <Col xs={12} sm={12} md={12} lg={12}>
-                                <div style={{width:'60%', height: '30%', paddingTop: '20%'}} className="homeCenterThis">
+                            <Col xs={12} sm={12} md={5} lg={5}>
+                                <Grid style={{paddingLeft: "0px", paddingTop: "10%"}}>
+                                <Col xs={1} sm={2} md={1} lg={1}>
+                                </Col>
+                                <Col xs={10} sm={8} md={3} lg={3} style={{padding: "0px"}}>
                                 <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
                                   Filter
                                 </Button>
@@ -719,8 +723,7 @@ export default class PickTickets extends Component {
                                             min={0}
                                             step={5}
                                             defaultValue={[0, 100]}
-                                            onChange={this.onRangeSliderChange.bind(this)}
-                                        />
+                                            onChange={this.onRangeSliderChange.bind(this)} />
 
                                         <ControlLabel
                                             className="slider-price-label">
@@ -752,7 +755,10 @@ export default class PickTickets extends Component {
                                     {this.renderTicketList()}
                                     <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
                                 </div>
-                                </div>
+                                </Col>
+                                <Col xs={1} sm={2} md={1} lg={1}>
+                                </Col>
+                                </Grid>
                             </Col>
                         </Row>
                     </Grid>

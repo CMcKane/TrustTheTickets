@@ -291,25 +291,41 @@ These are all the default screen sizes
     .eventDetails {
         height: 100% !important;
         display: flex;
-        overflow-x: auto;    
+        overflow-x: auto;  
+        overflow-y: hidden !important;
+        padding: 0px !important;  
     }
     .eventDetailsHeader {
         margin: 5px !important;
+        font-size: 0.7em !important;
+    }
+    .eventDetailsDate {
+        font-size: 0.7em !important;
+    }
+    .eventDetailsContent {
+        padding: 0em;
+        font-size: 0.7em !important;
     }
     .eventDetailPane {
         float: left;
         padding-right: 20px !important;
         padding-bottom: 0px !important;
-        flex: 0 0 130px;
+        flex: 0 0 150px;
+    }
+    .eventDetailPaneSelected {
+        float: left;
+        padding-right: 20px !important;
+        padding-bottom: 0px !important;
+        flex: 0 0 150px;
     }
     .eventCalendarViewBottomPane {
         height: 50%;
     }
     .eventCalendarViewRightBottomPane {
-        height: 30%;
+        height: 26%;
     }
     .eventCalendarViewDetailsRow {
-        height: 90%;
+        height: 100%;
     }
     .eventCalendarViewEventsWell {
         margin-bottom: 5px !important;
@@ -328,20 +344,13 @@ These are all the default screen sizes
     }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1000px) and (min-width: 768px) {
     .eventDetailPane {
         padding: 0.5em;
         border-style: solid;
         padding-left: 1em;
         border-width: 0.05em;
         border-color: black;
-    }
-    .eventDetailPaneSelected {
-        padding: 0.5em;
-        padding-left: 1em;
-        border-style: solid;
-        border-width: 0.05em;
-        border-color: red;
     }
     .eventDetails {
         padding-right: 0.5em;
@@ -377,7 +386,7 @@ These are all the default screen sizes
 .eventDetailPaneSelected {
     padding: 0.5em;
     border-style: solid;
-    border-width: 0.1em;
+    border-width: 0.05em;
     border-color: red;
 }
 .eventDetails {
@@ -418,8 +427,30 @@ These are all the default screen sizes
 /*********************************************************************************************************************/
 /*************************************************** Header Styling **************************************************/
 /*********************************************************************************************************************/
+.headroom {
+  top: 0;
+  left: 0;
+  right: 0;
+  zIndex: 1;
+}
+.headroom--unfixed {
+  position: relative;
+  transform: translateY(0);
+}
+.headroom--scrolled {
+  transition: transform 200ms ease-in-out;
+}
+.headroom--unpinned {
+  position: fixed;
+  transform: translateY(-100%);
+}
+.headroom--pinned {
+  position: fixed;
+  transform: translateY(0%);
+}
 .headroom-wrapper {
     z-index: 1;
+    height: 62px !important;
 }
 .navbar
 {
@@ -1465,6 +1496,7 @@ p.loginPara {
     font-size: 60px;
     font-weight: bold;
     text-align: center;
+    width: 100%;
     background-color: #006BB6;
 }
 
@@ -1749,7 +1781,7 @@ col.registrationViewCol {
     border-width: 0.4em;
     border-color: black;
     overflow: auto;
-    height: 580px;
+    height: 520px;
     width: 100%;
     background-color: white;
 }
@@ -2063,4 +2095,56 @@ table.viewAccountTable {
 
 /*********************************************************************************************************************/
 /********************************************** End View Account Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/************************************************ View Checkout Styling ***********************************************/
+/*********************************************************************************************************************/
+.checkoutHeader {
+    color: black;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #006BB6;
+}
+
+.checkoutBody {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #e0e0d1;
+}
+
+.checkoutTable {
+    border: 1px solid black;
+}
+
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tableHeading {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    font-size: 24px;
+}
+
+td {
+    border: 3px solid black;
+    padding: 8px;
+    text-align: center;
+    color: black;
+    font-size: 21px;
+}
+
+/*********************************************************************************************************************/
+/********************************************** End View Checkout Styling *********************************************/
 /*********************************************************************************************************************/
