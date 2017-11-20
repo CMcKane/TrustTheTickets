@@ -26,6 +26,7 @@ export default class CheckoutView extends Component {
 
     buildTicketInfoRendering() {
         return(
+        <div className="checkoutBody">
             <table class="table">
                 <thead>
                     <th className="tableHeading">Section</th>
@@ -39,9 +40,33 @@ export default class CheckoutView extends Component {
                     <td>{queryParams.seat}</td>
                     <td>${queryParams.price}</td>
                 </tr>
-              </table>
-
-
+            </table>
+            <br></br>
+            <table class="table">
+                <thead>
+                    <th className="tableHeading">Comments</th>
+                    <th className="tableHeading">Disclosures</th>
+                </thead>
+                <tr>
+                    <td>
+                        <li>Handicap</li>
+                        <li>Early Access</li>
+                    </td>
+                    <td>
+                        <li>None</li>
+                    </td>
+                </tr>
+            </table>
+            <br></br>
+            <table class="table">
+                <tr>
+                    <th className="tableHeading">Bill</th>
+                    <td>Subtotal: $80</td>
+                    <td>Fees: $8</td>
+                    <td>Total: $88</td>
+                </tr>
+            </table>
+    </div>
         );
     }
 
