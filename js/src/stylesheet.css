@@ -1768,6 +1768,18 @@ col.registrationViewCol {
 /************************************************** Versus Styling ***************************************************/
 /*********************************************************************************************************************/
 
+.versusDate {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+}
+.versusMonth {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
 .versusPickTeamsWell {
     color: rgb(45, 98, 183);
     font-size: 60px;
