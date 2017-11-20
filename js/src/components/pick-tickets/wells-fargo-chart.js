@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 import '../../stylesheet.css';
-import {AutoSizer} from 'react-virtualized';
 const LIGHTED_COLOR = '#c70505';
 const NOT_LIGHTED_COLOR = '#FFFFFF';
 const ZONE_ONE_COLOR = '#ffb3b3';

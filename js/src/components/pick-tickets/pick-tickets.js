@@ -86,8 +86,11 @@ export default class PickTickets extends Component {
             special: ["SB1", "SB13"],
             private: ["PS22"] */
         }
+    }
+
+    componentDidMount() {
         this.getEvent();
-        this.displayAllTickets();
+        this.displayAllTickets();   
     }
 
     onHide() {
@@ -677,7 +680,7 @@ export default class PickTickets extends Component {
                                     previousSections={this.state.previousSections}/>
                             </Col>
                             <Col xs={12} sm={12} md={5} lg={5}>
-                                <Grid style={{paddingTop: "10%"}}>
+                                <Grid style={{paddingLeft: "0px", paddingTop: "10%"}}>
                                 <Col xs={1} sm={2} md={1} lg={1}>
                                 </Col>
                                 <Col xs={10} sm={8} md={3} lg={3} style={{padding: "0px"}}>
