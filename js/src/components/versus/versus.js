@@ -43,8 +43,8 @@ export default class Versus extends Component {
                 return _.map(this.state.games, (game, id) =>
                     <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
                         <Card interactive={true} elevation={4} onClick={{}}>
-                            <div className={'versusDate'}>24</div>
-                            <div className={'versusMonth'}>December</div>
+                            <div className={'versusDate'}><Time value={game.date} format={"D"}/></div>
+                            <div className={'versusMonth'}><Time value={game.date} format={"MMMM"}/></div>
                             <ListGroupItem>
                                 <div className='unselectable text-center'>
                                     <Time value={game.date} format="MMMM D, YYYY h:mmA"/>
