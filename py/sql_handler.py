@@ -528,6 +528,14 @@ class SqlHandler(object):
                        "WHERE group_id={}".format(newPrice, groupID))
         conn.commit()
 
+    def cancel_group(self, groupID):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("UPDATE tickets "
+                       "SET ticket_status_id=3 "
+                       "WHERE group_id={}".format(groupID))
+        conn.commit()
+
     def get_tickets_for_sections(self, event_id, sections, aisleSeat, earlyAccess, handicap):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -576,4 +584,21 @@ class SqlHandler(object):
                        "JOIN games g ON (t.team_id = g.away_team_id) "
                        "WHERE g.date = '{}'".format(date))
         data = [dict(team_name=row[0]) for row in cursor.fetchall()]
+        return data
+
+    def get_country_names(self):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT c.country_id, c.country_name "
+                       "FROM country c ")
+        data = [dict(country_id=row[0], country_name=row[1]) for row in cursor.fetchall()]
+        return data
+
+    def get_country_states(self, country_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT s.state_prov_id, s.state_prov_name "
+                       "FROM state_prov s "
+                       "WHERE s.country_id = '{}'".format(country_id))
+        data = [dict(state_prov_id=row[0], state_prov_name=row[1]) for row in cursor.fetchall()]
         return data

@@ -1138,9 +1138,9 @@ body.indexBody {
     padding-left: 0px !important;
 }
 
-Col.listingItemHeaderButtonColumn {
+.listingItemHeaderButtonColumn {
     padding-left: 0px;
-    padding-right: 0px;
+    padding-right: 0px !important;
 }
 
 Col.listingItemLeftCol {
@@ -1214,7 +1214,6 @@ div.listingsViewTicketListingWindow {
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
-    padding-right: 20px;
 }
 
 /*********************************************************************************************************************/
@@ -1614,10 +1613,6 @@ p.loginPara {
 .registrationViewRegisterButton {
     text-align: center;
 }
-.registrationViewInlineGroup {
-    text-align: center;
-    padding: 20px;
-}
 .registrationViewCountryForm {
     padding-left: 35px;
     padding-right: 35px;
@@ -1631,6 +1626,10 @@ div.registrationViewDivPadding {
     padding: 0%;
 }
 
+.registrationViewControlLabel{
+    padding-right: 30px;
+}
+
 h1.registrationViewH1 {
     color: black;
 }
@@ -1638,11 +1637,6 @@ h1.registrationViewH1 {
 col.registrationViewCol {
     color: black;
 }
-
-.registrationViewControlLabel {
-    padding-right: 10px;
-}
-
 
 @media (max-width: 1024px) and (min-width: 769px){
 
@@ -1808,7 +1802,7 @@ col.registrationViewCol {
 /*********************************************************************************************************************/
 
 .versusDate {
-    font-size: 60px;
+    font-size: 40px;
     font-weight: bold;
     text-align: center;
 }
@@ -1821,8 +1815,20 @@ col.registrationViewCol {
     font-size: 14px;
     font-weight: bold;
     text-align: center;
+    padding-bottom: 5px;
+}
+.versusGameBackground {
+    color: rgb(45, 98, 183);
+}
+.pt-card {
+    padding: 10px !important;
 }
 
+@media (max-width: 768px) {
+    .pt-card {
+        padding: 15px;
+    }
+}
 
 .versusPickTeamsWell {
     color: rgb(45, 98, 183);

@@ -5,6 +5,7 @@ import AuthService from '../../auth/auth-service';
 import _ from 'lodash';
 import ListingItem from './listing-item';
 import EditListingModal from './edit-listing-modal';
+import CancelListingModal from './cancel-listing-modal';
 import { Grid, Col } from 'react-bootstrap';
 import '../../../stylesheet.css';
 
@@ -45,10 +46,23 @@ class ListingsView extends Component {
 		});
 	}
 
+	onCancelHide() {
+		this.setState({
+			cancelShow: false
+		});
+	}
+
 	showModal(listing) {
 		this.setState({
 			selectedListing: listing,
 			show: true
+		});
+	}
+
+	showCancelModal(listing) {
+		this.setState({
+			selectedListing: listing,
+			cancelShow: true
 		});
 	}
 
@@ -74,9 +88,30 @@ class ListingsView extends Component {
 		});
 	}
 
+	cancelListing(groupID) {
+		var newListings = this.state.listings;
+		var cancelShow = true;
+		TTTPost('/cancel-listing', {
+			token: this.Auth.getToken(),
+			groupID: groupID
+		})
+		.then(res => {
+			if (res.data.authenticated) {
+				newListings=res.data.listings;
+				cancelShow=false;
+			}
+			this.setState({
+				listings: newListings,
+				cancelShow: cancelShow,
+				busy: false
+			});
+		});
+	}
+
 	renderListings() {
 		return _.map(this.state.listings, (listing, index) =>
-            <ListingItem key={index} listing={listing} showModal={this.showModal.bind(this)} />
+            <ListingItem key={index} listing={listing} showCancelModal={this.showCancelModal.bind(this)}
+            	showModal={this.showModal.bind(this)} />
         );
 	}
 
@@ -88,11 +123,17 @@ class ListingsView extends Component {
             		show={this.state.show}
             		onHide={this.onHide.bind(this)}
             		submitListing={this.submitListing.bind(this)} />
+            	<CancelListingModal listing={this.state.selectedListing}
+            		modalSubmitError={this.state.modalSubmitError}
+            		show={this.state.cancelShow}
+            		onHide={this.onCancelHide.bind(this)}
+            		cancelListing={this.cancelListing.bind(this)} />
                 <div style={{paddingBottom: '0px'}}>
 	        		<Grid className='listingsViewGrid'>
-	        			<Col xs={0} sm={1} md={2} lg={2}>
+	        			<Col xs={0} sm={1} md={1} lg={1}>
 	        			</Col>
-	        			<Col xs={12} sm={10} md={8} lg={8} style={{height: '100%', paddingBottom: '40px'}}>
+	        			<Col xs={12} sm={10} md={10} lg={10} style={{height: '100%', 
+	        				paddingBottom: '40px', paddingRight: '0px', paddingLeft: '0px'}}>
 	                		<h1 className="listingTitle listingsViewH1">
 	                			Your Listing History 
 	             			</h1>
@@ -100,7 +141,7 @@ class ListingsView extends Component {
 	                			{this.renderListings()}
 	                		</div>
 	                	</Col>
-	                	<Col xs={0} sm={11} md={2} lg={2}>
+	                	<Col xs={0} sm={1} md={1} lg={1}>
 	                	</Col>
 	                </Grid>
 	            </div>

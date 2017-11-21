@@ -40,17 +40,17 @@ export default class ListingItem extends Component {
 		if(this.inProgress()) {
 			return (
 			<Grid className='listingItemGrid'>
-				<Col className='listingItemHeaderStatusColumn' xs={7} sm={6} md={5} lg={6}>
+				<Col className='listingItemHeaderStatusColumn' xs={4} sm={5} md={5} lg={5}>
 					{this.getStatus()}
 				</Col>
-				<Col className='listingItemHeaderButtonColumn' xs={5} sm={2} md={2} lg={1}>
+				<Col className='listingItemHeaderButtonColumn' xs={8} sm={4} md={4} lg={4}>
 					{this.getButton()}
 				</Col>
 			</Grid>); 
 		}
 		return (
 			<Grid className='listingItemGrid'>
-				<Col className='listingItemHeaderStatusColumn' xs={7} sm={6} md={5} lg={6}>
+				<Col className='listingItemHeaderStatusColumn' xs={7} sm={7} md={7} lg={8}>
 					<Time value={this.props.listing.transactionDate} format="MMMM D, YYYY" /> - {this.getStatus()}
 				</Col>
 				<Col className='listingItemHeaderButtonColumn' xs={5} sm={2} md={2} lg={1}>
@@ -70,9 +70,16 @@ export default class ListingItem extends Component {
 	getButton() {
 		if (this.inProgress()) {
 			return (
-				<Button className='listingItemButton' onClick={() => this.props.showModal(this.state.listing)}>
-	                Edit
-	        	</Button>
+				<div>
+					<Button className='listingItemButton'  style={{marginLeft: '5px'}}
+							onClick={() => this.props.showCancelModal(this.state.listing)}>
+		                Cancel Listing
+		        	</Button>
+					<Button className='listingItemButton' 
+							onClick={() => this.props.showModal(this.state.listing)}>
+		                Edit
+		        	</Button>
+	        	</div>
 			);
 		}
 		return (
