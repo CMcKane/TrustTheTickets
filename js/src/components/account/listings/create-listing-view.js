@@ -240,7 +240,11 @@ export default class CreateListingView extends Component {
 
     render() {
         return (
-            <div style={{width: '80%', paddingTop: '3%', paddingLeft: '20%'}}>
+            <div style={{paddingTop: '3%'}}>
+            <Grid>
+            <Col xs={0} sm={1} md={1} lg={2}>
+            </Col>
+            <Col xs={12} sm={10} md={8} lg={8}>
                 <PanelGroup activeKey={this.state.activeKey} accordion={true}>
                     <Panel header="Step 1: What game are you selling tickets for?" eventKey={1}>
                         <Panel>
@@ -494,6 +498,10 @@ export default class CreateListingView extends Component {
                         </div>
                     </Panel>
                 </PanelGroup>
+                <Col xs={0} sm={1} md={1} lg={2}>
+                </Col>
+                </Col>
+                </Grid>
             </div>
         );
     }
