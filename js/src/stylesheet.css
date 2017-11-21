@@ -183,6 +183,12 @@ These are all the default screen sizes
     width: 400px;
 }
 
+@media (max-width: 767px) {
+    .createListingForm {
+        font-size: 12px;
+        margin-left: 10px;
+    }
+}
 
 /*
 
