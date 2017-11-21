@@ -19,7 +19,7 @@ export default class PickTicketsModal extends Component {
       isValidTicketAmount: false
     }
   }
-
+/*
   createCheckoutRedirectLink(e) {
       var ticket = this.props.group[e.target.id];
       this.setState({
@@ -30,25 +30,33 @@ export default class PickTicketsModal extends Component {
                                      '&price=' + ticket.ticket_price
       });
   }
+*/
+    createCheckoutRedirectLink(e) {
+        if(this.state.ticketsInTransaction.length > 0 || this.state.ticketsInTransaction === [])
+        {
+            var link = '/checkout-view?section=' + ticket.section_number + '&row=' + ticket.row_number + '&price=' + ticket.ticket_price;
+            for(var i = 0; i < this.state.ticketsInTransaction.length; i++)
+            {
+                var ticket = this.state.ticketsInTransaction[i];
+                link += '?section=' + ticket.section_number +
+                        '&row=' + ticket.row_number +
+                        '&seat=' + ticket.seat_number +
+                        '&price=' + ticket.ticket_price;
+            }
 
-  addTicketToTransaction(e) {
-     var ticket = this.props.group[e.target.id];
-     var transactionTickets = this.state.ticketsInTransaction;
-
-     if(e.target.checked)
-     {
-         transactionTickets.push(ticket);
-         this.setState({ticketsInTransaction: transactionTickets});
-         console.log(this.state.ticketsInTransaction);
-     }
-     else
-     {
-        var existTicketInfo = this.ticketInTransaction(ticket);
-        if(existTicketInfo.ticketFound) {
-            transactionTickets[existTicketInfo.index] = null;
+            this.setState({
+                redirect: true,
+                redirectLink: link
+            });
         }
-     }
-  }
+    }
+
+    checkout() {
+        if(this.state.ticketsInTransaction.length > 0 && this.state.ticketsInTransaction != [])
+        {
+            this.props.setCheckoutTickets(this.state.ticketsInTransaction)
+        }
+    }
 
   getHeader() {
       return ("Tickets for sale");
@@ -61,7 +69,11 @@ export default class PickTicketsModal extends Component {
     if(e.target.checked === true) {
         selectedArr.push(this.props.group[id]);
     } else {
-        selectedArr.splice(id, 1);
+        for(var i = 0; i < selectedArr.length; i++) {
+            if(this.props.group[id] === selectedArr[i]) {
+                selectedArr.splice(i, 1);
+            }
+        }
     }
     this.setState({ticketsInTransaction: selectedArr});
   }
@@ -145,6 +157,7 @@ export default class PickTicketsModal extends Component {
                 </Modal.Body>
                 <Modal.Footer className="pickTicketModalHeader">
                   {this.getErrorText()}
+                  <Button onClick={this.checkout.bind(this)}>Buy</Button>
                   <Button onClick={() => this.props.onHide()}>Close</Button>
                 </Modal.Footer>
               </Modal>

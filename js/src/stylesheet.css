@@ -1509,6 +1509,7 @@ p.loginPara {
 
 .pickTicketModalHeader {
     background-image: url("./resources/images/TexturedRed.jpg");
+    opacity: 0.83;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     color: white;
@@ -1527,6 +1528,7 @@ p.loginPara {
     padding-top: 5px;
     padding-bottom: 5px;
     color: white;
+    opacity: 0.86;
     background-image: url("./resources/images/backgrounds/TicketBackground.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
