@@ -8,8 +8,6 @@ import Logo from '../logos/logo';
 import TeamLogo from './team-logo';
 import Time from 'react-time';
 import {Card} from '@blueprintjs/core';
-//import * as Card from '@blueprintjs/core';
-
 import '../../../node_modules/@blueprintjs/core/dist/blueprint.css';
 import '../../stylesheet.css';
 
@@ -42,8 +40,8 @@ export default class Versus extends Component {
             if (this.state.games.length > 0) {
                 return _.map(this.state.games, (game, id) =>
                     <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
-                        <div style={{maxWidth: "500px", margin: "0 auto"}}>
-                            <Card interactive={true} elevation={4}>
+                        <div style={{maxWidth: "500px", margin: "0 auto", padding: "0px"}}>
+                            <Card interactive={true} elevation={3}>
                                 <div style={{backgroundColor: 'rgb(45, 98, 183)'}}>
                                     <div className={'versusDate'}><Time value={game.date} format={"D"}/></div>
                                     <div className={'versusMonth'}><Time value={game.date} format={"MMMM"}/></div>

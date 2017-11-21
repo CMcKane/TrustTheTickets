@@ -1802,7 +1802,7 @@ col.registrationViewCol {
 /*********************************************************************************************************************/
 
 .versusDate {
-    font-size: 60px;
+    font-size: 40px;
     font-weight: bold;
     text-align: center;
 }
@@ -1819,7 +1819,15 @@ col.registrationViewCol {
 .versusGameBackground {
     color: rgb(45, 98, 183);
 }
+.pt-card {
+    padding: 10px;
+}
 
+@media (max-width: 768px) {
+    .pt-card {
+        padding: 15px;
+    }
+}
 
 .versusPickTeamsWell {
     color: rgb(45, 98, 183);
