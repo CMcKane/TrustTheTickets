@@ -23,7 +23,7 @@ export default class Home extends Component {
             <div className="homeCenterThisWithPadding">
                 <Grid>
                     <Row>
-                        <Col sm={4} md={4} lg={4}>
+                        <Col xs={12} sm={6} md={6} lg={6}>
                             <Panel className="homePanel">
                                 <div className="homeSearchCenter">
                                     <GoCalendar className="homeIcons" color="#EC174C"/>
@@ -38,7 +38,7 @@ export default class Home extends Component {
                                 </div>
                             </Panel>
                         </Col>
-                        <Col sm={4} md={4} lg={4}>
+                        <Col xs={12} sm={6} md={6} lg={6}>
                             <Panel className="homePanel">
                                 <div className="homeSearchCenter">
                                     <GoJersey className="homeIcons" color="#EC174C"/>
@@ -48,21 +48,6 @@ export default class Home extends Component {
                                 </div>
                                 <div className="homeSearchCenter">
                                     <LinkContainer to="/versus">
-                                        <Button bsSize="large" bsStyle="success">Let's go!</Button>
-                                    </LinkContainer>
-                                </div>
-                            </Panel>
-                        </Col>
-                        <Col sm={4} md={4} lg={4}>
-                            <Panel className="homePanel">
-                                <div className="homeSearchCenter">
-                                    <IonSocialUsd className="homeIcons" color="#EC174C"/>
-                                </div>
-                                <div className="homeSearchDesc">
-                                    Short on dough? Search for the cheapest seats!
-                                </div>
-                                <div className="homeSearchCenter">
-                                    <LinkContainer to="/pick-tickets?event=0">
                                         <Button bsSize="large" bsStyle="success">Let's go!</Button>
                                     </LinkContainer>
                                 </div>
@@ -92,7 +77,7 @@ export default class Home extends Component {
                                 TTT exists to get you tickets to Philly sports games, quicker, simpler, and cheaper. How?
                                 <div className="homeParallaxTextBodyBlock">
                                     <div className="homeParallaxTextBodyBlockText">
-                                        <ol>
+                                        <ol style={{padding: '0px'}}>
                                             <li>We specialize in Philly sports tickets - you don't have to wade through irrelevant ticketing events during your search.</li>
                                             <li>Our search methods were designed with fans in mind - We know how to find what you want, quicker!</li>
                                             <li>We value the fans that list with us, so we offer the LOWEST transaction fees of any ticket reseller. When you win, we win.</li>
