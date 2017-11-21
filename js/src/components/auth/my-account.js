@@ -6,6 +6,7 @@ import AuthService from './auth-service';
 import ListingsView from '../account/listings/listings-view';
 import CreateListingView from '../account/listings/create-listing-view';
 import PurchasesView from '../account/listings/purchases-view';
+import { Grid, Row } from 'react-bootstrap';
 
 class MyAccount extends Component {
 
@@ -49,15 +50,21 @@ class MyAccount extends Component {
                 <div className='globalBody globalImageOverlay'>
                         <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                             <Tab eventKey={1} title="Account Settings">
-                                <div className="globalCenterThis">
-                                    {this.getAccountInfo()}
+                                <Grid>
+                                <Row>
+                                    <div className="globalCenterThis">
+                                        {this.getAccountInfo()}
+                                    </div>
+                                </Row>
+                                <Row>
                                     <div className="globalCenterThis">
                                     <Button bsStyle='primary'
                                             onClick={this.logOut.bind(this)}>
                                         Log Out
                                     </Button>
                                     </div>
-                                </div>
+                                </Row>
+                                </Grid>
                             </Tab>
                             <Tab eventKey={2} title="My Listings">
                                 <div>

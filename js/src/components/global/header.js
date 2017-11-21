@@ -44,7 +44,6 @@ export default class Header extends Component {
     }
 
     setNavExpanded(expanded) {
-        console.log(expanded);
         this.setState({ navExpanded: expanded});
     }
 

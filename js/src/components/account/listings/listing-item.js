@@ -98,7 +98,7 @@ export default class ListingItem extends Component {
 						<Time value={this.props.listing.date} format="MMMM D, YYYY h:mmA"/> <br/>
 						Section: {this.props.listing.section}, Row: {this.props.listing.row}, Seats: {this.getSeats()} <br/>
 						Ticket Price: ${this.props.listing.price} <br/>
-						Minimum group size: {this.props.listing.minSellSize} <br/>
+						Sellings Groups Of: {this.props.listing.minSellSize} <br/>
 						</p>
 					</Col>
 				</Grid>
