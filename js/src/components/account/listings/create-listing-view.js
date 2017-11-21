@@ -42,23 +42,23 @@ export default class CreateListingView extends Component {
         this.state = {
             activeKey: 1,
             numberOfTickets: 0,
-            section: null,
-            row: null,
-            seatNumbers: [],
+            section: "",
+            row: "",
+            seatsInfo: [],
             opponentName: "",
-            ticketPrice: 0.00,
+            ticketPrice: "",
             isAisleSeat: false,
             isEarlyEntry: false,
             hasObstructedView: false,
             isHandicapAccessible: false,
             sellAsGroup: false,
-            minPurchaseSize: 0,
+            minPurchaseSize: "",
             opponents: [],
             gameDates: [],
-            gameDate: null,
+            gameDate: "",
             disableChooseOpponent: true,
             show: false,
-            modalSubmitError: null,
+            modalSubmitError: "",
 
         };
 
@@ -106,6 +106,7 @@ export default class CreateListingView extends Component {
         for (var i = 1; i <= this.state.numberOfTickets; i++) {
 
             fieldGroups.push(
+
                 <div className="globalCenterThis">
                     <Row>
                         <Col lg={6}>
@@ -114,13 +115,14 @@ export default class CreateListingView extends Component {
                                         id={"seatNumberForm" + i}
                                         type={"text"}
                                         label={"Ticket " + i + " Seat Number"}
-                                        placeholder={"Enter Seat Number"}/>
+                                        placeholder={"Enter Seat Number"}
+                                        />
                         </Col>
                         <Col lg={6}>
                             <FormGroup id={"extrasGroup" + i}>
-                                <Checkbox>Aisle Seat</Checkbox>
-                                <Checkbox>Early Entry</Checkbox>
-                                <Checkbox>Handicap Accessible</Checkbox>
+                                <Checkbox id={"aisleSeatCheck" + i} checked={false} onClick={!this.checked}>Aisle Seat</Checkbox>
+                                <Checkbox id={"earlyEntryCheck" + i} checked={false} onClick={!this.checked}>Early Entry</Checkbox>
+                                <Checkbox id={"handicapAccessibleCheck" + i} checked={false} onClick={!this.checked}>Handicap Accessible</Checkbox>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -134,6 +136,7 @@ export default class CreateListingView extends Component {
     }
 
     handleSelectNext() {
+
         switch (this.state.activeKey) {
             case 1:
                 if (this.state.gameDate !== null && this.state.opponentName !== null) {
@@ -150,20 +153,32 @@ export default class CreateListingView extends Component {
                 }
                 break;
             case 3:
-                //if(this.state.section !== null && this.state.row !== null && this.state.seatNumbers !== null){
+                for(var i = 1; i <= this.state.numberOfTickets; i++){
+                    var form = document.getElementById('seatNumberForm' + i).value;
+                    var check1 = document.getElementById('aisleSeatCheck' + i).checked;
+                    var check2 = document.getElementById('earlyEntryCheck' + i).checked;
+                    var check3 = document.getElementById('handicapAccessibleCheck' + i).checked;
+                    this.state.seatsInfo.push({ seat : [form, check1 , check2, check3]});
+                }
+
+                console.log(this.state.seatsInfo);
+
+                if(this.state.section !== null && this.state.row !== null && this.state.seatsInfo !== null){
+
                 this.setState({activeKey: this.state.activeKey + 1});
-                //} else {
-                //    alert("Please fill out section, row and seat numbers to move onto the next step.");
-                //}
+
+                } else {
+                    alert("Please fill out section, row and seat numbers to move onto the next step.");
+                }
                 break;
             case 4:
-                this.setState({activeKey: this.state.activeKey + 1})
+                this.setState({activeKey: this.state.activeKey + 1});
                 break;
             case 5:
-                this.setState({activeKey: this.state.activeKey + 1})
+                this.setState({activeKey: this.state.activeKey + 1});
                 break;
             case 6:
-                this.setState({activeKey: this.state.activeKey + 1})
+                this.setState({activeKey: this.state.activeKey + 1});
                 break;
             default:
                 this.setState({activeKey: 1});
@@ -171,7 +186,30 @@ export default class CreateListingView extends Component {
     }
 
     handleSelectBack() {
-        this.setState({activeKey: --this.state.activeKey})
+
+        switch (this.state.activeKey) {
+            case 1:
+                this.setState({activeKey: this.state.activeKey - 1});
+                break;
+            case 2:
+                this.setState({activeKey: this.state.activeKey - 1});
+                break;
+            case 3:
+                this.state.seatsInfo = [];
+                this.setState({activeKey: this.state.activeKey - 1});
+                break;
+            case 4:
+                this.setState({activeKey: this.state.activeKey - 1});
+                break;
+            case 5:
+                this.setState({activeKey: this.state.activeKey - 1});
+                break;
+            case 6:
+                this.setState({activeKey: this.state.activeKey - 1});
+                break;
+            default:
+                this.setState({activeKey: 1});
+        }
     }
 
     handleDateChoice(e) {
