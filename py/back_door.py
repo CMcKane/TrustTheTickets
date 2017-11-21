@@ -346,6 +346,23 @@ def update_listing():
         print(e)
         return jsonify({'authenticated': False})
 
+@app.route('/cancel-listing', methods=['POST'])
+@require_token
+def cancel_listing():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        sqlHandler.cancel_group(jsonData['groupID'])
+        transactions = sqlHandler.get_seller_transactions(account_id)
+        listings = sqlHandler.get_seller_tickets(account_id)
+        # Concatenate the two arrays into one listings array to be consumed by frontend page
+        return jsonify({'listings':listings + transactions, 'authenticated': True})
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
 @app.route('/upload-pdf', methods=['POST'])
 def upload_pdf():
     file = request.files['pdf']

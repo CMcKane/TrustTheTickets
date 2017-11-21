@@ -3,8 +3,7 @@ import { Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl } from '
 import Time from 'react-time';
 import '../../../stylesheet.css';
 
-
-export default class MyListingModal extends Component {
+export default class EditListingModal extends Component {
 
   constructor(props) {
     super(props);

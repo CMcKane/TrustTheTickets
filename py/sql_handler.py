@@ -528,6 +528,14 @@ class SqlHandler(object):
                        "WHERE group_id={}".format(newPrice, groupID))
         conn.commit()
 
+    def cancel_group(self, groupID):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("UPDATE tickets "
+                       "SET ticket_status_id=3 "
+                       "WHERE group_id={}".format(groupID))
+        conn.commit()
+
     def get_tickets_for_sections(self, event_id, sections, aisleSeat, earlyAccess, handicap):
         conn = self.mysql.connection
         cursor = conn.cursor()
