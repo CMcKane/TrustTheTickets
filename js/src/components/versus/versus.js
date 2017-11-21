@@ -7,6 +7,10 @@ import {getLogo} from '../logos/logo-central';
 import Logo from '../logos/logo';
 import TeamLogo from './team-logo';
 import Time from 'react-time';
+import {Card} from '@blueprintjs/core';
+//import * as Card from '@blueprintjs/core';
+
+import '../../../node_modules/@blueprintjs/core/dist/blueprint.css';
 import '../../stylesheet.css';
 
 export default class Versus extends Component {
@@ -38,11 +42,15 @@ export default class Versus extends Component {
             if (this.state.games.length > 0) {
                 return _.map(this.state.games, (game, id) =>
                     <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
-                        <ListGroupItem>
-                            <div className='unselectable text-center'>
-                                <Time value={game.date} format="MMMM D, YYYY h:mmA"/>
-                            </div>
-                        </ListGroupItem>
+                        <Card interactive={true} elevation={4} onClick={{}}>
+                            <div className={'versusDate'}>24</div>
+                            <div className={'versusMonth'}>December</div>
+                            <ListGroupItem>
+                                <div className='unselectable text-center'>
+                                    <Time value={game.date} format="MMMM D, YYYY h:mmA"/>
+                                </div>
+                            </ListGroupItem>
+                        </Card>
                     </LinkContainer>
                 );
             }
@@ -93,6 +101,7 @@ export default class Versus extends Component {
                                 </div>
                             </Row>
                             <Row>
+
                                 <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>
                                 <Col xs={10} sm={10} md={6} lg={8}>
