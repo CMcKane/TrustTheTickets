@@ -68,7 +68,7 @@ export default class Versus extends Component {
     getGamesHeader() {
         if(this.state.team) {
             return (
-                <h3 className='unselectable text-center'>76ers vs {this.state.team.team_name}</h3>
+                <h3 className='unselectable text-center'> {this.state.team.team_name} vs 76ers</h3>
             );
         }
     }
