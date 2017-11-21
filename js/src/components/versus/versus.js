@@ -40,13 +40,11 @@ export default class Versus extends Component {
             if (this.state.games.length > 0) {
                 return _.map(this.state.games, (game, id) =>
                     <LinkContainer to={"/pick-tickets?event=" + game.event_id}>
-                        <div style={{maxWidth: "500px", margin: "0 auto", padding: "0px"}}>
+                        <div className={'childItem'}>
                             <Card interactive={true} elevation={3}>
-                                <div style={{backgroundColor: 'rgb(45, 98, 183)'}}>
-                                    <div className={'versusDate'}><Time value={game.date} format={"D"}/></div>
-                                    <div className={'versusMonth'}><Time value={game.date} format={"MMMM"}/></div>
-                                    <div className={'versusTime'}><Time value={game.date} format={"h:mmA"}/></div>
-                                </div>
+                                <div className={'versusDate'}><Time value={game.date} format={"D"}/></div>
+                                <div className={'versusMonth'}><Time value={game.date} format={"MMMM"}/></div>
+                                <div className={'versusTime'}><Time value={game.date} format={"h:mmA"}/></div>
                             </Card>
                         </div>
                     </LinkContainer>
@@ -103,10 +101,14 @@ export default class Versus extends Component {
                                 <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>
                                 <Col xs={10} sm={10} md={6} lg={8}>
-                                    {this.getGamesHeader()}
-                                    <div>
-                                        {this.renderGameList()}
-                                    </div>
+                                    <row>
+                                        {this.getGamesHeader()}
+                                    </row>
+                                    <row>
+                                        <div className={'parentItem'}>
+                                            {this.renderGameList()}
+                                        </div>
+                                    </row>
                                 </Col>
                                 <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>

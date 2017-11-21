@@ -1804,24 +1804,43 @@ col.registrationViewCol {
 .versusDate {
     font-size: 40px;
     font-weight: bold;
+    color: black;
     text-align: center;
 }
 .versusMonth {
     font-size: 20px;
     font-weight: bold;
+    color: black;
     text-align: center;
 }
 .versusTime {
     font-size: 14px;
     font-weight: bold;
+    color: black;
     text-align: center;
     padding-bottom: 5px;
 }
 .versusGameBackground {
     color: rgb(45, 98, 183);
 }
-.pt-card {
-    padding: 10px !important;
+
+.parentItem {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.childItem {
+    flex-direction: row;
+    align-self: center;
+    flex: 0 0 100px;
+    padding: 20px;
+}
+.pt-card{
+    width: 150px;
+    height: 150px;
 }
 
 @media (max-width: 768px) {
