@@ -1817,6 +1817,11 @@ col.registrationViewCol {
     font-weight: bold;
     text-align: center;
 }
+.versusTime {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
 
 
 .versusPickTeamsWell {

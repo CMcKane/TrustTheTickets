@@ -45,11 +45,7 @@ export default class Versus extends Component {
                         <Card interactive={true} elevation={4} onClick={{}}>
                             <div className={'versusDate'}><Time value={game.date} format={"D"}/></div>
                             <div className={'versusMonth'}><Time value={game.date} format={"MMMM"}/></div>
-                            <ListGroupItem>
-                                <div className='unselectable text-center'>
-                                    <Time value={game.date} format="MMMM D, YYYY h:mmA"/>
-                                </div>
-                            </ListGroupItem>
+                            <div className={'versusTime'}><Time value={game.date} format={"h:mmA"}/></div>
                         </Card>
                     </LinkContainer>
                 );
