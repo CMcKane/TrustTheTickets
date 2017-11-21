@@ -375,5 +375,20 @@ def get_opponent_by_date():
     opponentName = sqlHandler.get_opponent_by_date(date)
     return jsonify({'opponentName': opponentName})
 
+@app.route('/get-country-names', methods=['GET'])
+def get_country_names():
+    sqlHandler = SqlHandler(mysql)
+    countries = sqlHandler.get_country_names()
+    return jsonify({'country': countries})
+
+@app.route('/get-country-states', methods=['POST'])
+def get_country_states():
+    jsonData = request.get_json()
+    country_id = jsonData['countryID']
+    sqlHandler = SqlHandler(mysql)
+    stateNames = sqlHandler.get_country_states(country_id)
+    return jsonify({'stateNames': stateNames})
+
+
 if __name__ == '__main__':
     app.run()

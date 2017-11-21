@@ -47,12 +47,12 @@ export default class CreateListingView extends Component {
             seatNumbers: [],
             opponentName: "",
             ticketPrice: 0.00,
-            minPurchaseSize: 0,
             isAisleSeat: false,
             isEarlyEntry: false,
             hasObstructedView: false,
-            isWheelchairSpace: false,
+            isHandicapAccessible: false,
             sellAsGroup: false,
+            minPurchaseSize: 0,
             opponents: [],
             gameDates: [],
             gameDate: null,
@@ -459,5 +459,4 @@ export default class CreateListingView extends Component {
             </div>
         );
     }
-
 }

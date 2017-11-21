@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button, Col, Row, Grid} from 'react-bootstrap';
-import {TTTPost} from '../backend/ttt-request';
+import {TTTGet, TTTPost} from '../backend/ttt-request';
 import '../../stylesheet.css';
+import _ from 'lodash';
 
 function FieldGroup({id, label, help, validationState, ...props}) {
     return (
@@ -29,16 +30,29 @@ export default class RegistrationView extends Component {
             zipCode: {value: '', validationStatus: null, message: null},
             country: {value: 0, validationStatus: null, message: null},
             state: {value: 0, validationStatus: null, message: null},
-            phoneNumber: {value: '', validationStatus: false, message: null}
+            phoneNumber: {value: '', validationStatus: false, message: null},
+            countryNames: [],
+            stateNames: [],
+            disableStateSelect: true,
         };
+
+        this.getCountryNamesFromDB();
     }
 
     handleChange(e) {
         const fieldName = e.target.name;
         const value = e.target.value;
         this.setState({
-            [fieldName]: {value: value, validationStatus: null, message: null}  
+            [fieldName]: {value: value, validationStatus: null, message: null}
         });
+    }
+
+    handleCountryChange(e) {
+        var val = e.target.value;
+
+        this.setState({
+            [e.target.name]: e.target.value
+        }, () => {this.getCountryStates(val)});
     }
 
     validateForm() {
@@ -79,7 +93,7 @@ export default class RegistrationView extends Component {
         }
         // Last name
         if (state.lastName.value.length > 0) {
-            state.lastName.validationStatus = 'success'; 
+            state.lastName.validationStatus = 'success';
         } else {
             state.lastName.message = 'Please provide a valid last name'
             state.lastName.validationStatus = 'error';
@@ -87,7 +101,7 @@ export default class RegistrationView extends Component {
         }
         // Address
         if (state.address.value.length > 0) {
-            state.address.validationStatus = 'success';  
+            state.address.validationStatus = 'success';
         } else {
             state.address.message = 'Please provide a valid address'
             state.address.validationStatus = 'error';
@@ -101,15 +115,15 @@ export default class RegistrationView extends Component {
             state.city.validationStatus = 'error';
             valid = false;
         }
-        // Zip code 
+        // Zip code
         if (state.zipCode.value.length > 0 && ~~state.zipCode.value) {
-            state.zipCode.validationStatus = 'sucess'; 
+            state.zipCode.validationStatus = 'sucess';
         } else {
             state.zipCode.message = 'Please provide a valid zip code'
             state.zipCode.validationStatus = 'error';
             valid = false;
         }
-        // Phone number 
+        // Phone number
         if (state.phoneNumber.value.length > 9 && ~~state.phoneNumber.value) {
             state.phoneNumber.validationStatus = 'success';
         } else {
@@ -173,6 +187,53 @@ export default class RegistrationView extends Component {
                     this.setState({completed: true});
                 }
             });
+    }
+
+    getCountryNamesFromDB(){
+        TTTGet("/get-country-names")
+            .then(res => {
+                this.setState({countryNames: res.data.country});
+            });
+    }
+
+    renderCountryNames() {
+        return _.map(this.state.countryNames, (country, index) =>
+            <option
+                key={index}
+                value={country.country_id}>
+                {country.country_name}
+            </option>
+        );
+    }
+
+    getCountryStates(country_id){
+
+        if(country_id === '1' || country_id === '39'){
+            TTTPost("/get-country-states", {
+                countryID: country_id
+            })
+                .then(res => {
+                    this.setState({
+                        stateNames: res.data.stateNames
+                    });
+                })
+        }
+    }
+
+    renderStateNames(){
+
+        if(this.state.country === '1' || this.state.country === '39'){
+            this.state.disableStateSelect = false;
+            return _.map(this.state.stateNames, (stateName, index) =>
+                <option
+                    key={index}
+                    value={stateName.state_prov_id}>
+                    {stateName.state_prov_name}
+                </option>
+            );
+        } else {
+            this.state.disableStateSelect = true;
+        }
     }
 
 
@@ -282,10 +343,10 @@ export default class RegistrationView extends Component {
                                                     <FormControl componentClass="select"
                                                                  placeholder="Country"
                                                                  name="country"
-                                                                 onChange={this.handleChange.bind(this)}>
+                                                                 onChange={this.handleCountryChange.bind(this)}>
                                                         {/*This needs to populated with all countries in future*/}
                                                         <option value={0}>Country</option>
-                                                        <option value={1}>US</option>
+                                                        {this.renderCountryNames()}
                                                     </FormControl>
                                                     <HelpBlock>{this.state.country.message}</HelpBlock>
                                                 </FormGroup>
@@ -294,61 +355,12 @@ export default class RegistrationView extends Component {
                                                            validationState={this.state.state.validationStatus}>
                                                     <ControlLabel className='registrationViewControlLabel'>State</ControlLabel>
                                                     <FormControl componentClass="select"
+                                                                 disabled={this.state.disableStateSelect}
                                                                  placeholder="State"
                                                                  name="state"
                                                                  onChange={this.handleChange.bind(this)}>
-                                                        {/*This needs to populated via country selection in future*/}
                                                         <option value={0}>State</option>
-                                                        <option value={1}>AL</option>
-                                                        <option value={2}>AK</option>
-                                                        <option value={3}>AZ</option>
-                                                        <option value={4}>AR</option>
-                                                        <option value={5}>CA</option>
-                                                        <option value={6}>CO</option>
-                                                        <option value={7}>CT</option>
-                                                        <option value={8}>DE</option>
-                                                        <option value={9}>FL</option>
-                                                        <option value={10}>GA</option>
-                                                        <option value={11}>HI</option>
-                                                        <option value={12}>ID</option>
-                                                        <option value={13}>IL</option>
-                                                        <option value={14}>IN</option>
-                                                        <option value={15}>IA</option>
-                                                        <option value={16}>KS</option>
-                                                        <option value={17}>KY</option>
-                                                        <option value={18}>LA</option>
-                                                        <option value={19}>ME</option>
-                                                        <option value={20}>MD</option>
-                                                        <option value={21}>MA</option>
-                                                        <option value={22}>MI</option>
-                                                        <option value={23}>MN</option>
-                                                        <option value={24}>MS</option>
-                                                        <option value={25}>MO</option>
-                                                        <option value={26}>MT</option>
-                                                        <option value={27}>NE</option>
-                                                        <option value={28}>NV</option>
-                                                        <option value={29}>NH</option>
-                                                        <option value={30}>NJ</option>
-                                                        <option value={31}>NM</option>
-                                                        <option value={32}>NY</option>
-                                                        <option value={33}>NC</option>
-                                                        <option value={34}>ND</option>
-                                                        <option value={35}>OH</option>
-                                                        <option value={36}>OK</option>
-                                                        <option value={37}>OR</option>
-                                                        <option value={38}>PA</option>
-                                                        <option value={39}>RI</option>
-                                                        <option value={40}>SC</option>
-                                                        <option value={41}>SD</option>
-                                                        <option value={42}>TN</option>
-                                                        <option value={43}>TX</option>
-                                                        <option value={44}>UT</option>
-                                                        <option value={45}>VT</option>
-                                                        <option value={46}>VA</option>
-                                                        <option value={47}>WA</option>
-                                                        <option value={48}>WV</option>
-                                                        <option value={49}>WI</option>
-                                                        <option value={50}>WY</option>
+                                                        {this.renderStateNames()}
                                                     </FormControl>
                                                     <HelpBlock>{this.state.state.message}</HelpBlock>
                                                 </FormGroup>

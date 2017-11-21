@@ -1614,10 +1614,6 @@ p.loginPara {
 .registrationViewRegisterButton {
     text-align: center;
 }
-.registrationViewInlineGroup {
-    text-align: center;
-    padding: 20px;
-}
 .registrationViewCountryForm {
     padding-left: 35px;
     padding-right: 35px;
@@ -1631,6 +1627,10 @@ div.registrationViewDivPadding {
     padding: 0%;
 }
 
+.registrationViewControlLabel{
+    padding-right: 30px;
+}
+
 h1.registrationViewH1 {
     color: black;
 }
@@ -1638,11 +1638,6 @@ h1.registrationViewH1 {
 col.registrationViewCol {
     color: black;
 }
-
-.registrationViewControlLabel {
-    padding-right: 10px;
-}
-
 
 @media (max-width: 1024px) and (min-width: 769px){
 
