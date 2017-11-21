@@ -76,9 +76,7 @@ export default class App extends Component {
                     <div className="appContent">
                     <Switch>
                         <Route exact path='/' component={Home}/>
-                        <Route path='/view-tickets' component={ViewTickets}/>
                         <Route path='/event-calendar' component={EventCalendarView}/>
-                        <Route path='/event-list' component={EventListView}/>
                         <Route path='/pick-tickets' component={PickTickets}/>
                         <Route path='/versus' component={Versus}/>
                         <Route path='/import-download' component={ImportDownload}/>
@@ -89,7 +87,6 @@ export default class App extends Component {
                                 logOut={this.userLogOut.bind(this)}
                             />}
                         />
-                        <Route path='/my-account/listings-current' component={ListingsView} />
                         <Route path='/login' render={(props) =>
                             <Login
                                 {...props}
