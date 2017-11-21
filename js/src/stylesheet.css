@@ -1816,6 +1816,9 @@ col.registrationViewCol {
     font-weight: bold;
     text-align: center;
 }
+.versusGameBackground {
+    color: rgb(45, 98, 183);
+}
 
 
 .versusPickTeamsWell {
