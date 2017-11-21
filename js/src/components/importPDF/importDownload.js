@@ -19,6 +19,8 @@ export default class ImportDownload extends Component {
         formData.append("pdf", evt.target.files[0]);
 
         TTTPost('/split-pdf', formData )
+        /*
+
             .then(res => {
                 if(res.data.splitfiles) {
                     for (var i = 0; i < res.data.splitfiles.length; i++) {
@@ -26,7 +28,7 @@ export default class ImportDownload extends Component {
                     }
                 }
             });
-
+        */
     }
 
     render() {
@@ -37,8 +39,6 @@ export default class ImportDownload extends Component {
                     name="files[]" multiple
                     />
                     <output id="list"></output>
-
-
             </div>
         );
     }

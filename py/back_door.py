@@ -14,8 +14,10 @@ from itertools import groupby
 from operator import itemgetter
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from werkzeug.utils import secure_filename
+from s3_interface import S3Worker
 import os
 import configparser
+import io
 
 # Use config file to get these values
 config = configparser.ConfigParser()
@@ -26,6 +28,8 @@ configUser = config.get('mysql-config', 'User')
 configPassword = config.get('mysql-config', 'Password')
 configDB = config.get('mysql-config', 'DB')
 configUploadFolder = config.get('py-app-config', 'UploadFolder')
+configAWSAccessKey = config.get('py-app-config', 'AWSAccessKey')
+configAWSSecretKey = config.get('py-app-config', 'AWSSecretKey')
 
 app = Flask (__name__)
 mysql = MySQL(app)
@@ -36,6 +40,8 @@ app.config['MYSQL_USER'] = configUser
 app.config['MYSQL_PASSWORD'] = configPassword
 app.config['MYSQL_DB'] = configDB
 app.config['UPLOAD_FOLDER'] = configUploadFolder
+app.config['AWSAccessKey'] = configAWSAccessKey
+app.config['AWSSecretKey'] = configAWSSecretKey
 
 @app.after_request
 def after_request(response):
@@ -64,14 +70,17 @@ def requestNotSupported():
 def splitPDF():
     files = request.files['pdf']
 
-    #file = open(jsonData, "r")
-    inputpdf = PdfFileReader(files)
-    splitfiles = []
+    inputPDF = PdfFileReader(files)
 
-    for i in xrange(inputpdf.numPages):
-        splitfiles.append(inputpdf.getPage(i))
-
-    return splitfiles
+    for i in range(inputPDF.numPages):
+        outputStream = io.BytesIO()
+        output = PdfFileWriter()
+        output.addPage(inputPDF.getPage(i))
+        output.write(outputStream)
+        outputStream.seek(0)
+        print("Pretend uploading " + str(i) + ".pdf")
+        # S3Worker().uploadFile(outputStream, (str(i) + ".pdf") )
+    return ''
 
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
