@@ -50,7 +50,7 @@ export default class ListingItem extends Component {
 		}
 		return (
 			<Grid className='listingItemGrid'>
-				<Col className='listingItemHeaderStatusColumn' xs={7} sm={6} md={5} lg={6}>
+				<Col className='listingItemHeaderStatusColumn' xs={7} sm={7} md={7} lg={8}>
 					<Time value={this.props.listing.transactionDate} format="MMMM D, YYYY" /> - {this.getStatus()}
 				</Col>
 				<Col className='listingItemHeaderButtonColumn' xs={5} sm={2} md={2} lg={1}>
