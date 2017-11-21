@@ -3,13 +3,9 @@ from boto.s3.key import Key
 
 class S3Worker(object):
 
-    accessKey = 'AKIAJ7IL7SELDW2C6LRQ'
-    secretKey = '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'
-    bucketName = 'ttt-ticket-bucket'
-
-    def __init__(self):
-        self.conn = S3Connection(S3Worker.accessKey, S3Worker.secretKey)
-        self.bucket = self.conn.get_bucket(S3Worker.bucketName)
+    def __init__(self, accessKey, secretKey, bucketName):
+        self.conn = S3Connection(accessKey, secretKey)
+        self.bucket = self.conn.get_bucket(bucketName)
 
 
     def uploadFile(self, file, keyStr):

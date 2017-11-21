@@ -30,9 +30,11 @@ configDB = config.get('mysql-config', 'DB')
 configUploadFolder = config.get('py-app-config', 'UploadFolder')
 configAWSAccessKey = config.get('py-app-config', 'AWSAccessKey')
 configAWSSecretKey = config.get('py-app-config', 'AWSSecretKey')
+configAWSBucket = config.get('py-app-config', 'AWSBucket')
 
 app = Flask (__name__)
 mysql = MySQL(app)
+s3worker = S3Worker(configAWSAccessKey, configAWSSecretKey, configAWSBucket)
 
 # Start app with values from config file
 app.config['MYSQL_HOST'] = configHost
@@ -40,8 +42,6 @@ app.config['MYSQL_USER'] = configUser
 app.config['MYSQL_PASSWORD'] = configPassword
 app.config['MYSQL_DB'] = configDB
 app.config['UPLOAD_FOLDER'] = configUploadFolder
-app.config['AWSAccessKey'] = configAWSAccessKey
-app.config['AWSSecretKey'] = configAWSSecretKey
 
 @app.after_request
 def after_request(response):
@@ -85,8 +85,7 @@ def splitPDF():
             output.write(outputStream)
             outputStream.seek(0)
             print("Pretend uploading " + str(startId + i) + ".pdf")
-            # S3Worker().uploadFile(outputStream, (str(i) + ".pdf") )
-
+            # s3worker.uploadFile(outputStream, str(startId + i))
     return ''
 
 @app.route('/token-refresh', methods = ['POST'])

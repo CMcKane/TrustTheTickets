@@ -17,8 +17,8 @@ export default class ImportDownload extends Component {
     callTTT(evt) {
         var formData = new FormData();
         formData.append("pdf", evt.target.files[0]);
-        formData.append("startId", 1);
-        formData.append("endId", 3);
+        formData.append("startId", 101);
+        formData.append("endId", 103);
 
         TTTPostFile('/split-pdf', formData)
         /*
