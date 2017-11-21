@@ -69,17 +69,24 @@ def requestNotSupported():
 @app.route('/split-pdf', methods=['POST'])
 def splitPDF():
     files = request.files['pdf']
+    startId = int(request.values['startId'])
+    endId = int(request.values['endId'])
 
     inputPDF = PdfFileReader(files)
 
-    for i in range(inputPDF.numPages):
-        outputStream = io.BytesIO()
-        output = PdfFileWriter()
-        output.addPage(inputPDF.getPage(i))
-        output.write(outputStream)
-        outputStream.seek(0)
-        print("Pretend uploading " + str(i) + ".pdf")
-        # S3Worker().uploadFile(outputStream, (str(i) + ".pdf") )
+    if endId - startId + 1 != inputPDF.numPages:
+        print("ERROR: PDF does not have the same number of pages as the number of tickets being uploaded.")
+        print("Tickets could not be uploaded.")
+    else:
+        for i in range(inputPDF.numPages):
+            outputStream = io.BytesIO()
+            output = PdfFileWriter()
+            output.addPage(inputPDF.getPage(i))
+            output.write(outputStream)
+            outputStream.seek(0)
+            print("Pretend uploading " + str(startId + i) + ".pdf")
+            # S3Worker().uploadFile(outputStream, (str(i) + ".pdf") )
+
     return ''
 
 @app.route('/token-refresh', methods = ['POST'])

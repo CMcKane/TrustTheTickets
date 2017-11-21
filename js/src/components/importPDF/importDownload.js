@@ -1,7 +1,7 @@
 import React, { Component, Button, FieldGroup}  from 'react';
 import '../../stylesheet.css';
 import { Document, Page } from 'react-pdf';
-import {TTTPost, TTTGet} from '../backend/ttt-request';
+import {TTTPost, TTTGet, TTTPostFile} from '../backend/ttt-request';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Dropzone from 'react-dropzone';
 import FontIcon from 'material-ui/FontIcon';
@@ -17,8 +17,10 @@ export default class ImportDownload extends Component {
     callTTT(evt) {
         var formData = new FormData();
         formData.append("pdf", evt.target.files[0]);
+        formData.append("startId", 1);
+        formData.append("endId", 3);
 
-        TTTPost('/split-pdf', formData )
+        TTTPostFile('/split-pdf', formData)
         /*
 
             .then(res => {
@@ -36,7 +38,7 @@ export default class ImportDownload extends Component {
             <div className="App">
 
                     <input type="file" id="files" onChange={ (evt) => this.callTTT(evt, 'files') }
-                    name="files[]" multiple
+                           name="files[]" multiple
                     />
                     <output id="list"></output>
             </div>
