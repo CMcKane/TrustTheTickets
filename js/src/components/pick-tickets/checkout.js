@@ -18,21 +18,21 @@ class Checkout extends Component {
 
   componentDidMount() {
     // Need to "lock in" tickets in DB for a few minutes here
-    var ticketIds = []
-    for (var i = 0; i < this.props.checkoutTickets.length; i++) {
-      ticketIds.push(this.props.checkoutTickets[i].ticket_id);
-    }
-    TTTPost('/hold-tickets', {
-      ticketIds: ticketIds, 
-      token: this.Auth.getToken()
-    }).then(res => {
-      if (res.data.authenticated) {
-        // You're good
-      }
-      else { 
-        // Can't buy
-      }
-    });
+    // var ticketIds = []
+    // for (var i = 0; i < this.props.checkoutTickets.length; i++) {
+    //   ticketIds.push(this.props.checkoutTickets[i].ticket_id);
+    // }
+    // TTTPost('/hold-tickets', {
+    //   ticketIds: ticketIds, 
+    //   token: this.Auth.getToken()
+    // }).then(res => {
+    //   if (res.data.authenticated) {
+    //     // You're good
+    //   }
+    //   else { 
+    //     // Can't buy
+    //   }
+    // });
   }
 
 	getComments(ticket) {
