@@ -5,7 +5,6 @@ import {TTTPost} from '../backend/ttt-request';
 import { Redirect } from 'react-router-dom';
 import withAuth from '../auth/with-auth';
 import AuthService from '../auth/auth-service';
-import CheckoutTimeoutModal from './checkout-timeout-modal';
 import '../../stylesheet.css';
 
 class Checkout extends Component {
