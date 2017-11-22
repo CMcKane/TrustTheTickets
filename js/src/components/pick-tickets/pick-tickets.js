@@ -562,101 +562,6 @@ export default class PickTickets extends Component {
         return(list)
     }
 
-    buildTicketInfoRendering() {
-
-        var html = [];
-        html.push(this.buildTicketDetailRendering());
-        html.push(this.buildTicketTotalsRendering());
-        html.push(this.buildCheckoutButtonRendering());
-        return(html);
-    }
-
-   buildCheckoutButtonRendering() {
-
-        return(
-            <div className="checkoutButton">
-                <Button
-                    id={1}
-                    style={{marginLeft: "165px", color: "black"}}
-                    bsSize="large">
-                    Buy
-                </Button>
-            </div>
-        );
-   }
-   buildTicketDetailRendering() {
-
-        var html = [];
-        var tickets = this.state.checkoutTickets;
-        for(var i = 0; i < tickets.length; i++)
-        {
-            html.push(
-                <p className="tableNewLine">
-                    <table className="table">
-                        <thead>
-                            <th className="tableHeading">Ticket #</th>
-                            <th className="tableHeading">Section</th>
-                            <th className="tableHeading">Row</th>
-                            <th className="tableHeading">Seat</th>
-                            <th className="tableHeading">Price</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{i + 1}</td>
-                                <td>{tickets[i].section_number}</td>
-                                <td>{tickets[i].row_number}</td>
-                                <td>{tickets[i].seat_number}</td>
-                                <td>${tickets[i].ticket_price}</td>
-                            </tr>
-                        </tbody>
-                        <tbody className="checkoutAdditional">
-                            <tr>
-                                <th className="tableHeading2">Comments</th>
-                                <th className="tableHeading2">Disclosures</th>
-                            </tr>
-                            <tr className="checkoutAdditional">
-                                <td>Early Access</td>
-                                <td>None</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </p>
-            );
-        }
-
-        return (html);
-   }
-
-   buildTicketTotalsRendering() {
-
-        var tickets = this.state.checkoutTickets;
-        var subtotal = 0;
-        var fees = 0;
-        for(var i = 0; i < tickets.length; i++)
-        {
-            subtotal = subtotal + tickets[i].ticket_price;
-        }
-
-        return (
-            <p className="tableNewLine">
-            <table className="checkoutCosts">
-                  <tr>
-                      <th className="verticalTableHeading">Subtotal:</th>
-                      <td>${subtotal}</td>
-                  </tr>
-                  <tr>
-                      <th className="verticalTableHeading">Fees:</th>
-                      <td>${fees}</td>
-                  </tr>
-                  <tr>
-                      <th className="verticalTableHeading">Total:</th>
-                      <td>${fees + subtotal}</td>
-                  </tr>
-            </table>
-            </p>
-        );
-   }
-
     render() {
 
             if(this.state.checkoutPageActive)
@@ -664,7 +569,6 @@ export default class PickTickets extends Component {
                 return (
                     <Checkout checkoutTickets={this.state.checkoutTickets} />
                 );
-
             }
             else
             {

@@ -1,9 +1,10 @@
 import React, { Component }  from 'react';
 import _ from 'lodash';
 import {Grid, Table, Col, Button, Well} from 'react-bootstrap';
+import withAuth from '../auth/with-auth';
 import '../../stylesheet.css';
 
-export default class Checkout extends Component {
+class Checkout extends Component {
 
   componentDidMount() {
     // Need to "lock in" tickets in DB for a few minutes here
@@ -112,3 +113,5 @@ export default class Checkout extends Component {
 		);
 	}
 }
+
+export default withAuth(Checkout);
