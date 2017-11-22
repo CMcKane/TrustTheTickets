@@ -14,6 +14,7 @@ import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import PickTicketsModal from './pick-tickets-modal';
 import { Redirect } from 'react-router-dom';
+import Checkout from './checkout';
 
 var clickedSection = ''
 
@@ -591,7 +592,7 @@ export default class PickTickets extends Component {
         {
             html.push(
                 <p className="tableNewLine">
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <th className="tableHeading">Ticket #</th>
                             <th className="tableHeading">Section</th>
@@ -624,7 +625,6 @@ export default class PickTickets extends Component {
         }
 
         return (html);
-
    }
 
    buildTicketTotalsRendering() {
@@ -662,16 +662,7 @@ export default class PickTickets extends Component {
             if(this.state.checkoutPageActive)
             {
                 return (
-                    <div className=" globalBody globalImage">
-                        <Grid style={{paddingTop: "25px"}}>
-                            <h1>
-                                <Well className='checkoutHeader'>
-                                    Checkout
-                                </Well>
-                            </h1>
-                            {this.buildTicketInfoRendering()}
-                        </Grid>
-                    </div>
+                    <Checkout checkoutTickets={this.state.checkoutTickets} />
                 );
 
             }
