@@ -652,53 +652,68 @@ export default class PickTickets extends Component {
     buildTicketInfoRendering() {
 
         var html = [];
-        html.push(this.buildTicketDetailsRendering());
+        html.push(this.buildTicketDetailRendering());
         html.push(this.buildTicketTotalsRendering());
+        html.push(this.buildCheckoutButtonRendering());
         return(html);
-        /*return(
-            <div className="checkoutBody">
-                <table class="table">
-                    <thead>
-                        <th className="tableHeading">Section</th>
-                        <th className="tableHeading">Row</th>
-                        <th className="tableHeading">Seat</th>
-                        <th className="tableHeading">Price</th>
-                    </thead>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>$</td>
-                    </tr>
-                </table>
-                <br></br>
-                <table class="table">
-                    <thead>
-                        <th className="tableHeading">Comments</th>
-                        <th className="tableHeading">Disclosures</th>
-                    </thead>
-                    <tr>
-                        <td>
-                            <li>Handicap</li>
-                            <li>Early Access</li>
-                        </td>
-                        <td>
-                            <li>None</li>
-                        </td>
-                    </tr>
-                </table>
-                <br></br>
-                <table class="table">
-                    <tr>
-                        <th className="tableHeading">Bill</th>
-                        <td>Subtotal: $80</td>
-                        <td>Fees: $8</td>
-                        <td>Total: $88</td>
-                    </tr>
-                </table>
-            </div>
-        );*/
     }
+
+   buildCheckoutButtonRendering() {
+
+        return(
+            <div className="checkoutButton">
+                <Button
+                    id={1}
+                    style={{marginLeft: "165px", color: "black"}}
+                    bsSize="large">
+                    Buy
+                </Button>
+            </div>
+        );
+   }
+   buildTicketDetailRendering() {
+
+        var html = [];
+        var tickets = this.state.checkoutTickets;
+        for(var i = 0; i < tickets.length; i++)
+        {
+            html.push(
+                <p className="tableNewLine">
+                    <table class="table">
+                        <thead>
+                            <th className="tableHeading">Ticket #</th>
+                            <th className="tableHeading">Section</th>
+                            <th className="tableHeading">Row</th>
+                            <th className="tableHeading">Seat</th>
+                            <th className="tableHeading">Price</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{i + 1}</td>
+                                <td>{tickets[i].section_number}</td>
+                                <td>{tickets[i].row_number}</td>
+                                <td>{tickets[i].seat_number}</td>
+                                <td>${tickets[i].ticket_price}</td>
+                            </tr>
+                        </tbody>
+                        <tbody className="checkoutAdditional">
+                            <tr>
+                                <th className="tableHeading2">Comments</th>
+                                <th className="tableHeading2">Disclosures</th>
+                            </tr>
+                            <tr className="checkoutAdditional">
+                                <td>Early Access</td>
+                                <td>None</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+            );
+        }
+
+        return (html);
+
+   }
 
    buildTicketTotalsRendering() {
 
@@ -729,38 +744,6 @@ export default class PickTickets extends Component {
             </p>
         );
    }
-   buildTicketDetailsRendering() {
-
-        var rows = [];
-        var tickets = this.state.checkoutTickets;
-        for(var i = 0; i < tickets.length; i++)
-        {
-            rows.push(
-                <tr>
-                    <td>{i + 1}</td>
-                    <td>{tickets[i].section_number}</td>
-                    <td>{tickets[i].row_number}</td>
-                    <td>{tickets[i].seat_number}</td>
-                    <td>${tickets[i].ticket_price}</td>
-                </tr>
-            );
-        }
-
-        return (
-            <p>
-            <table class="table">
-                <thead>
-                    <th className="tableHeading">Ticket #</th>
-                    <th className="tableHeading">Section</th>
-                    <th className="tableHeading">Row</th>
-                    <th className="tableHeading">Seat</th>
-                    <th className="tableHeading">Price</th>
-                </thead>
-                <tbody>{rows}</tbody>
-            </table>
-            </p>
-        );
-    }
 
     render() {
 

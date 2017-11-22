@@ -2166,6 +2166,11 @@ table.viewAccountTable {
     margin-left: 60%;
 }
 
+.checkoutAdditional {
+    width: 40%;
+    margin-left: 60%;
+}
+
 .tableNewLine {
     padding-top: 10px;
 }
@@ -2188,12 +2193,28 @@ table {
     opacity: 0.85;
 }
 
+.checkoutButton {
+    float: right;
+    padding-bottom: 10px;
+}
+
 .tableHeading {
     padding-top: 2px;
     padding-bottom: 2px;
     border: 3px solid black;
     text-align: center;
     background-color: blue;
+    color: white;
+    font-size: 24px;
+    opacity: 0.85;
+}
+
+.tableHeading2 {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    text-align: center;
+    background-color: black;
     color: white;
     font-size: 24px;
     opacity: 0.85;
