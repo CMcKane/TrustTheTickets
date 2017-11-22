@@ -475,8 +475,7 @@ export default class CreateListingView extends Component {
                             <Grid>
                                 <Col>
                                     <div className="globalCenterThis">
-                                        <Row>
-                                            <Form>
+                                            <Form className='createListingForm'>
                                                 <FieldGroup
                                                     id="formControlsFile"
                                                     type="file"
@@ -484,7 +483,6 @@ export default class CreateListingView extends Component {
                                                     help="First scan your tickets to a PDF file, then upload them here!"
                                                     onChange={this.onFileChange.bind(this)}/>
                                             </Form>
-                                        </Row>
                                     </div>
                                 </Col>
                             </Grid>

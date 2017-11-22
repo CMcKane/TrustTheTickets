@@ -101,14 +101,14 @@ export default class Versus extends Component {
                                 <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>
                                 <Col xs={10} sm={10} md={6} lg={8}>
-                                    <row>
+                                    <Row>
                                         {this.getGamesHeader()}
-                                    </row>
-                                    <row>
-                                        <div className={'parentItem'}>
+                                    </Row>
+                                    <Row>
+                                        <div className='parentItem'>
                                             {this.renderGameList()}
                                         </div>
-                                    </row>
+                                    </Row>
                                 </Col>
                                 <Col xs={1} sm={1} md={3} lg={2}>
                                 </Col>

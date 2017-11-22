@@ -1,7 +1,8 @@
-import React, { Component, Button, FieldGroup}  from 'react';
+import React, { Component, FieldGroup}  from 'react';
 import '../../stylesheet.css';
 import { Document, Page } from 'react-pdf';
 import {TTTPost, TTTGet, TTTPostFile} from '../backend/ttt-request';
+import { Button } from 'react-bootstrap';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Dropzone from 'react-dropzone';
 import FontIcon from 'material-ui/FontIcon';
@@ -14,7 +15,7 @@ export default class ImportDownload extends Component {
         files:[]
     }
 
-    callTTT(evt) {
+    sendFiles(evt) {
         var formData = new FormData();
         formData.append("pdf", evt.target.files[0]);
         formData.append("startId", 101);
@@ -33,14 +34,25 @@ export default class ImportDownload extends Component {
         */
     }
 
+    getFilesByEmail() {
+        TTTPost("/combine-pdf", {
+            email: 'derekmgaffney@gmail.com',
+            ticketIds: [
+                101, 103
+            ]
+        })
+    }
+
     render() {
         return (
             <div className="App">
 
-                    <input type="file" id="files" onChange={ (evt) => this.callTTT(evt, 'files') }
+                    <input type="file" id="files" onChange={ (evt) => this.sendFiles(evt, 'files') }
                            name="files[]" multiple
                     />
-                    <output id="list"></output>
+                    <Button onClick={this.getFilesByEmail.bind(this)}>
+                        Email my tickets
+                    </Button>
             </div>
         );
     }
