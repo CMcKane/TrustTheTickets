@@ -50,7 +50,7 @@ export default class CreateListingView extends Component {
             ticketPrice: "",
             sellAsGroup: false,
             minPurchaseSize: "",
-            opponents: [],
+            opponentNames: [],
             gameDates: [],
             gameDate: "",
             disableChooseOpponent: true,
@@ -92,6 +92,9 @@ export default class CreateListingView extends Component {
     }
 
     renderOpponent() {
+
+        this.state.disableChooseOpponent = false;
+
         return _.map(this.state.opponentNames, (name, index) =>
             <option key={index}
                     value={name.team_name}>
@@ -308,12 +311,13 @@ export default class CreateListingView extends Component {
                                                 <ControlLabel>Opponent Team</ControlLabel>
                                                 <FormControl componentClass="select"
                                                              id="opponentSelect"
-                                                             disabled={this.state.disableChooseOpponent}
                                                              bsSize="small"
+                                                             disabled={this.state.disableChooseOpponent}
                                                              placeholder="Opponent"
                                                              name="opponentName"
                                                              onChange={this.handleChange.bind(this)}
                                                              style={{width: '200px'}}>
+                                                    <option value={null}>Pick An Opponent</option>
                                                     {this.renderOpponent()}
                                                 </FormControl>
                                             </FormGroup>
@@ -551,7 +555,8 @@ export default class CreateListingView extends Component {
                                         <Button onClick={this.createModal.bind(this)}>Create Listing</Button>
                                     </ButtonToolbar>
                                 </div>
-                                <CreateListingConfirmModal {...this.state} modalSubmitError={this.state.modalSubmitError}
+                                <CreateListingConfirmModal {...this.state}
+                                                           modalSubmitError={this.state.modalSubmitError}
                                                            show={this.state.showConfirm}
                                                            onHide={this.onHide.bind(this)}/>
                             </Panel>

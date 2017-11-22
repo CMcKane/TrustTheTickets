@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Button, ControlLabel, Panel, Modal, Form, FormGroup, FormControl} from 'react-bootstrap';
+import Time from 'react-time';
+import {Button, ControlLabel, Panel, Modal, Form, FormGroup, FormControl, Grid, Col, Row} from 'react-bootstrap';
 import '../../../stylesheet.css';
 
 
@@ -56,13 +57,13 @@ export default class CreateListingConfirmModal extends Component {
         var extras = [];
 
         if(aisle){
-            extras.push(<FormControl.Static>Aisle Seat</FormControl.Static>)
+            extras.push(<Col lg={4}><FormControl.Static>Aisle Seat</FormControl.Static></Col>)
         }
         if(entry){
-            extras.push(<FormControl.Static>Early Entry</FormControl.Static>)
+            extras.push(<Col lg={4}><FormControl.Static>Early Entry</FormControl.Static></Col>)
         }
         if(handicap){
-            extras.push(<FormControl.Static>Handicap Accessible</FormControl.Static>)
+            extras.push(<Col lg={4}><FormControl.Static>Handicap Accessible</FormControl.Static></Col>)
         }
 
         return extras;
@@ -71,7 +72,7 @@ export default class CreateListingConfirmModal extends Component {
     renderSeatsValues(){
 
         var labels = [];
-        if (this.props.seatsInfo.length > 1) {
+        if (this.props.seatsInfo.length > 0) {
             for(var i = 1; i <= this.props.numberOfTickets; i++){
 
                 var seat =  this.props.seatsInfo[i-1].seat[0].seatNum;
@@ -81,14 +82,23 @@ export default class CreateListingConfirmModal extends Component {
 
                 labels.push(
                     <div>
-                        <ControlLabel>{"Seat Number " + i + ":"}</ControlLabel>
-                        <FormControl.Static>{seat}</FormControl.Static>
-                        <ControlLabel>Ticket Extras</ControlLabel>
-                        {this.renderExtrasLabels(aisleCheck, earlyEntryCheck, handicapAccessibleCheck)}
+                        <Row>
+                            <Col lg={4}>
+                                <ControlLabel>{"Seat Number " + i + ":"}</ControlLabel>
+                                <FormControl.Static>{seat}</FormControl.Static>
+                            </Col>
+                            <Col lg={4}>
+                                <Row>
+                                    <ControlLabel>Ticket Extras</ControlLabel>
+                                </Row>
+                                <Row>
+                                    {this.renderExtrasLabels(aisleCheck, earlyEntryCheck, handicapAccessibleCheck)}
+                                </Row>
+                            </Col>
+                        </Row>
                     </div>
                 )
             }
-
             return labels;
         }
     }
@@ -103,33 +113,63 @@ export default class CreateListingConfirmModal extends Component {
                 <Modal.Body>
                     <h4>Please confirm all fields are correct before creating your listing.</h4>
                     <Form>
+                        <div className="globalCenterThis">
                         <FormGroup>
-                            <Panel>
+                            <Panel className="globalCenterThis">
                                 <div>
-                                    <ControlLabel>Game Date: </ControlLabel>
-                                    <FormControl.Static>{this.props.gameDate}</FormControl.Static>
-                                    <ControlLabel>Opponent Name: </ControlLabel>
-                                    <FormControl.Static>{this.props.opponentName}</FormControl.Static>
+                                    <Grid>
+                                        <Row>
+                                            <Col lg={4}>
+                                                <ControlLabel>Game Date: </ControlLabel>
+                                                <FormControl.Static>{<Time value={this.props.gameDate} format="MMMM D, YYYY h:mmA"/>}</FormControl.Static>
+                                            </Col>
+                                            <Col lg={4}>
+                                                <ControlLabel>Opponent Name: </ControlLabel>
+                                                 <FormControl.Static>{this.props.opponentName}</FormControl.Static>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
                                 </div>
                             </Panel>
-                            <Panel>
+                            <Panel className="globalCenterThis">
                                 <div>
-                                    <ControlLabel>Section Number: </ControlLabel>
-                                    <FormControl.Static>{this.props.gameDate}</FormControl.Static>
-                                    <ControlLabel>Row Number: </ControlLabel>
-                                    <FormControl.Static>{this.props.opponentName}</FormControl.Static>
-                                    {this.renderSeatsValues()}
+                                    <Grid>
+                                        <Row>
+                                            <Col lg={4}>
+                                                <ControlLabel>Section Number: </ControlLabel>
+                                                <FormControl.Static>{this.props.section}</FormControl.Static>
+                                            </Col>
+                                            <Col lg={4}>
+                                                <ControlLabel>Row Number: </ControlLabel>
+                                                <FormControl.Static>{this.props.row}</FormControl.Static>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col lg={4}>
+                                            {this.renderSeatsValues()}
+                                            </Col>
+                                        </Row>
+                                    </Grid>
                                 </div>
                             </Panel>
-                            <Panel>
+                            <Panel className="globalCenterThis">
                                 <div>
-                                    <ControlLabel>Sell in Minimum Groups of: </ControlLabel>
-                                    <FormControl.Static>{this.props.minPurchaseSize}</FormControl.Static>
-                                    <ControlLabel>Price Per Ticket: </ControlLabel>
-                                    <FormControl.Static>{this.props.ticketPrice}</FormControl.Static>
+                                    <Grid>
+                                        <Row>
+                                            <Col lg={4}>
+                                                <ControlLabel>Sell in Minimum Groups of: </ControlLabel>
+                                                <FormControl.Static>{this.props.minPurchaseSize}</FormControl.Static>
+                                            </Col>
+                                            <Col lg={4}>
+                                                <ControlLabel>Price Per Ticket: </ControlLabel>
+                                                <FormControl.Static>{this.props.ticketPrice}</FormControl.Static>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
                                 </div>
                             </Panel>
                         </FormGroup>
+                        </div>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
