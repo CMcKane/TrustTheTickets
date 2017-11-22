@@ -100,7 +100,7 @@ def combinePDF():
         outputStream = io.BytesIO()
         output = PdfFileWriter()
 
-        for i in range(ticketIds[0], (ticketIds[0] + len(ticketIds))):
+        for i in ticketIds:
             curFileStream = io.BytesIO()
             curFileStream = s3worker.downloadFile(str(i))
             curInputPDF = PdfFileReader(curFileStream)
