@@ -98,7 +98,7 @@ These are all the default screen sizes
     position: fixed;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .svg {
@@ -183,6 +183,12 @@ These are all the default screen sizes
     width: 400px;
 }
 
+@media (max-width: 767px) {
+    .createListingForm {
+        font-size: 12px;
+        margin-left: 10px;
+    }
+}
 
 /*
 
@@ -1804,29 +1810,60 @@ col.registrationViewCol {
 .versusDate {
     font-size: 40px;
     font-weight: bold;
+    color: black;
     text-align: center;
 }
 .versusMonth {
     font-size: 20px;
     font-weight: bold;
+    color: black;
     text-align: center;
 }
 .versusTime {
     font-size: 14px;
     font-weight: bold;
+    color: black;
     text-align: center;
-    padding-bottom: 5px;
 }
 .versusGameBackground {
     color: rgb(45, 98, 183);
 }
-.pt-card {
-    padding: 10px !important;
+
+.parentItem {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.childItem {
+    flex-direction: row;
+    align-self: center;
+    flex: 0 0 100px;
+    padding: 20px;
+}
+.pt-card{
+    width: 150px;
+    height: 150px;
 }
 
 @media (max-width: 768px) {
+    .versusDate {
+        font-size: 36px;
+    }
+    .versusMonth {
+        font-size: 18px;
+    }
+    .versusTime {
+        font-size: 14px;
+    }
+    .childItem {
+        padding: 10px;
+    }
     .pt-card {
-        padding: 15px;
+        padding: 10px !important;
+        width: 125px;
+        height: 125px;
     }
 }
 
