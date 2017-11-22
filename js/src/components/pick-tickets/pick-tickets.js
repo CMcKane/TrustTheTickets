@@ -63,30 +63,6 @@ export default class PickTickets extends Component {
             validSections: ["112", "113", "114", "101", "102", "124", "103", "111", "115", "123", "104", "105", "109", "110", "116", "117", "121", "122",
             "106", "107", "108", "118", "119", "120", "201", "202", "203", "211", "212", "213", "214", "215", "223", "224", "204", "204A", "205", "205A",
             "209", "209A", "210", "210A", "216", "216A", "217", "217A", "222A", "222", "221A", "221", "206", "207", "207A", "208", "220", "219A", "219", "218"]
-            /*
-            innerZone1: ["112", "113", "114", "101", "102", "124"],
-            innerZone2: ["103", "111", "115", "123"],
-            innerZone3: ["104", "105", "109", "110", "116", "117", "121", "122"],
-            innerZone4: ["106", "107", "108", "118", "119", "120"],
-            outerZone1: ["201", "202", "203", "211", "212", "213", "214", "215", "223", "224"],
-            outerZone2: ["204", "204A", "205", "205A", "209", "209A", "210", "210A", "216", "216A",
-                         "217", "217A", "222A", "222", "221A", "221"],
-            outerZone3: ["206", "207", "207A", "208", "220", "219A", "219", "218"],
-            noseBleeds: ["U1", "U2", "U3", "U4", "U5", "U6", "U7", "U8", "U9", "U10", "U11", "U12", "U13",
-                         "U14", "U15", "U16", "U17", "U18", "U19", "U20", "U21", "U22", "U23", "U24",
-                         "U25", "U26"],
-            suites: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
-                     "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-                     "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43",
-                     "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57",
-                     "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71",
-                     "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82"],
-            clubBox1: ["CB2", "CB3", "CB4", "CB10", "CB11", "CB12", "CB14", "CB15", "CB16", "CB23", "CB24"],
-            clubBox2: ["CC21", "CC20","CC19","CC18","CC17"],
-            ground: ["R106", "R108", "R118", "R120"],
-            letter: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R"],
-            special: ["SB1", "SB13"],
-            private: ["PS22"] */
         }
     }
 
@@ -162,8 +138,7 @@ export default class PickTickets extends Component {
             sections: [],
             groups: [],
             isLoading: true
-            });
-         this.getTicketsWithFilter();
+            }, () => {this.getTicketsWithFilter()});
     }
 
     getTicketsWithFilter() {
@@ -277,9 +252,11 @@ export default class PickTickets extends Component {
         });
     }
 
-    filterCurrentSelectedSectionsWithCheckboxes(aisle, early, handicap) {
+    filterCurrentSelectedSectionsWithCheckboxes() {
         var currToggleValue = this.state.toggleValue;
-        this.setState({tickets: [], groups: [], isLoading: true});
+        const aisle = this.state.aisleSeatToggle;
+        const early = this.state.earlyAccessToggle;
+        const handicap = this.state.handicapToggle;
         switch(currToggleValue)
         {
             case 1:
@@ -462,40 +439,6 @@ export default class PickTickets extends Component {
             for(var i = 0; i < this.state.allZones.zone[6].length; i++)
                 if(section === this.state.allZones.zone[6][i]) { return {sections: this.state.allZones.zone[6], zone: 7} }
         }
-        /*else if(firstChar === 'U')
-        {
-            return this.state.noseBleeds;
-        }
-        else if(len === 2)
-        {
-            return this.state.suites;
-        }
-        else if(firstChar === 'C')
-        {
-            if(section.charAt(1) === 'C') {
-                return this.state.clubBox2;
-            }
-            else {
-                return this.state.clubBox1;
-            }
-
-        }
-        else if(firstChar === 'S')
-        {
-            return this.state.special;
-        }
-        else if(firstChar === 'P')
-        {
-            return this.state.private;
-        }
-        else if(len === 1 && section.match(/[A-R]/i))
-        {
-            return this.state.letter;
-        }
-        else if(firstChar === 'R')
-        {
-            return this.state.ground;
-        }*/
         else
         {
             return [];
@@ -512,7 +455,6 @@ export default class PickTickets extends Component {
     onToggleChange(value) {
         this.setState({ toggleValue: value });
     }
-
 
     hasEventID() {
         if (this.state.eventID > 0) {
@@ -552,49 +494,19 @@ export default class PickTickets extends Component {
         });
     }
 
-    toggleEarlyAccess(e) {
+    toggleFilter(e) {
         var currState;
-        if(e.target.checked) {
-            currState = 1;
-        } else {
+        if(this.state[e.target.id] === 1) {
             currState = 0;
+        } else {
+            currState = 1;
         }
-
         this.setState({
-            earlyAccessToggle: currState
-        });
-
-        this.filterCurrentSelectedSectionsWithCheckboxes(this.state.aisleSeatToggle, currState, this.state.handicapToggle);
-    }
-
-    toggleHandicap(e) {
-        var currState;
-        if(e.target.checked) {
-            currState = 1;
-        } else {
-            currState = 0;
-        }
-
-       this.setState({
-            handicapToggle: currState
-        });
-
-        this.filterCurrentSelectedSectionsWithCheckboxes(this.state.aisleSeatToggle, this.state.earlyAccessToggle, currState);
-    }
-
-    toggleAisleSeating(e) {
-        var currState;
-        if(e.target.checked) {
-            currState = 1;
-        } else {
-            currState = 0;
-        }
-
-        this.setState({
-            aisleSeatToggle: currState
-        });
-
-        this.filterCurrentSelectedSectionsWithCheckboxes(currState, this.state.earlyAccessToggle, this.state.handicapToggle);
+            [e.target.id]: currState,
+            tickets: [],
+            groups: [],
+            isLoading: true
+        }, () => {this.filterCurrentSelectedSectionsWithCheckboxes()}); 
     }
 
     addCheckBox(value) {
@@ -621,18 +533,18 @@ export default class PickTickets extends Component {
             }
             seats.sort();
             list.push(
-                <p className="ticketBorder" border-color="red">
+                <div key={group} className="ticketBorder">
                     Tickets for sale: {this.state.groups[group].length}
                     <br></br>
                     <div className="ticketAttributes">
                         Section: {this.state.groups[group][0].section_number}
-                        <span style={{display:"inline-block", width: "25"}}></span>
+                        <br />
                         Row: {this.state.groups[group][0].row_number}
                     </div>
 
                     <div className="ticketAttributes">
                         Seat(s): {seats.join(", ")}
-                        <span style={{display:"inline-block", width: "25"}}></span>
+                        <br />
                         Price: ${this.state.groups[group][0].ticket_price} /ea
                     </div>
                     <Button
@@ -640,7 +552,7 @@ export default class PickTickets extends Component {
                         style={{marginLeft: "165px", marginTop: "10px", color: "black"}}
                         bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets
                     </Button>
-                </p>
+                </div>
             )
             this.state.currGroups[counter] = this.state.groups[group];
             counter = counter + 1;
@@ -832,8 +744,8 @@ export default class PickTickets extends Component {
                                                     value={this.state.toggleValue}
                                                     onChange={this.onToggleChange.bind(this)}>
                                                         <ToggleButton id="selectPrice" value={1} onClick={this.selectTicket.bind(this)}>Select Price</ToggleButton>
-                                                        <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)} >Lowest Price</ToggleButton>
-                                                        <ToggleButton id="highestPrice" value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)} >Highest Price</ToggleButton>
+                                                        <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)}>Lowest Price</ToggleButton>
+                                                        <ToggleButton id="highestPrice" value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)}>Highest Price</ToggleButton>
                                                 </ToggleButtonGroup>
                                             </div>
                                             <div>
@@ -843,9 +755,9 @@ export default class PickTickets extends Component {
                                                     type="checkbox"
                                                     value={this.state.activeCheckBoxes}
                                                     onChange={this.addCheckBox.bind(this)}>
-                                                        <ToggleButton id="handicap" value={1} onClick={this.toggleHandicap.bind(this)}>Handicap</ToggleButton>
-                                                        <ToggleButton id="aisle" value={2} onClick={this.toggleAisleSeating.bind(this)}>Aisle</ToggleButton>
-                                                        <ToggleButton id="early" value={3} onClick={this.toggleEarlyAccess.bind(this)}>Early Entry</ToggleButton>
+                                                        <ToggleButton id="handicapToggle" value={1} onClick={this.toggleFilter.bind(this)}>Handicap</ToggleButton>
+                                                        <ToggleButton id="aisleSeatToggle" value={2} onClick={this.toggleFilter.bind(this)}>Aisle</ToggleButton>
+                                                        <ToggleButton id="earlyAccessToggle" value={3} onClick={this.toggleFilter.bind(this)}>Early Entry</ToggleButton>
                                                 </ToggleButtonGroup>
                                             </div>
                                             <span> </span>
@@ -888,7 +800,7 @@ export default class PickTickets extends Component {
                                         <h3 className="Tickets-label"> Tickets </h3>
                                         <div className="ticketListItemTicketBorder">
                                             {this.renderTicketList()}
-                                            <div align="center"> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
+                                            <div style={{align:"center"}}> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
                                         </div>
                                         </Col>
                                         <Col xs={1} sm={2} md={1} lg={1}>
