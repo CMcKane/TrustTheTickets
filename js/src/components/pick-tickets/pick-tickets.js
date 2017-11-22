@@ -650,7 +650,12 @@ export default class PickTickets extends Component {
     }
 
     buildTicketInfoRendering() {
-        return(
+
+        var html = [];
+        html.push(this.buildTicketDetailsRendering());
+        html.push(this.buildTicketTotalsRendering());
+        return(html);
+        /*return(
             <div className="checkoutBody">
                 <table class="table">
                     <thead>
@@ -692,6 +697,68 @@ export default class PickTickets extends Component {
                     </tr>
                 </table>
             </div>
+        );*/
+    }
+
+   buildTicketTotalsRendering() {
+
+        var tickets = this.state.checkoutTickets;
+        var subtotal = 0;
+        var fees = 0;
+        for(var i = 0; i < tickets.length; i++)
+        {
+            subtotal = subtotal + tickets[i].ticket_price;
+        }
+
+        return (
+            <p className="tableNewLine">
+            <table className="checkoutCosts">
+                  <tr>
+                      <th className="verticalTableHeading">Subtotal:</th>
+                      <td>${subtotal}</td>
+                  </tr>
+                  <tr>
+                      <th className="verticalTableHeading">Fees:</th>
+                      <td>${fees}</td>
+                  </tr>
+                  <tr>
+                      <th className="verticalTableHeading">Total:</th>
+                      <td>${fees + subtotal}</td>
+                  </tr>
+            </table>
+            </p>
+        );
+   }
+   buildTicketDetailsRendering() {
+
+        var rows = [];
+        var tickets = this.state.checkoutTickets;
+        for(var i = 0; i < tickets.length; i++)
+        {
+            rows.push(
+                <tr>
+                    <td>{i + 1}</td>
+                    <td>{tickets[i].section_number}</td>
+                    <td>{tickets[i].row_number}</td>
+                    <td>{tickets[i].seat_number}</td>
+                    <td>${tickets[i].ticket_price}</td>
+                </tr>
+            );
+        }
+
+        return (
+            <p>
+            <table class="table">
+                <thead>
+                    <th className="tableHeading">Ticket #</th>
+                    <th className="tableHeading">Section</th>
+                    <th className="tableHeading">Row</th>
+                    <th className="tableHeading">Seat</th>
+                    <th className="tableHeading">Price</th>
+                </thead>
+                <tbody>{rows}</tbody>
+            </table>
+            </p>
         );
     }
 
