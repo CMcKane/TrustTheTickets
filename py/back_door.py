@@ -15,6 +15,8 @@ from operator import itemgetter
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from werkzeug.utils import secure_filename
 from s3_interface import S3Worker
+from email_client import TTTEmailClient
+import threading
 import os
 import configparser
 import io
@@ -85,7 +87,34 @@ def splitPDF():
             output.write(outputStream)
             outputStream.seek(0)
             print("Pretend uploading " + str(startId + i) + ".pdf")
-            # s3worker.uploadFile(outputStream, str(startId + i))
+            s3worker.uploadFile(outputStream, str(startId + i))
+    return ''
+
+@app.route('/combine-pdf', methods=['POST'])
+def combinePDF():
+    if 'application/json' in request.headers.environ['CONTENT_TYPE']:
+        jsonData = request.get_json()
+        email = jsonData['email']
+        ticketIds = jsonData['ticketIds']
+
+        outputStream = io.BytesIO()
+        output = PdfFileWriter()
+
+        for i in range(ticketIds[0], (ticketIds[0] + len(ticketIds))):
+            curFileStream = io.BytesIO()
+            curFileStream = s3worker.downloadFile(str(i))
+            curInputPDF = PdfFileReader(curFileStream)
+            output.appendPagesFromReader(curInputPDF)
+
+        output.write(outputStream)
+        outputStream.seek(0)
+
+        thr = threading.Thread(target=TTTEmailClient.send_combined_ticket_file,
+                               args=(email, outputStream, "Tickets.pdf"))
+        thr.start()
+
+    else:
+        return requestNotSupported()
     return ''
 
 @app.route('/token-refresh', methods = ['POST'])
