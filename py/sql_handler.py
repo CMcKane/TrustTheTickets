@@ -631,3 +631,56 @@ class SqlHandler(object):
                        "WHERE s.country_id = '{}'".format(country_id))
         data = [dict(state_prov_id=row[0], state_prov_name=row[1]) for row in cursor.fetchall()]
         return data
+
+    def hold_tickets(self, account_id, ticket_ids):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+
+        id_string = ""
+        for i in range(0, len(ticket_ids)):
+            if (i == len(ticket_ids)-1):
+                id_string+="'{}'".format(ticket_ids[i])
+            else:
+                id_string+="'{}',".format(ticket_ids[i])
+
+
+        whereStr = "WHERE ticket_id IN ({}) "
+        query = "UPDATE tickets " \
+                "SET ticket_status_id = 4, lock_account_id = {} " \
+                "%s" % (whereStr)
+        try:
+            ticket_ids = ",".join(str(x) for x in ticket_ids)
+            cursor.execute(query.format(account_id, id_string))
+            conn.commit()
+            cursor.callproc('set_ticket_available', (ticket_ids,))
+            conn.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def purchase_tickets(self, account_id, ticket_ids):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+
+        try:
+            if not self.check_if_available(cursor, account_id, ticket_ids):
+                return False
+
+        except Exception as e:
+            print(e)
+            return False
+
+    def set_tickets_to_purchased(self, account_id, tickets_ids):
+        return ''
+
+    def check_if_available(self, cursor, account_id, ticket_ids):
+        query = "SELECT count(ticket_id) " \
+                "FROM tickets " \
+                "WHERE ticket_id IN ({}) " \
+                "AND ticket_status_id != 4" \
+                "AND lock_account_id != {}"
+        cursor.execute(query.format(ticket_ids, account_id))
+        if (len(cursor.fetchall()) > 0):  # If one of the tickets is not locked under the given account id, can't buy
+            return False
+        return True

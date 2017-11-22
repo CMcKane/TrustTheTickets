@@ -390,6 +390,20 @@ def update_listing():
         print(e)
         return jsonify({'authenticated': False})
 
+@app.route('/hold-tickets', methods=['POST'])
+@require_token
+def hold_tickets():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        result = sqlHandler.hold_tickets(account_id, jsonData['ticketIds'])
+        return jsonify({'authenticated': result, 'timer': 30000}) # 5 minutes
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
 @app.route('/cancel-listing', methods=['POST'])
 @require_token
 def cancel_listing():
