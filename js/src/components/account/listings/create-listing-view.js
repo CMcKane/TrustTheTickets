@@ -551,7 +551,7 @@ export default class CreateListingView extends Component {
                                         <Button onClick={this.createModal.bind(this)}>Create Listing</Button>
                                     </ButtonToolbar>
                                 </div>
-                                <CreateListingConfirmModal modalSubmitError={this.state.modalSubmitError}
+                                <CreateListingConfirmModal {...this.state} modalSubmitError={this.state.modalSubmitError}
                                                            show={this.state.showConfirm}
                                                            onHide={this.onHide.bind(this)}/>
                             </Panel>

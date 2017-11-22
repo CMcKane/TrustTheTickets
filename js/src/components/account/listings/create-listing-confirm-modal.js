@@ -71,26 +71,26 @@ export default class CreateListingConfirmModal extends Component {
     renderSeatsValues(){
 
         var labels = [];
+        if (this.props.seatsInfo.length > 1) {
+            for(var i = 1; i <= this.props.numberOfTickets; i++){
 
-        for(var i = 1; i <= this.props.numberOfTickets; i++){
+                var seat =  this.props.seatsInfo[i-1].seat[0].seatNum;
+                var aisleCheck =  this.props.seatsInfo[i-1].seat[0].aisleSeat;
+                var earlyEntryCheck =  this.props.seatsInfo[i-1].seat[0].earlyEntry;
+                var handicapAccessibleCheck = this.props.seatsInfo[i-1].seat[0].handicapAccessible;
 
+                labels.push(
+                    <div>
+                        <ControlLabel>{"Seat Number " + i + ":"}</ControlLabel>
+                        <FormControl.Static>{seat}</FormControl.Static>
+                        <ControlLabel>Ticket Extras</ControlLabel>
+                        {this.renderExtrasLabels(aisleCheck, earlyEntryCheck, handicapAccessibleCheck)}
+                    </div>
+                )
+            }
 
-            var seat =  this.props.seatsInfo[i-1].seat[0].seatNum;
-            var aisleCheck =  this.props.seatsInfo[i-1].seat[0].aisleSeat;
-            var earlyEntryCheck =  this.props.seatsInfo[i-1].seat[0].earlyEntry;
-            var handicapAccessibleCheck = this.props.seatsInfo[i-1].seat[0].handicapAccessible;
-
-            labels.push(
-                <div>
-                    <ControlLabel>{"Seat Number " + i + ":"}</ControlLabel>
-                    <FormControl.Static>{seat}</FormControl.Static>
-                    <ControlLabel>Ticket Extras</ControlLabel>
-                    {this.renderExtrasLabels(aisleCheck, earlyEntryCheck, handicapAccessibleCheck)}
-                </div>
-            )
+            return labels;
         }
-
-        return labels;
     }
 
     render() {
