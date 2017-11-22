@@ -7,7 +7,7 @@ class SqlHandler(object):
     def get_tickets(self, sectionNum, event_id, aisleSeat, earlyAccess, handicap):
         conn = self.mysql.connection
         cursor = conn.cursor()
-        whereStr = "WHERE t.event_id = '{}' AND se.section_num = '{}' "
+        whereStr = "WHERE t.event_id = '{}' AND se.section_num = '{}' AND t.ticket_status_id = 1 "
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -42,6 +42,7 @@ class SqlHandler(object):
                        "JOIN seats s ON (t.seat_id = s.seat_id) "
                        "JOIN groups g USING (group_id)"
                        "WHERE t.event_id = '{}' "
+                       "AND t.ticket_status_id = 1 "
                        "ORDER BY row_num".format(eventID))
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
                         section_number=row[3], ticket_price=row[4]) for row in
@@ -199,6 +200,7 @@ class SqlHandler(object):
         whereStr = "WHERE g.ticket_price >= '{}' " \
                    "AND g.ticket_price <= '{}' " \
                    "AND t.event_id = '{}' " \
+                   "AND t.ticket_status_id = 1 " \
                    "AND se.section_num IN ({}) "
 
         if aisleSeat is 1:
@@ -214,8 +216,8 @@ class SqlHandler(object):
             else:
                 section_string+="'{}',".format(sections[i])
 
-        query = "SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, t.ticket_id, " \
-                "t.is_early_entry, t.is_aisle_seat, t.is_ha " \
+        query = "SELECT  g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, t.ticket_id,  " \
+                "t.is_early_entry, t.is_aisle_seat, t.is_ha, t.ticket_id " \
                 "FROM tickets t " \
                 "JOIN groups g ON (t.group_id = g.group_id) " \
                 "JOIN sections se ON (t.section_id = se.section_id) " \
@@ -226,7 +228,7 @@ class SqlHandler(object):
         tickets = [dict(ticket_price=row[0], section_number=row[1],
                         row_number=row[2], seat_number=row[3],
                         group_id=row[4], ticket_id=row[5],
-                        early_access=row[6], aisle_seat=row[7], handicap=row[8]) for row in cursor.fetchall()]
+                        early_access=row[6], aisle_seat=row[7], handicap=row[8], id=row[9]) for row in cursor.fetchall()]
         return tickets
 
     def get_cheap_ticket_any_section(self, event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap):
@@ -235,7 +237,8 @@ class SqlHandler(object):
 
         whereStr = "WHERE t.event_id ='{}' " \
                    "AND g.ticket_price >= '{}' " \
-                   "AND g.ticket_price <= '{}' "
+                   "AND g.ticket_price <= '{}' " \
+                   "AND t.ticket_status_id = 1 "
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -266,7 +269,8 @@ class SqlHandler(object):
 
         whereStr = "WHERE t.event_id = '{}' " \
                    "AND g.ticket_price >= '{}' " \
-                   "AND g.ticket_price <= '{}' "
+                   "AND g.ticket_price <= '{}' " \
+                   "AND t.ticket_status_id = 1 "
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -290,6 +294,7 @@ class SqlHandler(object):
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id = '{}' " \
+                   "AND t.ticket_status_id = 1 " \
                    "AND g.ticket_price >= " \
                    "(SELECT max(ticket_price) FROM groups g WHERE g.event_id ='{}') "
 
@@ -316,6 +321,7 @@ class SqlHandler(object):
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id = '{}' " \
+                   "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id ='{}') "
 
         if aisleSeat is 1:
@@ -344,6 +350,7 @@ class SqlHandler(object):
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id = '{}' " \
+                   "AND t.ticket_status_id = 1 " \
                    "AND ticket_price >= (SELECT max(ticket_price) FROM groups g WHERE g.event_id = '{}')"
 
         if aisleSeat is 1:
@@ -371,6 +378,7 @@ class SqlHandler(object):
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id ='{}' " \
+                   "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id = '{}') "
 
         if aisleSeat is 1:
@@ -396,7 +404,7 @@ class SqlHandler(object):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
-        whereStr = "WHERE t.event_id = '{}' AND se.section_type_id = '{}' "
+        whereStr = "WHERE t.event_id = '{}' AND se.section_type_id = '{}' AND t.ticket_status_id = 1 "
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
         if earlyAccess is 1:
@@ -562,7 +570,8 @@ class SqlHandler(object):
                 section_string+="'{}',".format(sections[i])
 
         whereStr = "WHERE t.event_id = '{}' " \
-                   "AND se.section_num IN ({}) "
+                   "AND se.section_num IN ({}) " \
+                   "AND t.ticket_status_id = 1 "
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
