@@ -404,6 +404,7 @@ export default class PickTickets extends Component {
 
     createTicketGroupArrays(tickets) {
         var groups;
+        console.log(tickets);
         TTTPost('/create-groups', {
                     tickets: tickets
                 })
