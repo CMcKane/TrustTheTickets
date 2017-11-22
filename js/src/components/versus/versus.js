@@ -79,7 +79,7 @@ export default class Versus extends Component {
 
     renderLogos() {
         return _.map(this.state.teams, (team, id) =>
-            <TeamLogo team={team} onClick={this.onTeamSelect.bind(this)} />
+            <TeamLogo key={id} team={team} onClick={this.onTeamSelect.bind(this)} />
         );
     }
 

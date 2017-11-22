@@ -11,7 +11,6 @@ export default class TeamLogo extends Component {
     }
 
     onLogoClick() {
-    	console.log(this.props.team);
     	this.props.onClick(this.props.team);
     }
 

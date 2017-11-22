@@ -5,7 +5,7 @@ export default class TimberwolvesLogo extends Component {
 
 render() { 
 return(
-<svg className="circularLogo" xmlns="http://www.w3.org/2000/svg" width="80%" viewBox="0 0 269.35434 269.42087" version="1.1">
+<svg className="circularLogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 269.35434 269.42087" version="1.1">
 <g transform="matrix(1.25 0 0 -1.25 -248.16 827.57)">
 <g><ellipse rx="106.94" ry="106.97" transform="scale(1,-1)" cy="-554.27" cx="306.25" fill="#9ea2a2"/>
 <ellipse rx="103.17" ry="103.19" transform="scale(1,-1)" cy="-554.42" cx="306.79" fill="#0c2340"/>

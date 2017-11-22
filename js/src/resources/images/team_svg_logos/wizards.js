@@ -5,7 +5,7 @@ export default class WizardsLogo extends Component {
 
 render() { 
 return(
-<svg xmlns="http://www.w3.org/2000/svg" className="circularLogo" width="80%" viewBox="0 0 253.8425 253.81438" version="1.1"><g transform="matrix(1.25 0 0 -1.25 -37.788 1022)"><g><ellipse rx="100.74" ry="100.73" transform="scale(1,-1)" cy="-715.98" cx="132.07" fill="#c4ced4"/>
+<svg xmlns="http://www.w3.org/2000/svg" className="circularLogo" viewBox="0 0 253.8425 253.81438" version="1.1"><g transform="matrix(1.25 0 0 -1.25 -37.788 1022)"><g><ellipse rx="100.74" ry="100.73" transform="scale(1,-1)" cy="-715.98" cx="132.07" fill="#c4ced4"/>
 <ellipse rx="96.628" ry="96.781" transform="scale(1,-1)" cy="-716.47" cx="131.66" fill="#e31837"/>
 <g><path d="m228.58 721.05-193.73-0.018c-0.09-1.656-0.1395-3.321-0.1395-4.9995 0-8.829 1.3005-17.469 3.7035-25.731 22.815 0.005 163.37 0.0135 186.57 0.027 2.4165 8.3295 3.717 17.046 3.717 25.947 0 1.5975-0.045 3.1905-0.126 4.7745" fill="#fff"/>
 <path d="m119.28 619.37c3.9285-0.486 7.929-0.7425 11.988-0.747h0.0585 0.054 0.018c8.8245 0 17.37 1.1835 25.497 3.3795 25.452 7.308 47.169 25.358 59.859 48.524h-170.1c14.805-26.838 41.854-46.782 72.626-51.156" fill="#002b5c"/>
