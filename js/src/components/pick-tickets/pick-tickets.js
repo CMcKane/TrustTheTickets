@@ -515,6 +515,7 @@ export default class PickTickets extends Component {
     }
 
     setCheckoutTickets(tickets) {
+        // Call backend to see if these tickets are all still available first
         this.setState({
             checkoutTickets: tickets,
             show: false,
@@ -563,11 +564,12 @@ export default class PickTickets extends Component {
     }
 
     render() {
-
+        console.log(this.state.eventID);
             if(this.state.checkoutPageActive)
             {
                 return (
-                    <Checkout checkoutTickets={this.state.checkoutTickets} />
+                    <Checkout returnRedirect={"/pick-tickets?event=" + this.state.eventID}
+                        checkoutTickets={this.state.checkoutTickets} />
                 );
             }
             else
