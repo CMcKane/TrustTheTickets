@@ -22,6 +22,7 @@ import _ from 'lodash';
 import 'react-datepicker/dist/react-datepicker.css'
 import '../../../stylesheet.css';
 import CreateListingModal from "./create-listing-modal";
+import CreateListingConfirmModal from "./create-listing-confirm-modal"
 import {RadioGroup, Radio} from 'react-radio-group';
 
 function FieldGroup({id, label, help, ...props}) {
@@ -47,10 +48,6 @@ export default class CreateListingView extends Component {
             seatsInfo: [],
             opponentName: "",
             ticketPrice: "",
-            isAisleSeat: false,
-            isEarlyEntry: false,
-            hasObstructedView: false,
-            isHandicapAccessible: false,
             sellAsGroup: false,
             minPurchaseSize: "",
             opponents: [],
@@ -58,6 +55,7 @@ export default class CreateListingView extends Component {
             gameDate: "",
             disableChooseOpponent: true,
             show: false,
+            showConfirm: false,
             modalSubmitError: "",
             disableMinPurchaseSizeForm: false,
             selectedValue: "1",
@@ -161,7 +159,7 @@ export default class CreateListingView extends Component {
                     var check1 = document.getElementById('aisleSeatCheck' + i).checked;
                     var check2 = document.getElementById('earlyEntryCheck' + i).checked;
                     var check3 = document.getElementById('handicapAccessibleCheck' + i).checked;
-                    this.state.seatsInfo.push({seat: [form, check1, check2, check3]});
+                    this.state.seatsInfo.push({seat: [{seatNum: form, aisleSeat: check1, earlyEntry: check2, handicapAccessible: check3}]});
                 }
 
                 console.log(this.state.seatsInfo);
@@ -175,10 +173,18 @@ export default class CreateListingView extends Component {
                 }
                 break;
             case 4:
-                this.setState({activeKey: this.state.activeKey + 1});
+                if(this.state.minPurchaseSize === ""){
+                    alert("Please pick a minimum group size for selling tickets to move onto the next step.");
+                } else {
+                    this.setState({activeKey: this.state.activeKey + 1});
+                }
                 break;
             case 5:
-                this.setState({activeKey: this.state.activeKey + 1});
+                if(this.state.ticketPrice === ""){
+                    alert("Please set a ticket price to move onto the next step.");
+                } else {
+                    this.setState({activeKey: this.state.activeKey + 1});
+                }
                 break;
             case 6:
                 this.setState({activeKey: this.state.activeKey + 1});
@@ -247,15 +253,28 @@ export default class CreateListingView extends Component {
     }
 
     createModal() {
-        this.setState({
-            show: !this.state.show,
-        });
+        if(this.state.activeKey === 2){
+            this.setState({
+                show: !this.state.show
+            });
+        }else if (this.state.activeKey === 6){
+            this.setState({
+                showConfirm: !this.state.showConfirm
+            });
+        }
     }
 
     onHide() {
-        this.setState({
-            show: false
-        });
+        if(this.state.show){
+            this.setState({
+                show: false
+            });
+        }
+        if(this.state.showConfirm){
+            this.setState({
+                showConfirm: false
+            })
+        }
     }
 
     changeNumberOfTickets(newNumberOfTickets) {
@@ -529,9 +548,12 @@ export default class CreateListingView extends Component {
                                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                                     <ButtonToolbar className="globalCenterThis">
                                         <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                        <Button>Create Listing</Button>
+                                        <Button onClick={this.createModal.bind(this)}>Create Listing</Button>
                                     </ButtonToolbar>
                                 </div>
+                                <CreateListingConfirmModal modalSubmitError={this.state.modalSubmitError}
+                                                           show={this.state.showConfirm}
+                                                           onHide={this.onHide.bind(this)}/>
                             </Panel>
                         </PanelGroup>
                         <Col xs={0} sm={1} md={1} lg={2}>
