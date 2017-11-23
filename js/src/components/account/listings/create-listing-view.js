@@ -52,7 +52,9 @@ export default class CreateListingView extends Component {
             minPurchaseSize: "",
             opponentNames: [],
             gameDates: [],
+            formattedGameDates: [],
             gameDate: "",
+            dbGameDate: "",
             disableChooseOpponent: true,
             show: false,
             showConfirm: false,
@@ -77,8 +79,33 @@ export default class CreateListingView extends Component {
     getGameDates() {
         TTTGet("/get-game-dates")
             .then(res => {
-                this.setState({gameDates: res.data.date});
+                this.setState({
+                    gameDates: res.data.date
+                });
+                this.loadFormattedGameDates();
             });
+    }
+
+    loadFormattedGameDates(){
+        var fgd = [];
+        for(var i = 0; i < this.state.gameDates.length; i++)
+        {
+            fgd.push(new Date(this.state.gameDates[i].date).toISOString().slice(0, 19).replace('T', ' '));
+        }
+        this.setState({
+            formattedGameDates: fgd
+        });
+    }
+
+    getGameDataIndex(gameDate)
+    {
+        for(var i = 0; i < this.state.gameDates.length; i++)
+        {
+            if(this.state.formattedGameDates[i] == gameDate)
+            {
+                return i;
+            }
+        }
     }
 
     renderGameDates() {
@@ -165,8 +192,6 @@ export default class CreateListingView extends Component {
                     this.state.seatsInfo.push({seat: [{seatNum: form, aisleSeat: check1, earlyEntry: check2, handicapAccessible: check3}]});
                 }
 
-                console.log(this.state.seatsInfo);
-
                 if (this.state.section !== null && this.state.row !== null && this.state.seatsInfo !== null) {
 
                     this.setState({activeKey: this.state.activeKey + 1});
@@ -225,6 +250,8 @@ export default class CreateListingView extends Component {
     }
 
     handleDateChoice(e) {
+        var dbGameDateIndex = this.getGameDataIndex(e.target.value);
+        this.setState({dbGameDate: this.state.gameDates[dbGameDateIndex].date});
         this.getOpponentName(e.target.value);
     }
 
@@ -241,7 +268,7 @@ export default class CreateListingView extends Component {
     }
 
     handleMinPurchaseSizeChange(e){
-        if(e.target.value > this.state.numberOfTickets) {
+        if(e.target.value > this.state.numberOfTickets){
             alert("Minimum selling size must be less than or equal to the number of tickets you are selling.")
         } else {
             this.setState({[e.target.name]: e.target.value});
@@ -302,6 +329,7 @@ export default class CreateListingView extends Component {
                                                              bsSize="small"
                                                              placeholder="Game Date"
                                                              name="gameDate"
+                                                             value={this.state.gameDate}
                                                              onChange={this.handleDateChoice.bind(this)}
                                                              style={{width: '200px'}}>
                                                     <option value={null}>Select a Game Date</option>

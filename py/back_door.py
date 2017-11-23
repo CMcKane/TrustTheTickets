@@ -71,12 +71,12 @@ def requestNotSupported():
 @app.route('/split-pdf', methods=['POST'])
 def splitPDF():
     files = request.files['pdf']
-    startId = int(request.values['startId'])
-    endId = int(request.values['endId'])
+    firstTicketId = int(request.values['startId'])
+    lastTicketId = int(request.values['endId'])
 
     inputPDF = PdfFileReader(files)
 
-    if endId - startId + 1 != inputPDF.numPages:
+    if lastTicketId - firstTicketId + 1 != inputPDF.numPages:
         print("ERROR: PDF does not have the same number of pages as the number of tickets being uploaded.")
         print("Tickets could not be uploaded.")
     else:
@@ -86,8 +86,7 @@ def splitPDF():
             output.addPage(inputPDF.getPage(i))
             output.write(outputStream)
             outputStream.seek(0)
-            print("Pretend uploading " + str(startId + i) + ".pdf")
-            s3worker.uploadFile(outputStream, str(startId + i))
+            s3worker.uploadFile(outputStream, str(firstTicketId + i))
     return ''
 
 @app.route('/combine-pdf', methods=['POST'])
@@ -164,12 +163,6 @@ def get_account_info():
         except Exception as e:
             return jsonify({'authenticated': False})
 
-@app.route('/accounts')
-def index():
-    sqlHandler = SqlHandler(mysql)
-    accounts = sqlHandler.get_accounts()
-    return jsonify({'accounts': accounts})
-
 @app.route('/ticket-details', methods=['POST'])
 def get_ticket_details():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -182,8 +175,9 @@ def get_ticket_details():
 def get_all_tickets():
     jsondata = request.get_json()
     event_id = jsondata['eventID']
+    desiredNumberTickets = jsondata['desiredNumberTickets']
     sqlHandler = SqlHandler(mysql)
-    tickets = sqlHandler.get_all_tickets(mysql, event_id)
+    tickets = sqlHandler.get_all_tickets(mysql, event_id, desiredNumberTickets)
     return jsonify({'tickets': tickets})
 
 @app.route('/tickets', methods=['POST'])

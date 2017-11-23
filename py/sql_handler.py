@@ -32,7 +32,7 @@ class SqlHandler(object):
                         aisle=row[6], early_entry=row[7], is_ha=row[8]) for row in cursor.fetchall()]
         return tickets
 
-    def get_all_tickets(self, mysql, eventID):
+    def get_all_tickets(self, mysql, eventID, desiredNumberTickets):
         conn = mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num, g.ticket_price "
@@ -43,7 +43,8 @@ class SqlHandler(object):
                        "JOIN groups g USING (group_id)"
                        "WHERE t.event_id = '{}' "
                        "AND t.ticket_status_id = 1 "
-                       "ORDER BY row_num".format(eventID))
+                       "AND min_sell_num <= '{}' "
+                       "ORDER BY row_num".format(eventID, desiredNumberTickets))
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
                         section_number=row[3], ticket_price=row[4]) for row in
                    cursor.fetchall()]
@@ -646,13 +647,10 @@ class SqlHandler(object):
 
         whereStr = "WHERE ticket_id IN ({}) "
         query = "UPDATE tickets " \
-                "SET ticket_status_id = 4, lock_account_id = {} " \
+                "SET ticket_status_id = 4, lock_account_id = {}, last_updated = NOW() " \
                 "%s" % (whereStr)
         try:
-            ticket_ids = ",".join(str(x) for x in ticket_ids)
             cursor.execute(query.format(account_id, id_string))
-            conn.commit()
-            cursor.callproc('set_ticket_available', (ticket_ids,))
             conn.commit()
             return True
         except Exception as e:
