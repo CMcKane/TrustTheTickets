@@ -121,7 +121,8 @@ export default class PickTickets extends Component {
     displayAllTickets() {
         this.setState({isLoading:true, tickets: [], toggleValue: 1});
         TTTPost('/all-tickets', {
-            eventID: this.state.eventID
+            eventID: this.state.eventID,
+            desiredNumberTickets: this.state.desiredNumberTickets
         })
             .then(res => {
                 if (res.data.tickets) {
@@ -620,7 +621,7 @@ export default class PickTickets extends Component {
                                             <Col xs={12} sm={12} md={4} lg={4}>
                                                 <ButtonGroup>
                                                     <DropdownButton title="Number of Tickets" id="bg-nested-dropdown"
-                                                        onSelect={this.setState({desiredNumberTickets: eventKey})} >
+                                                         >
                                                         <MenuItem eventKey="1">1 Ticket</MenuItem>
                                                         <MenuItem eventKey="2">2 Tickets</MenuItem>
                                                         <MenuItem eventKey="3">3 Tickets</MenuItem>
