@@ -55,7 +55,8 @@ export default class PickTicketsModal extends Component {
     checkout() {
         if(this.state.ticketsInTransaction.length > 0 && this.state.ticketsInTransaction != [])
         {
-            this.props.setCheckoutTickets(this.state.ticketsInTransaction)
+            this.props.setCheckoutTickets(this.state.ticketsInTransaction);
+            //this.props.fetchFees();
         }
     }
 

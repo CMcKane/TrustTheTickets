@@ -183,10 +183,41 @@ These are all the default screen sizes
     width: 400px;
 }
 
+.listingConfirmModalText {
+    font-size: 20px;
+}
+
 @media (max-width: 767px) {
     .createListingForm {
-        font-size: 12px;
+        font-size: 20px;
         margin-left: 10px;
+    }
+    .listingConfirmModalText {
+        font-size: 16px;
+    }
+    .listingConfirmModalTitle {
+        font-size: 20px;
+    }
+    .listingConfirmTitle {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 426px) {
+    .listingConfirmModalText {
+        font-size: 14px;
+    }
+    .listingConfirmModalTitle {
+        font-size: 18px;
+    }
+    .listingConfirmTitle {
+        font-size: 16px;
+    }
+    .confirmListingGrid {
+        padding: 0px !important;
+    }
+    .confirmListingCol {
+        padding: 0px !important;
     }
 }
 
@@ -204,10 +235,6 @@ These are all the default screen sizes
 
 }
 
-@media (max-width: 425px) and (min-width: 376px) {
-
-}
-
 @media (max-width: 375px) and (min-width: 321px) {
 
 }
@@ -215,8 +242,8 @@ These are all the default screen sizes
 @media (max-width: 320px) {
 
 }
-
 */
+
 
 /*********************************************************************************************************************/
 /****************************************** End Create Listing View Styling ******************************************/

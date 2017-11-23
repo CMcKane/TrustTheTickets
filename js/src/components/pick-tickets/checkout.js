@@ -1,11 +1,19 @@
 import React, { Component }  from 'react';
 import _ from 'lodash';
 import {Grid, Table, Col, Button, Well} from 'react-bootstrap';
-import {TTTPost} from '../backend/ttt-request';
+import {TTTPost, TTTGet} from '../backend/ttt-request';
 import { Redirect } from 'react-router-dom';
 import withAuth from '../auth/with-auth';
 import AuthService from '../auth/auth-service';
 import '../../stylesheet.css';
+
+var tax = 0;
+var comm = 0;
+var fees;
+var subtotal;
+var total;
+var taxTotal;
+var commTotal;
 
 class Checkout extends Component {
 
@@ -13,7 +21,15 @@ class Checkout extends Component {
     super(props);
     this.Auth = new AuthService();
     this.state = {
+        commissionPercent: this.props.commissionPercent,
+        taxPercent: this.props.taxPercent,
+        subtotal: 0,
+        tax: 0,
+        fees: 0,
+        total: 0
     }
+
+    this.determinePrices();
   }
 
   componentDidMount() {
@@ -22,7 +38,16 @@ class Checkout extends Component {
     for (var i = 0; i < this.props.checkoutTickets.length; i++) {
       ticketIds.push(this.props.checkoutTickets[i].ticket_id);
     }
-    TTTPost('/hold-tickets', {
+    /*this.tax = this.props.commissionPercent;
+    this.comm = this.props.taxPercent;
+
+    console.log(this.props.commissionPercent);
+    console.log(comm);*/
+    this.setState({
+        commissionPercent: this.props.commissionPercent,
+        taxPercent: this.props.taxPercent
+    });
+    /*TTTPost('/hold-tickets', {
       ticketIds: ticketIds, 
       token: this.Auth.getToken()
     }).then(res => {
@@ -32,8 +57,50 @@ class Checkout extends Component {
       else { 
         // Can't buy
       }
-    });
+    });*/
   }
+
+    determinePrices() {
+        var tickets = this.props.checkoutTickets;
+        var subtotal = 0;
+        for(var i = 0; i < tickets.length; i++)
+        {
+            subtotal = subtotal + tickets[i].ticket_price;
+        }
+
+        var fees = 0;
+        var taxTotal = 0;
+        var commTotal = 0;
+
+        /*console.log("tax");
+        console.log(this.props.taxPercent);
+        console.log("commission");
+        console.log(this.props.commissionPercent);
+*/
+        for(var i = 0; i < tickets.length; i++)
+        {
+            taxTotal  += (tickets[i].ticket_price * this.props.taxPercent);
+            commTotal += (tickets[i].ticket_price * this.props.commissionPercent);
+        }
+        fees = taxTotal + commTotal;
+
+        this.fees = fees;
+        this.taxTotal = taxTotal;
+        this.commTotal = commTotal;
+        this.subtotal = subtotal;
+
+        this.setState({
+            subtotal: subtotal,
+            tax: taxTotal,
+            fees: fees,
+            total: subtotal + fees
+        });
+
+    }
+
+    purchaseTickets() {
+        // TODO
+    }
 
 	getComments(ticket) {
     var comments = ''
@@ -77,33 +144,32 @@ class Checkout extends Component {
         );
 	}
 
-  purchaseTickets() {
-    // do stuffs
-  }
+
 
 	renderTicketTotals() {
+	/*
 		var tickets = this.props.checkoutTickets;
     var subtotal = 0;
-    var fees = 0.10;
+    //var fees = 0.10;
     for(var i = 0; i < tickets.length; i++)
     {
         subtotal = subtotal + tickets[i].ticket_price;
-    }
-    var fees = 0.10*subtotal;
+    }*/
+    //var fees = 0.10*subtotal;
     return (
         <p className="tableNewLine">
         <table className="checkoutCosts">
               <tr>
                   <th className="verticalTableHeading">Subtotal:</th>
-                  <td>${subtotal}</td>
+                  <td>${this.subtotal}</td>
               </tr>
               <tr>
                   <th className="verticalTableHeading">Fees:</th>
-                  <td>${fees}</td>
+                  <td>${this.fees}</td>
               </tr>
               <tr>
                   <th className="verticalTableHeading">Total:</th>
-                  <td>${fees + subtotal}</td>
+                  <td>${this.fees + this.subtotal}</td>
               </tr>
         </table>
         </p>
@@ -129,7 +195,7 @@ class Checkout extends Component {
               style={{marginLeft: "165px", color: "black"}}
               bsSize="large"
               onClick={this.purchaseTickets.bind(this)}>
-              Buy
+              Checkout
           </Button>
         </div>
         </div>
