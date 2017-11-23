@@ -84,10 +84,11 @@ class Checkout extends Component {
         }
         fees = taxTotal + commTotal;
 
-        this.fees = fees;
-        this.taxTotal = taxTotal;
-        this.commTotal = commTotal;
-        this.subtotal = subtotal;
+        this.fees = Math.round(fees * 100) / 100;
+        this.taxTotal = Math.round(taxTotal * 100) / 100;
+        this.commTotal = Math.round(commTotal * 100) / 100;
+        this.subtotal = Math.round(subtotal * 100) / 100;
+        this.total = this.commTotal + this.taxTotal + this.subtotal
 
         this.setState({
             subtotal: subtotal,
@@ -99,7 +100,18 @@ class Checkout extends Component {
     }
 
     purchaseTickets() {
-        // TODO
+        var successful = false;
+        TTTPost('/insert-transaction', {
+            token: this.Auth.getToken(),
+            tickets: this.props.checkoutTickets,
+            commission: this.commTotal,
+            tax: this.taxTotal,
+            subtotal: this.subtotal,
+            total: this.total
+        })
+            .then(res => {
+                successful = res.data.successful
+            });
     }
 
 	getComments(ticket) {
@@ -147,15 +159,6 @@ class Checkout extends Component {
 
 
 	renderTicketTotals() {
-	/*
-		var tickets = this.props.checkoutTickets;
-    var subtotal = 0;
-    //var fees = 0.10;
-    for(var i = 0; i < tickets.length; i++)
-    {
-        subtotal = subtotal + tickets[i].ticket_price;
-    }*/
-    //var fees = 0.10*subtotal;
     return (
         <p className="tableNewLine">
         <table className="checkoutCosts">
@@ -164,12 +167,16 @@ class Checkout extends Component {
                   <td>${this.subtotal}</td>
               </tr>
               <tr>
+                  <th className="verticalTableHeading">Tax:</th>
+                  <td>${this.taxTotal}</td>
+              </tr>
+              <tr>
                   <th className="verticalTableHeading">Fees:</th>
-                  <td>${this.fees}</td>
+                  <td>${this.commTotal}</td>
               </tr>
               <tr>
                   <th className="verticalTableHeading">Total:</th>
-                  <td>${this.fees + this.subtotal}</td>
+                  <td>${this.commTotal + this.taxTotal + this.subtotal}</td>
               </tr>
         </table>
         </p>

@@ -465,5 +465,21 @@ def get_fees():
     percentages = sqlHandler.get_fees()
     return jsonify({'percentages': percentages})
 
+@app.route('/insert-transaction', methods=['POST'])
+def create_transaction():
+    sqlHandler = SqlHandler(mysql)
+    jsonData = request.get_json()
+    jwt_service = JWTService()
+
+    buyer_id = jwt_service.get_account(jsonData['token'])
+    tickets = jsonData['tickets']
+    commission = jsonData['commission']
+    tax = jsonData['tax']
+    subtotal = jsonData['subtotal']
+    total = jsonData['total']
+
+    success = sqlHandler.create_transaction(buyer_id, tickets, commission, tax, subtotal, total)
+    return jsonify({'success': success})
+
 if __name__ == '__main__':
     app.run()
