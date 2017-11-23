@@ -646,13 +646,10 @@ class SqlHandler(object):
 
         whereStr = "WHERE ticket_id IN ({}) "
         query = "UPDATE tickets " \
-                "SET ticket_status_id = 4, lock_account_id = {} " \
+                "SET ticket_status_id = 4, lock_account_id = {}, last_updated = NOW() " \
                 "%s" % (whereStr)
         try:
-            ticket_ids = ",".join(str(x) for x in ticket_ids)
             cursor.execute(query.format(account_id, id_string))
-            conn.commit()
-            cursor.callproc('set_ticket_available', (ticket_ids,))
             conn.commit()
             return True
         except Exception as e:
