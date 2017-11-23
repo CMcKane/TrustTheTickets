@@ -570,25 +570,43 @@ export default class PickTickets extends Component {
 
             seats.sort();
             list.push(
-                <div key={group} className="ticketBorder">
-                    Tickets for sale: {this.state.groups[group].length}
-                    <br></br>
-                    <div className="ticketAttributes">
-                        Section: {this.state.groups[group][0].section_number}
-                        <br />
-                        Row: {this.state.groups[group][0].row_number}
-                    </div>
 
-                    <div className="ticketAttributes">
-                        Seat(s): {seats.join(", ")}
-                        <br />
-                        Price: ${this.state.groups[group][0].ticket_price} /ea
-                    </div>
-                    <Button
-                        id={counter}
-                        style={{marginLeft: "165px", marginTop: "10px", color: "black"}}
-                        bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets
-                    </Button>
+                <div key={group} className="ticketBorder">
+                    <table className="ticketTableHeader">
+                        <tr>
+                            <td>
+                                {this.state.groups[group].length} Tickets
+                            </td>
+                        </tr>
+                    </table>
+                    <table className="ticketTableBody">
+                        <tr className="ticketTableBodyHeader">
+                            <td>Section</td>
+                            <td>Row</td>
+                            <td>Seat(s)</td>
+                            <td>Price</td>
+                        </tr>
+                        <tr className="ticketTableBodyBody">
+                            <td>{this.state.groups[group][0].section_number}</td>
+                            <td>{this.state.groups[group][0].row_number}</td>
+                            <td>{seats.join(", ")}</td>
+                            <td>${this.state.groups[group][0].ticket_price} /ea</td>
+                        </tr>
+                    </table>
+                    <table className="ticketTableFooter">
+                        <tr>
+                            <td>
+                                put icons here
+                            </td>
+                            <td>
+                                <Button
+                                    id={counter}
+                                    style={{marginLeft: "100px", marginTop: "10px", color: "black"}}
+                                    bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets
+                                </Button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             )
             this.state.currGroups[counter] = this.state.groups[group];
@@ -757,7 +775,7 @@ export default class PickTickets extends Component {
                                             </FormGroup>
                                         </Panel>
 
-                                        <h3 className="Tickets-label"> Tickets </h3>
+                                        <h3 className="ticketsLabel"> Tickets </h3>
                                         <div className="ticketListItemTicketBorder">
                                             {this.renderTicketList()}
                                             <div style={{align:"center"}}> <PulseLoader loading={this.state.isLoading}/> </div>

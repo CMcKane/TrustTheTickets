@@ -183,10 +183,41 @@ These are all the default screen sizes
     width: 400px;
 }
 
+.listingConfirmModalText {
+    font-size: 20px;
+}
+
 @media (max-width: 767px) {
     .createListingForm {
-        font-size: 12px;
+        font-size: 20px;
         margin-left: 10px;
+    }
+    .listingConfirmModalText {
+        font-size: 16px;
+    }
+    .listingConfirmModalTitle {
+        font-size: 20px;
+    }
+    .listingConfirmTitle {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 426px) {
+    .listingConfirmModalText {
+        font-size: 14px;
+    }
+    .listingConfirmModalTitle {
+        font-size: 18px;
+    }
+    .listingConfirmTitle {
+        font-size: 16px;
+    }
+    .confirmListingGrid {
+        padding: 0px !important;
+    }
+    .confirmListingCol {
+        padding: 0px !important;
     }
 }
 
@@ -204,10 +235,6 @@ These are all the default screen sizes
 
 }
 
-@media (max-width: 425px) and (min-width: 376px) {
-
-}
-
 @media (max-width: 375px) and (min-width: 321px) {
 
 }
@@ -215,8 +242,8 @@ These are all the default screen sizes
 @media (max-width: 320px) {
 
 }
-
 */
+
 
 /*********************************************************************************************************************/
 /****************************************** End Create Listing View Styling ******************************************/
@@ -1525,28 +1552,9 @@ p.loginPara {
     height: 23px; /*Desired height*/
 }
 
-.ticketBorder {
-    border-style: solid;
-    border-width: 0.15em;
-    border-color: black;
-    padding-left: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    color: white;
-    opacity: 0.86;
-    background-image: url("./resources/images/backgrounds/TicketBackground.jpg");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
-
-.ticketAttributes {
-    font-family: "Times New Roman", Times, serif;
-    font-weight: 9100;
-    font-size: 16px;
-    color: white;
-    padding-top: 1px;
-    padding-left: 15px;
-
+.ticketsLabel
+{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .ticketBuyButton {
@@ -1786,7 +1794,7 @@ col.registrationViewCol {
 .ticketListItemTicketBorder {
     border-style: solid;
     border-width: 0.4em;
-    border-color: #A4A4A4;
+    border-color: #036bb5;
     overflow: auto;
     height: 520px;
     width: 100%;
@@ -1795,6 +1803,58 @@ col.registrationViewCol {
 
 .ticketListItemListGroupItem {
     text-align: center;
+}
+
+.ticketBorder {
+    border-style: solid;
+    border-width: 0.30em;
+    border-color: #C9C9C9;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FEFEFE;
+    /* background-image: url("./resources/images/backgrounds/TicketBackground.jpg"); */
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.ticketAttributes {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: #878E96;
+    padding-top: 1px;
+    padding-left: 15px;
+}
+
+.ticketTableHeader td
+{
+    border-style: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    color: #000000;
+}
+.ticketTableBody .ticketTableBodyHeader td
+{
+    border-style: none;
+    padding-right: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #6D7176;
+}
+.ticketTableBody .ticketTableBodyBody td
+{
+    border-style: none;
+    padding-right: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    color: #ec174c;
+}
+.ticketTableFooter td
+{
+    border-style: none;
+    color: #000000;
 }
 
 /*********************************************************************************************************************/
@@ -2193,7 +2253,8 @@ table.viewAccountTable {
     padding-top: 10px;
 }
 
-table {
+.tableNewLine table
+{
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -2238,7 +2299,8 @@ table {
     opacity: 0.85;
 }
 
-td {
+.ticketInfoTable td
+{
     border: 3px solid black;
     padding: 8px;
     text-align: center;
