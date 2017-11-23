@@ -695,5 +695,78 @@ class SqlHandler(object):
         for i in range(0, len(data)):
             percentages.append(data[i])
 
-        #data = [dict(commission=row[0], tax=row[1]) for row in cursor.fetchall()]
         return percentages
+
+    def create_transaction(self, buyer_id, tickets, commission, tax, subtotal, total):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        selectQuery = "SELECT MAX(transaction_id) FROM transactions"
+        successful = True
+        try:
+            cursor.execute(selectQuery)
+            new_id = cursor.fetchone()[0]
+            if not new_id:
+                new_id = 1
+            else:
+                new_id += 1
+        except:
+            return not successful
+        ticket = tickets[0]['ticket_id']
+        selectQuery = "SELECT account_id FROM tickets WHERE ticket_id = '{}'".format(tickets[0]['ticket_id'])
+        cursor.execute(selectQuery)
+        seller_id = cursor.fetchone()[0]
+
+        insertQuery = "INSERT INTO transactions (transaction_id, seller_account_id, buyer_account_id, transaction_dt, tickets_purchased_num, total_transaction_charges)" \
+                      " VALUES ('{}', '{}', '{}', NOW(), '{}', '{}')".format(new_id, seller_id, buyer_id, len(tickets), total)
+        try:
+            cursor.execute(insertQuery)
+        except:
+            return not successful
+
+        try:
+            self.create_transaction_detail(cursor, tickets, new_id)
+        except:
+            return not successful
+
+        try:
+            self.create_transaction_charges(cursor, new_id, commission, tax, subtotal)
+        except:
+            return not successful
+
+        conn.commit()
+        return successful
+
+    def create_transaction_detail(self, cursor, tickets, transaction_id):
+        for ticket in tickets:
+            insertQuery = "INSERT INTO transaction_detail (transaction_id, ticket_id)" \
+                          " VALUES ('{}', '{}')".format(transaction_id, ticket['ticket_id'])
+            cursor.execute(insertQuery)
+
+    def create_transaction_charges(self, cursor, transaction_id, commission, tax, subtotal):
+
+        selectQuery = "SELECT DISTINCT MAX(sequence_num) FROM transaction_charges"
+        cursor.execute(selectQuery)
+        sequence_num = cursor.fetchone()[0]
+
+        if not sequence_num:
+            sequence_num = 1
+        else:
+            sequence_num += 1
+
+        amount = subtotal
+        rate_type = 1
+        insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
+                      " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
+        cursor.execute(insertQuery)
+
+        amount = commission
+        rate_type = 2
+        insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
+                      " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
+        cursor.execute(insertQuery)
+
+        amount = tax
+        rate_type = 3
+        insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
+                      " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
+        cursor.execute(insertQuery)
