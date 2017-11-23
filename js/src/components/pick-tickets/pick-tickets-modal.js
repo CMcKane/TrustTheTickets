@@ -91,10 +91,28 @@ export default class PickTicketsModal extends Component {
             </p>
         );
 
+        var seatNums = [];
+        for(var i = 0; i < this.props.group.length; i++)
+        {
+            seatNums.push(this.props.group[i].seat_number);
+        }
+        seatNums.sort();
+        var sortedIndexes = [];
+        for(var i = 0; i < this.props.group.length; i++)
+        {
+            for(var j = 0; j < this.props.group.length; j++)
+            {
+                if(seatNums[i] == this.props.group[j].seat_number)
+                {
+                    sortedIndexes.push(j);
+                    j = this.props.group.length;
+                }
+            }
+        }
 
         for(var i = 0; i < this.props.group.length; i++)
         {
-            var currTicket = this.props.group[i];
+            var currTicket = this.props.group[sortedIndexes[i]];
             list.push(
                 <p className="ticketBorder">
                     <p className="ticketAttributes">Seat: {currTicket.seat_number}
@@ -102,8 +120,8 @@ export default class PickTicketsModal extends Component {
                         <input
                             className="checkBox"
                             type="checkbox"
-                            id={i}
-                            value={i+1}
+                            id={sortedIndexes[i]}
+                            value={sortedIndexes[i]+1}
                             onChange={this.handleTicketSelect.bind(this)}>
                         </input>
                     </p>
