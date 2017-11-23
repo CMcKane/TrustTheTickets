@@ -38,6 +38,17 @@ class Checkout extends Component {
     for (var i = 0; i < this.props.checkoutTickets.length; i++) {
       ticketIds.push(this.props.checkoutTickets[i].ticket_id);
     }
+      TTTPost('/hold-tickets', {
+          ticketIds: ticketIds,
+          token: this.Auth.getToken()
+      }).then(res => {
+          if (res.data.authenticated) {
+              // You're good
+          }
+          else {
+              // Can't buy
+          }
+      });
     /*this.tax = this.props.commissionPercent;
     this.comm = this.props.taxPercent;
 
@@ -47,17 +58,6 @@ class Checkout extends Component {
         commissionPercent: this.props.commissionPercent,
         taxPercent: this.props.taxPercent
     });
-    /*TTTPost('/hold-tickets', {
-      ticketIds: ticketIds, 
-      token: this.Auth.getToken()
-    }).then(res => {
-      if (res.data.authenticated) {
-        // You're good
-      }
-      else { 
-        // Can't buy
-      }
-    });*/
   }
 
     determinePrices() {
