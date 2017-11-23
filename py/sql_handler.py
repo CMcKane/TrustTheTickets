@@ -541,6 +541,8 @@ class SqlHandler(object):
                 tickets[counter]['section'] = row[7]
                 tickets[counter]['seats'] = [row[9]]
                 tickets[counter]['minSellSize'] = row[10]
+                tickets[counter]['totalTicketNum'] = row[11]
+                tickets[counter]['availableTicketNum'] = row[12]
                 tickets[counter]['price'] = row[13]
         return tickets
 
