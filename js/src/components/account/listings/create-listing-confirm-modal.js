@@ -13,6 +13,7 @@ export default class CreateListingConfirmModal extends Component {
             numberOfTickets: this.props.numberOfTickets,
             opponentName: this.props.opponentName,
             gameDate: this.props.gameDate,
+            dbGameDate: this.props.dbGameDate,
             section: this.props.section,
             row: this.props.section,
             seatsInfo: this.props.seatsInfo,
@@ -141,7 +142,7 @@ export default class CreateListingConfirmModal extends Component {
                                         <div className="globalCenterThis">
                                         <Col lg={8}>
                                             <p style={{fontSize: "20px", fontWeight: "bold"}}>Game Date: </p>
-                                            <p style={{fontSize: "20px"}}><Time value={this.props.gameDate} format="MMMM D, YYYY h:mmA"/></p>
+                                            <p style={{fontSize: "20px"}}><Time value={this.props.dbGameDate} format="MMMM D, YYYY h:mmA"/></p>
                                         </Col>
                                         <Col lg={8}>
                                             <p style={{display: "inline", fontSize: "20px", fontWeight: "bold"}}>Opponent Name: </p>

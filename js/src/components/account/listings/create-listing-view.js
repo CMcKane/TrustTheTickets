@@ -52,7 +52,9 @@ export default class CreateListingView extends Component {
             minPurchaseSize: "",
             opponentNames: [],
             gameDates: [],
+            formattedGameDates: [],
             gameDate: "",
+            dbGameDate: "",
             disableChooseOpponent: true,
             show: false,
             showConfirm: false,
@@ -77,8 +79,33 @@ export default class CreateListingView extends Component {
     getGameDates() {
         TTTGet("/get-game-dates")
             .then(res => {
-                this.setState({gameDates: res.data.date});
+                this.setState({
+                    gameDates: res.data.date
+                });
+                this.loadFormattedGameDates();
             });
+    }
+
+    loadFormattedGameDates(){
+        var fgd = [];
+        for(var i = 0; i < this.state.gameDates.length; i++)
+        {
+            fgd.push(new Date(this.state.gameDates[i].date).toISOString().slice(0, 19).replace('T', ' '));
+        }
+        this.setState({
+            formattedGameDates: fgd
+        });
+    }
+
+    getGameDataIndex(gameDate)
+    {
+        for(var i = 0; i < this.state.gameDates.length; i++)
+        {
+            if(this.state.formattedGameDates[i] == gameDate)
+            {
+                return i;
+            }
+        }
     }
 
     renderGameDates() {
@@ -223,6 +250,8 @@ export default class CreateListingView extends Component {
     }
 
     handleDateChoice(e) {
+        var dbGameDateIndex = this.getGameDataIndex(e.target.value);
+        this.setState({dbGameDate: this.state.gameDates[dbGameDateIndex].date});
         this.getOpponentName(e.target.value);
     }
 
