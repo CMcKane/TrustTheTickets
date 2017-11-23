@@ -1,18 +1,38 @@
 import React, { Component }  from 'react';
 import _ from 'lodash';
 import {Grid, Table, Col, Button, Well} from 'react-bootstrap';
+import {TTTPost} from '../backend/ttt-request';
+import { Redirect } from 'react-router-dom';
 import withAuth from '../auth/with-auth';
+import AuthService from '../auth/auth-service';
 import '../../stylesheet.css';
 
 class Checkout extends Component {
 
-  componentDidMount() {
-    // Need to "lock in" tickets in DB for a few minutes here
+  constructor(props) {
+    super(props);
+    this.Auth = new AuthService();
+    this.state = {
+    }
   }
 
-  purchaseTickets() {
-    // Need to update database info to reflect that tickets are no longer available
-    // Also handle case if tickets can't be purchased
+  componentDidMount() {
+    // Need to "lock in" tickets in DB for a few minutes here
+    // var ticketIds = []
+    // for (var i = 0; i < this.props.checkoutTickets.length; i++) {
+    //   ticketIds.push(this.props.checkoutTickets[i].ticket_id);
+    // }
+    // TTTPost('/hold-tickets', {
+    //   ticketIds: ticketIds, 
+    //   token: this.Auth.getToken()
+    // }).then(res => {
+    //   if (res.data.authenticated) {
+    //     // You're good
+    //   }
+    //   else { 
+    //     // Can't buy
+    //   }
+    // });
   }
 
 	getComments(ticket) {
@@ -57,6 +77,10 @@ class Checkout extends Component {
         );
 	}
 
+  purchaseTickets() {
+    // do stuffs
+  }
+
 	renderTicketTotals() {
 		var tickets = this.props.checkoutTickets;
     var subtotal = 0;
@@ -86,8 +110,9 @@ class Checkout extends Component {
     );
 	}
 
+
 	render() {
-		return (
+    return (
       <div className="globalBody globalImage">
       <Grid style={{paddingTop: "25px", height: '80%'}}>
           <h1>
