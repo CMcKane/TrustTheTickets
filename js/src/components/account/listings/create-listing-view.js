@@ -239,7 +239,7 @@ export default class CreateListingView extends Component {
     }
 
     handleMinPurchaseSizeChange(e){
-        if(e.target.value > this.state.numberOfTickets) {
+        if(e.target.value > this.state.numberOfTickets){
             alert("Minimum selling size must be less than or equal to the number of tickets you are selling.")
         } else {
             this.setState({[e.target.name]: e.target.value});

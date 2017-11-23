@@ -129,7 +129,7 @@ export default class CreateListingConfirmModal extends Component {
             <Modal style={this.getCursorStatus()} onHide={this.onHide.bind(this)}
                    show={this.props.show} bsSize="large" aria-labelledby="contained-modal-title-sm">
                 <Modal.Header closeButton>
-                    <Modal.Title><h2>New Listing Creation Review</h2></Modal.Title>
+                    <Modal.Title><h2>Review Your Listing</h2></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <h3>Please confirm all fields are correct before creating your listing.</h3>
