@@ -165,8 +165,6 @@ export default class CreateListingView extends Component {
                     this.state.seatsInfo.push({seat: [{seatNum: form, aisleSeat: check1, earlyEntry: check2, handicapAccessible: check3}]});
                 }
 
-                console.log(this.state.seatsInfo);
-
                 if (this.state.section !== null && this.state.row !== null && this.state.seatsInfo !== null) {
 
                     this.setState({activeKey: this.state.activeKey + 1});
@@ -302,6 +300,7 @@ export default class CreateListingView extends Component {
                                                              bsSize="small"
                                                              placeholder="Game Date"
                                                              name="gameDate"
+                                                             value={this.state.gameDate}
                                                              onChange={this.handleDateChoice.bind(this)}
                                                              style={{width: '200px'}}>
                                                     <option value={null}>Select a Game Date</option>
