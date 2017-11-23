@@ -100,6 +100,7 @@ class Checkout extends Component {
     }
 
     purchaseTickets() {
+        console.log("transaction in progress");
         var successful = false;
         TTTPost('/insert-transaction', {
             token: this.Auth.getToken(),

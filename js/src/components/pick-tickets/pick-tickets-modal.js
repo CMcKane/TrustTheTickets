@@ -116,7 +116,6 @@ export default class PickTicketsModal extends Component {
     handleTicketSelect(e) {
         var id = e.target.id;
         var selectedArr = this.state.ticketsInTransaction;
-
         if(e.target.checked === true) {
             selectedArr.push(this.props.group[id]);
         } else {
@@ -127,6 +126,11 @@ export default class PickTicketsModal extends Component {
             }
         }
         this.setState({ticketsInTransaction: selectedArr});
+    }
+
+    closeModal() {
+        this.onHide();
+        this.setState({ticketsInTransaction: []});
     }
 
     onHide() {
@@ -176,7 +180,7 @@ export default class PickTicketsModal extends Component {
                     <Modal.Footer className="pickTicketModalHeader">
                         {this.getErrorText()}
                         {this.renderButtonOptions()}
-                        <Button onClick={() => this.props.onHide()}>Close</Button>
+                        <Button onClick={this.closeModal.bind(this)}>Close</Button>
                     </Modal.Footer>
                 </Modal>
             );
