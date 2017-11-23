@@ -94,6 +94,11 @@ export default class PickTickets extends Component {
         return this.state.selectedEvent.title;
     }
 
+    setDesiredNumberTickets(numberTickets)
+    {
+        this.setState({desiredNumberTickets: numberTickets});
+    }
+
     getEvent() {
         TTTPost('/get-event', {
             eventID: this.state.eventID
@@ -621,7 +626,7 @@ export default class PickTickets extends Component {
                                             <Col xs={12} sm={12} md={4} lg={4}>
                                                 <ButtonGroup>
                                                     <DropdownButton title="Number of Tickets" id="bg-nested-dropdown"
-                                                         >
+                                                                    onSelect={function(eventKey){{this.setDesiredNumberTickets(eventKey)}}}>
                                                         <MenuItem eventKey="1">1 Ticket</MenuItem>
                                                         <MenuItem eventKey="2">2 Tickets</MenuItem>
                                                         <MenuItem eventKey="3">3 Tickets</MenuItem>

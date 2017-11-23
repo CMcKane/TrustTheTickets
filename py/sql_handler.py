@@ -32,7 +32,7 @@ class SqlHandler(object):
                         aisle=row[6], early_entry=row[7], is_ha=row[8]) for row in cursor.fetchall()]
         return tickets
 
-    def get_all_tickets(self, mysql, eventID):
+    def get_all_tickets(self, mysql, eventID, desiredNumberTickets):
         conn = mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num, g.ticket_price "
@@ -43,6 +43,7 @@ class SqlHandler(object):
                        "JOIN groups g USING (group_id)"
                        "WHERE t.event_id = '{}' "
                        "AND t.ticket_status_id = 1 "
+                       "AND min_sell_num <= t.desiredNumberTickets"
                        "ORDER BY row_num".format(eventID))
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
                         section_number=row[3], ticket_price=row[4]) for row in
