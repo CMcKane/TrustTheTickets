@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import withAuth from '../auth/with-auth';
 import AuthService from '../auth/auth-service';
 import '../../stylesheet.css';
+import ReactCountdownClock from 'react-countdown-clock';
 
 var tax = 0;
 var comm = 0;
@@ -26,7 +27,8 @@ class Checkout extends Component {
         subtotal: 0,
         tax: 0,
         fees: 0,
-        total: 0
+        total: 0,
+        redirect: false
     }
 
     this.determinePrices();
@@ -49,16 +51,16 @@ class Checkout extends Component {
               // Can't buy
           }
       });
-    /*this.tax = this.props.commissionPercent;
-    this.comm = this.props.taxPercent;
-
-    console.log(this.props.commissionPercent);
-    console.log(comm);*/
-    this.setState({
-        commissionPercent: this.props.commissionPercent,
-        taxPercent: this.props.taxPercent
-    });
+        this.setState({
+            commissionPercent: this.props.commissionPercent,
+            taxPercent: this.props.taxPercent
+        });
   }
+
+    onComplete() {
+         this.props.returnFromCheckout();
+    }
+
 
     determinePrices() {
         var tickets = this.props.checkoutTickets;
@@ -161,24 +163,25 @@ class Checkout extends Component {
 
 
 	renderTicketTotals() {
+
     return (
-        <p className="tableNewLine">
+        <p className="leftTable">
         <table className="checkoutCosts">
               <tr>
                   <th className="verticalTableHeading">Subtotal:</th>
-                  <td>${this.subtotal}</td>
+                  <td className="verticalTableData">${this.subtotal}</td>
               </tr>
               <tr>
                   <th className="verticalTableHeading">Tax:</th>
-                  <td>${this.taxTotal}</td>
+                  <td className="verticalTableData">${this.taxTotal}</td>
               </tr>
               <tr>
                   <th className="verticalTableHeading">Fees:</th>
-                  <td>${this.commTotal}</td>
+                  <td className="verticalTableData">${this.commTotal}</td>
               </tr>
               <tr>
                   <th className="verticalTableHeading">Total:</th>
-                  <td>${this.total}</td>
+                  <td className="verticalTableData">${this.total}</td>
               </tr>
         </table>
         </p>
@@ -187,30 +190,43 @@ class Checkout extends Component {
 
 
 	render() {
-    return (
-      <div className="globalBody globalImage">
-      <Grid style={{paddingTop: "25px", height: '80%'}}>
-          <h1>
-              <Well className='checkoutHeader'>
-                  Checkout
-              </Well>
-          </h1>
-        <div style={{overflowY: 'auto', height: '90%'}}>
-        {this.renderTicketInfo()}
-        {this.renderTicketTotals()}
-        <div className="checkoutButton">
-          <Button
-              id={1}
-              style={{marginLeft: "165px", color: "black"}}
-              bsSize="large"
-              onClick={this.purchaseTickets.bind(this)}>
-              Checkout
-          </Button>
-        </div>
-        </div>
-      </Grid>
-      </div>
-		);
+        return (
+          <div className="globalBody globalImage">
+            <p className="timer">
+                <ReactCountdownClock
+                    seconds={300}
+                    color="#000"
+                    alpha={0.9}
+                    size={50}
+                    onComplete={this.onComplete.bind(this)}
+                />
+            </p>
+          <Grid style={{paddingTop: "25px", height: '80%'}}>
+              <h1>
+                  <Well className='checkoutHeader'>
+                      Checkout
+                  </Well>
+              </h1>
+
+            <div style={{overflowY: 'auto', height: '90%'}}>
+                {this.renderTicketInfo()}
+                {this.renderTicketTotals()}
+                <div className="checkoutButton">
+                  <Button
+                      id={1}
+                      style={{marginLeft: "165px", color: "black"}}
+                      bsSize="large"
+                      onClick={this.purchaseTickets.bind(this)}>
+                      Checkout
+                  </Button>
+            </div>
+            </div>
+
+
+          </Grid>
+
+          </div>
+            );
 	}
 }
 

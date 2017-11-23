@@ -548,6 +548,10 @@ export default class PickTickets extends Component {
         this.setState({activeCheckBoxes: value});
     }
 
+    returnFromCheckout() {
+        this.setState({checkoutPageActive: false});
+    }
+
     setCheckoutTickets(tickets) {
         // Call backend to see if these tickets are all still available first
         this.setState({
@@ -624,6 +628,7 @@ export default class PickTickets extends Component {
                         checkoutTickets={this.state.checkoutTickets}
                         commissionPercent={this.state.commissionPercent}
                         taxPercent={this.state.taxPercent}
+                        returnFromCheckout={this.returnFromCheckout.bind(this)}
                         />
                 );
             }
