@@ -17,6 +17,8 @@ import { Redirect } from 'react-router-dom';
 import Checkout from './checkout';
 
 var clickedSection = ''
+var taxRate = 0;
+var commRate = 0;
 
 export default class PickTickets extends Component {
 
@@ -50,6 +52,8 @@ export default class PickTickets extends Component {
             activeCheckBoxes: [],
             checkoutTickets: [],
             checkoutPageActive: false,
+            commissionPercent: 0,
+            taxPercent: 0,
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -65,6 +69,8 @@ export default class PickTickets extends Component {
             "106", "107", "108", "118", "119", "120", "201", "202", "203", "211", "212", "213", "214", "215", "223", "224", "204", "204A", "205", "205A",
             "209", "209A", "210", "210A", "216", "216A", "217", "217A", "222A", "222", "221A", "221", "206", "207", "207A", "208", "220", "219A", "219", "218"]
         }
+
+        this.fetchFees();
     }
 
     componentDidMount() {
@@ -91,6 +97,25 @@ export default class PickTickets extends Component {
 
     getEventTitle() {
         return this.state.selectedEvent.title;
+    }
+
+    fetchFees() {
+        TTTGet("/get-fees")
+            .then(res => {
+                this.setState({
+                    commissionPercent: res.data.percentages[1][0],
+                    taxPercent: res.data.percentages[2][0]
+                }, () => {this.getRates(this.state.taxPercent, this.state.commissionPercent)});
+            });
+  }
+
+    getRates(taxPercent, commissionPercent) {
+        this.taxRate = taxPercent;
+        this.commissionPercent = commissionPercent;
+        var arr = []
+        arr.push(taxRate);
+        arr.push(commissionPercent);
+        return (arr);
     }
 
     getEvent() {
@@ -517,6 +542,23 @@ export default class PickTickets extends Component {
 
     setCheckoutTickets(tickets) {
         // Call backend to see if these tickets are all still available first
+
+        /*var i = 0;
+        var j = 0;
+        TTTGet("/get-fees")
+            .then(res => {
+                i = res.data.percentages[1][0];
+                j = res.data.percentages[2][0];
+                //console.log(res.data.percentages[1][0]);
+                //console.log(res.data.percentages[2][0]);
+
+                this.setState({
+                    commissionPercent: res.data.percentages[1][0],
+                    taxPercent: res.data.percentages[2][0]
+                });
+            });
+        console.log(i);
+        console.log(j);*/
         this.setState({
             checkoutTickets: tickets,
             show: false,
@@ -534,6 +576,7 @@ export default class PickTickets extends Component {
             for(var i = 0; i < this.state.groups[group].length; i++) {
                 seats.push(this.state.groups[group][i].seat_number);
             }
+
             seats.sort();
             list.push(
                 <div key={group} className="ticketBorder">
@@ -565,12 +608,14 @@ export default class PickTickets extends Component {
     }
 
     render() {
-        console.log(this.state.eventID);
             if(this.state.checkoutPageActive)
             {
                 return (
                     <Checkout returnRedirect={"/pick-tickets?event=" + this.state.eventID}
-                        checkoutTickets={this.state.checkoutTickets} />
+                        checkoutTickets={this.state.checkoutTickets}
+                        commissionPercent={this.state.commissionPercent}
+                        taxPercent={this.state.taxPercent}
+                        />
                 );
             }
             else
@@ -582,7 +627,8 @@ export default class PickTickets extends Component {
                             show={this.state.show}
                             onHide={this.onHide.bind(this)}
                             group={this.state.selectedGroup}
-                            setCheckoutTickets={this.setCheckoutTickets.bind(this)}/>
+                            setCheckoutTickets={this.setCheckoutTickets.bind(this)}
+                            />
                         <div className=" globalBody globalImageOverlay">
                             <Well className='eventCalendarViewEventsWell'>
                                 Choose Your Seats

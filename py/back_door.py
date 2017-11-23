@@ -464,6 +464,12 @@ def get_country_states():
     stateNames = sqlHandler.get_country_states(country_id)
     return jsonify({'stateNames': stateNames})
 
+@app.route('/get-fees', methods=['GET'])
+def get_fees():
+    jsonData = request.get_json()
+    sqlHandler = SqlHandler(mysql)
+    percentages = sqlHandler.get_fees()
+    return jsonify({'percentages': percentages})
 
 if __name__ == '__main__':
     app.run()

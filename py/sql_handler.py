@@ -684,3 +684,18 @@ class SqlHandler(object):
         if (len(cursor.fetchall()) > 0):  # If one of the tickets is not locked under the given account id, can't buy
             return False
         return True
+
+    def get_fees(self):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        query = "SELECT percent FROM rates"
+        cursor.execute(query);
+
+
+        data = cursor.fetchall()
+        percentages = []
+        for i in range(0, len(data)):
+            percentages.append(data[i])
+
+        #data = [dict(commission=row[0], tax=row[1]) for row in cursor.fetchall()]
+        return percentages

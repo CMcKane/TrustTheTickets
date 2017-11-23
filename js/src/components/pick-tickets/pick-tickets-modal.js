@@ -54,7 +54,8 @@ export default class PickTicketsModal extends Component {
     checkout() {
         if(this.state.ticketsInTransaction.length > 0 && this.state.ticketsInTransaction != [])
         {
-            this.props.setCheckoutTickets(this.state.ticketsInTransaction)
+            this.props.setCheckoutTickets(this.state.ticketsInTransaction);
+            //this.props.fetchFees();
         }
     }
 
@@ -94,6 +95,7 @@ export default class PickTicketsModal extends Component {
 
         for(var i = 0; i < this.props.group.length; i++)
         {
+
             var currTicket = this.props.group[i];
             list.push(
                 <p className="ticketBorder">
