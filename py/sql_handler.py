@@ -697,7 +697,7 @@ class SqlHandler(object):
 
         return percentages
 
-    def create_transaction(self, buyer_id, tickets, commission, tax, subtotal, total):
+    def create_transaction(self, buyer_id, tickets, commission, tax, subtotal, total, group_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
         selectQuery = "SELECT MAX(transaction_id) FROM transactions"
@@ -723,10 +723,10 @@ class SqlHandler(object):
         except:
             return not successful
 
-        try:
-            self.create_transaction_detail(cursor, tickets, new_id)
-        except:
-            return not successful
+        #try:
+        self.create_transaction_detail(cursor, tickets, new_id, group_id)
+        #except:
+         #   return not successful
 
         try:
             self.create_transaction_charges(cursor, new_id, commission, tax, subtotal)
@@ -736,11 +736,15 @@ class SqlHandler(object):
         conn.commit()
         return successful
 
-    def create_transaction_detail(self, cursor, tickets, transaction_id):
+    def create_transaction_detail(self, cursor, tickets, transaction_id, group_id):
         for ticket in tickets:
             insertQuery = "INSERT INTO transaction_detail (transaction_id, ticket_id)" \
                           " VALUES ('{}', '{}')".format(transaction_id, ticket['ticket_id'])
             cursor.execute(insertQuery)
+
+            id = ticket['ticket_id']
+            self.set_ticket_status(cursor, id, 2)
+            self.update_ticket_group_table(cursor, group_id)
 
     def create_transaction_charges(self, cursor, transaction_id, commission, tax, subtotal):
 
@@ -770,3 +774,26 @@ class SqlHandler(object):
         insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
                       " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
         cursor.execute(insertQuery)
+
+    def set_ticket_status(self, cursor, ticket_id, new_status):
+        updateQuery = "UPDATE tickets SET ticket_status_id = '{}' WHERE ticket_id = '{}'".format(new_status, ticket_id)
+        cursor.execute(updateQuery)
+
+    def update_ticket_group_table(self, cursor, group_id):
+        updateQuery = "UPDATE groups " \
+                      "SET available_ticket_num =  available_ticket_num - 1 " \
+                      "WHERE group_id = '{}'".format(group_id)
+        cursor.execute(updateQuery)
+
+        selectQuery = "SELECT available_ticket_num, min_sell_num " \
+                    "FROM groups " \
+                    "WHERE group_id = '{}'".format(group_id)
+        cursor.execute(selectQuery)
+
+        row = cursor.fetchone()
+        available = row[0]
+        min_sell = row[1]
+
+        if available < min_sell:
+            insertQuery = "UPDATE groups SET min_sell_num = '{}' WHERE group_id = '{}'".format(available, group_id)
+            cursor.execute(insertQuery)

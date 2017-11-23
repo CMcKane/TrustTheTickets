@@ -477,8 +477,9 @@ def create_transaction():
     tax = jsonData['tax']
     subtotal = jsonData['subtotal']
     total = jsonData['total']
+    group_id = jsonData['group_id']
 
-    success = sqlHandler.create_transaction(buyer_id, tickets, commission, tax, subtotal, total)
+    success = sqlHandler.create_transaction(buyer_id, tickets, commission, tax, subtotal, total, group_id)
     return jsonify({'success': success})
 
 if __name__ == '__main__':

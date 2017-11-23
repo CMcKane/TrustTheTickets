@@ -107,7 +107,8 @@ class Checkout extends Component {
             commission: this.commTotal,
             tax: this.taxTotal,
             subtotal: this.subtotal,
-            total: this.total
+            total: this.total,
+            group_id: this.props.checkoutTickets[0].group_id
         })
             .then(res => {
                 successful = res.data.successful
@@ -115,14 +116,14 @@ class Checkout extends Component {
     }
 
 	getComments(ticket) {
-    var comments = ''
-    if (ticket.early_access === 1)
-      comments += "Early Access "
-    if (ticket.aisle_seat === 1)
-      comments += "Aisle Seat "
-    if (ticket.handicap === 1)
-      comments += "Handicap"
-    return comments;
+        var comments = ''
+        if (ticket.early_access === 1)
+          comments += "Early Access "
+        if (ticket.aisle_seat === 1)
+          comments += "Aisle Seat "
+        if (ticket.handicap === 1)
+          comments += "Handicap"
+        return comments;
 	}
 
 	renderTicketInfo() {
@@ -176,7 +177,7 @@ class Checkout extends Component {
               </tr>
               <tr>
                   <th className="verticalTableHeading">Total:</th>
-                  <td>${this.commTotal + this.taxTotal + this.subtotal}</td>
+                  <td>${this.total}</td>
               </tr>
         </table>
         </p>
