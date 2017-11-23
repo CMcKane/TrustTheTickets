@@ -163,12 +163,6 @@ def get_account_info():
         except Exception as e:
             return jsonify({'authenticated': False})
 
-@app.route('/accounts')
-def index():
-    sqlHandler = SqlHandler(mysql)
-    accounts = sqlHandler.get_accounts()
-    return jsonify({'accounts': accounts})
-
 @app.route('/ticket-details', methods=['POST'])
 def get_ticket_details():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
