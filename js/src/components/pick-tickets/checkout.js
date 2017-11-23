@@ -115,8 +115,8 @@ class Checkout extends Component {
 
 	renderTicketInfo() {
 		return _.map(this.props.checkoutTickets, (ticket, index) =>
-			    <p className="tableNewLine">
-              <table className="table">
+            <p className="tableNewLine">
+              <table className="ticketInfoTable">
                   <thead>
                       <th className="tableHeading">Section</th>
                       <th className="tableHeading">Row</th>
