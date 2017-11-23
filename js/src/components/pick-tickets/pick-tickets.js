@@ -30,7 +30,7 @@ export default class PickTickets extends Component {
             tickets: [],
             minPrice: 0,
             maxPrice: 100,
-            minNumTickets: 2,
+            desiredNumberTickets: 0,
             showFilter: false,
             selectedEvent: null,
             eventID: queryParams.event,
@@ -619,18 +619,18 @@ export default class PickTickets extends Component {
                                             </Col>
                                             <Col xs={12} sm={12} md={4} lg={4}>
                                                 <ButtonGroup>
-                                                    <DropdownButton enabled={this.state.minNumTickets}
-                                                                    title="Number of Tickets" id="bg-nested-dropdown">
-                                                        <MenuItem eventKey="By Team">1 Ticket</MenuItem>
-                                                        <MenuItem eventKey="By Team">2 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">3 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">4 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">5 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">6 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">7 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">8 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">9 Tickets</MenuItem>
-                                                        <MenuItem eventKey="By Team">10+ Tickets</MenuItem>
+                                                    <DropdownButton title="Number of Tickets" id="bg-nested-dropdown"
+                                                        onSelect={this.setState({desiredNumberTickets: eventKey})} >
+                                                        <MenuItem eventKey="1">1 Ticket</MenuItem>
+                                                        <MenuItem eventKey="2">2 Tickets</MenuItem>
+                                                        <MenuItem eventKey="3">3 Tickets</MenuItem>
+                                                        <MenuItem eventKey="4">4 Tickets</MenuItem>
+                                                        <MenuItem eventKey="5">5 Tickets</MenuItem>
+                                                        <MenuItem eventKey="6">6 Tickets</MenuItem>
+                                                        <MenuItem eventKey="7">7 Tickets</MenuItem>
+                                                        <MenuItem eventKey="8">8 Tickets</MenuItem>
+                                                        <MenuItem eventKey="9">9 Tickets</MenuItem>
+                                                        <MenuItem eventKey="10">10+ Tickets</MenuItem>
 
 
                                                         {/*<LinkContainer to='/event-calendar'>*/}
