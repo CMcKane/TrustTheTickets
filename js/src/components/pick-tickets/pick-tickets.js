@@ -30,6 +30,7 @@ export default class PickTickets extends Component {
             tickets: [],
             minPrice: 0,
             maxPrice: 100,
+            minNumTickets: 2,
             showFilter: false,
             selectedEvent: null,
             eventID: queryParams.event,
@@ -591,7 +592,7 @@ export default class PickTickets extends Component {
                                 <Row>
                                     <Col xs={12} sm={12} md={7} lg={7}>
                                         <Row>
-                                            <Col xs={12} sm={12} md={12} lg={12}>
+                                            <Col xs={12} sm={12} md={8} lg={8}>
                                                 <ButtonGroup>
                                                     <DropdownButton disabled={this.hasEventID()}
                                                         title={this.state.eventTitle} id="bg-nested-dropdown">
@@ -615,6 +616,31 @@ export default class PickTickets extends Component {
                                                             <ToggleButton id="zone" style={{width: '40%'}} value={2}>Zone</ToggleButton>
                                                     </ToggleButtonGroup>
                                                 </div>
+                                            </Col>
+                                            <Col xs={12} sm={12} md={4} lg={4}>
+                                                <ButtonGroup>
+                                                    <DropdownButton enabled={this.state.minNumTickets}
+                                                                    title="Number of Tickets" id="bg-nested-dropdown">
+                                                        <MenuItem eventKey="By Team">1 Ticket</MenuItem>
+                                                        <MenuItem eventKey="By Team">2 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">3 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">4 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">5 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">6 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">7 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">8 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">9 Tickets</MenuItem>
+                                                        <MenuItem eventKey="By Team">10+ Tickets</MenuItem>
+
+
+                                                        {/*<LinkContainer to='/event-calendar'>*/}
+                                                            {/*<MenuItem eventKey="By Team">By Team</MenuItem>*/}
+                                                        {/*</LinkContainer>*/}
+                                                        {/*<LinkContainer to='/event-calendar'>*/}
+                                                            {/*<MenuItem eventKey="By Calendar">By Calendar</MenuItem>*/}
+                                                        {/*</LinkContainer>*/}
+                                                    </DropdownButton>
+                                                </ButtonGroup>
                                             </Col>
                                         </Row>
                                         <br/>
