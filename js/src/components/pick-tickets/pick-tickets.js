@@ -7,7 +7,7 @@ import WellsFargoChart from './wells-fargo-chart';
 import {TTTPost, TTTGet} from '../backend/ttt-request';
 import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
-import { ClimbingBoxLoader } from 'react-spinners';
+import { ClimbingBoxLoader, RiseLoader, PulseLoader } from 'react-spinners';
 import {LinkContainer} from 'react-router-bootstrap';
 import '../../stylesheet.css';
 import Slider, { Range } from 'rc-slider';
@@ -731,7 +731,7 @@ export default class PickTickets extends Component {
                                         <h3 className="Tickets-label"> Tickets </h3>
                                         <div className="ticketListItemTicketBorder">
                                             {this.renderTicketList()}
-                                            <div style={{align:"center"}}> <ClimbingBoxLoader loading={this.state.isLoading}/> </div>
+                                            <div style={{align:"center"}}> <PulseLoader loading={this.state.isLoading}/> </div>
                                         </div>
                                         </Col>
                                         <Col xs={1} sm={2} md={1} lg={1}>

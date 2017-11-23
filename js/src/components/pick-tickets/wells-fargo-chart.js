@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import '../../stylesheet.css';
-const LIGHTED_COLOR = '#c70505';
-const NOT_LIGHTED_COLOR = '#FFFFFF';
+const LIGHTED_COLOR = '#ec174c';
+const LIGHTED_STROKE_COLOR = '#565656';
+const UNLIGHTED_STROKE_COLOR = '#000000';
+const LIGHTED_FONT_COLOR = '#FFFFFF';
+const UNLIGHTED_FONT_COLOR = '#000000';
 const ZONE_ONE_COLOR = '#ffb3b3';
 const ZONE_TWO_COLOR = '#b3b3ff';
 const ZONE_THREE_COLOR = '#b3ffb3';
@@ -23,9 +26,11 @@ export default class WellsFargoChart extends Component {
                   ZONE_FIVE_COLOR, ZONE_SIX_COLOR, ZONE_SEVEN_COLOR];
 
         for(var i = 0; i < zones.length; i++) {
-            var currColor = colors[i];
+            var currFillColor = colors[i];
+            var strokeColor = UNLIGHTED_STROKE_COLOR;
+            var fontColor = UNLIGHTED_FONT_COLOR;
             for(var ii = 0; ii < zones[i].length; ii++) {
-                this.setSectionColor(zones[i][ii], currColor);
+                this.setSectionColor(zones[i][ii], currFillColor, strokeColor, fontColor);
             }
         }
     }
@@ -38,18 +43,21 @@ export default class WellsFargoChart extends Component {
 	    this.paintChartZoneColors();
 		const previousSections = this.props.previousSections;
 
-	    /*for(var i = 0; i < previousSections.length; i++) {
-		    this.setSectionColor(previousSections[i], NOT_LIGHTED_COLOR);
-		}*/
 	    const sections = this.props.selectedSections;
         for(var i = 0; i < sections.length; i++) {
-            this.setSectionColor(sections[i], LIGHTED_COLOR);
+            this.setSectionColor(sections[i], LIGHTED_COLOR, LIGHTED_STROKE_COLOR, LIGHTED_FONT_COLOR);
         }
 	}
 
-	setSectionColor(sectionName, color) {
+	setSectionColor(sectionName, fillColor, strokeColor, fontColor) {
         var section = document.getElementById(sectionName);
-        section.style.fill = color;
+        section.style.fill = fillColor;
+        section.style.stroke = strokeColor;
+        var text = document.getElementById(sectionName + "-text");
+        if(text)
+		{
+            text.style.fill = fontColor;
+		}
 	}
 
 	render() {
@@ -281,64 +289,64 @@ export default class WellsFargoChart extends Component {
 					<path id="_x31_806524"  className="seatingChartSt0" d="M417.7,580.3c0,0,108.5-6.1,166.3-69.1l-19.4-21.1c0,0-24.4,30.4-73.3,47.7c0,0-29.8,11-72.7,14.4H287.6v28.1H417.7z"/>
 					<path id="_x31_806525"  className="seatingChartSt0" d="M245.9,580.3h41.7v-28.1H247c0,0-86-1.2-135-62.1l-19.4,21.1C92.6,511.2,145.5,574.2,245.9,580.3z"/>
 					<path onClick={this.onChartClick.bind(this, '238')}  className="seatingChartSt1"  d="M0,0h669v669H0V0z"/>
-					<text transform="matrix(0.9387 0 0 1 143 148.7529)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">204</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 184.9135 129.4963)"  className="unselectable seatingChartSt2 seatingChartSt3">204</text>
-					<text transform="matrix(0.9387 0 0 1 228.9326 118.5005)"  className="unselectable seatingChartSt2 seatingChartSt3">203</text>
-					<text transform="matrix(0.9387 0 0 1 281.5522 116.9772)"  className="unselectable seatingChartSt2 seatingChartSt3">202</text>
-					<text transform="matrix(0.9387 0 0 1 327.1511 116.9772)"  className="unselectable seatingChartSt2 seatingChartSt3">201</text>
-					<text transform="matrix(0.9387 0 0 1 373.2181 116.9772)"  className="unselectable seatingChartSt2 seatingChartSt3">224</text>
-					<text transform="matrix(0.9387 0 0 1 424.1941 117.9769)"  className="unselectable seatingChartSt2 seatingChartSt3">223</text>
-					<text transform="matrix(0.9387 0 0 1 466.5177 129.496)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">222</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 112.8325 178.4297)"  className="unselectable seatingChartSt2 seatingChartSt3">205</text>
-					<text transform="matrix(0.9387 0 0 1 91.8169 211.0352)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">205</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 77.3169 249.1457)"  className="unselectable seatingChartSt2 seatingChartSt3">206</text>
-					<text transform="matrix(0.9387 0 0 1 69.4957 291.3937)"  className="unselectable seatingChartSt2 seatingChartSt3">207</text>
-					<text transform="matrix(0.9387 0 0 1 69.4958 339.9843)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">207</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 76.317 383.5318)"  className="unselectable seatingChartSt2 seatingChartSt3">208</text>
-					<text transform="matrix(0.9387 0 0 1 90.817 422.3555)"  className="unselectable seatingChartSt2 seatingChartSt3">209</text>
-					<text transform="matrix(0.9387 0 0 1 109.8325 458.0247)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">209</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 139.4009 487.7162)"  className="unselectable seatingChartSt2 seatingChartSt3">210</text>
-					<text transform="matrix(0.9387 0 0 1 171.5912 509.4248)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">210</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 219.5613 524.1457)"  className="unselectable seatingChartSt2 seatingChartSt3">211</text>
-					<text transform="matrix(0.9387 0 0 1 270.7412 529.1458)"  className="unselectable seatingChartSt2 seatingChartSt3">212</text>
-					<text transform="matrix(0.9387 0 0 1 317.7775 529.1453)"  className="unselectable seatingChartSt2 seatingChartSt3">213</text>
-					<text transform="matrix(0.9387 0 0 1 375.3107 530.1455)"  className="unselectable seatingChartSt2 seatingChartSt3">214</text>
-					<text transform="matrix(0.9387 0 0 1 430.8058 525.146)"  className="unselectable seatingChartSt2 seatingChartSt3">215</text>
-					<text transform="matrix(0.9387 0 0 1 477.6841 509.4252)"  className="unselectable seatingChartSt2 seatingChartSt3">216</text>
-					<text transform="matrix(0.9387 0 0 1 511.922 487.7165)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">216</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 541.5904 457.0249)"  className="unselectable seatingChartSt2 seatingChartSt3">217</text>
-					<text transform="matrix(0.9387 0 0 1 561.5626 420.3555)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">217</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 576.5777 383.7302)"  className="unselectable seatingChartSt2 seatingChartSt3">218</text>
-					<text transform="matrix(0.9387 0 0 1 581.1289 339.6653)"  className="unselectable seatingChartSt2 seatingChartSt3">219</text>
-					<text transform="matrix(0.9387 0 0 1 579.5775 293.8183)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">219</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 574.0037 249.5726)"  className="unselectable seatingChartSt2 seatingChartSt3">220</text>
-					<text transform="matrix(0.9387 0 0 1 557.1852 214.4654)"  className="unselectable seatingChartSt2 seatingChartSt3">221</text>
-					<text transform="matrix(0.9387 0 0 1 532.6783 181.4527)"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">221</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
-					<text transform="matrix(0.9387 0 0 1 504.1174 151.0662)"  className="unselectable seatingChartSt2 seatingChartSt3">222</text>
-					<text transform="matrix(1 0 0 1 194 256)"  className="unselectable seatingChartSt2 seatingChartSt4">105</text>
-					<text transform="matrix(1 0 0 1 221.7886 236.2105)"  className="unselectable seatingChartSt2 seatingChartSt4">104</text>
-					<text transform="matrix(1 0 0 1 258.8903 235.6635)"  className="unselectable seatingChartSt2 seatingChartSt4">103</text>
-					<text transform="matrix(1 0 0 1 293.3663 236.2105)"  className="unselectable seatingChartSt2 seatingChartSt4">102</text>
-					<text transform="matrix(1 0 0 1 324.909 236.6635)"  className="unselectable seatingChartSt2 seatingChartSt4">101</text>
-					<text transform="matrix(1 0 0 1 360.0981 236.2105)"  className="unselectable seatingChartSt2 seatingChartSt4">124</text>
-					<text transform="matrix(1 0 0 1 393.8926 236.7596)"  className="unselectable seatingChartSt2 seatingChartSt4">123</text>
-					<text transform="matrix(1 0 0 1 433.5235 229.6548)"  className="unselectable seatingChartSt2 seatingChartSt4">122</text>
-					<text transform="matrix(1 0 0 1 466.5177 250.806)"  className="unselectable seatingChartSt2 seatingChartSt4">121</text>
-					<text transform="matrix(1 0 0 1 476.0718 288.1469)"  className="unselectable seatingChartSt2 seatingChartSt4">120</text>
-					<text transform="matrix(1 0 0 1 476.0718 320.1595)"  className="unselectable seatingChartSt2 seatingChartSt4">119</text>
-					<text transform="matrix(1 0 0 1 475.8893 351.8256)"  className="unselectable seatingChartSt2 seatingChartSt4">118</text>
-					<text transform="matrix(1 0 0 1 462.5177 387.7301)"  className="unselectable seatingChartSt2 seatingChartSt4">117</text>
-					<text transform="matrix(1 0 0 1 429.8057 407.1935)"  className="unselectable seatingChartSt2 seatingChartSt4">116</text>
-					<text transform="matrix(1 0 0 1 391.8926 409.5826)"  className="unselectable seatingChartSt2 seatingChartSt4">115</text>
-					<text transform="matrix(1 0 0 1 360.0981 409.3177)"  className="unselectable seatingChartSt2 seatingChartSt4">114</text>
-					<text transform="matrix(1 0 0 1 327.1511 409.3177)"  className="unselectable seatingChartSt2 seatingChartSt4">113</text>
-					<text transform="matrix(1 0 0 1 291.8963 409.3177)"  className="unselectable seatingChartSt2 seatingChartSt4">112</text>
-					<text transform="matrix(1 0 0 1 258.8903 408.9949)"  className="unselectable seatingChartSt2 seatingChartSt4">111</text>
-					<text transform="matrix(1 0 0 1 225.6934 407.0855)"  className="unselectable seatingChartSt2 seatingChartSt4">110</text>
-					<text transform="matrix(1 0 0 1 197.5732 389.6563)"  className="unselectable seatingChartSt2 seatingChartSt4">109</text>
-					<text transform="matrix(1 0 0 1 178.9968 356.0721)"  className="unselectable seatingChartSt2 seatingChartSt4">108</text>
-					<text transform="matrix(1 0 0 1 178.0372 323.1619)"  className="unselectable seatingChartSt2 seatingChartSt4">107</text>
-					<text transform="matrix(1 0 0 1 177.9135 289.1614)"  className="unselectable seatingChartSt2 seatingChartSt4">106</text>
+					<text transform="matrix(0.9387 0 0 1 143 148.7529)" id="204A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">204</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 184.9135 129.4963)" id="204-text" className="unselectable seatingChartSt2 seatingChartSt3">204</text>
+					<text transform="matrix(0.9387 0 0 1 228.9326 118.5005)" id="203-text" className="unselectable seatingChartSt2 seatingChartSt3">203</text>
+					<text transform="matrix(0.9387 0 0 1 281.5522 116.9772)" id="202-text" className="unselectable seatingChartSt2 seatingChartSt3">202</text>
+					<text transform="matrix(0.9387 0 0 1 327.1511 116.9772)" id="201-text" className="unselectable seatingChartSt2 seatingChartSt3">201</text>
+					<text transform="matrix(0.9387 0 0 1 373.2181 116.9772)" id="224-text" className="unselectable seatingChartSt2 seatingChartSt3">224</text>
+					<text transform="matrix(0.9387 0 0 1 424.1941 117.9769)" id="223-text" className="unselectable seatingChartSt2 seatingChartSt3">223</text>
+					<text transform="matrix(0.9387 0 0 1 466.5177 129.496)" id="222A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">222</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 112.8325 178.4297)" id="205-text" className="unselectable seatingChartSt2 seatingChartSt3">205</text>
+					<text transform="matrix(0.9387 0 0 1 91.8169 211.0352)" id="205A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">205</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 77.3169 249.1457)" id="206-text" className="unselectable seatingChartSt2 seatingChartSt3">206</text>
+					<text transform="matrix(0.9387 0 0 1 69.4957 291.3937)" id="207-text" className="unselectable seatingChartSt2 seatingChartSt3">207</text>
+					<text transform="matrix(0.9387 0 0 1 69.4958 339.9843)" id="207A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">207</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 76.317 383.5318)" id="208-text" className="unselectable seatingChartSt2 seatingChartSt3">208</text>
+					<text transform="matrix(0.9387 0 0 1 90.817 422.3555)" id="209-text" className="unselectable seatingChartSt2 seatingChartSt3">209</text>
+					<text transform="matrix(0.9387 0 0 1 109.8325 458.0247)" id="209A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">209</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 139.4009 487.7162)" id="210-text" className="unselectable seatingChartSt2 seatingChartSt3">210</text>
+					<text transform="matrix(0.9387 0 0 1 171.5912 509.4248)" id="210A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">210</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 219.5613 524.1457)" id="211-text" className="unselectable seatingChartSt2 seatingChartSt3">211</text>
+					<text transform="matrix(0.9387 0 0 1 270.7412 529.1458)" id="212-text" className="unselectable seatingChartSt2 seatingChartSt3">212</text>
+					<text transform="matrix(0.9387 0 0 1 317.7775 529.1453)" id="213-text" className="unselectable seatingChartSt2 seatingChartSt3">213</text>
+					<text transform="matrix(0.9387 0 0 1 375.3107 530.1455)" id="214-text" className="unselectable seatingChartSt2 seatingChartSt3">214</text>
+					<text transform="matrix(0.9387 0 0 1 430.8058 525.146)" id="215-text" className="unselectable seatingChartSt2 seatingChartSt3">215</text>
+					<text transform="matrix(0.9387 0 0 1 477.6841 509.4252)" id="216-text" className="unselectable seatingChartSt2 seatingChartSt3">216</text>
+					<text transform="matrix(0.9387 0 0 1 511.922 487.7165)" id="216A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">216</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 541.5904 457.0249)" id="217-text" className="unselectable seatingChartSt2 seatingChartSt3">217</text>
+					<text transform="matrix(0.9387 0 0 1 561.5626 420.3555)" id="217A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">217</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 576.5777 383.7302)" id="218-text" className="unselectable seatingChartSt2 seatingChartSt3">218</text>
+					<text transform="matrix(0.9387 0 0 1 581.1289 339.6653)" id="219-text" className="unselectable seatingChartSt2 seatingChartSt3">219</text>
+					<text transform="matrix(0.9387 0 0 1 579.5775 293.8183)" id="219A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">219</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 574.0037 249.5726)" id="220-text" className="unselectable seatingChartSt2 seatingChartSt3">220</text>
+					<text transform="matrix(0.9387 0 0 1 557.1852 214.4654)" id="221-text" className="unselectable seatingChartSt2 seatingChartSt3">221</text>
+					<text transform="matrix(0.9387 0 0 1 532.6783 181.4527)" id="221A-text"><tspan x="0" y="0"  className="unselectable seatingChartSt2 seatingChartSt3">221</tspan><tspan x="19.7" y="0"  className="unselectable seatingChartSt2 seatingChartSt4">A</tspan></text>
+					<text transform="matrix(0.9387 0 0 1 504.1174 151.0662)" id="222-text" className="unselectable seatingChartSt2 seatingChartSt3">222</text>
+					<text transform="matrix(1 0 0 1 194 256)" id="105-text" className="unselectable seatingChartSt2 seatingChartSt4">105</text>
+					<text transform="matrix(1 0 0 1 221.7886 236.2105)" id="104-text" className="unselectable seatingChartSt2 seatingChartSt4">104</text>
+					<text transform="matrix(1 0 0 1 258.8903 235.6635)" id="103-text"  className="unselectable seatingChartSt2 seatingChartSt4">103</text>
+					<text transform="matrix(1 0 0 1 293.3663 236.2105)" id="102-text" className="unselectable seatingChartSt2 seatingChartSt4">102</text>
+					<text transform="matrix(1 0 0 1 324.909 236.6635)" id="101-text" className="unselectable seatingChartSt2 seatingChartSt4">101</text>
+					<text transform="matrix(1 0 0 1 360.0981 236.2105)" id="124-text" className="unselectable seatingChartSt2 seatingChartSt4">124</text>
+					<text transform="matrix(1 0 0 1 393.8926 236.7596)" id="123-text" className="unselectable seatingChartSt2 seatingChartSt4">123</text>
+					<text transform="matrix(1 0 0 1 433.5235 229.6548)" id="122-text" className="unselectable seatingChartSt2 seatingChartSt4">122</text>
+					<text transform="matrix(1 0 0 1 466.5177 250.806)" id="121-text" className="unselectable seatingChartSt2 seatingChartSt4">121</text>
+					<text transform="matrix(1 0 0 1 476.0718 288.1469)" id="120-text" className="unselectable seatingChartSt2 seatingChartSt4">120</text>
+					<text transform="matrix(1 0 0 1 476.0718 320.1595)" id="119-text" className="unselectable seatingChartSt2 seatingChartSt4">119</text>
+					<text transform="matrix(1 0 0 1 475.8893 351.8256)" id="118-text"  className="unselectable seatingChartSt2 seatingChartSt4">118</text>
+					<text transform="matrix(1 0 0 1 462.5177 387.7301)" id="117-text" className="unselectable seatingChartSt2 seatingChartSt4">117</text>
+					<text transform="matrix(1 0 0 1 429.8057 407.1935)" id="116-text" className="unselectable seatingChartSt2 seatingChartSt4">116</text>
+					<text transform="matrix(1 0 0 1 391.8926 409.5826)" id="115-text" className="unselectable seatingChartSt2 seatingChartSt4">115</text>
+					<text transform="matrix(1 0 0 1 360.0981 409.3177)" id="114-text" className="unselectable seatingChartSt2 seatingChartSt4">114</text>
+					<text transform="matrix(1 0 0 1 327.1511 409.3177)" id="113-text" className="unselectable seatingChartSt2 seatingChartSt4">113</text>
+					<text transform="matrix(1 0 0 1 291.8963 409.3177)" id="112-text" className="unselectable seatingChartSt2 seatingChartSt4">112</text>
+					<text transform="matrix(1 0 0 1 258.8903 408.9949)" id="111-text" className="unselectable seatingChartSt2 seatingChartSt4">111</text>
+					<text transform="matrix(1 0 0 1 225.6934 407.0855)" id="110-text" className="unselectable seatingChartSt2 seatingChartSt4">110</text>
+					<text transform="matrix(1 0 0 1 197.5732 389.6563)" id="109-text" className="unselectable seatingChartSt2 seatingChartSt4">109</text>
+					<text transform="matrix(1 0 0 1 178.9968 356.0721)" id="108-text" className="unselectable seatingChartSt2 seatingChartSt4">108</text>
+					<text transform="matrix(1 0 0 1 178.0372 323.1619)" id="107-text" className="unselectable seatingChartSt2 seatingChartSt4">107</text>
+					<text transform="matrix(1 0 0 1 177.9135 289.1614)" id="106-text" className="unselectable seatingChartSt2 seatingChartSt4">106</text>
 					<text transform="matrix(0.7655 0 0 1 253.0308 309.501)"  className="unselectable seatingChartSt2 seatingChartSt5">106</text>
 					<text transform="matrix(0.7655 0 0 1 253.0303 338.6653)"  className="unselectable seatingChartSt2 seatingChartSt5">108</text>
 					<text transform="matrix(0.7655 0 0 1 402.3607 309.501)"  className="unselectable seatingChartSt2 seatingChartSt5">120</text>
@@ -492,7 +500,7 @@ export default class WellsFargoChart extends Component {
 					<text transform="matrix(0.9387 0 0 1 181.0375 435.4371)"  className="unselectable seatingChartSt2 seatingChartSt7">R</text>
 					<text transform="matrix(1.007 0 0 1 331.3857 290.6382)"  className="unselectable seatingChartSt2 seatingChartSt8">WEST</text>
 					<text transform="matrix(1.007 0 0 1 330.881 351.8248)"  className="unselectable seatingChartSt2 seatingChartSt8">EAST</text>
-					<text transform="matrix(1.007 0 0 1 268.5401 284.5131)"  className="unselectable seatingChartSt2 seatingChartSt8">103</text>
+					<text transform="matrix(1.007 0 0 1 268.5401 284.5131)" className="unselectable seatingChartSt2 seatingChartSt8">103</text>
 					<text transform="matrix(1.007 0 0 1 296.5787 284.5126)"  className="unselectable seatingChartSt2 seatingChartSt8">102</text>
 					<text transform="matrix(1.007 0 0 1 328.5302 284.5126)"  className="unselectable seatingChartSt2 seatingChartSt8">101</text>
 					<text transform="matrix(1.007 0 0 1 364.311 284.5121)"  className="unselectable seatingChartSt2 seatingChartSt8">124</text>

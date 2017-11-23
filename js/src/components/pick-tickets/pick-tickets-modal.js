@@ -51,6 +51,7 @@ export default class PickTicketsModal extends Component {
         }
     }
 
+    // begins checkout process
     checkout() {
         if(this.state.ticketsInTransaction.length > 0 && this.state.ticketsInTransaction != [])
         {

@@ -1786,7 +1786,7 @@ col.registrationViewCol {
 .ticketListItemTicketBorder {
     border-style: solid;
     border-width: 0.4em;
-    border-color: black;
+    border-color: #A4A4A4;
     overflow: auto;
     height: 520px;
     width: 100%;
