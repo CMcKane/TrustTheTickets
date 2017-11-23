@@ -94,9 +94,10 @@ export default class PickTickets extends Component {
         return this.state.selectedEvent.title;
     }
 
-    setDesiredNumberTickets(numberTickets)
-    {
+    setDesiredNumberTickets(numberTickets) {
+        console.log(numberTickets);
         this.setState({desiredNumberTickets: numberTickets});
+        console.log(this.state.desiredNumberTickets);
     }
 
     getEvent() {
@@ -626,7 +627,7 @@ export default class PickTickets extends Component {
                                             <Col xs={12} sm={12} md={4} lg={4}>
                                                 <ButtonGroup>
                                                     <DropdownButton title="Number of Tickets" id="bg-nested-dropdown"
-                                                                    onSelect={function(eventKey){{this.setDesiredNumberTickets(eventKey)}}}>
+                                                                    onSelect={this.setDesiredNumberTickets.bind(this)}>
                                                         <MenuItem eventKey="1">1 Ticket</MenuItem>
                                                         <MenuItem eventKey="2">2 Tickets</MenuItem>
                                                         <MenuItem eventKey="3">3 Tickets</MenuItem>
