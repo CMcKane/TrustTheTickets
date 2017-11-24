@@ -1358,7 +1358,7 @@ p.loginPara {
         max-width: 70% !important;
     }
     .circularLogo {
-        width: 80% !important; 
+        width: 65% !important; 
     }
     .circularLogo-ss {
         width: 60% !important; 
@@ -1378,16 +1378,16 @@ p.loginPara {
         max-width: 50% !important;
     }
     .circularLogo {
-        width: 80% !important; 
+        width: 50% !important; 
     }
     .circularLogo-ss {
-        width: 70% !important; 
+        width: 50% !important; 
     }
     .circularLogo-s {
-        width: 60% !important;
+        width: 40% !important;
     }
     .wideLogo {
-        width: 80%;
+        width: 70%;
     }
     .bigLogo {
         width: 50%;
@@ -1398,19 +1398,19 @@ p.loginPara {
         max-width: 40% !important;
     }
     .circularLogo {
-        width: 60% !important; 
+        width: 35% !important; 
     }
     .circularLogo-ss {
-        width: 60% !important; 
+        width: 35% !important; 
     }
     .circularLogo-s {
-        width: 60% !important;
+        width: 30% !important;
     }
     .wideLogo {
-        width: 70%;
+        width: 50%;
     }
     .bigLogo {
-        width: 50%;
+        width: 30%;
     }
 }
 @media (min-width: 768px) and (max-width: 1200px)  {
@@ -1418,10 +1418,10 @@ p.loginPara {
         max-width: 40% !important;
     }
     .circularLogo {
-        width: 70%; 
+        width: 60%; 
     }
     .circularLogo-ss {
-        width: 70%; 
+        width: 50%; 
     }
     .circularLogo-s {
         width: 70%;
@@ -1811,9 +1811,9 @@ col.registrationViewCol {
 
 .ticketListItemTicketBorder {
     border-style: solid;
-    border-width: 0.4em;
+    border-width: 0.15em;
     border-color: #036bb5;
-    overflow: auto;
+    overflow-y: scroll;
     height: 520px;
     width: 100%;
     background-color: white;

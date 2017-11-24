@@ -702,20 +702,10 @@ export default class PickTickets extends Component {
                             </Well>
                             <Grid>
                                 <Row>
+                                    <h2 className='text-center'>{this.state.eventTitle}</h2>
                                     <Col xs={12} sm={12} md={7} lg={7}>
                                         <Row>
                                             <Col xs={12} sm={12} md={8} lg={8}>
-                                                <ButtonGroup>
-                                                    <DropdownButton disabled={this.hasEventID()}
-                                                        title={this.state.eventTitle} id="bg-nested-dropdown">
-                                                        <LinkContainer to='/event-calendar'>
-                                                            <MenuItem eventKey="By Team">By Team</MenuItem>
-                                                        </LinkContainer>
-                                                        <LinkContainer to='/event-calendar'>
-                                                            <MenuItem eventKey="By Calendar">By Calendar</MenuItem>
-                                                        </LinkContainer>
-                                                    </DropdownButton>
-                                                </ButtonGroup>
                                                 <div>
                                                     <ToggleButtonGroup style={{width: '40%', paddingTop: '15px'}}
                                                         id = "chartToggleGroup"
@@ -729,9 +719,10 @@ export default class PickTickets extends Component {
                                                     </ToggleButtonGroup>
                                                 </div>
                                             </Col>
-                                            <Col xs={12} sm={12} md={4} lg={4}>
-                                                <ButtonGroup>
-                                                    <DropdownButton title={this.state.ticketNumStr} id="bg-nested-dropdown">
+                                            <Col xs={12} sm={12} md={8} lg={8}>
+                                                <ButtonGroup style={{width: '40%'}}>
+                                                    <DropdownButton bsSize='small'
+                                                        title={this.state.ticketNumStr} id="bg-nested-dropdown">
                                                         <MenuItem eventKey="0" onSelect={this.setDesiredNumberTickets.bind(this)}>Any</MenuItem>
                                                         <MenuItem eventKey="1" onSelect={this.setDesiredNumberTickets.bind(this)}>1 Ticket</MenuItem>
                                                         <MenuItem eventKey="2" onSelect={this.setDesiredNumberTickets.bind(this)}>2 Tickets</MenuItem>
@@ -743,8 +734,6 @@ export default class PickTickets extends Component {
                                                         <MenuItem eventKey="8" onSelect={this.setDesiredNumberTickets.bind(this)}>8 Tickets</MenuItem>
                                                         <MenuItem eventKey="9" onSelect={this.setDesiredNumberTickets.bind(this)}>9 Tickets</MenuItem>
                                                         <MenuItem eventKey="10" onSelect={this.setDesiredNumberTickets.bind(this)}>10+ Tickets</MenuItem>
-
-
                                                         {/*<LinkContainer to='/event-calendar'>*/}
                                                             {/*<MenuItem eventKey="By Team">By Team</MenuItem>*/}
                                                         {/*</LinkContainer>*/}

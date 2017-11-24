@@ -24,6 +24,7 @@ import '../../../stylesheet.css';
 import CreateListingModal from "./create-listing-modal";
 import CreateListingConfirmModal from "./create-listing-confirm-modal"
 import {RadioGroup, Radio} from 'react-radio-group';
+import AuthService from "../../auth/auth-service";
 
 function FieldGroup({id, label, help, ...props}) {
     return (
@@ -40,6 +41,7 @@ export default class CreateListingView extends Component {
     constructor(props) {
         super(props);
 
+        this.Auth = new AuthService();
         this.state = {
             activeKey: 1,
             numberOfTickets: 0,
@@ -61,6 +63,8 @@ export default class CreateListingView extends Component {
             modalSubmitError: "",
             disableMinPurchaseSizeForm: false,
             selectedValue: "1",
+            pdfLinks: [],
+            token: this.Auth.getToken()
         };
 
         this.getGameDates();
@@ -166,14 +170,22 @@ export default class CreateListingView extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
+    handleSeatInfoChange(e) {
+        if(e.target.value.match(/^[\d ]*$/)){
+            this.setState({[e.target.name]: e.target.value});
+        } else {
+            alert("Please enter a valid number for section and/or row.");
+        }
+    }
+
     handleSelectNext() {
 
         switch (this.state.activeKey) {
             case 1:
-                if (this.state.gameDate !== null && this.state.opponentName !== null) {
+                if (this.state.gameDate !== null && this.state.opponentName !== "Pick An Opponent" && this.state.opponentName !== "") {
                     this.setState({activeKey: this.state.activeKey + 1});
                 } else {
-                    alert("Please pick a game to move onto the next step.");
+                    alert("Please pick a game and an opponent to move onto the next step.");
                 }
                 break;
             case 2:
@@ -184,12 +196,19 @@ export default class CreateListingView extends Component {
                 }
                 break;
             case 3:
-                for (var i = 1; i <= this.state.numberOfTickets; i++) {
-                    var form = document.getElementById('seatNumberForm' + i).value;
-                    var check1 = document.getElementById('aisleSeatCheck' + i).checked;
-                    var check2 = document.getElementById('earlyEntryCheck' + i).checked;
-                    var check3 = document.getElementById('handicapAccessibleCheck' + i).checked;
-                    this.state.seatsInfo.push({seat: [{seatNum: form, aisleSeat: check1, earlyEntry: check2, handicapAccessible: check3}]});
+
+                for(var i = 1; i <= this.state.numberOfTickets; i++) {
+                    if(document.getElementById('seatNumberForm' + i).value.match(/^[\d ]*$/)){
+                        var form = document.getElementById('seatNumberForm' + i).value;
+                        var check1 = document.getElementById('aisleSeatCheck' + i).checked;
+                        var check2 = document.getElementById('earlyEntryCheck' + i).checked;
+                        var check3 = document.getElementById('handicapAccessibleCheck' + i).checked;
+                        this.state.seatsInfo.push({seat: [{seatNum: form, aisleSeat: check1, earlyEntry: check2, handicapAccessible: check3}]});
+                    }else{
+                        alert("Please enter a valid seat number.");
+                        this.state.seatsInfo = [];
+                        return
+                    }
                 }
 
                 if (this.state.section !== null && this.state.row !== null && this.state.seatsInfo !== null) {
@@ -423,7 +442,7 @@ export default class CreateListingView extends Component {
                                                 <Row className="globalCenterThis">
                                                     <Col lg={4}>
                                                         <Form id="seatsForm">
-                                                            <OverlayTrigger placement="bottom"
+                                                            <OverlayTrigger placement="right"
                                                                             overlay={<Tooltip id="sectionToolTip">Section
                                                                                 Number
                                                                                 is applied to all tickets.</Tooltip>}>
@@ -434,13 +453,13 @@ export default class CreateListingView extends Component {
                                                                             type="text"
                                                                             label="Section Number"
                                                                             placeholder="Enter Section Number"
-                                                                            onChange={this.handleChange.bind(this)}/>
+                                                                            onChange={this.handleSeatInfoChange.bind(this)}/>
                                                             </OverlayTrigger>
                                                         </Form>
                                                     </Col>
                                                     <Col lg={4}>
                                                         <Form>
-                                                            <OverlayTrigger placement="bottom"
+                                                            <OverlayTrigger placement="right"
                                                                             overlay={<Tooltip id="sectionToolTip">Row
                                                                                 Number is
                                                                                 applied to all tickets.</Tooltip>}>
@@ -451,7 +470,7 @@ export default class CreateListingView extends Component {
                                                                             type="text"
                                                                             label="Row Number"
                                                                             placeholder="Enter Row Number"
-                                                                            onChange={this.handleChange.bind(this)}/>
+                                                                            onChange={this.handleSeatInfoChange.bind(this)}/>
                                                             </OverlayTrigger>
                                                         </Form>
                                                     </Col>

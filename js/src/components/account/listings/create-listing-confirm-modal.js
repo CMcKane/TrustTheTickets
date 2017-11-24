@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import Time from 'react-time';
-import {Button, ControlLabel, Panel, Modal, Form, FormGroup, FormControl, Grid, Col, Row} from 'react-bootstrap';
+import {TTTPost} from '../../backend/ttt-request';
+import {Button, Panel, Modal, Grid, Col, Row} from 'react-bootstrap';
 import '../../../stylesheet.css';
+import AuthService from "../../auth/auth-service";
 
 
 export default class CreateListingConfirmModal extends Component {
@@ -18,6 +20,9 @@ export default class CreateListingConfirmModal extends Component {
             row: this.props.section,
             seatsInfo: this.props.seatsInfo,
             minPurchaseSize: this.props.minPurchaseSize,
+            pdfLinks: this.props.pdfLinks,
+            ticketPrice: this.props.ticketPrice,
+            token: this.props.token
         }
     }
 
@@ -32,8 +37,26 @@ export default class CreateListingConfirmModal extends Component {
         this.props.onHide();
     }
 
+    pushTicketListingToDb(){
+
+        var success = false;
+
+        TTTPost('/create-ticket-listing', {
+            numberOfTickets: this.props.numberOfTickets,
+            dbGameDate: this.props.dbGameDate,
+            section: this.props.section,
+            row: this.props.row,
+            seatsInfo: this.props.seatsInfo,
+            minPurchaseSize: this.props.minPurchaseSize,
+            pdfLinks: this.props.pdfLinks,
+            ticketPrice: this.props.ticketPrice,
+            token: this.props.token} )
+                .then(res => {
+                success = res.data.success});
+    }
+
     onSubmit() {
-        //TODO makes this submit all the data to the database
+        this.pushTicketListingToDb();
     }
 
     getErrorText() {
@@ -80,7 +103,7 @@ export default class CreateListingConfirmModal extends Component {
         if (this.props.minPurchaseSize !== 1) {
             arr.push(<div><p className='listingConfirmModalText' 
                     style={{display: "inline", fontWeight: "bold"}}>Minimum Ticket Groupings: </p>
-                <p style={{display: "inline"}}>{this.props.minPurchaseSize}</p></div>)
+                <p className='listingConfirmModalText' style={{display: "inline"}}>{this.props.minPurchaseSize}</p></div>)
         } else {
             arr.push(<p className='listingConfirmModalText'
                 style={{display: "inline", fontWeight: "bold"}}>Selling Tickets Individually</p>)
@@ -210,8 +233,8 @@ export default class CreateListingConfirmModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     {this.getErrorText()}
-                    <Button onClick={this.onSubmit.bind(this)}>Submit Listing</Button>
                     <Button onClick={() => this.props.onHide()}>Close</Button>
+                    <Button onClick={this.onSubmit.bind(this)}>Submit Listing</Button>
                 </Modal.Footer>
             </Modal>
         )
