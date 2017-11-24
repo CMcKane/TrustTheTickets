@@ -77,7 +77,8 @@ export default class PickTickets extends Component {
 
     componentDidMount() {
         this.getEvent();
-        this.displayAllTickets();   
+        this.displayAllTickets(); 
+        this.getCheapestTickets();  
     }
 
     onHide() {
@@ -179,7 +180,9 @@ export default class PickTickets extends Component {
                             homeTeam: res.data.event.homeTeam,
                             awayTeam: res.data.event.awayTeam
                         },
-                        eventTitle: res.data.event.title
+                        eventTitle: res.data.event.title,
+                        minPrice: res.data.event.minPrice,
+                        numTickets: res.data.event.numTickets
                     });
                 }
             }
@@ -212,7 +215,8 @@ export default class PickTickets extends Component {
             previousSections: this.state.sections,
             sections: [],
             groups: [],
-            isLoading: true
+            isLoading: true,
+            toggleValue: 1
             }, () => {this.getTicketsWithFilter()});
     }
 
@@ -271,6 +275,7 @@ export default class PickTickets extends Component {
             isLoading:true,
             tickets: [],
             groups: [],
+            toggleValue: 3
         });
         TTTPost('/pick-expensive-ticket', {
             eventID: this.state.eventID,
@@ -297,6 +302,7 @@ export default class PickTickets extends Component {
             isLoading:true,
             tickets: [],
             groups: [],
+            toggleValue: 2
         });
 
 
@@ -655,7 +661,7 @@ export default class PickTickets extends Component {
                         <table className="ticketTableHeader">
                             <tr>
                                 <td>
-                                    {this.state.groups[group].length} Tickets
+                                    {this.state.groups[group].length} {this.state.groups[group].length > 1 ? 'Tickets' : 'Ticket'}
                                 </td>
                             </tr>
                         </table>
@@ -663,7 +669,7 @@ export default class PickTickets extends Component {
                             <tr className="ticketTableBodyHeader">
                                 <td>Section</td>
                                 <td>Row</td>
-                                <td>Seat(s)</td>
+                                <td>{this.state.groups[group].length > 1 ? 'Seats' : 'Seat'}</td>
                                 <td>Price</td>
                             </tr>
                             <tr className="ticketTableBodyBody">
@@ -790,7 +796,7 @@ export default class PickTickets extends Component {
                                                     name = "filterToggleGroup"
                                                     style={{paddingBottom: '5px'}}
                                                     type="radio"
-                                                    value={this.state.toggleValue}
+                                                    defaultValue={2}
                                                     onChange={this.onToggleChange.bind(this)}>
                                                         <ToggleButton id="selectPrice" value={1} onClick={this.selectTicket.bind(this)}>Select Price</ToggleButton>
                                                         <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)}>Lowest Price</ToggleButton>

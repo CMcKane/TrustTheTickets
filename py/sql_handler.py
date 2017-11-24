@@ -126,14 +126,20 @@ class SqlHandler(object):
             cursor.execute(
                 "SELECT concat(h.team_name,' vs ', a.team_name) AS Title, "
                 "h.team_name, "
-                "a.team_name "
+                "a.team_name,"
+                "count(ticket_id),"
+                "MIN(ticket_price) "
                 "FROM games g "
                 "JOIN teams h ON (h.team_id = home_team_id) "
                 "JOIN teams a ON (a.team_id = away_team_id) "
+                "JOIN tickets USING (event_id) "
+                "JOIN groups USING (group_id) "
                 "WHERE g.event_id = '{}'"
                 "GROUP BY g.event_id;".format(event_id))
             cols = cursor.fetchone()
-            event_details = dict(authenticated=True, title=cols[0], awayTeam=cols[1], homeTeam=cols[2])
+            event_details = dict(authenticated=True, title=cols[0],
+                                 awayTeam=cols[1], homeTeam=cols[2],
+                                 numTickets=cols[3], minPrice=cols[4])
             return event_details
         except Exception as e:
             print(e)
