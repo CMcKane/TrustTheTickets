@@ -633,7 +633,8 @@ export default class PickTickets extends Component {
     }
 
     returnFromCheckout() {
-        this.setState({checkoutPageActive: false});
+        this.setState({checkoutPageActive: false, previousSections: this.state.sections, sections: []});
+        this.setState({checkoutPageActive: false}); // Keep this here, forces page to call render.
     }
 
     setCheckoutTickets(tickets) {
