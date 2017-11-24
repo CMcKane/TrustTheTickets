@@ -40,7 +40,7 @@ export default class PickTickets extends Component {
             eventTitle: 'Choose a game',
             isLoading: false,
             previousSections: [],
-            toggleValue: 1,
+            toggleValue: 2,
             chartToggleValue: 1,
             bySection: true,
             groups: [],
@@ -78,7 +78,7 @@ export default class PickTickets extends Component {
     componentDidMount() {
         this.getEvent();
         this.displayAllTickets(); 
-        this.getCheapestTickets();  
+        this.getCheapestTicketsInitial();  
     }
 
     onHide() {
@@ -295,6 +295,32 @@ export default class PickTickets extends Component {
                 }
             });
 
+    }
+
+    getCheapestTicketsInitial() {
+        this.setState({
+            isLoading:true,
+            tickets: [],
+            groups: [],
+            toggleValue: 2
+        });
+
+
+        TTTPost('/pick-cheapest-ticket',{
+            eventID: this.state.eventID,
+            earlyAccess: this.state.earlyAccessToggle,
+            aisleSeating: this.state.aisleSeatToggle,
+            handicap: this.state.handicapToggle,
+            desiredNumberTickets: this.state.desiredNumberTickets
+        })
+            .then(res => {
+                if (res.data.tickets) {
+                    this.setState({
+                        tickets: res.data.tickets,
+                        isLoading: false
+                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                }
+            });
     }
 
     getCheapestTickets() {
@@ -796,7 +822,7 @@ export default class PickTickets extends Component {
                                                     name = "filterToggleGroup"
                                                     style={{paddingBottom: '5px'}}
                                                     type="radio"
-                                                    defaultValue={2}
+                                                    value={this.state.toggleValue}
                                                     onChange={this.onToggleChange.bind(this)}>
                                                         <ToggleButton id="selectPrice" value={1} onClick={this.selectTicket.bind(this)}>Select Price</ToggleButton>
                                                         <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)}>Lowest Price</ToggleButton>
