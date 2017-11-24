@@ -193,7 +193,8 @@ class SqlHandler(object):
                        "FROM games g "
                        "JOIN teams home ON (g.home_team_id = home.team_id) "
                        "JOIN teams away ON (g.away_team_id = away.team_id) "
-                       "WHERE away_team_id = '{}'".format(team_id))
+                       "WHERE g.date > CURRENT_TIMESTAMP "
+                       "AND away_team_id = '{}'".format(team_id))
         data = [dict(event_id=row[0], home_team_id=row[1], away_team_id=row[2], date=row[3],
                      home_team_name=row[4], away_team_name=row[5]) for row in cursor.fetchall()]
         return data
