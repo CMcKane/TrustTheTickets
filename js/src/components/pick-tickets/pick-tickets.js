@@ -456,9 +456,9 @@ export default class PickTickets extends Component {
     }
 
     onChartClick(section) {
-        if(this.state.bySection)
-        {
-            if(this.validSection(section)) {
+        if(this.validSection(section)) {
+            if(this.state.bySection)
+            {
                 if(this.state.sections.length === 1 && this.state.sections[0] === section) {
                     this.setState({
                         previousSections: this.state.sections,
@@ -490,33 +490,32 @@ export default class PickTickets extends Component {
                         });
                 }
             }
-        }
-        else
-        {
-            var sectionsAndZone = this.determineSectionsZone(section);
-            this.setState({isLoading:true, tickets: []});
+            else
+            {
+                var sectionsAndZone = this.determineSectionsZone(section);
+                this.setState({isLoading:true, tickets: []});
 
-            TTTPost('/pick-ticket-zone', {
-                    eventID: this.state.eventID,
-                    section_type_id: sectionsAndZone.zone,
-                    aisleSeat: this.state.aisleSeatToggle,
-                    earlyAccess: this.state.earlyAccessToggle,
-                    handicap: this.state.handicapToggle,
-                    desiredNumberTickets: this.state.desiredNumberTickets
-                })
-                    .then(res => {
-                        if (res.data.tickets) {
-                            this.setState({
-                                previousSections: this.state.sections,
-                                sections: sectionsAndZone.sections,
-                                tickets: res.data.tickets,
-                                isLoading: false,
-                                toggleValue: 1,
-                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                        }
-                    });
+                TTTPost('/pick-ticket-zone', {
+                        eventID: this.state.eventID,
+                        section_type_id: sectionsAndZone.zone,
+                        aisleSeat: this.state.aisleSeatToggle,
+                        earlyAccess: this.state.earlyAccessToggle,
+                        handicap: this.state.handicapToggle,
+                        desiredNumberTickets: this.state.desiredNumberTickets
+                    })
+                        .then(res => {
+                            if (res.data.tickets) {
+                                this.setState({
+                                    previousSections: this.state.sections,
+                                    sections: sectionsAndZone.sections,
+                                    tickets: res.data.tickets,
+                                    isLoading: false,
+                                    toggleValue: 1,
+                                }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                            }
+                        });
+            }
         }
-
     }
 
     createTicketGroupArrays(tickets) {
