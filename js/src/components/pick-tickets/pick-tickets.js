@@ -221,13 +221,14 @@ export default class PickTickets extends Component {
 
     getTicketsWithFilter() {
         this.setState({
-            isLoading:true, tickets: [],
+            isLoading:true,
+            tickets: [],
             toggleValue: 1,
             groups: [],
             previousSections: this.state.sections,
             sections: []
         });
-        if(this.state.sections.length === 0) {
+        //if(this.state.sections.length === 0) {
             TTTPost('/get-cheap-ticket-any-section', {
                 eventID: this.state.eventID,
                 minPrice: this.state.minPrice,
@@ -247,7 +248,9 @@ export default class PickTickets extends Component {
                     }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
-        } else {
+            console.log("IF");
+            console.log(this.state.sections);
+        /*} else {
             TTTPost('/pick-ticket-filter', {
                 eventID: this.state.eventID,
                 minPrice: this.state.minPrice,
@@ -262,11 +265,14 @@ export default class PickTickets extends Component {
                     if (res.data.tickets) {
                         this.setState({
                             tickets: res.data.tickets,
-                            isLoading: false
+                            isLoading: false,
+                            sections: res.data.sections
                         }, () => {this.createTicketGroupArrays(this.state.tickets)});
                     }
                 });
-        }
+            console.log("ELSE");
+            console.log(this.state.sections);
+        }*/
     }
 
     getExpensiveTicketsAndSections() {
