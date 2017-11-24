@@ -74,11 +74,6 @@ class Checkout extends Component {
         var taxTotal = 0;
         var commTotal = 0;
 
-        /*console.log("tax");
-        console.log(this.props.taxPercent);
-        console.log("commission");
-        console.log(this.props.commissionPercent);
-*/
         for(var i = 0; i < tickets.length; i++)
         {
             taxTotal  += (tickets[i].ticket_price * this.props.taxPercent);
@@ -102,7 +97,6 @@ class Checkout extends Component {
     }
 
     purchaseTickets() {
-        console.log("transaction in progress");
         var successful = false;
         TTTPost('/insert-transaction', {
             token: this.Auth.getToken(),
@@ -116,6 +110,8 @@ class Checkout extends Component {
             .then(res => {
                 successful = res.data.successful
             });
+        this.setState({redirect: true});
+
     }
 
 	getComments(ticket) {
@@ -190,43 +186,50 @@ class Checkout extends Component {
 
 
 	render() {
-        return (
-          <div className="globalBody globalImage">
-            <p className="timer">
-                <ReactCountdownClock
-                    seconds={300}
-                    color="#000"
-                    alpha={0.9}
-                    size={50}
-                    onComplete={this.onComplete.bind(this)}
-                />
-            </p>
-          <Grid style={{paddingTop: "25px", height: '80%'}}>
-              <h1>
-                  <Well className='checkoutHeader'>
-                      Checkout
-                  </Well>
-              </h1>
+	    if(this.state.redirect)
+        {
+            return <Redirect to={"/checkout-landing?event=" + this.props.eventID} />
+        }
+        else
+        {
+            return (
+              <div className="globalBody globalImage">
+                <p className="timer">
+                    <ReactCountdownClock
+                        seconds={300}
+                        color="#000"
+                        alpha={0.9}
+                        size={50}
+                        onComplete={this.onComplete.bind(this)}
+                    />
+                </p>
+              <Grid style={{paddingTop: "25px", height: '80%'}}>
+                  <h1>
+                      <Well className='checkoutHeader'>
+                          Checkout
+                      </Well>
+                  </h1>
 
-            <div style={{overflowY: 'auto', height: '90%'}}>
-                {this.renderTicketInfo()}
-                {this.renderTicketTotals()}
-                <div className="checkoutButton">
-                  <Button
-                      id={1}
-                      style={{marginLeft: "165px", color: "black"}}
-                      bsSize="large"
-                      onClick={this.purchaseTickets.bind(this)}>
-                      Checkout
-                  </Button>
+                <div style={{overflowY: 'auto', height: '90%'}}>
+                    {this.renderTicketInfo()}
+                    {this.renderTicketTotals()}
+                    <div className="checkoutButton">
+                      <Button
+                          id={1}
+                          style={{marginLeft: "165px", color: "black"}}
+                          bsSize="large"
+                          onClick={this.purchaseTickets.bind(this)}>
+                          Checkout
+                      </Button>
+                    </div>
                 </div>
-            </div>
 
 
-          </Grid>
+              </Grid>
 
-          </div>
+              </div>
             );
+        }
 	}
 }
 

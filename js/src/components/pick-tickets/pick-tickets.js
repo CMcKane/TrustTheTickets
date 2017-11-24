@@ -155,7 +155,7 @@ export default class PickTickets extends Component {
                     taxPercent: res.data.percentages[2][0]
                 }, () => {this.getRates(this.state.taxPercent, this.state.commissionPercent)});
             });
-  }
+    }
 
     getRates(taxPercent, commissionPercent) {
         this.taxRate = taxPercent;
@@ -680,7 +680,8 @@ export default class PickTickets extends Component {
                         checkoutTickets={this.state.checkoutTickets}
                         commissionPercent={this.state.commissionPercent}
                         taxPercent={this.state.taxPercent}
-                        returnFromCheckout={this.returnFromCheckout.bind(this)} />
+                        returnFromCheckout={this.returnFromCheckout.bind(this)}
+                        eventID={this.state.eventID}/>
                 );
             }
             else

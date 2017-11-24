@@ -45,6 +45,7 @@
     "react-spinners": "^0.2.0",
     "react-svg-pan-zoom": "^2.13.0",
     "react-time": "^4.3.0",
+    "react-timeout": "^1.0.1",
     "react-toggle-button": "^2.1.0",
     "react-toggle-switch": "^3.0.3",
     "tether": "^1.4.1"
