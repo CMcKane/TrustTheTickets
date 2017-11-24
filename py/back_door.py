@@ -491,8 +491,10 @@ def create_transaction():
 
 @app.route('/create-ticket-listing', methods=['POST'])
 def insert_ticket_listing():
+    sqlHandler = SqlHandler(mysql)
     jwt_service = JWTService()
     jsonData = request.get_json()
+
     sectionNum = jsonData['section']
     rowNum = jsonData['row']
     seatsInfo = jsonData['seatsInfo']
@@ -502,9 +504,11 @@ def insert_ticket_listing():
     minPurchaseSize = jsonData['minPurchaseSize']
     gameDate = jsonData['dbGameDate']
     accountID = jwt_service.get_account(jsonData['token'])
-    sqlHandler = SqlHandler(mysql)
-    sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks,
+
+    success = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks,
                                      numberOfTickets, minPurchaseSize, gameDate, accountID)
+
+    return jsonify({'success' : success})
 
 if __name__ == '__main__':
     app.run()
