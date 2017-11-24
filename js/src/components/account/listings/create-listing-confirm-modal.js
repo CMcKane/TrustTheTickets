@@ -37,7 +37,7 @@ export default class CreateListingConfirmModal extends Component {
         this.props.onHide();
     }
 
-    pushTicketListingToDb(){
+    onSubmit(){
 
         var success = false;
 
@@ -53,10 +53,6 @@ export default class CreateListingConfirmModal extends Component {
             token: this.props.token} )
                 .then(res => {
                 success = res.data.success});
-    }
-
-    onSubmit() {
-        this.pushTicketListingToDb();
     }
 
     getErrorText() {

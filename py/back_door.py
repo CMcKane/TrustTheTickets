@@ -513,7 +513,7 @@ def insert_ticket_listing():
     success = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks,
                                      numberOfTickets, minPurchaseSize, gameDate, accountID)
 
-    return jsonify({'success' : success})
+    return jsonify({'success': success})
 
 if __name__ == '__main__':
     app.run()
