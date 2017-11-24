@@ -226,7 +226,14 @@ def pick_cheapest_ticket():
     handicap = jsondata['handicap']
     desiredNumberTickets = jsondata['desiredNumberTickets']
     tickets = sqlHandler.get_cheapest_tickets_all_sections(event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-    sections = sqlHandler.get_cheapest_tickets_sections(event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
+
+    sections = []
+    my_set = None
+    for ticket in tickets:
+        sections.append(ticket['section_number'])
+
+    my_set = set(sections)
+    sections = list(my_set)
     return jsonify({'tickets': tickets,
                     'sections': sections})
 
@@ -264,7 +271,6 @@ def get_cheapest_ticket_any_section():
     handicap = jsondata['handicap']
     desiredNumberTickets = jsondata['desiredNumberTickets']
     tickets = sqlHandler.get_cheap_ticket_any_section(event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-    # sections = sqlHandler.get_sections_by_less_equal_price(event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap)
 
     sections = []
     my_set = None
@@ -287,7 +293,6 @@ def get_expensive_ticket_sections():
     handicap = jsondata['handicap']
     desiredNumberTickets = jsondata['desiredNumberTickets']
     tickets = sqlHandler.get_expensive_tickets_all_sections(event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-    #sections = sqlHandler.get_sections_by_max_price(event_id, aisleSeat, earlyAccess, handicap)
 
     sections = []
     my_set = None

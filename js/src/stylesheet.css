@@ -1523,6 +1523,24 @@ p.loginPara {
 /************************************************ Pick Tickets Styling ***********************************************/
 /*********************************************************************************************************************/
 
+.handicapIcon {
+    background-image: url("./resources/images/icons/handicap.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.earlyEntryIcon {
+    background-image: url("./resources/images/icons/early.PNG");
+    background-repeat: no-repeat;
+    background-size: 10% 10%;
+}
+
+aisleSeatIcon {
+    background-image: url("./resources/images/icons/aisle.PNG");
+    background-repeat: no-repeat;
+    background-size: 10% 10%;
+}
+
 .pickTicketsWell {
     color: black;
     font-size: 60px;

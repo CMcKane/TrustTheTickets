@@ -217,7 +217,13 @@ export default class PickTickets extends Component {
     }
 
     getTicketsWithFilter() {
-        this.setState({isLoading:true, tickets: [], toggleValue: 1});
+        this.setState({
+            isLoading:true, tickets: [],
+            toggleValue: 1,
+            groups: [],
+            previousSections: this.state.sections,
+            sections: []
+        });
         if(this.state.sections.length === 0) {
             TTTPost('/get-cheap-ticket-any-section', {
                 eventID: this.state.eventID,
@@ -279,10 +285,7 @@ export default class PickTickets extends Component {
                         previousSections: this.state.sections,
                         sections: res.data.sections,
                         tickets: res.data.tickets,
-                        isLoading: false,
-                        aisleSeatToggle: 0,
-                        handicapToggle: 0,
-                        earlyAccessToggle: 0
+                        isLoading: false
                     }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
@@ -650,7 +653,7 @@ export default class PickTickets extends Component {
                     <table className="ticketTableFooter">
                         <tr>
                             <td>
-                                put icons here
+
                             </td>
                             <td>
                                 <Button
@@ -729,6 +732,7 @@ export default class PickTickets extends Component {
                                             <Col xs={12} sm={12} md={4} lg={4}>
                                                 <ButtonGroup>
                                                     <DropdownButton title={this.state.ticketNumStr} id="bg-nested-dropdown">
+                                                        <MenuItem eventKey="0" onSelect={this.setDesiredNumberTickets.bind(this)}>Any</MenuItem>
                                                         <MenuItem eventKey="1" onSelect={this.setDesiredNumberTickets.bind(this)}>1 Ticket</MenuItem>
                                                         <MenuItem eventKey="2" onSelect={this.setDesiredNumberTickets.bind(this)}>2 Tickets</MenuItem>
                                                         <MenuItem eventKey="3" onSelect={this.setDesiredNumberTickets.bind(this)}>3 Tickets</MenuItem>
