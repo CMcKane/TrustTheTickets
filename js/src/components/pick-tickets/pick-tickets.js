@@ -612,63 +612,87 @@ export default class PickTickets extends Component {
             checkoutPageActive: true
         });
     }
+
+    renderEmptyTicketList() {
+        var list = [];
+        var output = "Click a section to find tickets.";
+
+        if(this.state.sections.length > 0) {
+            output = "No tickets listed in this section."
+        }
+
+        list.push(
+            <div className="emptyTicketBorder">
+                <p className="emptyTicketPanel"> {output} </p>
+            </div>
+        );
+
+        return list;
+    }
+
     //render the values in the tickets
     renderTicketList() {
         var list = [];
-        var counter = 1;
-        for(var group in this.state.groups)
+        if(this.state.tickets.length === 0)
         {
-            var id = "";
-            var seats = [];
-            for(var i = 0; i < this.state.groups[group].length; i++) {
-                seats.push(this.state.groups[group][i].seat_number);
-            }
-
-            seats.sort();
-            list.push(
-
-                <div key={group} className="ticketBorder">
-                    <table className="ticketTableHeader">
-                        <tr>
-                            <td>
-                                {this.state.groups[group].length} Tickets
-                            </td>
-                        </tr>
-                    </table>
-                    <table className="ticketTableBody">
-                        <tr className="ticketTableBodyHeader">
-                            <td>Section</td>
-                            <td>Row</td>
-                            <td>Seat(s)</td>
-                            <td>Price</td>
-                        </tr>
-                        <tr className="ticketTableBodyBody">
-                            <td>{this.state.groups[group][0].section_number}</td>
-                            <td>{this.state.groups[group][0].row_number}</td>
-                            <td>{seats.join(", ")}</td>
-                            <td>${this.state.groups[group][0].ticket_price} /ea</td>
-                        </tr>
-                    </table>
-                    <table className="ticketTableFooter">
-                        <tr>
-                            <td>
-
-                            </td>
-                            <td>
-                                <Button
-                                    id={counter}
-                                    style={{marginLeft: "100px", marginTop: "10px", color: "black"}}
-                                    bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets
-                                </Button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            )
-            this.state.currGroups[counter] = this.state.groups[group];
-            counter = counter + 1;
+            list = this.renderEmptyTicketList();
         }
+        else
+        {
+            var counter = 1;
+            for(var group in this.state.groups)
+            {
+                var id = "";
+                var seats = [];
+                for(var i = 0; i < this.state.groups[group].length; i++) {
+                    seats.push(this.state.groups[group][i].seat_number);
+                }
 
+                seats.sort();
+                list.push(
+
+                    <div key={group} className="ticketBorder">
+                        <table className="ticketTableHeader">
+                            <tr>
+                                <td>
+                                    {this.state.groups[group].length} Tickets
+                                </td>
+                            </tr>
+                        </table>
+                        <table className="ticketTableBody">
+                            <tr className="ticketTableBodyHeader">
+                                <td>Section</td>
+                                <td>Row</td>
+                                <td>Seat(s)</td>
+                                <td>Price</td>
+                            </tr>
+                            <tr className="ticketTableBodyBody">
+                                <td>{this.state.groups[group][0].section_number}</td>
+                                <td>{this.state.groups[group][0].row_number}</td>
+                                <td>{seats.join(", ")}</td>
+                                <td>${this.state.groups[group][0].ticket_price} /ea</td>
+                            </tr>
+                        </table>
+                        <table className="ticketTableFooter">
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <Button
+                                        id={counter}
+                                        style={{marginLeft: "100px", marginTop: "10px", color: "black"}}
+                                        bsSize="xsmall" onClick={this.createModal.bind(this)} >See Tickets
+                                    </Button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                )
+                this.state.currGroups[counter] = this.state.groups[group];
+                counter = counter + 1;
+            }
+        }
         return(list)
     }
 

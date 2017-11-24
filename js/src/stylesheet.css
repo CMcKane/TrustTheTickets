@@ -1541,6 +1541,11 @@ aisleSeatIcon {
     background-size: 10% 10%;
 }
 
+.emptyTicketPanel {
+    font-weight: bold;
+    text-align: center;
+}
+
 .pickTicketsWell {
     color: black;
     font-size: 60px;
@@ -1832,6 +1837,15 @@ col.registrationViewCol {
     padding-bottom: 10px;
     background-color: #FEFEFE;
     /* background-image: url("./resources/images/backgrounds/TicketBackground.jpg"); */
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.emptyTicketBorder {
+    border-style: solid;
+    border-width: 0.30em;
+    border-color: #C9C9C9;
+    background-color: #FEFEFE;
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -2245,6 +2259,7 @@ table.viewAccountTable {
     text-align: center;
     background-color: #006BB6;
 }
+
 
 .checkoutBody {
     color: black;
