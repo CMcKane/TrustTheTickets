@@ -854,23 +854,45 @@ class SqlHandler(object):
         if available < min_sell:
             insertQuery = "UPDATE groups SET min_sell_num = '{}' WHERE group_id = '{}'".format(available, group_id)
             cursor.execute(insertQuery)
-            
+
     def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks, numberOfTickets, minPurchaseSize, gameDate, accountID ):
         conn = self.mysql.connection
         cursor = conn.cursor()
+        ticketQueryResults = []
+        successful = True
 
         # These are constant and already known from data passed in.
         eventIDQuery = "SELECT event_id FROM games WHERE date = '{}'".format(gameDate)
-        eventID = cursor.execute(eventIDQuery).fetchAll()
+
+        try:
+            cursor.execute(eventIDQuery)
+            eventID = cursor.fetchall()
+        except:
+            successful = False
 
         sectionIDQuery = "SELECT section_id FROM sections WHERE section_num = '{}'".format(sectionNum)
-        sectionID = cursor.execute(sectionIDQuery).fetchAll()
+
+        try:
+            cursor.execute(sectionIDQuery)
+            sectionID = cursor.fetchall
+        except:
+            successful = False
 
         rowIDQuery = "SELECT row_id FROM rows WHERE section_id = '{}' AND row_num = '{}'".format(sectionID, rowNum)
-        rowID = cursor.execute(rowIDQuery).fetchAll()
+
+        try:
+            cursor.execute(rowIDQuery)
+            rowID = cursor.fetchall()
+        except:
+            successful = False
 
         groupIDQuery = ("SELECT (MAX(group_id) + 1) FROM groups")
-        groupID = cursor.execute(groupIDQuery).fetchAll()
+
+        try:
+            cursor.execute(groupIDQuery)
+            groupID = cursor.fetchall()
+        except:
+            successful = False
 
         groupValues = (groupID, eventID, accountID, ticketPrice, numberOfTickets,
                        numberOfTickets, minPurchaseSize, 0.00)
@@ -880,7 +902,12 @@ class SqlHandler(object):
                      "total_ticket_num, min_sell_num, min_profit_amount) " \
                      "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-        cursor.execute(groupQuery, groupValues)
+        try:
+            cursor.execute(groupQuery, groupValues)
+            groupQueryResults = cursor.fetchall()
+        except:
+            successful = False
+
         conn.commit()
 
         # This loops goes through the collection of seats info and adds each ticket into the database
@@ -888,10 +915,20 @@ class SqlHandler(object):
 
             seatIDQuery = "SELECT seat_id FROM seats WHERE row_id = rowID AND " \
                           "seat_num = '{}'".format(seatsInfo[i].seat[0].seat)
-            seatID = cursor.execute(seatIDQuery).fetchALl()
+
+            try:
+                cursor.execute(seatIDQuery)
+                seatID = cursor.fetchall()
+            except:
+                successful = False
 
             newTicketIDQuery = "SELECT (MAX(ticket_id) + 1) FROM tickets"
-            newTicketID = cursor.execute(newTicketIDQuery).fetchAll()
+
+            try:
+                cursor.execute(newTicketIDQuery)
+                newTicketID = cursor.fetchall()
+            except:
+                successful = False
 
             is_aisle_seat = 0
             if seatsInfo[i].seat[0].aisleSeat:
@@ -921,8 +958,15 @@ class SqlHandler(object):
                           "is_ha, section_id, row_id, seat_id, pdf_link, lock_account_id, last_update)" \
                           "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL , NOW())"
 
-            cursor.execute(ticketQuery, ticketValues)
+            try:
+                cursor.execute(ticketQuery, ticketValues)
+                ticketQueryResults.append(cursor.fetchall())
+            except:
+                successful = False
+
             conn.commit()
 
         cursor.close()
         conn.close()
+
+        return successful

@@ -119,13 +119,13 @@ class Checkout extends Component {
     }
 
 	getComments(ticket) {
-        var comments = ''
+        var comments = '- '
         if (ticket.early_access === 1)
-          comments += "Early Access "
+          comments += "Early Access  - "
         if (ticket.aisle_seat === 1)
-          comments += "Aisle Seat "
+          comments += "Aisle Seat - "
         if (ticket.handicap === 1)
-          comments += "Handicap"
+          comments += "Handicap - "
         return comments;
 	}
 

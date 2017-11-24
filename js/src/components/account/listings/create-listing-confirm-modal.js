@@ -38,6 +38,9 @@ export default class CreateListingConfirmModal extends Component {
     }
 
     pushTicketListingToDb(){
+
+        var success = false;
+
         TTTPost('/create-ticket-listing', {
             numberOfTickets: this.props.numberOfTickets,
             dbGameDate: this.props.dbGameDate,
@@ -48,6 +51,8 @@ export default class CreateListingConfirmModal extends Component {
             pdfLinks: this.props.pdfLinks,
             ticketPrice: this.props.ticketPrice,
             token: this.props.token} )
+                .then(res => {
+                success = res.data.success});
     }
 
     onSubmit() {
