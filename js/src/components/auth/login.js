@@ -38,6 +38,14 @@ export default class Login extends Component {
         });
     }
 
+    handleOnKeyPress(e){
+        if(e.key === 'Enter'){
+            document.getElementById("submitButton").click();
+            return false;
+        }
+    }
+
+
     render() {
         var path = '/my-account'
         if (this.Auth.loggedIn()) {
@@ -61,12 +69,16 @@ export default class Login extends Component {
                             <FormGroup controlId="formControlsPassword" >
                                 <ControlLabel className='loginControlLabel'>Password</ControlLabel>
                                 <FormControl className='loginFormControl' placeholder="Password" type="password"
-                                    value={this.state.password}
-                                    name="password"
-                                    onChange={this.handleChange.bind(this)} />
+                                             value={this.state.password}
+                                             name="password"
+                                             id="passwordForm"
+                                             onChange={this.handleChange.bind(this)}
+                                             onKeyPress={this.handleOnKeyPress.bind(this)}
+                                />
                             </FormGroup>
-                            <Button bsStyle="primary"
-                                onClick={this.onSubmit.bind(this)}>
+                            <Button type="button" bsStyle="primary"
+                                onClick={this.onSubmit.bind(this)}
+                                id="submitButton">
                                 Log In
                             </Button>
                         </form>
