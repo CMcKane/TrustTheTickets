@@ -198,7 +198,7 @@ export default class CreateListingView extends Component {
             case 3:
 
                 for(var i = 1; i <= this.state.numberOfTickets; i++) {
-                    if(document.getElementById('seatNumberForm' + i).value.match(/^[\d ]*$/)){
+                    if(document.getElementById('seatNumberForm' + i).value.match(/^[\d ]*$/) && document.getElementById('seatNumberForm' + i).value !== ""){
                         var form = document.getElementById('seatNumberForm' + i).value;
                         var check1 = document.getElementById('aisleSeatCheck' + i).checked;
                         var check2 = document.getElementById('earlyEntryCheck' + i).checked;
@@ -442,7 +442,7 @@ export default class CreateListingView extends Component {
                                                 <Row className="globalCenterThis">
                                                     <Col lg={4}>
                                                         <Form id="seatsForm">
-                                                            <OverlayTrigger placement="right"
+                                                            <OverlayTrigger placement="bottom"
                                                                             overlay={<Tooltip id="sectionToolTip">Section
                                                                                 Number
                                                                                 is applied to all tickets.</Tooltip>}>
@@ -459,7 +459,7 @@ export default class CreateListingView extends Component {
                                                     </Col>
                                                     <Col lg={4}>
                                                         <Form>
-                                                            <OverlayTrigger placement="right"
+                                                            <OverlayTrigger placement="bottom"
                                                                             overlay={<Tooltip id="sectionToolTip">Row
                                                                                 Number is
                                                                                 applied to all tickets.</Tooltip>}>
