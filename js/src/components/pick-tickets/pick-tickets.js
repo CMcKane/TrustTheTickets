@@ -55,6 +55,7 @@ export default class PickTickets extends Component {
             checkoutPageActive: false,
             commissionPercent: 0,
             taxPercent: 0,
+            ticketNumStr: "Number of Tickets",
             allZones: {
                         sectionTypeId: [1, 2, 3, 4, 5, 6, 7],
                         zone: [
@@ -100,10 +101,50 @@ export default class PickTickets extends Component {
         return this.state.selectedEvent.title;
     }
 
-    setDesiredNumberTickets(numberTickets) {
-        console.log(numberTickets);
-        this.setState({desiredNumberTickets: numberTickets});
-        console.log(this.state.desiredNumberTickets);
+    setDesiredNumberTickets(eventKey) {
+
+        var newTicketNumStr = "Number of Tickets";
+        switch(eventKey)
+        {
+            case "1":
+                newTicketNumStr = "1 Ticket";
+                break;
+            case "2":
+                newTicketNumStr = "2 Tickets";
+                break;
+            case "3":
+                newTicketNumStr = "3 Tickets";
+                break;
+            case "4":
+                newTicketNumStr = "4 Tickets";
+                break;
+            case "5":
+                newTicketNumStr = "5 Tickets";
+                break;
+            case "6":
+                newTicketNumStr = "6 Tickets";
+                break;
+            case "7":
+                newTicketNumStr = "7 Tickets";
+                break;
+            case "8":
+                newTicketNumStr = "8 Tickets";
+                break;
+            case "9":
+                newTicketNumStr = "9 Tickets";
+                break;
+            case "10":
+                newTicketNumStr = "10+ Tickets";
+                break;
+            default:
+                console.log("default");
+                break;
+
+        }
+        this.setState({
+            desiredNumberTickets: eventKey,
+            ticketNumStr: newTicketNumStr
+        });
     }
 
     fetchFees() {
@@ -184,7 +225,8 @@ export default class PickTickets extends Component {
                 maxPrice: this.state.maxPrice,
                 earlyAccess: this.state.earlyAccessToggle,
                 aisleSeating: this.state.aisleSeatToggle,
-                handicap: this.state.handicapToggle
+                handicap: this.state.handicapToggle,
+                desiredNumberTickets: this.state.desiredNumberTickets
             })
             .then(res => {
                 if (res.data.tickets) {
@@ -204,7 +246,8 @@ export default class PickTickets extends Component {
                 sections: this.state.sections,
                 earlyAccess: this.state.earlyAccessToggle,
                 aisleSeating: this.state.aisleSeatToggle,
-                handicap: this.state.handicapToggle
+                handicap: this.state.handicapToggle,
+                desiredNumberTickets: this.state.desiredNumberTickets
             })
                 .then(res => {
                     if (res.data.tickets) {
@@ -227,7 +270,8 @@ export default class PickTickets extends Component {
             eventID: this.state.eventID,
             earlyAccess: this.state.earlyAccessToggle,
             aisleSeating: this.state.aisleSeatToggle,
-            handicap: this.state.handicapToggle
+            handicap: this.state.handicapToggle,
+            desiredNumberTickets: this.state.desiredNumberTickets
         })
             .then(res => {
                 if (res.data.tickets) {
@@ -257,7 +301,8 @@ export default class PickTickets extends Component {
             eventID: this.state.eventID,
             earlyAccess: this.state.earlyAccessToggle,
             aisleSeating: this.state.aisleSeatToggle,
-            handicap: this.state.handicapToggle
+            handicap: this.state.handicapToggle,
+            desiredNumberTickets: this.state.desiredNumberTickets
         })
             .then(res => {
                 if (res.data.tickets) {
@@ -305,7 +350,8 @@ export default class PickTickets extends Component {
                         sections: this.state.sections,
                         aisleSeating: aisle,
                         earlyAccess: early,
-                        handicap: handicap
+                        handicap: handicap,
+                        desiredNumberTickets: this.state.desiredNumberTickets
                     })
                     .then(res => {
                         if (res.data.tickets) {
@@ -325,7 +371,8 @@ export default class PickTickets extends Component {
                     eventID: this.state.eventID,
                     earlyAccess: early,
                     aisleSeating: aisle,
-                    handicap: handicap
+                    handicap: handicap,
+                    desiredNumberTickets: this.state.desiredNumberTickets
                 })
                     .then(res => {
                         if (res.data.tickets) {
@@ -344,7 +391,8 @@ export default class PickTickets extends Component {
                     eventID: this.state.eventID,
                     earlyAccess: early,
                     aisleSeating: aisle,
-                    handicap: handicap
+                    handicap: handicap,
+                    desiredNumberTickets: this.state.desiredNumberTickets
                 })
                     .then(res => {
                         if (res.data.tickets) {
@@ -392,7 +440,8 @@ export default class PickTickets extends Component {
                         section_number: section,
                         aisleSeat: this.state.aisleSeatToggle,
                         earlyAccess: this.state.earlyAccessToggle,
-                        handicap: this.state.handicapToggle
+                        handicap: this.state.handicapToggle,
+                        desiredNumberTickets: this.state.desiredNumberTickets
                     })
                         .then(res => {
                             if (res.data.tickets) {
@@ -418,7 +467,8 @@ export default class PickTickets extends Component {
                     section_type_id: sectionsAndZone.zone,
                     aisleSeat: this.state.aisleSeatToggle,
                     earlyAccess: this.state.earlyAccessToggle,
-                    handicap: this.state.handicapToggle
+                    handicap: this.state.handicapToggle,
+                    desiredNumberTickets: this.state.desiredNumberTickets
                 })
                     .then(res => {
                         if (res.data.tickets) {
@@ -678,18 +728,17 @@ export default class PickTickets extends Component {
                                             </Col>
                                             <Col xs={12} sm={12} md={4} lg={4}>
                                                 <ButtonGroup>
-                                                    <DropdownButton title="Number of Tickets" id="bg-nested-dropdown"
-                                                                    onSelect={this.setDesiredNumberTickets.bind(this)}>
-                                                        <MenuItem eventKey="1">1 Ticket</MenuItem>
-                                                        <MenuItem eventKey="2">2 Tickets</MenuItem>
-                                                        <MenuItem eventKey="3">3 Tickets</MenuItem>
-                                                        <MenuItem eventKey="4">4 Tickets</MenuItem>
-                                                        <MenuItem eventKey="5">5 Tickets</MenuItem>
-                                                        <MenuItem eventKey="6">6 Tickets</MenuItem>
-                                                        <MenuItem eventKey="7">7 Tickets</MenuItem>
-                                                        <MenuItem eventKey="8">8 Tickets</MenuItem>
-                                                        <MenuItem eventKey="9">9 Tickets</MenuItem>
-                                                        <MenuItem eventKey="10">10+ Tickets</MenuItem>
+                                                    <DropdownButton title={this.state.ticketNumStr} id="bg-nested-dropdown">
+                                                        <MenuItem eventKey="1" onSelect={this.setDesiredNumberTickets.bind(this)}>1 Ticket</MenuItem>
+                                                        <MenuItem eventKey="2" onSelect={this.setDesiredNumberTickets.bind(this)}>2 Tickets</MenuItem>
+                                                        <MenuItem eventKey="3" onSelect={this.setDesiredNumberTickets.bind(this)}>3 Tickets</MenuItem>
+                                                        <MenuItem eventKey="4" onSelect={this.setDesiredNumberTickets.bind(this)}>4 Tickets</MenuItem>
+                                                        <MenuItem eventKey="5" onSelect={this.setDesiredNumberTickets.bind(this)}>5 Tickets</MenuItem>
+                                                        <MenuItem eventKey="6" onSelect={this.setDesiredNumberTickets.bind(this)}>6 Tickets</MenuItem>
+                                                        <MenuItem eventKey="7" onSelect={this.setDesiredNumberTickets.bind(this)}>7 Tickets</MenuItem>
+                                                        <MenuItem eventKey="8" onSelect={this.setDesiredNumberTickets.bind(this)}>8 Tickets</MenuItem>
+                                                        <MenuItem eventKey="9" onSelect={this.setDesiredNumberTickets.bind(this)}>9 Tickets</MenuItem>
+                                                        <MenuItem eventKey="10" onSelect={this.setDesiredNumberTickets.bind(this)}>10+ Tickets</MenuItem>
 
 
                                                         {/*<LinkContainer to='/event-calendar'>*/}

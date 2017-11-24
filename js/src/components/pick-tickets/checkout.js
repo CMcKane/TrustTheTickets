@@ -219,7 +219,7 @@ class Checkout extends Component {
                       onClick={this.purchaseTickets.bind(this)}>
                       Checkout
                   </Button>
-            </div>
+                </div>
             </div>
 
 

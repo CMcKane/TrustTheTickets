@@ -4,10 +4,18 @@ class SqlHandler(object):
     def __init__(self, mysql):
         self.mysql = mysql
 
-    def get_tickets(self, sectionNum, event_id, aisleSeat, earlyAccess, handicap):
+    def get_tickets(self, sectionNum, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
+
         whereStr = "WHERE t.event_id = '{}' AND se.section_num = '{}' AND t.ticket_status_id = 1 "
+
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND g.available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -193,7 +201,7 @@ class SqlHandler(object):
         return data
 
     def get_ticket_by_filter(self, minPrice, maxPrice, event_id, sections,
-                             aisleSeat, earlyAccess, handicap):
+                             aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
         section_string = ""
@@ -203,6 +211,11 @@ class SqlHandler(object):
                    "AND t.event_id = '{}' " \
                    "AND t.ticket_status_id = 1 " \
                    "AND se.section_num IN ({}) "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND g.available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -232,7 +245,7 @@ class SqlHandler(object):
                         early_access=row[6], aisle_seat=row[7], handicap=row[8], id=row[9]) for row in cursor.fetchall()]
         return tickets
 
-    def get_cheap_ticket_any_section(self, event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap):
+    def get_cheap_ticket_any_section(self, event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
@@ -240,6 +253,11 @@ class SqlHandler(object):
                    "AND g.ticket_price >= '{}' " \
                    "AND g.ticket_price <= '{}' " \
                    "AND t.ticket_status_id = 1 "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND g.available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -264,7 +282,7 @@ class SqlHandler(object):
         return tickets
 
 
-    def get_sections_by_less_equal_price(self, event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap):
+    def get_sections_by_less_equal_price(self, event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
@@ -272,6 +290,11 @@ class SqlHandler(object):
                    "AND g.ticket_price >= '{}' " \
                    "AND g.ticket_price <= '{}' " \
                    "AND t.ticket_status_id = 1 "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND g.available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -290,7 +313,7 @@ class SqlHandler(object):
             sections.append(row[0])
         return sections
 
-    def get_sections_by_max_price(self, event_id, aisleSeat, earlyAccess, handicap):
+    def get_sections_by_max_price(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
@@ -298,6 +321,11 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND g.ticket_price >= " \
                    "(SELECT max(ticket_price) FROM groups g WHERE g.event_id ='{}') "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND g.available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -317,13 +345,18 @@ class SqlHandler(object):
             sections.append(row[0])
         return sections
 
-    def get_cheapest_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap):
+    def get_cheapest_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id = '{}' " \
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id ='{}') "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -346,13 +379,18 @@ class SqlHandler(object):
                         aisle=row[5], earlyAccess=row[6], handicap=row[7], ticket_id=row[8]) for row in cursor.fetchall()]
         return tickets
 
-    def get_expensive_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap):
+    def get_expensive_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id = '{}' " \
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price >= (SELECT max(ticket_price) FROM groups g WHERE g.event_id = '{}')"
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -374,13 +412,18 @@ class SqlHandler(object):
                         aisle=row[5], earlyAccess=row[6], handicap=row[7], ticket_id=row[8]) for row in cursor.fetchall()]
         return tickets
 
-    def get_cheapest_tickets_sections(self, event_id, aisleSeat, earlyAccess, handicap):
+    def get_cheapest_tickets_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id ='{}' " \
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id = '{}') "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -401,11 +444,17 @@ class SqlHandler(object):
         return sections
 
 
-    def get_tickets_for_selected_sections(self, event_id, section_type_id, aisleSeat, earlyAccess, handicap):
+    def get_tickets_for_selected_sections(self, event_id, section_type_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
 
         whereStr = "WHERE t.event_id = '{}' AND se.section_type_id = '{}' AND t.ticket_status_id = 1 "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND g.available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
         if earlyAccess is 1:
@@ -563,7 +612,7 @@ class SqlHandler(object):
                        "WHERE group_id={}".format(groupID))
         conn.commit()
 
-    def get_tickets_for_sections(self, event_id, sections, aisleSeat, earlyAccess, handicap):
+    def get_tickets_for_sections(self, event_id, sections, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
         section_string = ""
@@ -576,6 +625,11 @@ class SqlHandler(object):
         whereStr = "WHERE t.event_id = '{}' " \
                    "AND se.section_num IN ({}) " \
                    "AND t.ticket_status_id = 1 "
+
+        if int(desiredNumberTickets) >= 10:
+            whereStr += "AND g.available_ticket_num >= 10 "
+        elif int(desiredNumberTickets) is not 0:
+            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -726,10 +780,10 @@ class SqlHandler(object):
         except:
             return not successful
 
-        #try:
-        self.create_transaction_detail(cursor, tickets, new_id, group_id)
-        #except:
-         #   return not successful
+        try:
+            self.create_transaction_detail(cursor, tickets, new_id, group_id)
+        except:
+            return not successful
 
         try:
             self.create_transaction_charges(cursor, new_id, commission, tax, subtotal)
