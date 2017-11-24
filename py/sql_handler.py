@@ -744,7 +744,7 @@ class SqlHandler(object):
         conn = self.mysql.connection
         cursor = conn.cursor()
         query = "SELECT percent FROM rates"
-        cursor.execute(query);
+        cursor.execute(query)
 
 
         data = cursor.fetchall()
@@ -854,3 +854,75 @@ class SqlHandler(object):
         if available < min_sell:
             insertQuery = "UPDATE groups SET min_sell_num = '{}' WHERE group_id = '{}'".format(available, group_id)
             cursor.execute(insertQuery)
+            
+    def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks, numberOfTickets, minPurchaseSize, gameDate, accountID ):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+
+        # These are constant and already known from data passed in.
+        eventIDQuery = "SELECT event_id FROM games WHERE date = '{}'".format(gameDate)
+        eventID = cursor.execute(eventIDQuery).fetchAll()
+
+        sectionIDQuery = "SELECT section_id FROM sections WHERE section_num = '{}'".format(sectionNum)
+        sectionID = cursor.execute(sectionIDQuery).fetchAll()
+
+        rowIDQuery = "SELECT row_id FROM rows WHERE section_id = '{}' AND row_num = '{}'".format(sectionID, rowNum)
+        rowID = cursor.execute(rowIDQuery).fetchAll()
+
+        groupIDQuery = ("SELECT (MAX(group_id) + 1) FROM groups")
+        groupID = cursor.execute(groupIDQuery).fetchAll()
+
+        groupValues = (groupID, eventID, accountID, ticketPrice, numberOfTickets,
+                       numberOfTickets, minPurchaseSize, 0.00)
+
+        # Create a new group with the MAX(group_id) + 1 and parameters passed in
+        groupQuery = "INSERT INTO groups (group_id, event_id, account_id, ticket_price, available_ticket_num, " \
+                     "total_ticket_num, min_sell_num, min_profit_amount) " \
+                     "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+
+        cursor.execute(groupQuery, groupValues)
+        conn.commit()
+
+        # This loops goes through the collection of seats info and adds each ticket into the database
+        for i in range(0, (numberOfTickets-1)):
+
+            seatIDQuery = "SELECT seat_id FROM seats WHERE row_id = rowID AND " \
+                          "seat_num = '{}'".format(seatsInfo[i].seat[0].seat)
+            seatID = cursor.execute(seatIDQuery).fetchALl()
+
+            newTicketIDQuery = "SELECT (MAX(ticket_id) + 1) FROM tickets"
+            newTicketID = cursor.execute(newTicketIDQuery).fetchAll()
+
+            is_aisle_seat = 0
+            if seatsInfo[i].seat[0].aisleSeat:
+                is_aisle_seat = 1
+            else:
+                is_aisle_seat = 0
+
+            is_early_entry = 0
+            if seatsInfo[i].seat[0].earlyEntry:
+                is_early_entry = 1
+            else:
+                is_early_entry = 0
+
+            is_handicap_accessible = 0
+            if seatsInfo[i].seat[0].handicapAccessible:
+                is_handicap_accessible = 1
+            else:
+                is_handicap_accessible = 0
+
+            pdfLink = pdfLinks[i]
+
+            ticketValues = (newTicketID, groupID, accountID, 1, eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
+                          is_handicap_accessible, sectionID, rowID, seatID, pdfLink)
+
+            ticketQuery = "INSERT INTO tickets (ticket_id, group_id, account_id, event_type_id, event_id," \
+                          " location_id, seating_chart_id, ticket_status_id, is_aisle_seat, is_early_entry, " \
+                          "is_ha, section_id, row_id, seat_id, pdf_link, lock_account_id, last_update)" \
+                          "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL , NOW())"
+
+            cursor.execute(ticketQuery, ticketValues)
+            conn.commit()
+
+        cursor.close()
+        conn.close()

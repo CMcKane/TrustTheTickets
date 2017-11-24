@@ -11,11 +11,18 @@ export default class CreateListingModal extends Component {
         this.state = {
             numberOfTickets: this.props.numberOfTickets,
             ticketsEntered: null,
+            ticketNumberError: false
         }
     }
 
     handleChange(e) {
-        this.setState({ticketsEntered: e.target.value});
+        if(e.target.value.match(/^[\d ]*$/)) {
+            this.setState({ticketNumberError: false});
+            this.setState({ticketsEntered: e.target.value});
+        } else {
+            this.setState({ticketNumberError: true});
+           // alert("Please enter a valid number.");
+        }
     }
 
     getValidationState() {
@@ -42,10 +49,10 @@ export default class CreateListingModal extends Component {
     }
 
     getErrorText() {
-        if (this.props.modalSubmitError) {
+        if (this.state.ticketNumberError) {
             return (
                 <div style={{color: 'red', float: 'left'}}>
-                    There was an error setting number of tickets. Please try again.
+                    Please enter a valid number and try again.
                 </div>
             );
         }
@@ -80,8 +87,8 @@ export default class CreateListingModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     {this.getErrorText()}
-                    <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
                     <Button onClick={() => this.props.onHide()}>Close</Button>
+                    <Button onClick={this.onSubmit.bind(this)}>Submit</Button>
                 </Modal.Footer>
             </Modal>
         )
