@@ -181,7 +181,6 @@ export default class PickTickets extends Component {
                             awayTeam: res.data.event.awayTeam
                         },
                         eventTitle: res.data.event.title,
-                        minPrice: res.data.event.minPrice,
                         numTickets: res.data.event.numTickets
                     });
                 }
@@ -609,7 +608,8 @@ export default class PickTickets extends Component {
         this.setState({
             previousSections: this.state.sections,
             groups: [],
-            sections: []
+            sections: [],
+            tickets: []
         });
     }
 
