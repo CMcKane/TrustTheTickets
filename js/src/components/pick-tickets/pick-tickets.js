@@ -240,6 +240,7 @@ export default class PickTickets extends Component {
             })
             .then(res => {
                 if (res.data.tickets) {
+                    console.log(res.data.tickets);
                     this.setState({
                         previousSections: this.state.sections,
                         sections: res.data.sections,
@@ -248,8 +249,6 @@ export default class PickTickets extends Component {
                     }, () => {this.createTicketGroupArrays(this.state.tickets)});
                 }
             });
-            console.log("IF");
-            console.log(this.state.sections);
         /*} else {
             TTTPost('/pick-ticket-filter', {
                 eventID: this.state.eventID,
@@ -395,6 +394,7 @@ export default class PickTickets extends Component {
                     })
                     .then(res => {
                         if (res.data.tickets) {
+                        console.log(res.data.tickets);
                             this.setState({
                                 previousSections: this.state.sections,
                                 sections: res.data.sections,
@@ -416,6 +416,7 @@ export default class PickTickets extends Component {
                 })
                     .then(res => {
                         if (res.data.tickets) {
+                            console.log(res.data.tickets);
                             this.setState({
                                 tickets: res.data.tickets,
                                 previousSections: this.state.sections,
@@ -436,6 +437,7 @@ export default class PickTickets extends Component {
                 })
                     .then(res => {
                         if (res.data.tickets) {
+                            console.log(res.data.tickets);
                             this.setState({
                                 previousSections: this.state.sections,
                                 sections: res.data.sections,
@@ -449,6 +451,7 @@ export default class PickTickets extends Component {
             default:
                 break;
         }
+
     }
 
     validSection(section) {

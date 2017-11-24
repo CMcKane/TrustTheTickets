@@ -37,7 +37,7 @@ class SqlHandler(object):
 
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
                         section_number=row[3], ticket_price=row[4], group_id=row[5],
-                        aisle=row[6], early_entry=row[7], is_ha=row[8]) for row in cursor.fetchall()]
+                        aisle_seat=row[6], early_access=row[7], handicap=row[8]) for row in cursor.fetchall()]
         return tickets
 
     def get_all_tickets(self, mysql, eventID, desiredNumberTickets):
@@ -382,7 +382,7 @@ class SqlHandler(object):
 
         cursor.execute(query.format(event_id, event_id))
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3], group_id=row[4],
-                        aisle=row[5], earlyAccess=row[6], handicap=row[7], ticket_id=row[8]) for row in cursor.fetchall()]
+                        aisle_seat=row[5], early_access=row[6], handicap=row[7], ticket_id=row[8]) for row in cursor.fetchall()]
         return tickets
 
     def get_expensive_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
@@ -415,7 +415,7 @@ class SqlHandler(object):
 
         cursor.execute(query.format(event_id, event_id))
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3], group_id=row[4],
-                        aisle=row[5], earlyAccess=row[6], handicap=row[7], ticket_id=row[8]) for row in cursor.fetchall()]
+                        aisle_seat=row[5], early_access=row[6], handicap=row[7], ticket_id=row[8]) for row in cursor.fetchall()]
         return tickets
 
     def get_cheapest_tickets_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
