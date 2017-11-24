@@ -43,7 +43,7 @@ export default class CreateListingConfirmModal extends Component {
 
         TTTPost('/create-ticket-listing', {
             numberOfTickets: this.props.numberOfTickets,
-            dbGameDate: this.props.dbGameDate,
+            dbGameDate: this.props.gameDate,
             section: this.props.section,
             row: this.props.row,
             seatsInfo: this.props.seatsInfo,

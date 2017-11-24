@@ -873,7 +873,7 @@ class SqlHandler(object):
 
         try:
             cursor.execute(eventIDQuery)
-            eventID = cursor.fetchall()
+            eventID = cursor.fetchone()[0]
         except:
             successful = False
 
@@ -881,7 +881,7 @@ class SqlHandler(object):
 
         try:
             cursor.execute(sectionIDQuery)
-            sectionID = cursor.fetchall
+            sectionID = cursor.fetchone()[0]
         except:
             successful = False
 
@@ -889,7 +889,7 @@ class SqlHandler(object):
 
         try:
             cursor.execute(rowIDQuery)
-            rowID = cursor.fetchall()
+            rowID = cursor.fetchone()[0]
         except:
             successful = False
 
@@ -897,7 +897,7 @@ class SqlHandler(object):
 
         try:
             cursor.execute(groupIDQuery)
-            groupID = cursor.fetchall()
+            groupID = cursor.fetchone()[0]
         except:
             successful = False
 
@@ -907,25 +907,25 @@ class SqlHandler(object):
         # Create a new group with the MAX(group_id) + 1 and parameters passed in
         groupQuery = "INSERT INTO groups (group_id, event_id, account_id, ticket_price, available_ticket_num, " \
                      "total_ticket_num, min_sell_num, min_profit_amount) " \
-                     "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                     "VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')"
 
         try:
-            cursor.execute(groupQuery, groupValues)
-            groupQueryResults = cursor.fetchall()
+            cursor.execute(groupQuery.format(groupID, eventID, accountID, ticketPrice, numberOfTickets, numberOfTickets, minPurchaseSize, 0.00))
         except:
             successful = False
 
         conn.commit()
 
         # This loops goes through the collection of seats info and adds each ticket into the database
-        for i in range(0, (numberOfTickets-1)):
+        for i in range(0, (int(numberOfTickets) - 1)):
 
-            seatIDQuery = "SELECT seat_id FROM seats WHERE row_id = rowID AND " \
-                          "seat_num = '{}'".format(seatsInfo[i].seat[0].seat)
+
+            seatIDQuery = "SELECT seat_id FROM seats WHERE row_id = '{}' AND " \
+                          "seat_num = '{}'".format(rowID, seatsInfo[i]['seat'][0]['seatNum'])
 
             try:
                 cursor.execute(seatIDQuery)
-                seatID = cursor.fetchall()
+                seatID = cursor.fetchone()[0]
             except:
                 successful = False
 
@@ -933,47 +933,52 @@ class SqlHandler(object):
 
             try:
                 cursor.execute(newTicketIDQuery)
-                newTicketID = cursor.fetchall()
+                newTicketID = cursor.fetchone()[0]
             except:
                 successful = False
 
             is_aisle_seat = 0
-            if seatsInfo[i].seat[0].aisleSeat:
+            if seatsInfo[i]['seat'][0]['aisleSeat']:
                 is_aisle_seat = 1
             else:
                 is_aisle_seat = 0
 
             is_early_entry = 0
-            if seatsInfo[i].seat[0].earlyEntry:
+            if seatsInfo[i]['seat'][0]['earlyEntry']:
                 is_early_entry = 1
             else:
                 is_early_entry = 0
 
             is_handicap_accessible = 0
-            if seatsInfo[i].seat[0].handicapAccessible:
+            if seatsInfo[i]['seat'][0]['handicapAccessible']:
                 is_handicap_accessible = 1
             else:
                 is_handicap_accessible = 0
 
-            pdfLink = pdfLinks[i]
+
+            if i > len(pdfLinks) or len(pdfLinks) is 0:
+                pdfLink = " "
+            else:
+                pdfLink = pdfLinks[i]
 
             ticketValues = (newTicketID, groupID, accountID, 1, eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
                           is_handicap_accessible, sectionID, rowID, seatID, pdfLink)
 
             ticketQuery = "INSERT INTO tickets (ticket_id, group_id, account_id, event_type_id, event_id," \
                           " location_id, seating_chart_id, ticket_status_id, is_aisle_seat, is_early_entry, " \
-                          "is_ha, section_id, row_id, seat_id, pdf_link, lock_account_id, last_update)" \
-                          "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL , NOW())"
+                          "is_ha, section_id, row_id, seat_id, pdf_link, lock_account_id, last_updated) " \
+                          "VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', NULL , NOW())"
 
             try:
-                cursor.execute(ticketQuery, ticketValues)
-                ticketQueryResults.append(cursor.fetchall())
+                cursor.execute(ticketQuery.format(newTicketID, groupID, accountID, 1,
+                                                  eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
+                                                  is_handicap_accessible, sectionID, rowID, seatID, pdfLink))
             except:
                 successful = False
 
             conn.commit()
 
-        cursor.close()
-        conn.close()
+        #cursor.close()
+        #conn.close()
 
         return successful
