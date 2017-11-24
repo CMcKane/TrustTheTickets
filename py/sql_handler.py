@@ -124,7 +124,7 @@ class SqlHandler(object):
         cursor = conn.cursor()
         try:
             cursor.execute(
-                "SELECT concat(h.team_name,' vs ', a.team_name) AS Title, "
+                "SELECT concat(a.team_name,' vs ', h.team_name) AS Title, "
                 "h.team_name, "
                 "a.team_name,"
                 "count(ticket_id),"
