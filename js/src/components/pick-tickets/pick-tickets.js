@@ -15,6 +15,7 @@ import 'rc-slider/assets/index.css';
 import PickTicketsModal from './pick-tickets-modal';
 import { Redirect } from 'react-router-dom';
 import Checkout from './checkout';
+import withAuth from '../auth/with-auth';
 
 var clickedSection = ''
 var taxRate = 0;
@@ -71,7 +72,6 @@ export default class PickTickets extends Component {
             "106", "107", "108", "118", "119", "120", "201", "202", "203", "211", "212", "213", "214", "215", "223", "224", "204", "204A", "205", "205A",
             "209", "209A", "210", "210A", "216", "216A", "217", "217A", "222A", "222", "221A", "221", "206", "207", "207A", "208", "220", "219A", "219", "218"]
         }
-
         this.fetchFees();
     }
 
@@ -487,7 +487,6 @@ export default class PickTickets extends Component {
 
     createTicketGroupArrays(tickets) {
         var groups;
-        console.log(tickets);
         TTTPost('/create-groups', {
                     tickets: tickets
                 })
@@ -674,25 +673,25 @@ export default class PickTickets extends Component {
             if(this.state.checkoutPageActive)
             {
                 return (
-                    <Checkout returnRedirect={"/pick-tickets?event=" + this.state.eventID}
+                    <Checkout
                         checkoutTickets={this.state.checkoutTickets}
                         commissionPercent={this.state.commissionPercent}
                         taxPercent={this.state.taxPercent}
-                        returnFromCheckout={this.returnFromCheckout.bind(this)}
-                        />
+                        returnFromCheckout={this.returnFromCheckout.bind(this)} />
                 );
             }
             else
             {
+                const AuthPickTicketsModal = withAuth(PickTicketsModal);
                 return (
                     <div className=" globalBody globalImage">
-                         <PickTicketsModal
+                         <AuthPickTicketsModal
+                            returnRedirect={"/pick-tickets?event=" + this.state.eventID}
                             modalSubmitError={this.state.modalSubmitError}
                             show={this.state.show}
                             onHide={this.onHide.bind(this)}
                             group={this.state.selectedGroup}
-                            setCheckoutTickets={this.setCheckoutTickets.bind(this)}
-                            />
+                            setCheckoutTickets={this.setCheckoutTickets.bind(this)} />
                         <div className=" globalBody globalImageOverlay">
                             <Well className='eventCalendarViewEventsWell'>
                                 Choose Your Seats

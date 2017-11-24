@@ -17,6 +17,12 @@ export default class Login extends Component {
       };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location !== this.props.location) {
+            this.setState({ prevPath: this.props.location })
+        }
+    }
+
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -33,8 +39,10 @@ export default class Login extends Component {
     }
 
     render() {
+        var path = '/my-account'
         if (this.Auth.loggedIn()) {
-            return <Redirect to='/my-account' />
+            if (this.props.location.state.redirect) path = this.props.location.state.redirect
+            return <Redirect to={path} />
         }
         return (
             <div className='globalBody globalImage'>

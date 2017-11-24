@@ -7,13 +7,17 @@ export default function withAuth(AuthComponent) {
     return class AuthWrapped extends Component {
 
         render() {
-            if (Auth.loggedIn()) {
+            // Second part of this if statement is a weak solution to applying this function to modals.
+            if (Auth.loggedIn() || this.props.show === false) {
                 return (
                     <AuthComponent {...this.props} />
                 );
             }
             else {
-                return (<Redirect to='/login' />);
+                return (<Redirect to={{
+                    pathname:'/login',
+                    state: { redirect: this.props.returnRedirect }
+                    }} />);
             }
         }
     };

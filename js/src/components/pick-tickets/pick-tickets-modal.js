@@ -152,12 +152,7 @@ export default class PickTicketsModal extends Component {
 
     renderButtonOptions()
     {
-        if (this.Auth.loggedIn()) {
-            return(<Button onClick={this.checkout.bind(this)}>Buy</Button>);
-        }
-        else {
-            return(<Link to="/login"><Button>Login to Buy</Button></Link>);
-        }
+        return(<Button onClick={this.checkout.bind(this)}>Buy</Button>);
     }
 
     render() {
