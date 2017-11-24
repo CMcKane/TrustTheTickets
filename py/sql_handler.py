@@ -917,7 +917,7 @@ class SqlHandler(object):
         conn.commit()
 
         # This loops goes through the collection of seats info and adds each ticket into the database
-        for i in range(0, (int(numberOfTickets) - 1)):
+        for i in range(0, (int(numberOfTickets))):
 
 
             seatIDQuery = "SELECT seat_id FROM seats WHERE row_id = '{}' AND " \
@@ -978,7 +978,5 @@ class SqlHandler(object):
 
             conn.commit()
 
-        #cursor.close()
-        #conn.close()
 
         return successful
