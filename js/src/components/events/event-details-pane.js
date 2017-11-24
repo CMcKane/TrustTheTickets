@@ -22,7 +22,7 @@ export default class EventDetailsPane extends Component {
             className={detailsClass} 
             onClick={this.props.eventSelected.bind(this, this.props.event)}>
             <h4 className="eventDetailsHeader">
-                {this.props.event.homeTeam} vs. {this.props.event.awayTeam}</h4>
+                {this.props.event.awayTeam} vs. {this.props.event.homeTeam}</h4>
             <h5 className="eventDetailsDate"><Time value={this.props.event.start} format="dddd, MMMM Do"/></h5>
             <p className="eventDetailsContent">Tip-off at <Time value={this.props.event.start}
                format="h:mmA" /><br />
