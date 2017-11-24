@@ -139,7 +139,7 @@ export default class CreateListingView extends Component {
         for (var i = 1; i <= this.state.numberOfTickets; i++) {
 
             fieldGroups.push(
-                <div className="globalCenterThis">
+                <div className="globalCenterThis" key={i}>
                     <Row>
                         <Col lg={6}>
                             <FieldGroup className="createListingSeatNumberForms"
@@ -152,12 +152,12 @@ export default class CreateListingView extends Component {
                         </Col>
                         <Col lg={6}>
                             <FormGroup id={"extrasGroup" + i}>
-                                <Checkbox id={"aisleSeatCheck" + i} checked={this.checked} onClick={!this.checked}>Aisle
+                                <Checkbox id={"aisleSeatCheck" + i} checked={this.checked}>Aisle
                                     Seat</Checkbox>
-                                <Checkbox id={"earlyEntryCheck" + i} checked={this.checked} onClick={!this.checked}>Early
+                                <Checkbox id={"earlyEntryCheck" + i} checked={this.checked}>Early
                                     Entry</Checkbox>
                                 <Checkbox id={"handicapAccessibleCheck" + i} checked={this.checked}
-                                          onClick={!this.checked}>Handicap Accessible</Checkbox>
+                                          >Handicap Accessible</Checkbox>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -385,15 +385,15 @@ export default class CreateListingView extends Component {
                                                 <Row>
                                                     <div className="globalCenterThis" style={{paddingTop: "10px"}}>
                                                         <ButtonToolbar>
-                                                            <Button bsSize="large"
+                                                            <Button bsSize="large" active={~~this.state.numberOfTickets===1}
                                                                     onClick={this.handleChange.bind(this)}
                                                                     name='numberOfTickets'
                                                                     value={1}>1</Button>
-                                                            <Button bsSize="large"
+                                                            <Button bsSize="large" active={~~this.state.numberOfTickets===2}
                                                                     onClick={this.handleChange.bind(this)}
                                                                     name='numberOfTickets'
                                                                     value={2}>2</Button>
-                                                            <Button bsSize="large"
+                                                            <Button bsSize="large" active={~~this.state.numberOfTickets===3}
                                                                     onClick={this.handleChange.bind(this)}
                                                                     name='numberOfTickets'
                                                                     value={3}>3</Button>
@@ -404,15 +404,15 @@ export default class CreateListingView extends Component {
                                                 <Row>
                                                     <div className="globalCenterThis">
                                                         <ButtonToolbar>
-                                                            <Button bsSize="large"
+                                                            <Button bsSize="large" active={~~this.state.numberOfTickets===4}
                                                                     onClick={this.handleChange.bind(this)}
                                                                     name='numberOfTickets'
                                                                     value={4}>4</Button>
-                                                            <Button bsSize="large"
+                                                            <Button bsSize="large" active={~~this.state.numberOfTickets===5}
                                                                     onClick={this.handleChange.bind(this)}
                                                                     name='numberOfTickets'
                                                                     value={5}>5</Button>
-                                                            <Button bsSize="large"
+                                                            <Button bsSize="large" active={~~this.state.numberOfTickets > 5}
                                                                     onClick={this.createModal.bind(this)}>?</Button>
                                                         </ButtonToolbar>
                                                     </div>
