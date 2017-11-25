@@ -211,7 +211,7 @@ export default class CreateListingView extends Component {
                     }
                 }
 
-                if (this.state.section !== null && this.state.row !== null && this.state.seatsInfo !== null) {
+                if (this.state.section !== "" && this.state.row !== "" && this.state.seatsInfo !== null) {
 
                     this.setState({activeKey: this.state.activeKey + 1});
 
