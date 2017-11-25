@@ -1,8 +1,8 @@
-import React, { Component }  from 'react';
+import React, {Component} from 'react';
 import _ from 'lodash';
 import {Grid, Table, Col, Button, Well} from 'react-bootstrap';
 import {TTTPost, TTTGet} from '../backend/ttt-request';
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import withAuth from '../auth/with-auth';
 import AuthService from '../auth/auth-service';
 import '../../stylesheet.css';
@@ -15,58 +15,66 @@ var subtotal;
 var total;
 var taxTotal;
 var commTotal;
+var ticketIds = [];
 
 class Checkout extends Component {
 
-  constructor(props) {
-    super(props);
-    this.Auth = new AuthService();
-    this.state = {
-        commissionPercent: this.props.commissionPercent,
-        taxPercent: this.props.taxPercent,
-        subtotal: 0,
-        tax: 0,
-        fees: 0,
-        total: 0,
-        redirect: false
+    constructor(props) {
+        super(props);
+        this.Auth = new AuthService();
+        this.state = {
+            commissionPercent: this.props.commissionPercent,
+            taxPercent: this.props.taxPercent,
+            subtotal: 0,
+            tax: 0,
+            fees: 0,
+            total: 0,
+            redirect: false,
+            token: this.Auth.getToken()
+        };
+
+        this.determinePrices();
     }
 
-    this.determinePrices();
-  }
-
-  componentDidMount() {
-    // Need to "lock in" tickets in DB for a few minutes here
-    var ticketIds = []
-    for (var i = 0; i < this.props.checkoutTickets.length; i++) {
-      ticketIds.push(this.props.checkoutTickets[i].ticket_id);
-    }
-      TTTPost('/hold-tickets', {
-          ticketIds: ticketIds,
-          token: this.Auth.getToken()
-      }).then(res => {
-          if (res.data.authenticated) {
-              // You're good
-          }
-          else {
-              // Can't buy
-          }
-      });
+    componentDidMount() {
+        // Need to "lock in" tickets in DB for a few minutes here
+        for (var i = 0; i < this.props.checkoutTickets.length; i++) {
+            ticketIds.push(this.props.checkoutTickets[i].ticket_id);
+        }
+        TTTPost('/hold-tickets', {
+            ticketIds: ticketIds,
+            token: this.Auth.getToken()
+        }).then(res => {
+            if (res.data.authenticated) {
+                // You're good
+            }
+            else {
+                // Can't buy
+            }
+        });
         this.setState({
             commissionPercent: this.props.commissionPercent,
             taxPercent: this.props.taxPercent
         });
-  }
+    }
+
+    getFilesByEmail() {
+        TTTPost("/combine-pdf", {
+            // email: 'derekmgaffney@gmail.com',
+            token: this.state.token,
+            ticketIds: ticketIds
+        })
+    }
 
     onComplete() {
-         this.props.returnFromCheckout();
+        this.props.returnFromCheckout();
     }
 
 
     determinePrices() {
         var tickets = this.props.checkoutTickets;
         var subtotal = 0;
-        for(var i = 0; i < tickets.length; i++)
-        {
+        for (var i = 0; i < tickets.length; i++) {
             subtotal = subtotal + tickets[i].ticket_price;
         }
 
@@ -74,9 +82,8 @@ class Checkout extends Component {
         var taxTotal = 0;
         var commTotal = 0;
 
-        for(var i = 0; i < tickets.length; i++)
-        {
-            taxTotal  += (tickets[i].ticket_price * this.props.taxPercent);
+        for (var i = 0; i < tickets.length; i++) {
+            taxTotal += (tickets[i].ticket_price * this.props.taxPercent);
             commTotal += (tickets[i].ticket_price * this.props.commissionPercent);
         }
         fees = taxTotal + commTotal;
@@ -85,7 +92,7 @@ class Checkout extends Component {
         this.taxTotal = Math.round(taxTotal * 100) / 100;
         this.commTotal = Math.round(commTotal * 100) / 100;
         this.subtotal = Math.round(subtotal * 100) / 100;
-        this.total = this.commTotal + this.taxTotal + this.subtotal
+        this.total = this.commTotal + this.taxTotal + this.subtotal;
 
         this.setState({
             subtotal: subtotal,
@@ -114,7 +121,7 @@ class Checkout extends Component {
 
     }
 
-	getComments(ticket) {
+    getComments(ticket) {
         var comments = '-';
         if (ticket.early_access === 1) {
             comments += " Early Access  - ";
@@ -126,114 +133,110 @@ class Checkout extends Component {
             comments += "Handicap - ";
         }
         return comments;
-	}
+    }
 
-	renderTicketInfo() {
-		return _.map(this.props.checkoutTickets, (ticket, index) =>
+    renderTicketInfo() {
+        return _.map(this.props.checkoutTickets, (ticket, index) =>
             <p className="tableNewLine">
-              <table className="ticketInfoTable">
-                  <thead>
-                      <th className="tableHeading">Section</th>
-                      <th className="tableHeading">Row</th>
-                      <th className="tableHeading">Seat</th>
-                      <th className="tableHeading">Price</th>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>{ticket.section_number}</td>
-                          <td>{ticket.row_number}</td>
-                          <td>{ticket.seat_number}</td>
-                          <td>${ticket.ticket_price}</td>
-                      </tr>
-                  </tbody>
-                  <tbody className="checkoutAdditional">
-                      <tr>
-                          <th className="tableHeading2">Comments</th>
-                      </tr>
-                      <tr className="checkoutAdditional">
-                          <td>{this.getComments(ticket)}</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </p>
+                <table className="ticketInfoTable">
+                    <thead>
+                    <th className="tableHeading">Section</th>
+                    <th className="tableHeading">Row</th>
+                    <th className="tableHeading">Seat</th>
+                    <th className="tableHeading">Price</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{ticket.section_number}</td>
+                        <td>{ticket.row_number}</td>
+                        <td>{ticket.seat_number}</td>
+                        <td>${ticket.ticket_price.toFixed(2)}</td>
+                    </tr>
+                    </tbody>
+                    <tbody className="checkoutAdditional">
+                    <tr>
+                        <th className="tableHeading2">Comments</th>
+                    </tr>
+                    <tr className="checkoutAdditional">
+                        <td>{this.getComments(ticket)}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </p>
         );
-	}
+    }
 
 
+    renderTicketTotals() {
 
-	renderTicketTotals() {
-
-    return (
-        <p className="leftTable">
-        <table className="checkoutCosts">
-              <tr>
-                  <th className="verticalTableHeading">Subtotal:</th>
-                  <td className="verticalTableData">${this.subtotal}</td>
-              </tr>
-              <tr>
-                  <th className="verticalTableHeading">Tax:</th>
-                  <td className="verticalTableData">${this.taxTotal}</td>
-              </tr>
-              <tr>
-                  <th className="verticalTableHeading">Fees:</th>
-                  <td className="verticalTableData">${this.commTotal}</td>
-              </tr>
-              <tr>
-                  <th className="verticalTableHeading">Total:</th>
-                  <td className="verticalTableData">${this.total}</td>
-              </tr>
-        </table>
-        </p>
-    );
-	}
+        return (
+            <p className="leftTable">
+                <table className="checkoutCosts">
+                    <tr>
+                        <th className="verticalTableHeading">Subtotal:</th>
+                        <td className="verticalTableData">${this.subtotal.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <th className="verticalTableHeading">Tax:</th>
+                        <td className="verticalTableData">${this.taxTotal.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <th className="verticalTableHeading">Fees:</th>
+                        <td className="verticalTableData">${this.commTotal.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <th className="verticalTableHeading">Total:</th>
+                        <td className="verticalTableData">${this.total.toFixed(2)}</td>
+                    </tr>
+                </table>
+            </p>
+        );
+    }
 
 
-	render() {
-	    if(this.state.redirect)
-        {
-            return <Redirect to={"/checkout-landing?event=" + this.props.eventID} />
+    render() {
+        if (this.state.redirect) {
+            return <Redirect to={"/checkout-landing?event=" + this.props.eventID}/>
         }
-        else
-        {
+        else {
             return (
-              <div className="globalBody globalImage">
-                <p className="timer">
-                    <ReactCountdownClock
-                        seconds={300}
-                        color="#000"
-                        alpha={0.9}
-                        size={50}
-                        onComplete={this.onComplete.bind(this)}
-                    />
-                </p>
-              <Grid style={{paddingTop: "25px", height: '80%'}}>
-                  <h1>
-                      <Well className='checkoutHeader'>
-                          Checkout
-                      </Well>
-                  </h1>
+                <div style={{overflowY: 'auto'}} className="globalBody globalImage">
+                    <div className="globalBody globalImageOverlay">
+                        <p className="timer">
+                            <ReactCountdownClock
+                                seconds={300}
+                                color="#000"
+                                alpha={0.9}
+                                size={50}
+                                onComplete={this.onComplete.bind(this)}
+                            />
+                        </p>
+                        <Grid style={{paddingTop: "25px", height: '80%'}}>
+                            <h1>
+                                <Well className='checkoutHeader'>
+                                    Checkout
+                                </Well>
+                            </h1>
 
-                <div style={{overflowY: 'auto', height: '90%'}}>
-                    {this.renderTicketInfo()}
-                    {this.renderTicketTotals()}
-                    <div className="checkoutButton">
-                      <Button
-                          id={1}
-                          style={{marginLeft: "165px", color: "black"}}
-                          bsSize="large"
-                          onClick={this.purchaseTickets.bind(this)}>
-                          Checkout
-                      </Button>
+                            <div style={{height: '90%'}}>
+                                {this.renderTicketInfo()}
+                                {this.renderTicketTotals()}
+                                <div className="checkoutButton">
+                                    <Button
+                                        id={1}
+                                        style={{marginLeft: "165px", color: "black"}}
+                                        bsSize="large"
+                                        onClick={this.purchaseTickets.bind(this)}>
+                                        Checkout
+                                    </Button>
+                                </div>
+                            </div>
+                        </Grid>
                     </div>
                 </div>
-
-
-              </Grid>
-
-              </div>
             );
         }
-	}
+    }
 }
 
 export default withAuth(Checkout);
