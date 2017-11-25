@@ -6,7 +6,6 @@ from flask import make_response
 from account_register import AccountRegistrator
 from account_login import AccountAuthenticator
 from sql_handler import SqlHandler;
-from logger import Logger
 app = Flask (__name__)
 
 mysql = MySQL(app)
@@ -55,7 +54,6 @@ def get_tickets():
     givenSection = request.get_json()
     sectionNum = givenSection['section_number']
     tickets = SqlHandler.get_tickets(mysql, sectionNum)
-    logger = Logger()
     return jsonify({'tickets': tickets})
 
 # Right now this just returns that the login info is good for testing purposes.
