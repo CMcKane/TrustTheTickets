@@ -496,7 +496,7 @@ class SqlHandler(object):
                        "JOIN rates USING (rate_type_id) "
                        "WHERE t.seller_account_id={} "
                        "AND rate_type_id > 1 "
-                       "GROUP BY transaction_id, rate_type_id "
+                       "GROUP BY transaction_id "
                        "ORDER BY transaction_dt".format(account_id))
         transactions = [dict(transactionID=row[0], transactionDate=row[1], transactionTotal="{0:.2f}".format(row[2]), chargesTotal="{0:.2f}".format(row[3]), numTicketsSold=row[4])
                    for row in cursor.fetchall()]
@@ -840,7 +840,8 @@ class SqlHandler(object):
         cursor.execute(insertQuery)
 
     def set_ticket_status(self, cursor, ticket_id, new_status):
-        updateQuery = "UPDATE tickets SET ticket_status_id = '{}' WHERE ticket_id = '{}'".format(new_status, ticket_id)
+        updateQuery = "UPDATE tickets SET ticket_status_id = '{}', lock_account_id = NULL " \
+                      "WHERE ticket_id = '{}'".format(new_status, ticket_id)
         cursor.execute(updateQuery)
 
     def update_ticket_group_table(self, cursor, group_id):
