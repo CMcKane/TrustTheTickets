@@ -15,8 +15,13 @@ var subtotal;
 var total;
 var taxTotal;
 var commTotal;
+var taxPerTicket;
+var commPerTicket;
+var subtotalPerTicket;
 
 class Checkout extends Component {
+
+
 
   constructor(props) {
     super(props);
@@ -28,9 +33,12 @@ class Checkout extends Component {
         tax: 0,
         fees: 0,
         total: 0,
-        redirect: false
+        redirect: false,
+        tempTicketIds: []
     }
-
+    this.taxPerTicket = [this.props.checkoutTickets.length];
+    this.commPerTicket = [this.props.checkoutTickets.length];
+    this.subtotalPerTicket = [this.props.checkoutTickets.length];
     this.determinePrices();
   }
 
@@ -40,6 +48,9 @@ class Checkout extends Component {
     for (var i = 0; i < this.props.checkoutTickets.length; i++) {
       ticketIds.push(this.props.checkoutTickets[i].ticket_id);
     }
+    this.setState({
+        tempTicketIds: ticketIds
+    })
       TTTPost('/hold-tickets', {
           ticketIds: ticketIds,
           token: this.Auth.getToken()
@@ -67,15 +78,22 @@ class Checkout extends Component {
         var subtotal = 0;
         for(var i = 0; i < tickets.length; i++)
         {
+            this.subtotalPerTicket[i] = tickets[i].ticket_price;
             subtotal = subtotal + tickets[i].ticket_price;
         }
 
         var fees = 0;
         var taxTotal = 0;
         var commTotal = 0;
+        var taxPer = [];
+        var commPer = [];
+        var subtotalPer =  [];
 
         for(var i = 0; i < tickets.length; i++)
         {
+            this.taxPerTicket[i] = tickets[i].ticket_price * this.props.taxPercent;
+            this.commPerTicket[i] = tickets[i].ticket_price * this.props.commissionPercent;
+
             taxTotal  += (tickets[i].ticket_price * this.props.taxPercent);
             commTotal += (tickets[i].ticket_price * this.props.commissionPercent);
         }
@@ -85,7 +103,11 @@ class Checkout extends Component {
         this.taxTotal = Math.round(taxTotal * 100) / 100;
         this.commTotal = Math.round(commTotal * 100) / 100;
         this.subtotal = Math.round(subtotal * 100) / 100;
-        this.total = this.commTotal + this.taxTotal + this.subtotal
+        this.total = this.commTotal + this.taxTotal + this.subtotal;
+
+        console.log(this.subtotalPerTicket);
+        console.log(this.taxPerTicket);
+        console.log(this.commPerTicket);
 
         this.setState({
             subtotal: subtotal,
@@ -97,19 +119,34 @@ class Checkout extends Component {
     }
 
     purchaseTickets() {
-        var successful = false;
+        var insertSuccessful = false;
+        var emailSuccess = false;
+
+        var token = this.Auth.getToken();
+
         TTTPost('/insert-transaction', {
             token: this.Auth.getToken(),
             tickets: this.props.checkoutTickets,
             commission: this.commTotal,
             tax: this.taxTotal,
+            taxPerTicket: this.taxPerTicket,
+            commPerTicket: this.commPerTicket,
+            subtotalPerTicket: this.subtotalPerTicket,
             subtotal: this.subtotal,
             total: this.total,
-            group_id: this.props.checkoutTickets[0].group_id
+            group_id: this.props.checkoutTickets[0].group_id,
         })
             .then(res => {
-                successful = res.data.successful
+                insertSuccessful = res.data.successful
             });
+
+        /*TTTPost('/send-tickets-pdf', {
+            token: this.Auth.getToken(),
+            ticketIds: this.state.tempTicketIds
+        }).then(res => {
+            emailSuccess = res.data.success
+        });*/
+
         this.setState({redirect: true});
 
     }

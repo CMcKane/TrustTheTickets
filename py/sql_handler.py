@@ -761,7 +761,8 @@ class SqlHandler(object):
 
         return percentages
 
-    def create_transaction(self, buyer_id, tickets, commission, tax, subtotal, total, group_id):
+    def create_transaction(self, buyer_id, tickets, commission, tax, subtotal, total, group_id,
+                           tax_per_ticket, comm_per_ticket, subtotal_per_ticket):
         conn = self.mysql.connection
         cursor = conn.cursor()
         selectQuery = "SELECT MAX(transaction_id) FROM transactions"
@@ -793,7 +794,7 @@ class SqlHandler(object):
             return not successful
 
         try:
-            self.create_transaction_charges(cursor, new_id, commission, tax, subtotal)
+            self.create_transaction_charges(cursor, new_id, tax_per_ticket, comm_per_ticket, subtotal_per_ticket, tickets)
         except:
             return not successful
 
@@ -810,34 +811,34 @@ class SqlHandler(object):
             self.set_ticket_status(cursor, id, 2)
             self.update_ticket_group_table(cursor, group_id)
 
-    def create_transaction_charges(self, cursor, transaction_id, commission, tax, subtotal):
+    def create_transaction_charges(self, cursor, transaction_id, tax_per_ticket, comm_per_ticket, subtotal_per_ticket, tickets):
 
-        selectQuery = "SELECT DISTINCT MAX(sequence_num) FROM transaction_charges"
-        cursor.execute(selectQuery)
-        sequence_num = cursor.fetchone()[0]
+        sequence_num = 0
+        for i in range(0, len(tickets)):
 
-        if not sequence_num:
-            sequence_num = 1
-        else:
-            sequence_num += 1
+            #selectQuery = "SELECT DISTINCT MAX(sequence_num) FROM transaction_charges"
+            #cursor.execute(selectQuery)
+            #sequence_num = cursor.fetchone()[0]
 
-        amount = subtotal
-        rate_type = 1
-        insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
-                      " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
-        cursor.execute(insertQuery)
+            sequence_num = sequence_num + 1
 
-        amount = commission
-        rate_type = 2
-        insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
-                      " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
-        cursor.execute(insertQuery)
+            amount = subtotal_per_ticket[i]
+            rate_type = 1
+            insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
+                          " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
+            cursor.execute(insertQuery)
 
-        amount = tax
-        rate_type = 3
-        insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
-                      " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
-        cursor.execute(insertQuery)
+            amount = comm_per_ticket[i]
+            rate_type = 2
+            insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
+                          " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
+            cursor.execute(insertQuery)
+
+            amount = tax_per_ticket[i]
+            rate_type = 3
+            insertQuery = "INSERT INTO transaction_charges (transaction_id, sequence_num, rate_type_id, amount)" \
+                          " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
+            cursor.execute(insertQuery)
 
     def set_ticket_status(self, cursor, ticket_id, new_status):
         updateQuery = "UPDATE tickets SET ticket_status_id = '{}' WHERE ticket_id = '{}'".format(new_status, ticket_id)
