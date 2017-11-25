@@ -5,6 +5,9 @@ import { Redirect, Link } from 'react-router-dom';
 import '../../stylesheet.css';
 import AuthService from '../auth/auth-service';
 
+var numTicketsChecked;
+var minSellNum;
+
 export default class PickTicketsModal extends Component {
 
     constructor(props) {
@@ -15,8 +18,10 @@ export default class PickTicketsModal extends Component {
             redirect: false,
             redirectLink: '',
             ticketsInTransaction: [],
-            isValidTicketAmount: false
+            isValidTicketAmount: false,
         }
+        numTicketsChecked = 0;
+        minSellNum = 0;
     }
 
     createCheckoutRedirectLink(e) {
@@ -64,6 +69,7 @@ export default class PickTicketsModal extends Component {
         {
             var list = [];
             var tempTicket = this.props.group[0];
+            minSellNum = tempTicket.min_sell_num;
             list.push(
                 <p>
                     Section: {tempTicket.section_number} &emsp;
@@ -118,12 +124,14 @@ export default class PickTicketsModal extends Component {
         var selectedArr = this.state.ticketsInTransaction;
         if(e.target.checked === true) {
             selectedArr.push(this.props.group[id]);
+            numTicketsChecked++;
         } else {
             for(var i = 0; i < selectedArr.length; i++) {
                 if(this.props.group[id] === selectedArr[i]) {
                     selectedArr.splice(i, 1);
                 }
             }
+            numTicketsChecked--;
         }
         this.setState({ticketsInTransaction: selectedArr});
     }
@@ -150,9 +158,14 @@ export default class PickTicketsModal extends Component {
         }
     }
 
-    renderButtonOptions()
-    {
-        return(<Button onClick={this.checkout.bind(this)}>Buy</Button>);
+    renderButtonOptions() {
+        if(minSellNum <= numTicketsChecked){
+            return(<Button onClick={this.checkout.bind(this)}>Buy</Button>);
+        }
+        else{
+            return(<div> The minimum you must purchase is {minSellNum}. <br/>
+                         Please check at least {minSellNum} tickets.</div>);
+        }
     }
 
     render() {

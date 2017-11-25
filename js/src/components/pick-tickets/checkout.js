@@ -100,6 +100,10 @@ class Checkout extends Component {
         }
         fees = taxTotal + commTotal;
 
+        console.log(fees);
+        console.log(taxTotal);
+        console.log(commTotal);
+
         this.fees = Math.round(fees * 100) / 100;
         this.taxTotal = Math.round(taxTotal * 100) / 100;
         this.commTotal = Math.round(commTotal * 100) / 100;

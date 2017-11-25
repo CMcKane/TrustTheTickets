@@ -25,20 +25,14 @@ class ListingCreator(object):
         gameDate = jsonData['dbGameDate']
         accountID = jwt_service.get_account(jsonData['token'])
 
-        print("sectionNum: " + sectionNum)
-        print("rowNum: " + rowNum)
-        print("seatsInfo:")
-        print(seatsInfo)
-        print("ticketPrice: " + ticketPrice)
-        print("numberOfTickets: " + numberOfTickets)
-        print("minPurchaseSize: " + minPurchaseSize)
-        print("gameDate: " + gameDate)
-        print("accountID: " + str(accountID))
+        ticketIds = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID)
 
-        mysqlInsertSuccess = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID)
-        # modify insert_ticket_listing to return an array of ticket id's so that we can provide the pdfworker.splitPDF(ticketIds)
-        ticketIds = [1,2,3,4]
+        mysqlInsertSuccess = False
+
+        if(ticketIds):
+            mysqlInsertSuccess = True
 
         fileUploadSuccess = self.pdfworker.splitPDF(self.file, ticketIds)
+        #fileUploadSuccess = True
 
         return mysqlInsertSuccess and fileUploadSuccess
