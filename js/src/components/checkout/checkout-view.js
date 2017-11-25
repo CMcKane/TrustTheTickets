@@ -72,7 +72,7 @@ export default class CheckoutView extends Component {
 
     render() {
         return (
-            <div className=" globalBody globalImage">
+            <div className="globalBody globalImage globalImageOverlay">
                 <Grid style={{paddingTop: "25px"}}>
                     <h1>
                         <Well className='checkoutHeader'>

@@ -22,6 +22,8 @@
 
 npm-debug.log
 
+/py/*.ini
+
 # IntelliJ & Pycharm project files
 /.idea
 .idea

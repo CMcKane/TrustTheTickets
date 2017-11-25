@@ -496,7 +496,7 @@ class SqlHandler(object):
                        "JOIN rates USING (rate_type_id) "
                        "WHERE t.seller_account_id={} "
                        "AND rate_type_id > 1 "
-                       "GROUP BY transaction_id, rate_type_id "
+                       "GROUP BY transaction_id "
                        "ORDER BY transaction_dt".format(account_id))
         transactions = [dict(transactionID=row[0], transactionDate=row[1], transactionTotal="{0:.2f}".format(row[2]), chargesTotal="{0:.2f}".format(row[3]), numTicketsSold=row[4])
                    for row in cursor.fetchall()]
@@ -841,7 +841,8 @@ class SqlHandler(object):
             cursor.execute(insertQuery)
 
     def set_ticket_status(self, cursor, ticket_id, new_status):
-        updateQuery = "UPDATE tickets SET ticket_status_id = '{}' WHERE ticket_id = '{}'".format(new_status, ticket_id)
+        updateQuery = "UPDATE tickets SET ticket_status_id = '{}', lock_account_id = NULL " \
+                      "WHERE ticket_id = '{}'".format(new_status, ticket_id)
         cursor.execute(updateQuery)
 
     def update_ticket_group_table(self, cursor, group_id):
@@ -863,7 +864,15 @@ class SqlHandler(object):
             insertQuery = "UPDATE groups SET min_sell_num = '{}' WHERE group_id = '{}'".format(available, group_id)
             cursor.execute(insertQuery)
 
-    def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks, numberOfTickets, minPurchaseSize, gameDate, accountID ):
+    def get_user_email(self, accountId):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        getUserEmailQuery = ("SELECT email FROM accounts WHERE account_id = '{}'").format(accountId)
+        cursor.execute(getUserEmailQuery)
+        email = cursor.fetchone()[0]
+        return email
+
+    def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID):
         conn = self.mysql.connection
         cursor = conn.cursor()
         ticketQueryResults = []
@@ -920,7 +929,6 @@ class SqlHandler(object):
         # This loops goes through the collection of seats info and adds each ticket into the database
         for i in range(0, (int(numberOfTickets))):
 
-
             seatIDQuery = "SELECT seat_id FROM seats WHERE row_id = '{}' AND " \
                           "seat_num = '{}'".format(rowID, seatsInfo[i]['seat'][0]['seatNum'])
 
@@ -956,28 +964,18 @@ class SqlHandler(object):
             else:
                 is_handicap_accessible = 0
 
-
-            if i > len(pdfLinks) or len(pdfLinks) is 0:
-                pdfLink = " "
-            else:
-                pdfLink = pdfLinks[i]
-
-            ticketValues = (newTicketID, groupID, accountID, 1, eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
-                          is_handicap_accessible, sectionID, rowID, seatID, pdfLink)
-
             ticketQuery = "INSERT INTO tickets (ticket_id, group_id, account_id, event_type_id, event_id," \
                           " location_id, seating_chart_id, ticket_status_id, is_aisle_seat, is_early_entry, " \
                           "is_ha, section_id, row_id, seat_id, pdf_link, lock_account_id, last_updated) " \
-                          "VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', NULL , NOW())"
+                          "VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', NULL, NULL , NOW())"
 
             try:
                 cursor.execute(ticketQuery.format(newTicketID, groupID, accountID, 1,
                                                   eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
-                                                  is_handicap_accessible, sectionID, rowID, seatID, pdfLink))
+                                                  is_handicap_accessible, sectionID, rowID, seatID))
             except:
                 successful = False
 
             conn.commit()
-
 
         return successful

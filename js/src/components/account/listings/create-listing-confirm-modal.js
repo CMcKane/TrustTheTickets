@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Time from 'react-time';
-import {TTTPost} from '../../backend/ttt-request';
+import {TTTPost, TTTGet, TTTPostFile} from '../../backend/ttt-request';
 import {Button, Panel, Modal, Grid, Col, Row} from 'react-bootstrap';
 import '../../../stylesheet.css';
 import AuthService from "../../auth/auth-service";
@@ -20,9 +20,9 @@ export default class CreateListingConfirmModal extends Component {
             row: this.props.section,
             seatsInfo: this.props.seatsInfo,
             minPurchaseSize: this.props.minPurchaseSize,
-            pdfLinks: this.props.pdfLinks,
             ticketPrice: this.props.ticketPrice,
-            token: this.props.token
+            token: this.props.token,
+            pdfFile: this.props.pdfFile
         }
     }
 
@@ -38,21 +38,26 @@ export default class CreateListingConfirmModal extends Component {
     }
 
     onSubmit(){
-
         var success = false;
 
-        TTTPost('/create-ticket-listing', {
+        var formData = new FormData();
+        formData.append("pdf", this.props.pdfFile);
+        formData.append("allJson", JSON.stringify({
             numberOfTickets: this.props.numberOfTickets,
             dbGameDate: this.props.gameDate,
             section: this.props.section,
             row: this.props.row,
             seatsInfo: this.props.seatsInfo,
             minPurchaseSize: this.props.minPurchaseSize,
-            pdfLinks: this.props.pdfLinks,
             ticketPrice: this.props.ticketPrice,
-            token: this.props.token} )
-                .then(res => {
-                success = res.data.success});
+            token: this.props.token
+        }));
+
+        TTTPost('/send-listing-data', formData).then(res => {
+            success = res.data.success
+        });
+
+        this.onHide()
     }
 
     getErrorText() {

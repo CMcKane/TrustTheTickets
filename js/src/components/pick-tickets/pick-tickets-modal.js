@@ -68,7 +68,7 @@ export default class PickTicketsModal extends Component {
                 <p>
                     Section: {tempTicket.section_number} &emsp;
                     Row: {tempTicket.row_number} &emsp;
-                    Price: ${tempTicket.ticket_price} /ea
+                    Price: ${tempTicket.ticket_price.toFixed(2)} /ea
                 </p>
             );
 
