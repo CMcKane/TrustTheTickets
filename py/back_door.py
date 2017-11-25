@@ -3,6 +3,7 @@ from flask import jsonify
 from flask_mysqldb import MySQL
 from flask import request
 from flask import make_response
+from flask import json
 from account_register import AccountRegistrator
 from account_login import AccountAuthenticator
 from sql_handler import SqlHandler
@@ -12,14 +13,15 @@ from functools import wraps
 from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
-from PyPDF2 import PdfFileWriter, PdfFileReader
 from werkzeug.utils import secure_filename
 from s3_interface import S3Worker
+from pdf_interface import PDFWorker
+from listing_creator import ListingCreator
 from email_client import TTTEmailClient
 import threading
 import os
 import configparser
-import io
+
 
 # Use config file to get these values
 config = configparser.ConfigParser()
@@ -37,6 +39,7 @@ configAWSBucket = config.get('py-app-config', 'AWSBucket')
 app = Flask (__name__)
 mysql = MySQL(app)
 s3worker = S3Worker(configAWSAccessKey, configAWSSecretKey, configAWSBucket)
+pdfworker = PDFWorker(s3worker)
 
 # Start app with values from config file
 app.config['MYSQL_HOST'] = configHost
@@ -68,48 +71,29 @@ def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
 
-@app.route('/split-pdf', methods=['POST'])
-def splitPDF():
-    files = request.files['pdf']
-    firstTicketId = int(request.values['startId'])
-    lastTicketId = int(request.values['endId'])
+# @app.route('/split-pdf', methods=['POST'])
+# def splitPDF():
+#    file = request.files['pdf']
+#    success = pdfworker.splitPDF(file)
+#
+#    return jsonify({'success': success})
 
-    inputPDF = PdfFileReader(files)
-
-    if lastTicketId - firstTicketId + 1 != inputPDF.numPages:
-        print("ERROR: PDF does not have the same number of pages as the number of tickets being uploaded.")
-        print("Tickets could not be uploaded.")
-    else:
-        for i in range(inputPDF.numPages):
-            outputStream = io.BytesIO()
-            output = PdfFileWriter()
-            output.addPage(inputPDF.getPage(i))
-            output.write(outputStream)
-            outputStream.seek(0)
-            s3worker.uploadFile(outputStream, str(firstTicketId + i))
-    return ''
-
-@app.route('/combine-pdf', methods=['POST'])
-def combinePDF():
+@app.route('/send-tickets-pdf', methods=['POST'])
+def sendTicketsPDF():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
         jsonData = request.get_json()
-        email = jsonData['email']
+        jwt_service = JWTService()
+        sqlHandler = SqlHandler(mysql)
+
+        accountID = jwt_service.get_account(jsonData['token'])
+        email = sqlHandler.get_user_email(accountID)
+
         ticketIds = jsonData['ticketIds']
-
-        outputStream = io.BytesIO()
-        output = PdfFileWriter()
-
-        for i in ticketIds:
-            curFileStream = io.BytesIO()
-            curFileStream = s3worker.downloadFile(str(i))
-            curInputPDF = PdfFileReader(curFileStream)
-            output.appendPagesFromReader(curInputPDF)
-
-        output.write(outputStream)
-        outputStream.seek(0)
+        outputPDF = pdfworker.getCombinedPDF(ticketIds)
+        outputPDFName = "Tickets.pdf"
 
         thr = threading.Thread(target=TTTEmailClient.send_combined_ticket_file,
-                               args=(email, outputStream, "Tickets.pdf"))
+                               args=(email, outputPDF, outputPDFName))
         thr.start()
 
     else:
@@ -494,24 +478,14 @@ def create_transaction():
     success = sqlHandler.create_transaction(buyer_id, tickets, commission, tax, subtotal, total, group_id)
     return jsonify({'success': success})
 
-@app.route('/create-ticket-listing', methods=['POST'])
-def insert_ticket_listing():
-    sqlHandler = SqlHandler(mysql)
-    jwt_service = JWTService()
-    jsonData = request.get_json()
+@app.route('/send-listing-data', methods=['POST'])
+def receiveListingData():
+    file = request.files['pdf']
+    jsonString = request.form['allJson']
+    jsonData = json.loads(jsonString)
 
-    sectionNum = jsonData['section']
-    rowNum = jsonData['row']
-    seatsInfo = jsonData['seatsInfo']
-    ticketPrice = jsonData['ticketPrice']
-    pdfLinks = jsonData['pdfLinks']
-    numberOfTickets = jsonData['numberOfTickets']
-    minPurchaseSize = jsonData['minPurchaseSize']
-    gameDate = jsonData['dbGameDate']
-    accountID = jwt_service.get_account(jsonData['token'])
-
-    success = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks,
-                                     numberOfTickets, minPurchaseSize, gameDate, accountID)
+    listingcreator = ListingCreator(mysql, pdfworker, jsonData, file)
+    success = listingcreator.createListing()
 
     return jsonify({'success': success})
 

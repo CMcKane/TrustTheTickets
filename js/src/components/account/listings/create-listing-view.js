@@ -63,8 +63,8 @@ export default class CreateListingView extends Component {
             modalSubmitError: "",
             disableMinPurchaseSizeForm: false,
             selectedValue: "1",
-            pdfLinks: [],
-            token: this.Auth.getToken()
+            token: this.Auth.getToken(),
+            pdfFile: null
         };
 
         this.getGameDates();
@@ -296,9 +296,9 @@ export default class CreateListingView extends Component {
 
 
     onFileChange(e) {
-        var formData = new FormData();
-        formData.append("pdf", e.target.files[0]);
-        TTTPostFile('/upload-pdf', formData);
+        this.setState({
+            pdfFile: e.target.files[0]
+        });
     }
 
     createModal() {
