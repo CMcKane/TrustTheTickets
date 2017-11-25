@@ -220,14 +220,14 @@ export default class CreateListingView extends Component {
                 }
                 break;
             case 4:
-                if(this.state.minPurchaseSize === ""){
+                if(this.state.minPurchaseSize === "" || this.state.minPurchaseSize > this.state.numberOfTickets || this.state.minPurchaseSize === "0"){
                     alert("Please pick a minimum group size for selling tickets to move onto the next step.");
                 } else {
                     this.setState({activeKey: this.state.activeKey + 1});
                 }
                 break;
             case 5:
-                if(this.state.ticketPrice === ""){
+                if(this.state.ticketPrice === "" || !this.state.ticketPrice.match(/^[0-9]*(\.[0-9]{2})$/)){
                     alert("Please set a ticket price to move onto the next step.");
                 } else {
                     this.setState({activeKey: this.state.activeKey + 1});
@@ -287,11 +287,7 @@ export default class CreateListingView extends Component {
     }
 
     handleMinPurchaseSizeChange(e){
-        if(e.target.value > this.state.numberOfTickets){
-            alert("Minimum selling size must be less than or equal to the number of tickets you are selling.")
-        } else {
             this.setState({[e.target.name]: e.target.value});
-        }
     }
 
 
