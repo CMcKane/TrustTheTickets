@@ -861,6 +861,14 @@ class SqlHandler(object):
             insertQuery = "UPDATE groups SET min_sell_num = '{}' WHERE group_id = '{}'".format(available, group_id)
             cursor.execute(insertQuery)
 
+    def get_user_email(self, accountId):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        getUserEmailQuery = ("SELECT email FROM accounts WHERE account_id = '{}'").format(accountId)
+        cursor.execute(getUserEmailQuery)
+        email = cursor.fetchone()[0]
+        return email
+
     def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks, numberOfTickets, minPurchaseSize, gameDate, accountID ):
         conn = self.mysql.connection
         cursor = conn.cursor()

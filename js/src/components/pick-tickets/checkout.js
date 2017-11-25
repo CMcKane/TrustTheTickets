@@ -15,6 +15,7 @@ var subtotal;
 var total;
 var taxTotal;
 var commTotal;
+var ticketIds = [];
 
 class Checkout extends Component {
 
@@ -36,7 +37,6 @@ class Checkout extends Component {
 
   componentDidMount() {
     // Need to "lock in" tickets in DB for a few minutes here
-    var ticketIds = []
     for (var i = 0; i < this.props.checkoutTickets.length; i++) {
       ticketIds.push(this.props.checkoutTickets[i].ticket_id);
     }
@@ -97,19 +97,31 @@ class Checkout extends Component {
     }
 
     purchaseTickets() {
-        var successful = false;
+        var insertSuccessful = false;
+        var emailSuccess = false;
+        var token = this.Auth.getToken();
         TTTPost('/insert-transaction', {
-            token: this.Auth.getToken(),
+            token: token,
             tickets: this.props.checkoutTickets,
             commission: this.commTotal,
             tax: this.taxTotal,
             subtotal: this.subtotal,
             total: this.total,
             group_id: this.props.checkoutTickets[0].group_id
-        })
-            .then(res => {
-                successful = res.data.successful
-            });
+        }).then(res => {
+            insertSuccessful = res.data.successful
+        });
+
+        console.log(ticketIds);
+        var tempTicketIds = [1,2,3,4];
+
+        TTTPost('/send-tickets-pdf', {
+            token: token,
+            ticketIds: tempTicketIds
+        }).then(res => {
+            emailSuccess = res.data.success
+        });
+
         this.setState({redirect: true});
 
     }

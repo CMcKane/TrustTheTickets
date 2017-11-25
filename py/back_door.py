@@ -71,13 +71,6 @@ def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
 
-# @app.route('/split-pdf', methods=['POST'])
-# def splitPDF():
-#    file = request.files['pdf']
-#    success = pdfworker.splitPDF(file)
-#
-#    return jsonify({'success': success})
-
 @app.route('/send-tickets-pdf', methods=['POST'])
 def sendTicketsPDF():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -288,7 +281,6 @@ def get_expensive_ticket_sections():
 
     return jsonify({'tickets': tickets, 'sections': sections})
 
-# Right now this just returns that the login info is good for testing purposes.
 @app.route('/login', methods=['POST'])
 def authenticate_credentials():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -411,12 +403,12 @@ def cancel_listing():
         print(e)
         return jsonify({'authenticated': False})
 
-@app.route('/upload-pdf', methods=['POST'])
-def upload_pdf():
-    file = request.files['pdf']
-    filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return ''
+#@app.route('/upload-pdf', methods=['POST'])
+#def upload_pdf():
+#    file = request.files['pdf']
+#    filename = secure_filename(file.filename)
+#    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#    return ''
 
 @app.route('/create-groups', methods=['POST'])
 def create_groups():
