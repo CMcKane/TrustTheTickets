@@ -31,15 +31,15 @@ class SqlHandler(object):
 
         return accounts
 
-    def check_for_email(mysql, email):
+    def check_for_email(self, mysql, email):
         conn = mysql.connection
         cursor = conn.cursor()
         try:
-            cursor.execute("SELECT account_id FROM accounts WHERE email = '{}'".format(email))
+            self.cursor.execute("SELECT account_id FROM accounts WHERE email = '{}'".format(email))
         except:
             Logger.log("Query failed in method check_for_email")
 
-        return len(cursor.fetchall())
+        return len(self.cursor.fetchall())
 
     def get_account_for_confirmation(mysql, registrationID):
         conn = mysql.connection
