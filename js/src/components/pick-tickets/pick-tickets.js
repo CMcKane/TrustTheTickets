@@ -610,8 +610,8 @@ export default class PickTickets extends Component {
             show: !this.state.show,
             selectedGroup: group
          });
-    }
 
+    }
     clearSections() {
         this.setState({
             previousSections: this.state.sections,
@@ -717,7 +717,7 @@ export default class PickTickets extends Component {
                         <table className="ticketTableFooter">
                             <tr>
                                 <td>
-
+                                    {/* ticket attributes here */}
                                 </td>
                                 <td>
                                     <Button
