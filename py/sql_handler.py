@@ -922,6 +922,8 @@ class SqlHandler(object):
 
         conn.commit()
 
+        returnTicketIds = [int(numberOfTickets)]
+
         # This loops goes through the collection of seats info and adds each ticket into the database
         for i in range(0, (int(numberOfTickets))):
 
@@ -939,6 +941,7 @@ class SqlHandler(object):
             try:
                 cursor.execute(newTicketIDQuery)
                 newTicketID = cursor.fetchone()[0]
+                returnTicketIds[i] = newTicketID
             except:
                 successful = False
 
@@ -970,8 +973,11 @@ class SqlHandler(object):
                                                   eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
                                                   is_handicap_accessible, sectionID, rowID, seatID))
             except:
-                successful = False
+                succesful = False
 
             conn.commit()
 
-        return successful
+            if not successful:
+                returnTicketIds = None
+
+        return returnTicketIds

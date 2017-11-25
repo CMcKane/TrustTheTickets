@@ -55,7 +55,7 @@ class CreateListingConfirmModal extends Component {
             ticketPrice: this.props.ticketPrice,
             token: this.props.token
         }));
-
+        console.log("sending data");
         TTTPost('/send-listing-data', formData).then(res => {
             success = res.data.success
         });
