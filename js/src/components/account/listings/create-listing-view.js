@@ -227,9 +227,12 @@ export default class CreateListingView extends Component {
                 }
                 break;
             case 5:
-                if(this.state.ticketPrice === "" || !this.state.ticketPrice.match(/^[0-9]*(\.[0-9]{2})$/)){
+                if(this.state.ticketPrice === "" || !this.state.ticketPrice.match(/^[0-9]*(\.[0-9]{2})?$/)){
                     alert("Please set a ticket price to move onto the next step.");
-                } else {
+                } else if(this.state.ticketPrice.match(/^[0-9]*$/)){
+                    this.setState({ticketPrice: this.state.ticketPrice + ".00",
+                    activeKey: this.state.activeKey + 1});
+                }else {
                     this.setState({activeKey: this.state.activeKey + 1});
                 }
                 break;
@@ -303,9 +306,13 @@ export default class CreateListingView extends Component {
                 show: !this.state.show
             });
         }else if (this.state.activeKey === 6){
-            this.setState({
-                showConfirm: !this.state.showConfirm
-            });
+            if(this.state.pdfFile === null){
+                alert("Please upload a PDF file with your tickets.")
+            }else{
+                this.setState({
+                    showConfirm: !this.state.showConfirm
+                });
+            }
         }
     }
 
