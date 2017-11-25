@@ -112,6 +112,7 @@ class Checkout extends Component {
             insertSuccessful = res.data.successful
         });
 
+        /*
         console.log(ticketIds);
         var tempTicketIds = [1,2,3,4];
 
@@ -121,6 +122,7 @@ class Checkout extends Component {
         }).then(res => {
             emailSuccess = res.data.success
         });
+        */
 
         this.setState({redirect: true});
 

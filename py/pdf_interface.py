@@ -28,11 +28,13 @@ class PDFWorker(object):
 
     # input
     #   array of ticket id's
-    def combinePDF(self, ticketIds):
+    def getCombinedPDF(self, ticketIds):
         outputStream = io.BytesIO()
         output = PdfFileWriter()
 
         for i in ticketIds:
+            print(i)
+            print(ticketIds[i])
             curFileStream = io.BytesIO()
             curFileStream = self.s3worker.downloadFile(str(i))
             curInputPDF = PdfFileReader(curFileStream)

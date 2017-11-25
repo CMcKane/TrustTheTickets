@@ -870,7 +870,7 @@ class SqlHandler(object):
         email = cursor.fetchone()[0]
         return email
 
-    def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks, numberOfTickets, minPurchaseSize, gameDate, accountID ):
+    def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID):
         conn = self.mysql.connection
         cursor = conn.cursor()
         ticketQueryResults = []
@@ -927,7 +927,6 @@ class SqlHandler(object):
         # This loops goes through the collection of seats info and adds each ticket into the database
         for i in range(0, (int(numberOfTickets))):
 
-
             seatIDQuery = "SELECT seat_id FROM seats WHERE row_id = '{}' AND " \
                           "seat_num = '{}'".format(rowID, seatsInfo[i]['seat'][0]['seatNum'])
 
@@ -963,28 +962,18 @@ class SqlHandler(object):
             else:
                 is_handicap_accessible = 0
 
-
-            if i > len(pdfLinks) or len(pdfLinks) is 0:
-                pdfLink = " "
-            else:
-                pdfLink = pdfLinks[i]
-
-            ticketValues = (newTicketID, groupID, accountID, 1, eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
-                          is_handicap_accessible, sectionID, rowID, seatID, pdfLink)
-
             ticketQuery = "INSERT INTO tickets (ticket_id, group_id, account_id, event_type_id, event_id," \
                           " location_id, seating_chart_id, ticket_status_id, is_aisle_seat, is_early_entry, " \
                           "is_ha, section_id, row_id, seat_id, pdf_link, lock_account_id, last_updated) " \
-                          "VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', NULL , NOW())"
+                          "VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', NULL, NULL , NOW())"
 
             try:
                 cursor.execute(ticketQuery.format(newTicketID, groupID, accountID, 1,
                                                   eventID, 1, 1, 1, is_aisle_seat, is_early_entry,
-                                                  is_handicap_accessible, sectionID, rowID, seatID, pdfLink))
+                                                  is_handicap_accessible, sectionID, rowID, seatID))
             except:
                 successful = False
 
             conn.commit()
-
 
         return successful

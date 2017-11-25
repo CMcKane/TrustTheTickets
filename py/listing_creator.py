@@ -35,11 +35,8 @@ class ListingCreator(object):
         print("gameDate: " + gameDate)
         print("accountID: " + str(accountID))
 
-        # success = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, pdfLinks,
-        #                                 numberOfTickets, minPurchaseSize, gameDate, accountID)
-
-        mysqlInsertSuccess = True
-
+        mysqlInsertSuccess = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID)
+        # modify insert_ticket_listing to return an array of ticket id's so that we can provide the pdfworker.splitPDF(ticketIds)
         ticketIds = [1,2,3,4]
 
         fileUploadSuccess = self.pdfworker.splitPDF(self.file, ticketIds)
