@@ -585,6 +585,7 @@ export default class CreateListingView extends Component {
                                                             id="formControlsFile"
                                                             type="file"
                                                             label="Upload a PDF of the Tickets"
+                                                            accept="application/pdf"
                                                             help="First scan your tickets to a PDF file, then upload them here!"
                                                             onChange={this.onFileChange.bind(this)}/>
                                                     </Form>

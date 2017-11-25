@@ -22,6 +22,7 @@ import AuthService from './components/auth/auth-service';
 import ImportDownload from './components/importPDF/importDownload';
 import CheckoutLanding from './components/pick-tickets/checkout-landing';
 import './stylesheet.css';
+import CreateListingSubmitLanding from "./components/account/listings/create-listing-submit-landing";
 
 const navItems = [
     {
@@ -82,7 +83,8 @@ export default class App extends Component {
                         <Route path='/versus' component={Versus}/>
                         <Route path='/import-download' component={ImportDownload}/>
                         <Route path='/checkout-view' component={CheckoutView}/>
-                        <Route path='/checkout-landing'component={CheckoutLanding}/>
+                        <Route path='/checkout-landing' component={CheckoutLanding}/>
+                        <Route path='/create-listing-submit-landing' component={CreateListingSubmitLanding}/>
                         <Route exact path='/my-account' render={(props) =>
                             <MyAccount
                                 {...props} logIn={this.userLogIn.bind(this)}
