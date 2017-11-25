@@ -816,10 +816,6 @@ class SqlHandler(object):
         sequence_num = 0
         for i in range(0, len(tickets)):
 
-            #selectQuery = "SELECT DISTINCT MAX(sequence_num) FROM transaction_charges"
-            #cursor.execute(selectQuery)
-            #sequence_num = cursor.fetchone()[0]
-
             sequence_num = sequence_num + 1
 
             amount = subtotal_per_ticket[i]
