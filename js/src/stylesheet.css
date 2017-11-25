@@ -221,28 +221,78 @@ These are all the default screen sizes
     }
 }
 
-/*
 
 @media (max-width: 1440px) and (min-width: 1025px) {
+    .createListingPdfForm {
+        font-size: 20px;
+    }
 
+    .createListingSellingSize {
+        font-size: 18px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 23px;
+    }
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
+    .createListingPdfForm {
+        font-size: 18px;
+    }
 
+    .createListingSellingSize {
+        font-size: 18px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 21px;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 426px) {
+    .createListingPdfForm {
+        font-size: 15px;
+    }
 
+    .createListingSellingSize {
+        font-size: 16px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 19px;
+    }
 }
 
 @media (max-width: 375px) and (min-width: 321px) {
+    .createListingPdfForm {
+        font-size: 12px;
+    }
 
+    .createListingSellingSize {
+        font-size: 14px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 17px;
+    }
 }
 
 @media (max-width: 320px) {
 
+    .createListingPdfForm {
+        font-size: 10px;
+    }
+
+    .createListingSellingSize {
+        font-size: 12px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 15px;
+    }
 }
-*/
+
 
 
 /*********************************************************************************************************************/

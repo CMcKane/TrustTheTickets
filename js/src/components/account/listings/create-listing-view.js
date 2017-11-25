@@ -502,10 +502,11 @@ export default class CreateListingView extends Component {
                                             <div className="globalCenterThis">
                                                 <Col>
                                                     <Row>
-                                                        <h2>Ticket Groupings</h2>
+                                                        <h2 className="createListingSellingSizeTitle">Ticket Groupings</h2>
                                                     </Row>
                                                     <Row>
-                                                        <RadioGroup name="sellingSize"
+                                                        <RadioGroup className="createListingSellingSize"
+                                                                    name="sellingSize"
                                                                     selectedValue={this.state.selectedValue}
                                                                     onChange={this.handleRadioChange.bind(this)}>
                                                             <label>
@@ -583,7 +584,7 @@ export default class CreateListingView extends Component {
                                         <Grid>
                                             <Col>
                                                 <div className="globalCenterThis">
-                                                    <Form className='createListingForm'>
+                                                    <Form className='createListingPdfForm'>
                                                         <FieldGroup
                                                             id="formControlsFile"
                                                             type="file"
