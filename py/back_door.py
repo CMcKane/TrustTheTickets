@@ -82,7 +82,6 @@ def sendTicketsPDF():
         email = sqlHandler.get_user_email(accountID)
 
         ticketIds = jsonData['ticketIds']
-        print(ticketIds)
         outputPDF = pdfworker.getCombinedPDF(ticketIds)
         outputPDFName = "Tickets.pdf"
 
@@ -475,8 +474,12 @@ def create_transaction():
     subtotal = jsonData['subtotal']
     total = jsonData['total']
     group_id = jsonData['group_id']
+    tax_per_ticket = jsonData['taxPerTicket']
+    comm_per_ticket = jsonData['commPerTicket']
+    subtotal_per_ticket = jsonData['subtotalPerTicket']
 
-    success = sqlHandler.create_transaction(buyer_id, tickets, commission, tax, subtotal, total, group_id)
+    success = sqlHandler.create_transaction(buyer_id, tickets, commission, tax, subtotal, total, group_id,
+                                            tax_per_ticket, comm_per_ticket, subtotal_per_ticket)
     return jsonify({'success': success})
 
 @app.route('/send-listing-data', methods=['POST'])

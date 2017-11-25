@@ -33,8 +33,6 @@ class PDFWorker(object):
         output = PdfFileWriter()
 
         for i in ticketIds:
-            print(i)
-            print(ticketIds[i])
             curFileStream = io.BytesIO()
             curFileStream = self.s3worker.downloadFile(str(i))
             curInputPDF = PdfFileReader(curFileStream)

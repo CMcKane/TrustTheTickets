@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component }  from 'react';
 import _ from 'lodash';
 import {Grid, Table, Col, Button, Well} from 'react-bootstrap';
 import {TTTPost, TTTGet} from '../backend/ttt-request';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import withAuth from '../auth/with-auth';
 import AuthService from '../auth/auth-service';
 import '../../stylesheet.css';
@@ -15,32 +15,43 @@ var subtotal;
 var total;
 var taxTotal;
 var commTotal;
+var taxPerTicket;
+var commPerTicket;
+var subtotalPerTicket;
 var ticketIds = [];
 
 class Checkout extends Component {
 
-    constructor(props) {
-        super(props);
-        this.Auth = new AuthService();
-        this.state = {
-            commissionPercent: this.props.commissionPercent,
-            taxPercent: this.props.taxPercent,
-            subtotal: 0,
-            tax: 0,
-            fees: 0,
-            total: 0,
-            redirect: false,
-            token: this.Auth.getToken()
-        };
 
-        this.determinePrices();
+
+  constructor(props) {
+    super(props);
+    this.Auth = new AuthService();
+    this.state = {
+        commissionPercent: this.props.commissionPercent,
+        taxPercent: this.props.taxPercent,
+        subtotal: 0,
+        tax: 0,
+        fees: 0,
+        total: 0,
+        redirect: false,
+        tempTicketIds: []
     }
+    this.taxPerTicket = [this.props.checkoutTickets.length];
+    this.commPerTicket = [this.props.checkoutTickets.length];
+    this.subtotalPerTicket = [this.props.checkoutTickets.length];
+    this.determinePrices();
+  }
 
   componentDidMount() {
     // Need to "lock in" tickets in DB for a few minutes here
+    var ticketIds = []
     for (var i = 0; i < this.props.checkoutTickets.length; i++) {
       ticketIds.push(this.props.checkoutTickets[i].ticket_id);
     }
+    this.setState({
+        tempTicketIds: ticketIds
+    })
       TTTPost('/hold-tickets', {
           ticketIds: ticketIds,
           token: this.Auth.getToken()
@@ -56,26 +67,35 @@ class Checkout extends Component {
             commissionPercent: this.props.commissionPercent,
             taxPercent: this.props.taxPercent
         });
-    }
+  }
 
     onComplete() {
-        this.props.returnFromCheckout();
+         this.props.returnFromCheckout();
     }
 
 
     determinePrices() {
         var tickets = this.props.checkoutTickets;
         var subtotal = 0;
-        for (var i = 0; i < tickets.length; i++) {
+        for(var i = 0; i < tickets.length; i++)
+        {
+            this.subtotalPerTicket[i] = tickets[i].ticket_price;
             subtotal = subtotal + tickets[i].ticket_price;
         }
 
         var fees = 0;
         var taxTotal = 0;
         var commTotal = 0;
+        var taxPer = [];
+        var commPer = [];
+        var subtotalPer =  [];
 
-        for (var i = 0; i < tickets.length; i++) {
-            taxTotal += (tickets[i].ticket_price * this.props.taxPercent);
+        for(var i = 0; i < tickets.length; i++)
+        {
+            this.taxPerTicket[i] = tickets[i].ticket_price * this.props.taxPercent;
+            this.commPerTicket[i] = tickets[i].ticket_price * this.props.commissionPercent;
+
+            taxTotal  += (tickets[i].ticket_price * this.props.taxPercent);
             commTotal += (tickets[i].ticket_price * this.props.commissionPercent);
         }
         fees = taxTotal + commTotal;
@@ -85,6 +105,10 @@ class Checkout extends Component {
         this.commTotal = Math.round(commTotal * 100) / 100;
         this.subtotal = Math.round(subtotal * 100) / 100;
         this.total = this.commTotal + this.taxTotal + this.subtotal;
+
+        console.log(this.subtotalPerTicket);
+        console.log(this.taxPerTicket);
+        console.log(this.commPerTicket);
 
         this.setState({
             subtotal: subtotal,
@@ -100,10 +124,13 @@ class Checkout extends Component {
         var emailSuccess = false;
         var token = this.Auth.getToken();
         TTTPost('/insert-transaction', {
-            token: token,
+            token: this.Auth.getToken(),
             tickets: this.props.checkoutTickets,
             commission: this.commTotal,
             tax: this.taxTotal,
+            taxPerTicket: this.taxPerTicket,
+            commPerTicket: this.commPerTicket,
+            subtotalPerTicket: this.subtotalPerTicket,
             subtotal: this.subtotal,
             total: this.total,
             group_id: this.props.checkoutTickets[0].group_id
@@ -127,7 +154,7 @@ class Checkout extends Component {
 
     }
 
-    getComments(ticket) {
+	getComments(ticket) {
         var comments = '-';
         if (ticket.early_access === 1) {
             comments += " Early Access  - ";
@@ -139,7 +166,7 @@ class Checkout extends Component {
             comments += "Handicap - ";
         }
         return comments;
-    }
+	}
 
     renderTicketInfo() {
         return _.map(this.props.checkoutTickets, (ticket, index) =>
@@ -170,7 +197,7 @@ class Checkout extends Component {
                 </table>
             </p>
         );
-    }
+	}
 
 
     renderTicketTotals() {
@@ -242,7 +269,7 @@ class Checkout extends Component {
                 </div>
             );
         }
-    }
+	}
 }
 
 export default withAuth(Checkout);
