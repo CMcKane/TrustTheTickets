@@ -75,7 +75,6 @@ export default class PickTicketsModal extends Component {
                     Section: {tempTicket.section_number} &emsp;
                     Row: {tempTicket.row_number} &emsp;
                     Price: ${tempTicket.ticket_price.toFixed(2)} /ea
-                    Min_sell: {tempTicket.min_sell_num} &emsp;
                 </p>
             );
 
@@ -126,7 +125,6 @@ export default class PickTicketsModal extends Component {
         if(e.target.checked === true) {
             selectedArr.push(this.props.group[id]);
             numTicketsChecked++;
-            console.log(numTicketsChecked);
         } else {
             for(var i = 0; i < selectedArr.length; i++) {
                 if(this.props.group[id] === selectedArr[i]) {
