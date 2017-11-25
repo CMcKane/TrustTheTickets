@@ -56,6 +56,8 @@ export default class CreateListingConfirmModal extends Component {
         TTTPost('/send-listing-data', formData).then(res => {
             success = res.data.success
         });
+
+        this.onHide()
     }
 
     getErrorText() {
