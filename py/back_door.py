@@ -82,7 +82,6 @@ def sendTicketsPDF():
         email = sqlHandler.get_user_email(accountID)
 
         ticketIds = jsonData['ticketIds']
-        print(ticketIds)
         outputPDF = pdfworker.getCombinedPDF(ticketIds)
         outputPDFName = "Tickets.pdf"
 
