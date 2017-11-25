@@ -1,0 +1,2415 @@
+/*********************************************************************************************************************/
+/****************************************************** Template  ****************************************************/
+/*********************************************************************************************************************/
+
+/*
+When adding a new CSS section use this template
+These are useful when creating mobile friendly CSS.
+These are all the default screen sizes
+*/
+
+/*
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+
+}
+
+@media (max-width: 425px) and (min-width: 376px) {
+
+}
+
+@media (max-width: 375px) and (min-width: 321px) {
+
+}
+
+@media (max-width: 320px) {
+
+}
+
+*/
+
+/*********************************************************************************************************************/
+/**************************************************** End Template ***************************************************/
+/*********************************************************************************************************************/
+
+/*********************************************************************************************************************/
+/***************************************************** App Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.App {
+    text-align: center;
+}
+
+.appContent {
+    padding-top: 62px;
+    overflow-y: auto;
+}
+
+@media (min-width: 767px) {
+    .appContent {
+        padding-top: 92px;
+    }
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+
+.App-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+}
+
+.App-title {
+    font-size: 1.5em;
+}
+
+.App-intro {
+    font-size: large;
+}
+
+.appContent {
+    position: relative;
+}
+
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.globalBody {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    position: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.svg {
+    width: 50% !important;
+    height: auto !important;
+}
+
+.globalImage
+{
+    background-image: url("./resources/images/backgrounds/cityscapeBW.jpg");
+}
+
+.globalImageOverlay
+{
+    background-color: rgba(255,255,255,0.50);
+    padding-bottom: 100px;
+}
+
+
+.globalPageTitle
+{
+    color: black;
+    padding: 5%;
+    text-align: center;
+}
+
+.unselectable {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    pointer-events:none;
+}
+
+.globalCenterThis {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*********************************************************************************************************************/
+/*************************************************** End App Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************** Calendar Styling *************************************************/
+/*********************************************************************************************************************/
+
+.calendarEventComponentContainer {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+    .rbc-toolbar {
+        font-size: 12px !important;
+    }
+    .rbc-event {
+        padding: 0px !important;
+    }
+    .rbc-date-cell {
+        font-size: 8px !important;
+    }
+}
+
+
+
+/*********************************************************************************************************************/
+/************************************************ End Calendar Styling ***********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/******************************************** Create Listing View Styling  *******************************************/
+/*********************************************************************************************************************/
+
+
+.createListingSeatNumberForms{
+    width: 400px;
+}
+
+.listingConfirmModalText {
+    font-size: 20px;
+}
+
+@media (max-width: 767px) {
+    .createListingForm {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+    .listingConfirmModalText {
+        font-size: 16px;
+    }
+    .listingConfirmModalTitle {
+        font-size: 20px;
+    }
+    .listingConfirmTitle {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 426px) {
+    .listingConfirmModalText {
+        font-size: 14px;
+    }
+    .listingConfirmModalTitle {
+        font-size: 18px;
+    }
+    .listingConfirmTitle {
+        font-size: 16px;
+    }
+    .confirmListingGrid {
+        padding: 0px !important;
+    }
+    .confirmListingCol {
+        padding: 0px !important;
+    }
+}
+
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+    .createListingPdfForm {
+        font-size: 20px;
+    }
+
+    .createListingSellingSize {
+        font-size: 18px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 23px;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+    .createListingPdfForm {
+        font-size: 18px;
+    }
+
+    .createListingSellingSize {
+        font-size: 18px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+    .createListingPdfForm {
+        font-size: 15px;
+    }
+
+    .createListingSellingSize {
+        font-size: 16px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 19px;
+    }
+}
+
+@media (max-width: 375px) and (min-width: 321px) {
+    .createListingPdfForm {
+        font-size: 12px;
+    }
+
+    .createListingSellingSize {
+        font-size: 14px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 320px) {
+
+    .createListingPdfForm {
+        font-size: 10px;
+    }
+
+    .createListingSellingSize {
+        font-size: 12px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 15px;
+    }
+}
+
+
+
+/*********************************************************************************************************************/
+/****************************************** End Create Listing View Styling ******************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/******************************************** Event Calendar View Styling ********************************************/
+/*********************************************************************************************************************/
+
+.eventCalendarView {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: fixed;
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.eventCalendarViewBottomPane {
+    width: 100%;
+    height: 68%;
+}
+.eventCalendarViewRightBottomPane {
+    width: 100%;
+    height: 68%;
+}
+
+.eventCalendarViewButtonRow {
+    height: 10%;
+    text-align: center;
+}
+
+.eventCalendarViewDetailsRow {
+    height: 90%;
+}
+
+@media (max-width: 1000px) {
+    .eventCalendarViewEventsWell {
+        color: rgb(45, 98, 183);
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .rbc-toolbar {
+        font-size: 10px;
+    }
+    .rbc-calendar {
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 1001px) {
+    .eventCalendarViewEventsWell {
+        color: rgb(45, 98, 183);
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+/*********************************************************************************************************************/
+/****************************************** End Event Calendar View Styling ******************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*********************************************** Event Details Styling ***********************************************/
+/*********************************************************************************************************************/
+
+@media (max-width: 767px) {
+    .eventDetails {
+        height: 100% !important;
+        display: flex;
+        overflow-x: auto;  
+        overflow-y: hidden !important;
+        padding: 0px !important;  
+    }
+    .eventDetailsHeader {
+        margin: 5px !important;
+        font-size: 0.7em !important;
+    }
+    .eventDetailsDate {
+        font-size: 0.7em !important;
+    }
+    .eventDetailsContent {
+        padding: 0em;
+        font-size: 0.7em !important;
+    }
+    .eventDetailPane {
+        float: left;
+        padding-right: 20px !important;
+        padding-bottom: 0px !important;
+        flex: 0 0 150px;
+    }
+    .eventDetailPaneSelected {
+        float: left;
+        padding-right: 20px !important;
+        padding-bottom: 0px !important;
+        flex: 0 0 150px;
+    }
+    .eventCalendarViewBottomPane {
+        height: 50%;
+    }
+    .eventCalendarViewRightBottomPane {
+        height: 26%;
+    }
+    .eventCalendarViewDetailsRow {
+        height: 100%;
+    }
+    .eventCalendarViewEventsWell {
+        margin-bottom: 5px !important;
+        padding: 5px !important;
+        font-size: 20px !important;
+    }
+    .eventDetailsContainer {
+        height: 70% !important;
+    }
+    .gameDetailsHeader {
+        font-size: 16px !important;
+        margin: 5px !important;
+    }
+    .btn {
+        font-size: 10px !important;
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 768px) {
+    .eventDetailPane {
+        padding: 0.5em;
+        border-style: solid;
+        padding-left: 1em;
+        border-width: 0.05em;
+        border-color: black;
+    }
+    .eventDetails {
+        padding-right: 0.5em;
+        padding-left: 0em !important;
+        margin-right: 8px;
+        height: 100%;
+        overflow-y: scroll;
+    }
+    .eventDetailsContainer {
+        height: 85%;
+    }
+    .eventDetailsHeader {
+        text-align: center;
+        font-size: 0.8em !important;
+    }
+    .gameDetailsHeader {
+        font-size: 0.8em !important;
+    }
+    .eventDetailsDate {
+        font-size: 0.8em !important;
+    }
+    .eventDetailsContent {
+        padding: 0em;
+        font-size: 0.8em !important;
+    }
+}
+.eventDetailPane {
+    padding: 0.5em;
+    border-style: solid;
+    border-width: 0.05em;
+    border-color: black;
+}
+.eventDetailPaneSelected {
+    padding: 0.5em;
+    border-style: solid;
+    border-width: 0.05em;
+    border-color: red;
+}
+.eventDetails {
+    padding: 1em;
+    padding-top: 0em;
+    padding-bottom: 0em;
+    height: 100%;
+    overflow-y: scroll;
+}
+.eventDetailsContainer {
+    height: 85%;
+}
+.gameDetailsHeader {
+    text-align: center;
+    font-size: 1em;
+    margin-top: 10px;
+}
+.eventDetailsDate {
+    font-size: 0.8em;
+}
+.eventDetailsContent {
+    padding: 0em;
+    font-size: 0.9em;
+}
+.eventDetailsHeader {
+    text-align: center;
+    color: black;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/*********************************************************************************************************************/
+/********************************************* End Event Details Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*************************************************** Header Styling **************************************************/
+/*********************************************************************************************************************/
+.headroom {
+  top: 0;
+  left: 0;
+  right: 0;
+  zIndex: 1;
+}
+.headroom--unfixed {
+  position: relative;
+  transform: translateY(0);
+}
+.headroom--scrolled {
+  transition: transform 200ms ease-in-out;
+}
+.headroom--unpinned {
+  position: fixed;
+  transform: translateY(-100%);
+}
+.headroom--pinned {
+  position: fixed;
+  transform: translateY(0%);
+}
+.headroom-wrapper {
+    z-index: 1;
+    height: 62px !important;
+}
+.navbar
+{
+    background-color: #036bb5 !important ;
+}
+.navbar .navbar-brand
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-brand:hover,
+.navbar .navbar-brand:focus
+{
+    color: #ec174c !important ;
+}
+.navbar .navbar-text
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-nav .nav-link
+{
+    color: #ffffff !important ;
+    border-radius: .25rem !important ;
+    margin: 0 0.25em !important ;
+}
+.navbar .navbar-nav .nav-link:not(.disabled):hover,
+.navbar .navbar-nav .nav-link:not(.disabled):focus
+{
+    color: #ec174c !important ;
+}
+.navbar .navbar-nav .nav-item.active .nav-link,
+.navbar .navbar-nav .nav-item.active .nav-link:hover,
+.navbar .navbar-nav .nav-item.active .nav-link:focus,
+.navbar .navbar-nav .nav-item.show .nav-link,
+.navbar .navbar-nav .nav-item.show .nav-link:hover,
+.navbar .navbar-nav .nav-item.show .nav-link:focus
+{
+    color: #ec174c !important ;
+    background-color: #ffffff !important ;
+}
+.navbar .navbar-toggle
+{
+    border-color: #ffffff !important ;
+}
+.navbar .navbar-toggle:hover,
+.navbar .navbar-toggle:focus
+{
+    background-color: #ffffff !important ;
+}
+.navbar .navbar-toggle .navbar-toggler-icon
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-collapse,
+.navbar .navbar-form
+{
+    border-color: #ffffff !important ;
+    z-index: 1;
+}
+.navbar .navbar-link
+{
+    color: #ffffff !important ;
+}
+.navbar .navbar-link:hover
+{
+    color: #ec174c !important ;
+}
+.navbar-img {
+    height: 90px !important;
+    padding-left: 0px !important;
+}
+.nav-item {
+
+}
+.headerContainer {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+}
+
+@media (max-width: 575px)
+{
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-sm .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+}
+
+@media (max-width: 767px)
+{
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-img {
+        height: 60px !important;
+        padding-left: 15px !important;
+    }
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-md .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+}
+
+@media (max-width: 1300px)
+{
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-lg .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+    .nav-item-header {
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 1300px)
+{
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item
+    {
+        color: #ffffff !important ;
+    }
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item:focus
+    {
+        color: #ec174c !important ;
+    }
+    .navbar-expand-xl .navbar-nav .show .dropdown-menu .dropdown-item.active
+    {
+        color: #ec174c !important ;
+        background-color: #ffffff !important ;
+    }
+}
+
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item
+{
+    color: #ffffff !important ;
+}
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:hover,
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item:focus
+{
+    color: #ec174c !important ;
+}
+.navbar-expand .navbar-nav .show .dropdown-menu .dropdown-item.active
+{
+    color: #ec174c !important ;
+    background-color: #ffffff !important ;
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Header Styling ************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/**************************************************** Home Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.homeBlueOverlay
+{
+    background-color: rgba(3,107,181,0.75);
+}
+
+.homeRedOverlay
+{
+    background-color: rgba(236,23,76,0.50);
+}
+
+.homeWhiteOverlay
+{
+    background-color: rgba(255,255,255,0.30);
+}
+
+.homeGrayOverlay
+{
+    background-color: rgba(176,176,176,0.35);
+}
+
+.homeBlackOverlay
+{
+    background-color: rgba(0,0,0,0.60);
+}
+
+.homeParallaxDivider
+{
+    padding: 15px;
+    padding-top: 30px;
+}
+
+.homeParallaxText
+{
+    background-color: #FFFFFF;
+
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+
+    text-align: center;
+}
+
+.homeParallaxTextBodyBlock
+{
+    text-align: center;
+    padding-top: 10px;
+}
+
+.homeSearchCenter
+{
+    padding-top: 10px;
+    text-align: center;
+}
+
+.homeCenterThis
+{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 3px;
+}
+
+.homeCenterThisWithPadding
+{
+    padding-top: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.homePanel {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 2560px) and (min-width: 1441px){
+
+    .homeParallaxSize
+    {
+        height: 1000px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 60px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 40px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 30px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 1100px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 50px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 75%;
+        width: 75%;
+    }
+
+    .homeIcons {
+        font-size: 250px;
+    }
+}
+
+@media (max-width: 1440px) and (min-width: 1025px) {
+
+    .homeParallaxSize
+    {
+        height: 1000px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 55px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 40px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 25px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 1000px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 50px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 90%;
+        width: 90%;
+    }
+
+    .homeIcons {
+        font-size: 250px;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+
+    .homeParallaxSize
+    {
+        height: 800px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 45px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 35px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 20px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 650px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 38px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 150px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+
+    .homeParallaxSize
+    {
+        height: 800px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 40px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 30px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 20px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 550px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 28px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 100px;
+    }
+}
+
+@media (max-width: 425px) and (min-width: 376px) {
+
+    .homeParallaxSize
+    {
+        height: 500px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 25px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 17px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 12px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 750px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 19px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 80px;
+    }
+}
+
+@media (max-width: 375px) and (min-width: 321px) {
+
+    .homeParallaxSize
+    {
+        height: 500px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 25px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 17px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 12px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 700px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 19px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 75px;
+    }
+}
+
+@media (max-width: 320px) {
+
+    .homeParallaxSize
+    {
+        height: 500px;
+    }
+
+    .homeParallaxTextHeader
+    {
+        font: 25px "Tw Cen MT Condensed";
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .homeParallaxTextBody
+    {
+        padding-top: 20px;
+        font: 17px "Tw Cen MT Condensed";
+    }
+
+    .homeParallaxTextBodyBlockText
+    {
+        display: inline-block;
+        text-align: left;
+        list-style-position:inside;
+        font: 12px "Calibri";
+        color: #036bb5;
+    }
+
+    .homeParallaxSearchSize
+    {
+        height: 700px;
+    }
+
+    .homeSearchDesc
+    {
+        padding-top: 10px;
+        font: 19px "Tw Cen MT Condensed";
+    }
+
+    .homeMainLogo
+    {
+        height: 100%;
+        width: 100%;
+    }
+
+    .homeIcons {
+        font-size: 50px;
+    }
+}
+
+/*********************************************************************************************************************/
+/************************************************** End Home Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*************************************************** Index Styling ***************************************************/
+/*********************************************************************************************************************/
+
+body.indexBody {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Index Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/*************************************************** Listings Styling ************************************************/
+/*********************************************************************************************************************/
+
+.listingTitle {
+    font-size: 24px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+@media (min-width: 900px) {
+    .listingTitle {
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+        font-size: 50px;
+    }
+
+}
+.modal-dialog {
+  top: 20%;
+  transform: translateY(-50%);
+}
+
+/*********************************************************************************************************************/
+/************************************************ End Listings Styling ***********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/*************************************************** Listing-Item Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.listingItemGrid {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.listingItemHeaderStatusColumn {
+    padding-top: 5px;
+    padding-left: 0px !important;
+}
+
+.listingItemHeaderButtonColumn {
+    padding-left: 0px;
+    padding-right: 0px !important;
+}
+
+Col.listingItemLeftCol {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: 0px;
+}
+
+Col.listingItemRightCol {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-right: 0px;
+}
+
+@media (max-width: 767px) {
+    .listingItemRightCol {
+        font-size: 11px;
+    }
+    .listingItemHeaderStatusColumn {
+        font-size: 14px;
+    }
+}
+
+div.listingItemNoBottomPadding {
+    padding-bottom: 0;
+}
+
+.listingItemNoPadding {
+    padding: 0px !important;
+}
+
+Button.listingItemButton {
+    float: right;
+}
+
+.listingItemPanelMargins {
+    margin-top: 10px;
+    margin-bottom: 5px !important;
+}
+
+
+/*********************************************************************************************************************/
+/************************************************* End Listing-Item Styling *************************************************/
+/*********************************************************************************************************************/
+
+@media (max-width: 767px) {
+    .listingItemRightCol {
+        font-size: 11px;
+    }
+}
+@media (min-width: 768px) {
+    .listingItemRightCol {
+        font-size: 14px;
+    }
+}
+
+/*********************************************************************************************************************/
+/************************************************ Listing View Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.listingsViewGrid {
+    height: 70%;
+}
+
+h1.listingsViewH1 {
+    color: black;
+    padding: 10px;
+}
+
+div.listingsViewTicketListingWindow {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+/*********************************************************************************************************************/
+/********************************************* End Listing View Styling **********************************************/
+/*********************************************************************************************************************/
+
+/*********************************************************************************************************************/
+/************************************************ Edit Modal Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.editModalText {
+
+}
+
+/*********************************************************************************************************************/
+/************************************************ End Edit Modal Styling ***********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/*************************************************** Login Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.loginCentered {
+    color: black;
+    width: 350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginTopPadding {
+    padding-top: 5%;
+}
+
+.loginDiv2 {
+    display: inline-block;
+}
+
+h1.loginHeader1 {
+    color: black;
+}
+
+p.loginPara {
+    color: black;
+}
+
+.loginControlLabel {
+    color: black;
+}
+
+.loginFormControl {
+    width: 350px;
+}
+
+@media (max-width: 320px) {
+
+    .loginCentered {
+        color: black;
+        width: 200px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h1.loginHeader1 {
+        color: black;
+        font-size: 30px;
+        font-weight: bold;
+    }
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Login Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*************************************************** Logo Styling ****************************************************/
+/*********************************************************************************************************************/
+
+.teamLogo {
+    display: block;
+    margin: 0 auto;
+}
+.circularLogo {
+    display: block;
+    margin: 0 auto;
+}
+.circularLogo-s {
+    display: block;
+    margin: 0 auto;
+}
+.circularLogo-ss {
+    display: block;
+    margin: 0 auto;
+}
+.wideLogo {
+    display: block;
+    margin: 0 auto;
+}
+.bigLogo {
+    display: block;
+    margin: 0 auto;
+}
+@media (max-width: 420px) {
+    .teamLogo {
+        max-width: 70% !important;
+    }
+    .circularLogo {
+        width: 65% !important; 
+    }
+    .circularLogo-ss {
+        width: 60% !important; 
+    }
+    .circularLogo-s {
+        width: 70% !important;
+    }
+    .wideLogo {
+        width: 90%;
+    }
+    .bigLogo {
+        width: 50%;
+    }
+}
+@media (min-width: 421px) and (max-width: 521px) {
+    .teamLogo {
+        max-width: 50% !important;
+    }
+    .circularLogo {
+        width: 50% !important; 
+    }
+    .circularLogo-ss {
+        width: 50% !important; 
+    }
+    .circularLogo-s {
+        width: 40% !important;
+    }
+    .wideLogo {
+        width: 70%;
+    }
+    .bigLogo {
+        width: 50%;
+    }
+}
+@media (min-width: 522px) and (max-width: 767px)  {
+    .teamLogo {
+        max-width: 40% !important;
+    }
+    .circularLogo {
+        width: 35% !important; 
+    }
+    .circularLogo-ss {
+        width: 35% !important; 
+    }
+    .circularLogo-s {
+        width: 30% !important;
+    }
+    .wideLogo {
+        width: 50%;
+    }
+    .bigLogo {
+        width: 30%;
+    }
+}
+@media (min-width: 768px) and (max-width: 1200px)  {
+    .teamLogo {
+        max-width: 40% !important;
+    }
+    .circularLogo {
+        width: 60%; 
+    }
+    .circularLogo-ss {
+        width: 50%; 
+    }
+    .circularLogo-s {
+        width: 70%;
+    }
+    .wideLogo {
+        width: 80%;
+    }
+    .bigLogo {
+        width: 40%;
+    }
+    .versusLogo .svgLogo .circularLogo {
+        width: 70% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-ss {
+        width: 60% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-s {
+        width: 100%;      
+    }
+    .versusLogo .svgLogo .wideLogo {
+        width: 100% !important;
+    }
+    .versusLogo .svgLogo .bigLogo {
+        width: 60% !important;   
+    }
+}
+@media (min-width: 1201px)  {
+    .circularLogo {
+        width: 35%; 
+    }
+    .circularLogo-ss {
+        width: 27%; 
+    }
+    .circularLogo-s {
+        width: 30%;
+    }
+    .wideLogo {
+        width: 45%;
+    }
+    .bigLogo {
+        width: 25%;
+    }
+    .versusLogo .svgLogo .circularLogo {
+        width: 60% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-ss {
+        width: 43% !important;
+    }
+    .versusLogo .svgLogo .circularLogo-s {
+        width: 50% !important;      
+    }
+    .versusLogo .svgLogo .wideLogo {
+        width: 80% !important;
+    }
+    .versusLogo .svgLogo .bigLogo {
+        width: 40% !important;   
+    }
+}
+.listingsTeamLogo {
+    max-width: 70%;
+    display: inline-block;
+    margin: 0 auto;
+    vertical-align: middle;
+}
+.mobileTeamLogo{
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+.teamLogoLeftBig {
+    max-width: 15%;
+    max-height: 15%;
+    align: left;
+    display: inline;
+    margin-right: 10%;
+}
+.teamLogoLeft {
+    max-width: 15%;
+    max-height: 15%;
+    align: left;
+    display: inline;
+    margin-right: 10%;
+}
+.teamLogoRight {
+    max-width: 15%;
+    max-height: 15%;
+    align: right;
+    display: inline;
+    margin-left: 10%;
+}
+
+/*********************************************************************************************************************/
+/************************************************* End Logo Styling **************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************ Pick Tickets Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.handicapIcon {
+    background-image: url("./resources/images/icons/handicap.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.earlyEntryIcon {
+    background-image: url("./resources/images/icons/early.PNG");
+    background-repeat: no-repeat;
+    background-size: 10% 10%;
+}
+
+aisleSeatIcon {
+    background-image: url("./resources/images/icons/aisle.PNG");
+    background-repeat: no-repeat;
+    background-size: 10% 10%;
+}
+
+.emptyTicketPanel {
+    font-weight: bold;
+    text-align: center;
+}
+
+.pickTicketsWell {
+    color: black;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    background-color: #006BB6;
+}
+
+.pickTicketModalBody {
+    background-image: url("./resources/images/TexturedGray.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: white;
+}
+
+.pickTicketModalHeader {
+    background-image: url("./resources/images/TexturedRed.jpg");
+    opacity: 0.83;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: white;
+}
+
+.checkBox {
+    width: 23px; /*Desired width*/
+    height: 23px; /*Desired height*/
+}
+
+.ticketsLabel
+{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.ticketBuyButton {
+    padding-bottom: 5px;
+    padding-left: 60px;
+}
+
+.pickTicketsBorderBlack{
+    color: grey;
+    /*border white with light shadow*/
+    text-shadow:
+            2px   0  0   #000,
+            -2px   0  0   #000,
+            0    2px 0   #000,
+            0   -2px 0   #000,
+            1px  1px 0   #000,
+            -1px -1px 0   #000,
+            1px -1px 0   #000,
+            -1px  1px 0   #000,
+            1px  1px 5px #000;
+}
+
+.pickTicketsTextCenter{
+    color: white;
+    font-size: 50px;
+}
+
+.pickTicketsListOfTickets {
+    border-style: solid;
+    border-width: 0.75em;
+    border-color: black;
+    background: black;
+    padding: 0.5em;
+}
+
+.pickTicketsUnselected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: black;
+}
+
+.pickTicketsSelected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: red;
+}
+
+.pickTicketsTickets {
+    font-size: 20px;
+}
+
+.pickTicketsBgImage
+{
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/*********************************************************************************************************************/
+/********************************************** End Pick Tickets Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/********************************************* Registration View Styling *********************************************/
+/*********************************************************************************************************************/
+
+.registrationViewRegisterButton {
+    text-align: center;
+}
+.registrationViewCountryForm {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+.registrationViewStateForm {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
+div.registrationViewDivPadding {
+    padding: 0%;
+}
+
+.registrationViewControlLabel{
+    padding-right: 30px;
+}
+
+h1.registrationViewH1 {
+    color: black;
+}
+
+col.registrationViewCol {
+    color: black;
+}
+
+@media (max-width: 1024px) and (min-width: 769px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .registrationViewStateForm {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 30px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px){
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 3px;
+    }
+
+    .registrationViewCountryForm {
+
+    }
+    .registrationViewStateForm {
+
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 25px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 425px) and (min-width: 376px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    .registrationViewStateForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 375px) and (min-width: 321px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    .registrationViewStateForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 320px){
+
+    .registrationViewInlineGroup {
+        text-align: center;
+        padding: 20px;
+    }
+    .registrationViewCountryForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+    .registrationViewStateForm {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    h1.registrationViewH1 {
+        color: black;
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+/*********************************************************************************************************************/
+/******************************************* End Registration View Styling *******************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/*********************************************** Seating Chart Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.seatingChartSt0{fill:#D2D2D2;stroke:#000000;}
+.seatingChartSt1{fill:none;stroke:#000000;stroke-opacity:0;}
+.seatingChartSt2{font-family:'MyriadPro-Regular';}
+.seatingChartSt3{font-size:12px;}
+.seatingChartSt4{font-size:12px;}
+.seatingChartSt5{font-size:12px;}
+.seatingChartSt6{font-size:10px;}
+.seatingChartSt7{font-size:8px;}
+.seatingChartSt8{font-size:3px;}
+.svg{display:block;}
+
+/*********************************************************************************************************************/
+/********************************************* End Seating Chart Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/********************************************** Ticket List Item Styling *********************************************/
+/*********************************************************************************************************************/
+
+.ticketListItemTicketBorder {
+    border-style: solid;
+    border-width: 0.15em;
+    border-color: #036bb5;
+    overflow-y: scroll;
+    height: 520px;
+    width: 100%;
+    background-color: white;
+}
+
+.ticketListItemListGroupItem {
+    text-align: center;
+}
+
+.ticketBorder {
+    border-style: solid;
+    border-width: 0.30em;
+    border-color: #C9C9C9;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FEFEFE;
+    /* background-image: url("./resources/images/backgrounds/TicketBackground.jpg"); */
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.emptyTicketBorder {
+    border-style: solid;
+    border-width: 0.30em;
+    border-color: #C9C9C9;
+    background-color: #FEFEFE;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.ticketAttributes {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: #878E96;
+    padding-top: 1px;
+    padding-left: 15px;
+}
+
+.ticketTableHeader td
+{
+    border-style: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    color: #000000;
+}
+.ticketTableBody .ticketTableBodyHeader td
+{
+    border-style: none;
+    padding-right: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #6D7176;
+}
+.ticketTableBody .ticketTableBodyBody td
+{
+    border-style: none;
+    padding-right: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    color: #ec174c;
+}
+.ticketTableFooter td
+{
+    border-style: none;
+    color: #000000;
+}
+
+/*********************************************************************************************************************/
+/******************************************** End Ticket List Item Styling *******************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************** Versus Styling ***************************************************/
+/*********************************************************************************************************************/
+
+.versusDate {
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+.versusMonth {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+.versusTime {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+.versusGameBackground {
+    color: rgb(45, 98, 183);
+}
+
+.parentItem {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.childItem {
+    flex-direction: row;
+    align-self: center;
+    flex: 0 0 100px;
+    padding: 20px;
+}
+.pt-card{
+    width: 150px;
+    height: 150px;
+}
+
+@media (max-width: 768px) {
+    .versusDate {
+        font-size: 36px;
+    }
+    .versusMonth {
+        font-size: 18px;
+    }
+    .versusTime {
+        font-size: 14px;
+    }
+    .childItem {
+        padding: 10px;
+    }
+    .pt-card {
+        padding: 10px !important;
+        width: 125px;
+        height: 125px;
+    }
+}
+
+.versusPickTeamsWell {
+    color: rgb(45, 98, 183);
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    background: transparent;
+}
+
+.versusListOfTeams {
+    border-style: solid;
+    border-width: 0.15em;
+    border-color: black;
+    background: white;
+    padding: 0.5em;
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.versusUnselected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: black;
+}
+
+.versusSelected {
+    padding: 2em;
+    border-style: solid;
+    border-width: 0.1em;
+    border-color: red;
+}
+
+.versusTeams {
+    font-size: 20px;
+}
+
+h3.versusH3 {
+    color: black;
+    text-align: center;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.versusWell {
+    background: transparent;
+}
+
+.list-group-item {
+    text-align: justify;
+}
+
+.versusCenterLists {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+@media (min-width: 1441px) {
+
+    .versusPickTeamsWell {
+        color: rgb(45, 98, 183);
+        font-size: 75px;
+        font-weight: bold;
+        text-align: center;
+        background: transparent;
+    }
+
+    .versusListOfTeams {
+        border-style: solid;
+        border-width: 0.15em;
+        border-color: black;
+        background: white;
+        padding: 0.5em;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+    h3.versusH3 {
+        color: black;
+        text-align: center;
+        font-size: 55px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 1440px) and (min-width: 1025px){
+
+    .versusPickTeamsWell {
+        color: rgb(45, 98, 183);
+        font-size: 60px;
+        font-weight: bold;
+        text-align: center;
+        background: transparent;
+    }
+
+    .versusListOfTeams {
+        border-style: solid;
+        border-width: 0.15em;
+        border-color: black;
+        background: white;
+        padding: 0.5em;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+    h3.versusH3 {
+        color: black;
+        text-align: center;
+        font-size: 45px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 769px){
+
+    .versusPickTeamsWell {
+        color: rgb(45, 98, 183);
+        font-size: 60px;
+        font-weight: bold;
+        text-align: center;
+        background: transparent;
+    }
+
+    .versusListOfTeams {
+        border-style: solid;
+        border-width: 0.15em;
+        border-color: black;
+        background: white;
+        padding: 0.5em;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+    h3.versusH3 {
+        color: black;
+        text-align: center;
+        font-size: 45px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px){
+
+    .versusPickTeamsWell {
+        color: rgb(45, 98, 183);
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        background: transparent;
+    }
+
+    .versusListOfTeams {
+        border-style: solid;
+        border-width: 0.15em;
+        border-color: black;
+        background: white;
+        padding: 0.5em;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+    h3.versusH3 {
+        color: black;
+        text-align: center;
+        font-size: 35px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 425px) and (min-width: 376px){
+
+    .versusPickTeamsWell {
+        color: rgb(45, 98, 183);
+        font-size: 35px;
+        font-weight: bold;
+        text-align: center;
+        background: transparent;
+    }
+
+    .versusListOfTeams {
+        border-style: solid;
+        border-width: 0.15em;
+        border-color: black;
+        background: white;
+        padding: 0.5em;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+    h3.versusH3 {
+        color: black;
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 375px) and (min-width: 321px){
+
+    .versusPickTeamsWell {
+        color: rgb(45, 98, 183);
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        background: transparent;
+    }
+
+    .versusListOfTeams {
+        border-style: solid;
+        border-width: 0.15em;
+        border-color: black;
+        background: white;
+        padding: 0.5em;
+        height: 500px;
+        overflow-y: scroll;
+    }
+
+    h3.versusH3 {
+        color: black;
+        text-align: center;
+        font-size: 25px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 320px){
+
+    .versusPickTeamsWell {
+        color: rgb(45, 98, 183);
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+        background: transparent;
+    }
+
+    .versusListOfTeams {
+        border-style: solid;
+        border-width: 0.15em;
+        border-color: black;
+        background: white;
+        padding: 0.5em;
+        height: 400px;
+        min-width: 249px;
+        overflow-y: scroll;
+    }
+
+    h3.versusH3 {
+        color: black;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+
+/*********************************************************************************************************************/
+/************************************************ End Versus Styling *************************************************/
+/*********************************************************************************************************************/
+
+
+
+/*********************************************************************************************************************/
+/************************************************ View Account Styling ***********************************************/
+/*********************************************************************************************************************/
+
+.viewAccount th, td {
+    color: white;
+}
+
+div.viewAccountDiv {
+    width: 50%;
+}
+
+h1.viewAccountH1 {
+    color: black;
+}
+
+table.viewAccountTable {
+    width: 100%;
+}
+
+/*********************************************************************************************************************/
+/********************************************** End View Account Styling *********************************************/
+/*********************************************************************************************************************/
+
+
+/*********************************************************************************************************************/
+/************************************************ View Checkout Styling ***********************************************/
+/*********************************************************************************************************************/
+.timer {
+    padding-left: 87%;
+}
+
+.checkoutHeader {
+    color: black;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #006BB6;
+}
+
+
+.checkoutBody {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #e0e0d1;
+}
+
+.checkoutTable {
+    border: 1px solid black;
+}
+
+.checkoutCosts {
+
+    text-align: center;
+    width: 40%;
+    margin-left: 0%;
+}
+
+.checkoutAdditional {
+    width: 40%;
+    margin-left: 60%;
+}
+
+.tableNewLine {
+    padding-top: 10px;
+}
+
+.tableNewLine table
+{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.leftTable {
+}
+
+.verticalTableData {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    text-align: center;
+    background-color: #e0e0d1;
+    color: black;
+    font-size: 24px;
+    opacity: 0.85;
+}
+
+.verticalTableHeading {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    font-size: 24px;
+    opacity: 0.85;
+
+}
+
+.checkoutButton {
+    float: right;
+    padding-right: 40px;
+    padding-bottom: 20px;
+}
+
+.tableHeading {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    font-size: 24px;
+    opacity: 0.85;
+}
+
+.tableHeading2 {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 3px solid black;
+    text-align: center;
+    background-color: black;
+    color: white;
+    font-size: 24px;
+    opacity: 0.85;
+}
+
+.ticketInfoTable td
+{
+    border: 3px solid black;
+    padding: 8px;
+    text-align: center;
+    color: black;
+    font-size: 21px;
+    background-color: #e0e0d1;
+}
+
+/*********************************************************************************************************************/
+/********************************************** End View Checkout Styling *********************************************/
+/*********************************************************************************************************************/

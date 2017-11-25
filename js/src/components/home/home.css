@@ -1,9 +1,0 @@
-.border-white{
-    /*border white with light shadow*/
-    text-shadow:
-            1px  1px     #fff,
-            -1px  1px     #fff,
-            1px -1px     #fff,
-            -1px -1px     #fff,
-            1px  1px 5px #555;
-}

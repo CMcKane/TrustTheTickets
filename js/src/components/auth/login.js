@@ -1,20 +1,26 @@
 import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { TTTPost } from '../backend/ttt-request';
-import './login.css';
+import { Link, Redirect } from 'react-router-dom';
+import AuthService from './auth-service';
+import '../../stylesheet.css';
 
 export default class Login extends Component {
 
     constructor(props) {
       super(props);
-
+      this.Auth = new AuthService();
       this.state = {
           email: '',
           password: '',
-          fname: '',
-          lname: ''
+          firstName: null,
+          lastName: null
       };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location !== this.props.location) {
+            this.setState({ prevPath: this.props.location })
+        }
     }
 
     handleChange(e) {
@@ -22,60 +28,63 @@ export default class Login extends Component {
     }
 
     onSubmit() {
-        TTTPost("/login", {
-            email: this.state.email,
-            password: this.state.password
-        })
+        this.Auth.login(this.state.email, this.state.password)
         .then(res => {
-            if (!res.data.authenticated)
-            {
+            if (res.data.authenticated) {
+                this.props.logIn();
+            } else {
                 this.renderWrongEmailPassword();
-            }
-            else
-            {
-                this.setState({
-                    fname: res.data.fname,
-                    lname: res.data.lname
-                })
-
-                this.props.logIn(
-                    this.state.email,
-                    this.state.fname,
-                    this.state.lname);
             }
         });
     }
 
+    handleOnKeyPress(e){
+        if(e.key === 'Enter'){
+            document.getElementById("submitButton").click();
+            return false;
+        }
+    }
+
+
     render() {
-        if (this.props.userLoggedIn) {
-            this.props.history.push('/my-account');
-            return '';
+        var path = '/my-account'
+        if (this.Auth.loggedIn()) {
+            if (this.props.location.state.redirect) path = this.props.location.state.redirect
+            return <Redirect to={path} />
         }
         return (
-            <div className="centered">
-                <h1 className="text-center" style={{color: 'white'}}>Log In</h1>
-                <form>
-                    <FormGroup controlId="formControlsEmail">
-                        <ControlLabel id="EmailAddress" style={{color: 'white'}}>Email address</ControlLabel>
-                        <div id="WrongEmailPassword"> </div>
-                        <FormControl style={{width: 350}} placeholder="Enter email" type="email"
-                            value={this.state.email}
-                            name="email"
-                            onChange={this.handleChange.bind(this)}  />
-                    </FormGroup>
-                    <FormGroup controlId="formControlsPassword" >
-                        <ControlLabel style={{color: 'white'}}>Password</ControlLabel>
-                        <FormControl style={{width: 350}} placeholder="Password" type="password"
-                            value={this.state.password}
-                            name="password"
-                            onChange={this.handleChange.bind(this)} />
-                    </FormGroup>
-                    <Button bsStyle="primary"
-                        onClick={this.onSubmit.bind(this)}>
-                        Log In
-                    </Button>
-                </form>
-                <p style={{color: 'white'}}>Don't have an account? <Link to='/register'> Register here.</Link></p>
+            <div className='globalBody globalImage'>
+                <div className='globalBody globalImageOverlay'>
+                    <div className="loginCentered loginTopPadding">
+                        <h1 className="text-center loginHeader1">Log In</h1>
+                        <form>
+                            <FormGroup controlId="formControlsEmail">
+                                <ControlLabel className='loginControlLabel' id="EmailAddress">Email address</ControlLabel>
+                                <div id="WrongEmailPassword"> </div>
+                                <FormControl className='loginFormControl' placeholder="Enter email" type="email"
+                                    value={this.state.email}
+                                    name="email"
+                                    onChange={this.handleChange.bind(this)}  />
+                            </FormGroup>
+                            <FormGroup controlId="formControlsPassword" >
+                                <ControlLabel className='loginControlLabel'>Password</ControlLabel>
+                                <FormControl className='loginFormControl' placeholder="Password" type="password"
+                                             value={this.state.password}
+                                             name="password"
+                                             id="passwordForm"
+                                             onChange={this.handleChange.bind(this)}
+                                             onKeyPress={this.handleOnKeyPress.bind(this)}
+                                />
+                            </FormGroup>
+                            <Button type="button" bsStyle="primary"
+                                onClick={this.onSubmit.bind(this)}
+                                id="submitButton">
+                                Log In
+                            </Button>
+                        </form>
+                        <p className='loginPara'>Don't have an account? <Link to='/register'> Register here.</Link></p>
+                    </div>
+                </div>
             </div>
         );
     }

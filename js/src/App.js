@@ -1,103 +1,113 @@
-import React, { Component } from 'react';
-import Header from './components/global/header';
-import { 
-    BrowserRouter as Router, 
+import React, {Component} from 'react';
+import NotFoundView from './components/global/not-found-view';
+import {
+    BrowserRouter as Router,
     Route,
     Switch
 } from 'react-router-dom';
 
 import Login from './components/auth/login';
-import ViewAccounts from './components/accounts/view-accounts';
-import Registration from './components/auth/registration';
-import Home from './components/home/home';
+import Registration from './components/registration/registration';
+import Home from './components/home/home'
+import Header from './components/global/header'
 import MyAccount from './components/auth/my-account';
-
-import { login, logout, initializeUser } from './components/auth/user';
 import PickTickets from './components/pick-tickets/pick-tickets';
 import ViewTickets from './components/pick-tickets/view-tickets';
 import EventCalendarView from './components/events/event-calendar-view';
-import './App.css';
+import EventListView from './components/events/event-list-view';
+import Versus from './components/versus/versus';
+import ListingsView from './components/account/listings/listings-view';
+import CheckoutView from './components/checkout/checkout-view';
+import AuthService from './components/auth/auth-service';
+import ImportDownload from './components/importPDF/importDownload';
+import CheckoutLanding from './components/pick-tickets/checkout-landing';
+import './stylesheet.css';
+import CreateListingSubmitLanding from "./components/account/listings/create-listing-submit-landing";
 
 const navItems = [
     {
-        label: 'Pick Tickets',
-        url: '/pick-tickets'
+        label: 'Calendar',
+        url: '/event-calendar?m=' + new Date().getMonth() + '&y=' + new Date().getFullYear()
     },
     {
-        label: 'Registered Accounts',
-        url: '/view-accounts'
+        label: 'Teams',
+        url: '/versus'
     },
     {
         label: 'My Account',
         url: '/my-account'
-    },
-    {
-      label: 'Event Calendar',
-      url: '/events'
-    }
-];
+     }
+ ];
 
 export default class App extends Component {
-  constructor(props) {
-      super(props);
+    constructor(props) {
+        super(props);
+        this.Auth = new AuthService();
+        this.state = {
+            navItems,
+            token: this.Auth.getToken()
+        };
 
-      this.state = {
-          navItems,
-          user: initializeUser()
-      };
-  }
+        this.Auth.refreshToken()
+            .then(res => {
+                if (res.data.authenticated) {
+                    this.setState({
+                        token: res.data.token
+                    });
+                }
+            });
+    }
 
-  sectionSelected(section) {
-    this.setState({selectedSection: section});
-  }
+    userLogIn(token) {
+        this.setState({
+            token: token
+        });
+    }
 
-  userLogIn(emailAddress, fname, lname) {
-    this.setState({
-      user: login(emailAddress, fname, lname)
-    });
-  }
+    userLogOut() {
+        this.setState({
+            token: null
+        });
+    }
 
-  userLogOut() {
-    this.setState({
-      user: logout()
-    })
-  }
-
-  render() {
-    return (
-        <Router>
-            <div className="homeBody">
-                <Header navItems={this.state.navItems} />
-                <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/view-accounts' component={ViewAccounts} />
-                    <Route path='/view-tickets' component={ViewTickets} />
-                    <Route path='/events' component={EventCalendarView} />
-                    <Route path='/pick-tickets' component={PickTickets} />
-                    <Route path='/my-account' render={(props) =>
-                        <MyAccount
-                            {...props} logIn={this.userLogIn.bind(this)}
-                            logOut={this.userLogOut.bind(this)}
-                            user={this.state.user}
-                        />}
-                    />
-                    <Route path='/login' render={(props) =>
-                        <Login
-                            {...props}
-                            logIn={this.userLogIn.bind(this)}
-                            userLoggedIn={this.state.user.loggedIn}
-                        />}
-                    />
-                    <Route path='/register' render={(props) =>
-                        <Registration
-                            {...props}
-                            userLoggedIn={this.state.user.loggedIn}
-                        />}
-                    />
-                    <Route path='/about' />
-                </Switch>
-            </div>
-        </Router>
-    );
-  }
+    render() {
+        return (
+            <Router>
+                <div>
+                    <Header navItems={this.state.navItems}/>
+                    <div className="appContent">
+                    <Switch>
+                        <Route exact path='/' component={Home}/>
+                        <Route path='/event-calendar' component={EventCalendarView}/>
+                        <Route path='/pick-tickets' component={PickTickets}/>
+                        <Route path='/versus' component={Versus}/>
+                        <Route path='/import-download' component={ImportDownload}/>
+                        <Route path='/checkout-view' component={CheckoutView}/>
+                        <Route path='/checkout-landing' component={CheckoutLanding}/>
+                        <Route path='/create-listing-submit-landing' component={CreateListingSubmitLanding}/>
+                        <Route exact path='/my-account' render={(props) =>
+                            <MyAccount
+                                {...props} logIn={this.userLogIn.bind(this)}
+                                logOut={this.userLogOut.bind(this)}
+                            />}
+                        />
+                        <Route path='/login' render={(props) =>
+                            <Login
+                                {...props}
+                                logIn={this.userLogIn.bind(this)}
+                            />}
+                        />
+                        <Route path='/register' render={(props) =>
+                            <Registration
+                                {...props}
+                            />}
+                        />
+                        <Route path="/not-found" component={NotFoundView}/>
+                        <Route component={NotFoundView}/>
+                    </Switch>
+                    </div>
+                </div>
+            </Router>
+        );
+    }
 }
