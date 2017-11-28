@@ -16,7 +16,11 @@ export default class EventDetails extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.selectedEvent) {
+      if (window.innerWidth <= 767 && this.props.selectedEvent) {
+        console.log('mobile')
+        var rightPos = document.getElementById('event'+this.props.selectedEvent.id).offsetLeft;
+        document.getElementById('event-details').scrollLeft = rightPos-75;
+      } else if (this.props.selectedEvent) {
           var topPos = document.getElementById('event'+this.props.selectedEvent.id).offsetTop;
           document.getElementById('event-details').scrollTop = topPos-75;
         }

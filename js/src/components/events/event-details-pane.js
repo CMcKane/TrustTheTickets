@@ -16,15 +16,19 @@ export default class EventDetailsPane extends Component {
 		var detailsClass = "eventDetailCard";
     const id = "event"+this.props.event.id;
     var elevation = 0;
+    var interactive = true;
 		if (this.props.selectedEvent 
 			&& this.props.selectedEvent.id === this.props.event.id) {
 			detailsClass = "eventDetailCardSelected";
-      elevation = 4;
+      elevation = Card.ELEVATION_TWO;
 		} 
+    if (window.innerWidth <= 767) {
+        interactive = false;
+    }
 		return (
           <div id={id} className={detailsClass}
             onClick={this.props.eventSelected.bind(this, this.props.event)}>
-            <Card interactive={true} elevation={elevation}>
+            <Card interactive={interactive} elevation={elevation}>
             <h4 className="eventDetailsHeader">
                 {this.props.event.awayTeam} vs. {this.props.event.homeTeam}</h4>
             <h5 className="eventDetailsDate"><Time value={this.props.event.start} format="dddd, MMMM Do"/></h5>

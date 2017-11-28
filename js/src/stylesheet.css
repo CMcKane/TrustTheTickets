@@ -50,12 +50,15 @@ These are all the default screen sizes
 
 .appContent {
     padding-top: 62px;
-    overflow-y: auto;
+    position: fixed;
+    width: 100%;
 }
 
 @media (min-width: 767px) {
     .appContent {
         padding-top: 92px;
+        position: relative;
+        overflow-y: auto;
     }
 }
 
@@ -77,10 +80,6 @@ These are all the default screen sizes
 
 .App-intro {
     font-size: large;
-}
-
-.appContent {
-    position: relative;
 }
 
 @keyframes App-logo-spin {
@@ -407,12 +406,12 @@ These are all the default screen sizes
     }
     .eventDetailCard .pt-card {
         padding: 5px !important;
-        width: 140px !important;
+        width: 150px !important;
         height: 100px !important;
     }
     .eventDetailCardSelected .pt-card {
         padding: 5px !important;
-        width: 140px !important;
+        width: 150px !important;
         height: 100px !important;
     }
     .eventCalendarViewBottomPane {
@@ -614,7 +613,7 @@ These are all the default screen sizes
 }
 .headerContainer {
     z-index: 1;
-    position: absolute;
+    position: fixed;
     width: 100%;
 }
 
