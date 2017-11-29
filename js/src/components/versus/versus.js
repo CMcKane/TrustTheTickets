@@ -9,7 +9,6 @@ import TeamLogo from './team-logo';
 import Time from 'react-time';
 import {Card} from '@blueprintjs/core';
 import '../../../node_modules/@blueprintjs/core/dist/blueprint.css';
-import '../../stylesheet.css';
 
 export default class Versus extends Component {
     teams = [];

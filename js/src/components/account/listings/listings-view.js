@@ -7,8 +7,6 @@ import ListingItem from './listing-item';
 import EditListingModal from './edit-listing-modal';
 import CancelListingModal from './cancel-listing-modal';
 import { Grid, Col } from 'react-bootstrap';
-import '../../../stylesheet.css';
-
 
 class ListingsView extends Component {
 

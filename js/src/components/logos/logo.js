@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Image } from 'react-bootstrap';
 import { getLogo, getSVGLogo } from "./logo-central";
-import '../../stylesheet.css';
 
 export default class Logo extends Component {
 

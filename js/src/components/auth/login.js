@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import AuthService from './auth-service';
-import '../../stylesheet.css';
 
 export default class Login extends Component {
 
@@ -58,7 +57,7 @@ export default class Login extends Component {
                     <div className="loginCentered loginTopPadding">
                         <h1 className="text-center loginHeader1">Log In</h1>
                         <form>
-                            <FormGroup controlId="formControlsEmail">
+                            <FormGroup>
                                 <ControlLabel className='loginControlLabel' id="EmailAddress">Email address</ControlLabel>
                                 <div id="WrongEmailPassword"> </div>
                                 <FormControl className='loginFormControl' placeholder="Enter email" type="email"
@@ -66,7 +65,7 @@ export default class Login extends Component {
                                     name="email"
                                     onChange={this.handleChange.bind(this)}  />
                             </FormGroup>
-                            <FormGroup controlId="formControlsPassword" >
+                            <FormGroup>
                                 <ControlLabel className='loginControlLabel'>Password</ControlLabel>
                                 <FormControl className='loginFormControl' placeholder="Password" type="password"
                                              value={this.state.password}

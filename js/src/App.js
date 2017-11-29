@@ -21,8 +21,8 @@ import CheckoutView from './components/checkout/checkout-view';
 import AuthService from './components/auth/auth-service';
 import ImportDownload from './components/importPDF/importDownload';
 import CheckoutLanding from './components/pick-tickets/checkout-landing';
-import './stylesheet.css';
 import CreateListingSubmitLanding from "./components/account/listings/create-listing-submit-landing";
+import './stylesheet.css';
 
 const navItems = [
     {
@@ -102,7 +102,7 @@ export default class App extends Component {
                                 {...props}
                             />}
                         />
-                        <Route path="/not-found" component={NotFoundView}/>
+                        <Route path="/404" component={NotFoundView}/>
                         <Route component={NotFoundView}/>
                     </Switch>
                     </div>

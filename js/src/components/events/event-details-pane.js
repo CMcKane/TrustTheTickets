@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import Time from 'react-time';
 import {Card} from '@blueprintjs/core';
 import '../../../node_modules/@blueprintjs/core/dist/blueprint.css';
-import '../../stylesheet.css';
 
 export default class EventDetailsPane extends Component {
 

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Time from 'react-time';
 import {TTTPost} from '../../backend/ttt-request';
 import {Button, Panel, Modal, Grid, Col, Row} from 'react-bootstrap';
-import '../../../stylesheet.css';
 import AuthService from '../../auth/auth-service';
 import withAuth from '../../auth/with-auth';
 import {Redirect} from 'react-router-dom';

@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
 import EventDetailsPane from './event-details-pane';
 import _ from 'lodash';
-import '../../stylesheet.css';
 
 export default class EventDetails extends Component {
 

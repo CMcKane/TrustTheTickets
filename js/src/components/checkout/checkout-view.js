@@ -4,7 +4,6 @@ import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well,
         DropdownButton, MenuItem, Modal, Table} from 'react-bootstrap';
 import {TTTPost, TTTGet} from '../backend/ttt-request';
 import { ClimbingBoxLoader } from 'react-spinners';
-import '../../stylesheet.css';
 import 'rc-slider/assets/index.css';
 import queryString from 'query-string';
 

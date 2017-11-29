@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button, Col, Row, Grid} from 'react-bootstrap';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
-import '../../stylesheet.css';
 import _ from 'lodash';
 
 function FieldGroup({id, label, help, validationState, ...props}) {

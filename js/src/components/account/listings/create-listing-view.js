@@ -19,8 +19,7 @@ import {
 import Time from 'react-time';
 import {TTTGet, TTTPost, TTTPostFile} from '../../backend/ttt-request';
 import _ from 'lodash';
-import 'react-datepicker/dist/react-datepicker.css'
-import '../../../stylesheet.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import CreateListingModal from "./create-listing-modal";
 import CreateListingConfirmModal from "./create-listing-confirm-modal"
 import {RadioGroup, Radio} from 'react-radio-group';

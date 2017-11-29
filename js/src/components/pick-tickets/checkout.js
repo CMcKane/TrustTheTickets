@@ -5,7 +5,6 @@ import {TTTPost, TTTGet} from '../backend/ttt-request';
 import { Redirect } from 'react-router-dom';
 import withAuth from '../auth/with-auth';
 import AuthService from '../auth/auth-service';
-import '../../stylesheet.css';
 import ReactCountdownClock from 'react-countdown-clock';
 
 var tax = 0;

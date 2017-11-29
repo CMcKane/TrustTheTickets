@@ -9,7 +9,6 @@ import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 import { ClimbingBoxLoader, RiseLoader, PulseLoader } from 'react-spinners';
 import {LinkContainer} from 'react-router-bootstrap';
-import '../../stylesheet.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import PickTicketsModal from './pick-tickets-modal';

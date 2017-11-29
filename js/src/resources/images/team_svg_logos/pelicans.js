@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../../../stylesheet.css';
 
 export default class PelicansLogo extends Component {
 

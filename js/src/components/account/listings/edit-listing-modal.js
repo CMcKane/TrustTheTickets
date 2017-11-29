@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
 import { Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import Time from 'react-time';
-import '../../../stylesheet.css';
 
 export default class EditListingModal extends Component {
 

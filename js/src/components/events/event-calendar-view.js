@@ -7,7 +7,6 @@ import moment from 'moment';
 import { TTTPost } from '../backend/ttt-request';
 import queryString from 'query-string';
 import {withRouter} from "react-router-dom";
-import '../../stylesheet.css';
 
 class EventCalendarView extends Component {
 

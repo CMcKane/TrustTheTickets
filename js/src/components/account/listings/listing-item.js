@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import { Panel, Button, Grid, Row, Col } from 'react-bootstrap';
 import Logo from '../../logos/logo';
 import Time from 'react-time';
-import '../../../stylesheet.css';
 
 export default class ListingItem extends Component {
 

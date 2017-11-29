@@ -5,7 +5,6 @@ import AuthService from '../../auth/auth-service';
 import _ from 'lodash';
 import PurchaseItem from './purchase-item';
 import { Grid, Col } from 'react-bootstrap';
-import '../../../stylesheet.css';
 
 class PurchasesView extends Component {
 
