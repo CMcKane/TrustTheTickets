@@ -703,7 +703,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_tickets` ON SCHEDULE EVERY 1 MINUTE STARTS '2017-11-22 20:55:27' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE tickets
+/*!50106 CREATE*/ /*!50106 EVENT `update_tickets` ON SCHEDULE EVERY 1 MINUTE STARTS '2017-11-22 20:55:27' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE tickets
       SET ticket_status_id=1, lock_account_id=null, last_updated=NOW()
       WHERE ticket_status_id=4
       AND last_updated < DATE_SUB(NOW(),INTERVAL 5 MINUTE) */ ;;
@@ -728,7 +728,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `set_ticket_available`(IN Array_String VARCHAR(100))
+CREATE PROCEDURE `set_ticket_available`(IN Array_String VARCHAR(100))
 BEGIN
 			DO SLEEP(3000);
 			UPDATE tickets
