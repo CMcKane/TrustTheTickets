@@ -138,20 +138,16 @@ class Checkout extends Component {
             total: this.total,
             group_id: this.props.checkoutTickets[0].group_id
         }).then(res => {
-            insertSuccessful = res.data.successful
+            insertSuccessful = res.data.success
         });
-
-        /*
-        console.log(ticketIds);
-        var tempTicketIds = [1,2,3,4];
 
         TTTPost('/send-tickets-pdf', {
             token: token,
-            ticketIds: tempTicketIds
+            ticketIds: this.state.tempTicketIds
         }).then(res => {
             emailSuccess = res.data.success
         });
-        */
+        
 
         this.setState({redirect: true});
 

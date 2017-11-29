@@ -883,6 +883,7 @@ class SqlHandler(object):
             eventID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 884")
 
         sectionIDQuery = "SELECT section_id FROM sections WHERE section_num = '{}'".format(sectionNum)
 
@@ -891,6 +892,7 @@ class SqlHandler(object):
             sectionID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 895")
 
         rowIDQuery = "SELECT row_id FROM rows WHERE section_id = '{}' AND row_num = '{}'".format(sectionID, rowNum)
 
@@ -899,6 +901,7 @@ class SqlHandler(object):
             rowID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 904")
 
         groupIDQuery = ("SELECT (MAX(group_id) + 1) FROM groups")
 
@@ -907,6 +910,7 @@ class SqlHandler(object):
             groupID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 913")
 
         groupValues = (groupID, eventID, accountID, ticketPrice, numberOfTickets,
                        numberOfTickets, minPurchaseSize, 0.00)
@@ -920,10 +924,11 @@ class SqlHandler(object):
             cursor.execute(groupQuery.format(groupID, eventID, accountID, ticketPrice, numberOfTickets, numberOfTickets, minPurchaseSize, 0.00))
         except:
             successful = False
+            print("failed at line 927")
 
         conn.commit()
 
-        returnTicketIds = [int(numberOfTickets)]
+        returnTicketIds = [None]*int(numberOfTickets)
 
         # This loops goes through the collection of seats info and adds each ticket into the database
         for i in range(0, (int(numberOfTickets))):
@@ -936,6 +941,7 @@ class SqlHandler(object):
                 seatID = cursor.fetchone()[0]
             except:
                 successful = False
+                print("failed at line 943")
 
             newTicketIDQuery = "SELECT (MAX(ticket_id) + 1) FROM tickets"
 
@@ -945,6 +951,7 @@ class SqlHandler(object):
                 returnTicketIds[i] = newTicketID
             except:
                 successful = False
+                print("failed at line 954")
 
             is_aisle_seat = 0
             if seatsInfo[i]['seat'][0]['aisleSeat']:
@@ -975,6 +982,7 @@ class SqlHandler(object):
                                                   is_handicap_accessible, sectionID, rowID, seatID))
             except:
                 succesful = False
+                print("failed at line 985")
 
             conn.commit()
 

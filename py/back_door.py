@@ -91,7 +91,7 @@ def sendTicketsPDF():
 
     else:
         return requestNotSupported()
-    return ''
+    return jsonify({'success': True})
 
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
