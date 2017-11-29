@@ -2,9 +2,14 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
+import configparser
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+website_url = config.get('py-app-config', 'WebsiteURL')
 
 #website_url = http://trustthetickets.com
-website_url = "http://localhost:3000"
+#website_url = "http://localhost:3000"
 
 class TTTEmailClient(object):
     def send_confirmation(toAddr, registrationID):
