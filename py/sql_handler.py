@@ -472,7 +472,7 @@ class SqlHandler(object):
 
         whereStr += "ORDER BY row_num"
         query = "SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, " \
-                "t.is_aisle_seat, t.is_early_entry, t.is_ha, t.ticket_id, g.min_sell_num" \
+                "t.is_aisle_seat, t.is_early_entry, t.is_ha, t.ticket_id, g.min_sell_num " \
                 "FROM tickets t " \
                 "JOIN groups g ON (t.group_id = g.group_id) " \
                 "JOIN sections se ON (t.section_id = se.section_id) " \
