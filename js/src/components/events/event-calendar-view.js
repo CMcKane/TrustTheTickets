@@ -102,8 +102,9 @@ class EventCalendarView extends Component {
         } 
         else return (
             <div>
-                <Well className="eventCalendarViewEventsWell"> Choose Your Game </Well>
-                    <div className="eventCalendarView">
+                <div className="eventCalendarView">
+                    <Well style={{position: 'fixed !important'}}
+                      className="eventCalendarViewEventsWell"> Choose Your Game </Well>
                     <Col xs={12} sm={9} md={9} lg={10} className="eventCalendarViewBottomPane">
                         <EventCalendar 
                             events={this.state.eventList}
