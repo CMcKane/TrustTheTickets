@@ -6,7 +6,7 @@ export default class RegistrationConfirmation extends Component {
 
 	render() {
 		return(
-			<div className="text-center" style={{color: 'white'}}>
+			<div className="text-center" style={{color: 'black'}}>
 				<h1> Registration complete! </h1>
 			    <LinkContainer to="/login">
                     <Button bsStyle="primary">

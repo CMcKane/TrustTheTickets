@@ -48,7 +48,9 @@ export default class Login extends Component {
     render() {
         var path = '/my-account'
         if (this.Auth.loggedIn()) {
-            if (this.props.location.state.redirect) path = this.props.location.state.redirect
+            if (this.props.location.state) {
+                if (this.props.location.state.redirect) path = this.props.location.state.redirect
+            }
             return <Redirect to={path} />
         }
         return (
