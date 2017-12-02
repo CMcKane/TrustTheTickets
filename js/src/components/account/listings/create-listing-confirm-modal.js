@@ -156,10 +156,13 @@ class CreateListingConfirmModal extends Component {
             return labels;
         }
     }
+    refreshPage() {
+        window.location.reload();
+    }
 
     render() {
         if(this.state.redirect){
-            return <Redirect to='/create-listing-submit-landing' />
+            this.refreshPage();
         }else {
             return (
                 <Modal style={this.getCursorStatus()} onHide={this.onHide.bind(this)}
