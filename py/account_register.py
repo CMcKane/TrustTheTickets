@@ -15,7 +15,11 @@ class AccountRegistrator(object):
 
     # Initial account registration
     def register_account(self, data):
-        account = Account(data['email'], data['password'], data['firstName'], data['lastName'], data['address'], data['city'], data['stateprovid'], data['zipCode'], data['countryid'], data['phoneNumber'])
+        account = Account(data['email'], data['password'],
+                          data['firstName'], data['lastName'],
+                          data['address'], data['city'],
+                          data['stateprovid'], data['zipCode'],
+                          data['countryid'], data['phoneNumber'])
         registerResult = {'registrationStatus': True}
         if self.check_for_email(account.email):
             registerResult['errorMessage'] = ERROR_MESSAGES['DUPLICATE_EMAIL']

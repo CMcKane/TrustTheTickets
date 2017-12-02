@@ -200,6 +200,18 @@ class SqlHandler(object):
                      home_team_name=row[4], away_team_name=row[5]) for row in cursor.fetchall()]
         return data
 
+    def get_event_info(self, event_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT g.date, "
+                       "home.team_name, away.team_name "
+                       "FROM games g "
+                       "JOIN teams home ON (g.home_team_id = home.team_id) "
+                       "JOIN teams away ON (g.away_team_id = away.team_id) "
+                       "WHERE g.event_id = '{}'".format(event_id))
+        data = [dict(date=row[0], home_team_name=row[1], away_team_name=row[2]) for row in cursor.fetchall()]
+        return data
+
     def get_all_teams(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -868,6 +880,17 @@ class SqlHandler(object):
         cursor.execute(getUserEmailQuery)
         email = cursor.fetchone()[0]
         return email
+
+    def get_seller_email_and_phone(self, group_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT phone1, email FROM groups "
+         "JOIN accounts USING (account_id) "
+         "WHERE group_id = '{}'".format(group_id))
+        res = cursor.fetchone()
+        phone_num = res[0]
+        email = res[1]
+        return phone_num, email
 
     def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID):
         conn = self.mysql.connection

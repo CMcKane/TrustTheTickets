@@ -6,67 +6,55 @@ import { Redirect } from 'react-router-dom';
 import withAuth from '../auth/with-auth';
 import AuthService from '../auth/auth-service';
 import ReactCountdownClock from 'react-countdown-clock';
-
-var tax = 0;
-var comm = 0;
-var fees;
-var subtotal;
-var total;
-var taxTotal;
-var commTotal;
-var taxPerTicket;
-var commPerTicket;
-var subtotalPerTicket;
-var ticketIds = [];
+import CheckoutConfirmationModal from './checkout-confirmation-modal';
 
 class Checkout extends Component {
 
+      constructor(props) {
+        super(props);
+        this.Auth = new AuthService();
+        this.state = {
+            commissionPercent: this.props.commissionPercent,
+            taxPercent: this.props.taxPercent,
+            subtotal: 0,
+            tax: 0,
+            fees: 0,
+            total: 0,
+            redirect: false,
+            tempTicketIds: [],
+            cursor: 'pointer'
+        }
+        this.taxPerTicket = [this.props.checkoutTickets.length];
+        this.commPerTicket = [this.props.checkoutTickets.length];
+        this.subtotalPerTicket = [this.props.checkoutTickets.length];
+        this.determinePrices();
+      }
 
-
-  constructor(props) {
-    super(props);
-    this.Auth = new AuthService();
-    this.state = {
-        commissionPercent: this.props.commissionPercent,
-        taxPercent: this.props.taxPercent,
-        subtotal: 0,
-        tax: 0,
-        fees: 0,
-        total: 0,
-        redirect: false,
-        tempTicketIds: []
-    }
-    this.taxPerTicket = [this.props.checkoutTickets.length];
-    this.commPerTicket = [this.props.checkoutTickets.length];
-    this.subtotalPerTicket = [this.props.checkoutTickets.length];
-    this.determinePrices();
-  }
-
-  componentDidMount() {
-    // Need to "lock in" tickets in DB for a few minutes here
-    var ticketIds = []
-    for (var i = 0; i < this.props.checkoutTickets.length; i++) {
-      ticketIds.push(this.props.checkoutTickets[i].ticket_id);
-    }
-    this.setState({
-        tempTicketIds: ticketIds
-    })
-      TTTPost('/hold-tickets', {
-          ticketIds: ticketIds,
-          token: this.Auth.getToken()
-      }).then(res => {
-          if (res.data.authenticated) {
-              // You're good
-          }
-          else {
-              // Can't buy
-          }
-      });
+    componentDidMount() {
+        // Need to "lock in" tickets in DB for a few minutes here
+        var ticketIds = []
+        for (var i = 0; i < this.props.checkoutTickets.length; i++) {
+          ticketIds.push(this.props.checkoutTickets[i].ticket_id);
+        }
+        this.setState({
+            tempTicketIds: ticketIds
+        })
+        TTTPost('/hold-tickets', {
+            ticketIds: ticketIds,
+            token: this.Auth.getToken()
+        }).then(res => {
+            if (res.data.authenticated) {
+                  // You're good
+            }
+            else {
+                  // Can't buy
+            }
+        });
         this.setState({
             commissionPercent: this.props.commissionPercent,
             taxPercent: this.props.taxPercent
         });
-  }
+    }
 
     onComplete() {
          this.props.returnFromCheckout();
@@ -99,19 +87,11 @@ class Checkout extends Component {
         }
         fees = taxTotal + commTotal;
 
-        console.log(fees);
-        console.log(taxTotal);
-        console.log(commTotal);
-
         this.fees = Math.round(fees * 100) / 100;
         this.taxTotal = Math.round(taxTotal * 100) / 100;
         this.commTotal = Math.round(commTotal * 100) / 100;
         this.subtotal = Math.round(subtotal * 100) / 100;
         this.total = this.commTotal + this.taxTotal + this.subtotal;
-
-        console.log(this.subtotalPerTicket);
-        console.log(this.taxPerTicket);
-        console.log(this.commPerTicket);
 
         this.setState({
             subtotal: subtotal,
@@ -126,8 +106,10 @@ class Checkout extends Component {
         var insertSuccessful = false;
         var emailSuccess = false;
         var token = this.Auth.getToken();
+        this.setState({cursor: 'wait'});
         TTTPost('/insert-transaction', {
-            token: this.Auth.getToken(),
+            eventID: this.props.eventID,
+            token: token,
             tickets: this.props.checkoutTickets,
             commission: this.commTotal,
             tax: this.taxTotal,
@@ -138,19 +120,16 @@ class Checkout extends Component {
             total: this.total,
             group_id: this.props.checkoutTickets[0].group_id
         }).then(res => {
-            insertSuccessful = res.data.success
+            this.setState({
+                redirect: res.data.success,
+                cursor: 'pointer'
+            });
         });
 
         TTTPost('/send-tickets-pdf', {
             token: token,
             ticketIds: this.state.tempTicketIds
-        }).then(res => {
-            emailSuccess = res.data.success
         });
-        
-
-        this.setState({redirect: true});
-
     }
 
 	getComments(ticket) {
@@ -200,7 +179,6 @@ class Checkout extends Component {
 
 
     renderTicketTotals() {
-
         return (
             <p className="leftTable">
                 <table className="checkoutCosts">
@@ -227,47 +205,46 @@ class Checkout extends Component {
 
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to={"/checkout-landing?event=" + this.props.eventID}/>
-        }
-        else {
-            return (
-                <div style={{overflowY: 'auto'}} className="globalBody globalImage">
-                    <div className="globalBody globalImageOverlay">
-                        <p className="timer">
-                            <ReactCountdownClock
-                                seconds={300}
-                                color="#000"
-                                alpha={0.9}
-                                size={50}
-                                onComplete={this.onComplete.bind(this)}
-                            />
-                        </p>
-                        <Grid style={{paddingTop: "25px", height: '80%'}}>
-                            <h1>
-                                <Well className='checkoutHeader'>
-                                    Checkout
-                                </Well>
-                            </h1>
+        return (
+            <div style={{overflowY: 'auto', cursor: this.state.cursor}}
+             className="globalBody globalImage">
+            <CheckoutConfirmationModal 
+                show={this.state.redirect}
+                onHide={this.onComplete.bind(this)} />
+                <div className="globalBody globalImageOverlay">
+                    <p className="timer">
+                        <ReactCountdownClock
+                            seconds={300}
+                            color="#000"
+                            alpha={0.9}
+                            size={50}
+                            onComplete={this.onComplete.bind(this)}
+                        />
+                    </p>
+                    <Grid style={{paddingTop: "25px", height: '80%'}}>
+                        <h1>
+                            <Well className='checkoutHeader'>
+                                Checkout
+                            </Well>
+                        </h1>
 
-                            <div style={{height: '90%'}}>
-                                {this.renderTicketInfo()}
-                                {this.renderTicketTotals()}
-                                <div className="checkoutButton">
-                                    <Button
-                                        id={1}
-                                        style={{marginLeft: "165px", color: "black"}}
-                                        bsSize="large"
-                                        onClick={this.purchaseTickets.bind(this)}>
-                                        Checkout
-                                    </Button>
-                                </div>
+                        <div style={{height: '90%'}}>
+                            {this.renderTicketInfo()}
+                            {this.renderTicketTotals()}
+                            <div className="checkoutButton">
+                                <Button
+                                    id={1}
+                                    style={{marginLeft: "165px", color: "black"}}
+                                    bsSize="large"
+                                    onClick={this.purchaseTickets.bind(this)}>
+                                    Checkout
+                                </Button>
                             </div>
-                        </Grid>
-                    </div>
+                        </div>
+                    </Grid>
                 </div>
-            );
-        }
+            </div>
+        );
 	}
 }
 
