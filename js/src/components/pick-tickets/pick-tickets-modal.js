@@ -158,8 +158,40 @@ export default class PickTicketsModal extends Component {
         }
     }
 
+    validSeatSelections() {
+        var valid = false;
+        var arr = this.state.ticketsInTransaction;
+        if(arr && this.state.group)
+        {
+            if(arr.length === this.state.group.length || arr.length === 1) {
+                valid = true;
+            }
+            else {
+                var sortedArr = [];
+                for(var i = 0; i < arr.length; i++) {
+                    sortedArr[i] = parseInt(arr[i].seat_number);
+                }
+                sortedArr = sortedArr.sort();
+                console.log(sortedArr);
+
+                for(var i = 0, j = 1; j < sortedArr.length; i++, j++) {
+                    console.log(sortedArr[i] + 1);
+                    console.log(sortedArr[j]);
+                    if((sortedArr[i] + 1) != sortedArr[j]) {
+                        valid = false;
+                        return valid;
+                    }
+                    else {
+                        valid = true;
+                    }
+                }
+            }
+        }
+        return valid;
+    }
+
     renderButtonOptions() {
-        if(minSellNum <= numTicketsChecked){
+        if(minSellNum <= numTicketsChecked && this.validSeatSelections()){
             return(<Button onClick={this.checkout.bind(this)}>Buy</Button>);
         }
         else{
