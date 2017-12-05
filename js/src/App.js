@@ -81,7 +81,6 @@ export default class App extends Component {
                         <Route path='/event-calendar' component={EventCalendarView}/>
                         <Route path='/pick-tickets' component={PickTickets}/>
                         <Route path='/versus' component={Versus}/>
-                        <Route path='/import-download' component={ImportDownload}/>
                         <Route path='/checkout-view' component={CheckoutView}/>
                         <Route path='/checkout-landing' component={CheckoutLanding}/>
                         <Route path='/create-listing-submit-landing' component={CreateListingSubmitLanding}/>

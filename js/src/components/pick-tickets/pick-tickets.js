@@ -33,7 +33,7 @@ export default class PickTickets extends Component {
             minPrice: 0,
             maxPrice: 100,
             desiredNumberTickets: 0,
-            showFilter: false,
+            showFilter: true,
             selectedEvent: null,
             eventID: queryParams.event,
             eventTitle: 'Choose a game',
