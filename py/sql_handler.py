@@ -11,10 +11,8 @@ class SqlHandler(object):
         whereStr = "WHERE t.event_id = '{}' AND se.section_num = '{}' AND t.ticket_status_id = 1 "
 
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
 
         if aisleSeat is 1:
@@ -34,7 +32,11 @@ class SqlHandler(object):
 
 
         cursor.execute(query.format(event_id, sectionNum))
-
+        tickets = []
+        for row in cursor.fetchall():
+            tickets.append(dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
+                        section_number=row[3], ticket_price=row[4], group_id=row[5],
+                        aisle_seat=row[6], early_access=row[7], handicap=row[8], min_sell_num=row[9]))
 
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
                         section_number=row[3], ticket_price=row[4], group_id=row[5],
@@ -232,10 +234,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND se.section_num IN ({}) "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -274,10 +274,8 @@ class SqlHandler(object):
                    "AND g.ticket_price <= '{}' " \
                    "AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -311,10 +309,8 @@ class SqlHandler(object):
                    "AND g.ticket_price <= '{}' " \
                    "AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -342,10 +338,8 @@ class SqlHandler(object):
                    "AND g.ticket_price >= " \
                    "(SELECT max(ticket_price) FROM groups g WHERE g.event_id ='{}') "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -373,10 +367,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id ='{}') "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -407,10 +399,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price >= (SELECT max(ticket_price) FROM groups g WHERE g.event_id = '{}')"
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -440,10 +430,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id = '{}') "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -470,10 +458,8 @@ class SqlHandler(object):
 
         whereStr = "WHERE t.event_id = '{}' AND se.section_type_id = '{}' AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -646,10 +632,8 @@ class SqlHandler(object):
                    "AND se.section_num IN ({}) " \
                    "AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
