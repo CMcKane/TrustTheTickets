@@ -413,13 +413,6 @@ def cancel_listing():
         print(e)
         return jsonify({'authenticated': False})
 
-#@app.route('/upload-pdf', methods=['POST'])
-#def upload_pdf():
-#    file = request.files['pdf']
-#    filename = secure_filename(file.filename)
-#    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#    return ''
-
 @app.route('/create-groups', methods=['POST'])
 def create_groups():
     jsonData = request.get_json()
