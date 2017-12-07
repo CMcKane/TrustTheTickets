@@ -480,9 +480,13 @@ These are all the default screen sizes
 }
 .eventDetailCardSelected {
     padding: 5px;
+    color: white;
 }
 .eventDetailCardSelected .pt-card {
-    background-color: #F5F5F5 !important;
+    background-color: rgb(45, 98, 183) !important;
+}
+.eventDetailCardSelected .eventDetailsHeader {
+    color: white;
 }
 .eventDetails {
     padding: 1em;
