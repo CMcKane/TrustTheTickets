@@ -124,7 +124,7 @@ class EventCalendarView extends Component {
                         <Row className="eventCalendarViewButtonRow">
                                 <Button bsStyle="primary"
                                     onClick={this.onSubmit.bind(this)}>
-                                    See Tickets
+                                    View Tickets
                                 </Button>
                         </Row>
                     </Col>
