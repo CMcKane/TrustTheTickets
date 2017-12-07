@@ -23,26 +23,6 @@ export default class PickTicketsModal extends Component {
         minSellNum = 0;
     }
 
-    createCheckoutRedirectLink(e) {
-        if(this.state.ticketsInTransaction.length > 0 || this.state.ticketsInTransaction === [])
-        {
-            var link = '/checkout-view?section=' + ticket.section_number + '&row=' + ticket.row_number + '&price=' + ticket.ticket_price;
-            for(var i = 0; i < this.state.ticketsInTransaction.length; i++)
-            {
-                var ticket = this.state.ticketsInTransaction[i];
-                link += '?section=' + ticket.section_number +
-                    '&row=' + ticket.row_number +
-                    '&seat=' + ticket.seat_number +
-                    '&price=' + ticket.ticket_price;
-            }
-
-            this.setState({
-                redirect: true,
-                redirectLink: link
-            });
-        }
-    }
-
     getCursorStatus() {
         if (this.state.busy) {
             return {cursor: 'wait'};

@@ -12,12 +12,8 @@ import Home from './components/home/home'
 import Header from './components/global/header'
 import MyAccount from './components/auth/my-account';
 import PickTickets from './components/pick-tickets/pick-tickets';
-import ViewTickets from './components/pick-tickets/view-tickets';
 import EventCalendarView from './components/events/event-calendar-view';
-import EventListView from './components/events/event-list-view';
 import Versus from './components/versus/versus';
-import ListingsView from './components/account/listings/listings-view';
-import CheckoutView from './components/checkout/checkout-view';
 import AuthService from './components/auth/auth-service';
 import CheckoutLanding from './components/pick-tickets/checkout-landing';
 import CreateListingSubmitLanding from "./components/account/listings/create-listing-submit-landing";
@@ -80,7 +76,6 @@ export default class App extends Component {
                         <Route path='/event-calendar' component={EventCalendarView}/>
                         <Route path='/pick-tickets' component={PickTickets}/>
                         <Route path='/versus' component={Versus}/>
-                        <Route path='/checkout-view' component={CheckoutView}/>
                         <Route path='/checkout-landing' component={CheckoutLanding}/>
                         <Route path='/create-listing-submit-landing' component={CreateListingSubmitLanding}/>
                         <Route path='/my-account' component={MyAccount}/>
