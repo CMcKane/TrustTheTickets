@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
 import _ from 'lodash';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
-import '../../stylesheet.css';
 
 
 const tickets = [

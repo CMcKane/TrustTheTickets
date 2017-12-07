@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Grid, Well} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
 import AuthService from '../auth/auth-service';
-import '../../stylesheet.css';
 import queryString from 'query-string';
 
 export default class CheckoutLanding extends Component {

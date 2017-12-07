@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import { Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl, ToggleButton } from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
-import '../../stylesheet.css';
 import AuthService from '../auth/auth-service';
 
 var numTicketsChecked;

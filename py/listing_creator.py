@@ -27,6 +27,8 @@ class ListingCreator(object):
 
         ticketIds = sqlHandler.insert_ticket_listing(sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID)
 
+        print(ticketIds)
+
         mysqlInsertSuccess = False
 
         if(ticketIds):

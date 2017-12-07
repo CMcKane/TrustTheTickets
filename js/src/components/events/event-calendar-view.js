@@ -7,7 +7,6 @@ import moment from 'moment';
 import { TTTPost } from '../backend/ttt-request';
 import queryString from 'query-string';
 import {withRouter} from "react-router-dom";
-import '../../stylesheet.css';
 
 class EventCalendarView extends Component {
 
@@ -102,8 +101,9 @@ class EventCalendarView extends Component {
         } 
         else return (
             <div>
-                <Well className="eventCalendarViewEventsWell"> Choose Your Game </Well>
-                    <div className="eventCalendarView">
+                <div className="eventCalendarView">
+                    <Well style={{position: 'fixed !important'}}
+                      className="eventCalendarViewEventsWell"> Choose Your Game </Well>
                     <Col xs={12} sm={9} md={9} lg={10} className="eventCalendarViewBottomPane">
                         <EventCalendar 
                             events={this.state.eventList}
@@ -124,7 +124,7 @@ class EventCalendarView extends Component {
                         <Row className="eventCalendarViewButtonRow">
                                 <Button bsStyle="primary"
                                     onClick={this.onSubmit.bind(this)}>
-                                    See Tickets
+                                    View Tickets
                                 </Button>
                         </Row>
                     </Col>

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../../stylesheet.css';
 const LIGHTED_COLOR = '#ec174c';
 const LIGHTED_STROKE_COLOR = '#565656';
 const UNLIGHTED_STROKE_COLOR = '#000000';

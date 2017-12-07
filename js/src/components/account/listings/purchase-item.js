@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import { Grid, Col, Row, Panel, Button } from 'react-bootstrap';
 import Logo from '../../logos/logo';
 import Time from 'react-time';
-import '../../../stylesheet.css';
 
 export default class PurchaseItem extends Component {
 

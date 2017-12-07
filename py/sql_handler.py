@@ -11,10 +11,8 @@ class SqlHandler(object):
         whereStr = "WHERE t.event_id = '{}' AND se.section_num = '{}' AND t.ticket_status_id = 1 "
 
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
 
         if aisleSeat is 1:
@@ -34,7 +32,11 @@ class SqlHandler(object):
 
 
         cursor.execute(query.format(event_id, sectionNum))
-
+        tickets = []
+        for row in cursor.fetchall():
+            tickets.append(dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
+                        section_number=row[3], ticket_price=row[4], group_id=row[5],
+                        aisle_seat=row[6], early_access=row[7], handicap=row[8], min_sell_num=row[9]))
 
         tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
                         section_number=row[3], ticket_price=row[4], group_id=row[5],
@@ -200,6 +202,18 @@ class SqlHandler(object):
                      home_team_name=row[4], away_team_name=row[5]) for row in cursor.fetchall()]
         return data
 
+    def get_event_info(self, event_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT g.date, "
+                       "home.team_name, away.team_name "
+                       "FROM games g "
+                       "JOIN teams home ON (g.home_team_id = home.team_id) "
+                       "JOIN teams away ON (g.away_team_id = away.team_id) "
+                       "WHERE g.event_id = '{}'".format(event_id))
+        data = [dict(date=row[0], home_team_name=row[1], away_team_name=row[2]) for row in cursor.fetchall()]
+        return data
+
     def get_all_teams(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -220,10 +234,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND se.section_num IN ({}) "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -262,10 +274,8 @@ class SqlHandler(object):
                    "AND g.ticket_price <= '{}' " \
                    "AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -299,10 +309,8 @@ class SqlHandler(object):
                    "AND g.ticket_price <= '{}' " \
                    "AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -330,10 +338,8 @@ class SqlHandler(object):
                    "AND g.ticket_price >= " \
                    "(SELECT max(ticket_price) FROM groups g WHERE g.event_id ='{}') "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -361,10 +367,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id ='{}') "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -395,10 +399,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price >= (SELECT max(ticket_price) FROM groups g WHERE g.event_id = '{}')"
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -428,10 +430,8 @@ class SqlHandler(object):
                    "AND t.ticket_status_id = 1 " \
                    "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id = '{}') "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -458,10 +458,8 @@ class SqlHandler(object):
 
         whereStr = "WHERE t.event_id = '{}' AND se.section_type_id = '{}' AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -472,7 +470,7 @@ class SqlHandler(object):
 
         whereStr += "ORDER BY row_num"
         query = "SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, " \
-                "t.is_aisle_seat, t.is_early_entry, t.is_ha, t.ticket_id, g.min_sell_num" \
+                "t.is_aisle_seat, t.is_early_entry, t.is_ha, t.ticket_id, g.min_sell_num " \
                 "FROM tickets t " \
                 "JOIN groups g ON (t.group_id = g.group_id) " \
                 "JOIN sections se ON (t.section_id = se.section_id) " \
@@ -634,10 +632,8 @@ class SqlHandler(object):
                    "AND se.section_num IN ({}) " \
                    "AND t.ticket_status_id = 1 "
 
-        if int(desiredNumberTickets) >= 10:
-            whereStr += "AND g.available_ticket_num >= 10 "
-        elif int(desiredNumberTickets) is not 0:
-            whereStr += "AND g.available_ticket_num = %s " % (desiredNumberTickets)
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -869,6 +865,17 @@ class SqlHandler(object):
         email = cursor.fetchone()[0]
         return email
 
+    def get_seller_email_and_phone(self, group_id):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT phone1, email FROM groups "
+         "JOIN accounts USING (account_id) "
+         "WHERE group_id = '{}'".format(group_id))
+        res = cursor.fetchone()
+        phone_num = res[0]
+        email = res[1]
+        return phone_num, email
+
     def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -883,6 +890,7 @@ class SqlHandler(object):
             eventID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 884")
 
         sectionIDQuery = "SELECT section_id FROM sections WHERE section_num = '{}'".format(sectionNum)
 
@@ -891,6 +899,7 @@ class SqlHandler(object):
             sectionID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 895")
 
         rowIDQuery = "SELECT row_id FROM rows WHERE section_id = '{}' AND row_num = '{}'".format(sectionID, rowNum)
 
@@ -899,6 +908,7 @@ class SqlHandler(object):
             rowID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 904")
 
         groupIDQuery = ("SELECT (MAX(group_id) + 1) FROM groups")
 
@@ -907,6 +917,7 @@ class SqlHandler(object):
             groupID = cursor.fetchone()[0]
         except:
             successful = False
+            print("failed at line 913")
 
         groupValues = (groupID, eventID, accountID, ticketPrice, numberOfTickets,
                        numberOfTickets, minPurchaseSize, 0.00)
@@ -920,10 +931,11 @@ class SqlHandler(object):
             cursor.execute(groupQuery.format(groupID, eventID, accountID, ticketPrice, numberOfTickets, numberOfTickets, minPurchaseSize, 0.00))
         except:
             successful = False
+            print("failed at line 927")
 
         conn.commit()
 
-        returnTicketIds = [int(numberOfTickets)]
+        returnTicketIds = [None]*int(numberOfTickets)
 
         # This loops goes through the collection of seats info and adds each ticket into the database
         for i in range(0, (int(numberOfTickets))):
@@ -936,6 +948,7 @@ class SqlHandler(object):
                 seatID = cursor.fetchone()[0]
             except:
                 successful = False
+                print("failed at line 943")
 
             newTicketIDQuery = "SELECT (MAX(ticket_id) + 1) FROM tickets"
 
@@ -945,6 +958,7 @@ class SqlHandler(object):
                 returnTicketIds[i] = newTicketID
             except:
                 successful = False
+                print("failed at line 954")
 
             is_aisle_seat = 0
             if seatsInfo[i]['seat'][0]['aisleSeat']:
@@ -975,6 +989,7 @@ class SqlHandler(object):
                                                   is_handicap_accessible, sectionID, rowID, seatID))
             except:
                 succesful = False
+                print("failed at line 985")
 
             conn.commit()
 

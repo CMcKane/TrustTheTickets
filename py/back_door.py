@@ -77,21 +77,23 @@ def sendTicketsPDF():
         jsonData = request.get_json()
         jwt_service = JWTService()
         sqlHandler = SqlHandler(mysql)
+        try :
+            accountID = jwt_service.get_account(jsonData['token'])
+            email = sqlHandler.get_user_email(accountID)
 
-        accountID = jwt_service.get_account(jsonData['token'])
-        email = sqlHandler.get_user_email(accountID)
+            ticketIds = jsonData['ticketIds']
+            outputPDF = pdfworker.getCombinedPDF(ticketIds)
+            outputPDFName = "Tickets.pdf"
 
-        ticketIds = jsonData['ticketIds']
-        outputPDF = pdfworker.getCombinedPDF(ticketIds)
-        outputPDFName = "Tickets.pdf"
-
-        thr = threading.Thread(target=TTTEmailClient.send_combined_ticket_file,
+            thr = threading.Thread(target=TTTEmailClient.send_combined_ticket_file,
                                args=(email, outputPDF, outputPDFName))
-        thr.start()
-
+            thr.start()
+        except Exception as e:
+            print(e)
+            return jsonify({'success': False})
     else:
         return requestNotSupported()
-    return ''
+    return jsonify({'success': True})
 
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
@@ -411,13 +413,6 @@ def cancel_listing():
         print(e)
         return jsonify({'authenticated': False})
 
-#@app.route('/upload-pdf', methods=['POST'])
-#def upload_pdf():
-#    file = request.files['pdf']
-#    filename = secure_filename(file.filename)
-#    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#    return ''
-
 @app.route('/create-groups', methods=['POST'])
 def create_groups():
     jsonData = request.get_json()
@@ -462,12 +457,14 @@ def get_fees():
     return jsonify({'percentages': percentages})
 
 @app.route('/insert-transaction', methods=['POST'])
+@require_token
 def create_transaction():
     sqlHandler = SqlHandler(mysql)
     jsonData = request.get_json()
     jwt_service = JWTService()
 
     buyer_id = jwt_service.get_account(jsonData['token'])
+    event_id = jsonData['eventID']
     tickets = jsonData['tickets']
     commission = jsonData['commission']
     tax = jsonData['tax']
@@ -480,6 +477,13 @@ def create_transaction():
 
     success = sqlHandler.create_transaction(buyer_id, tickets, commission, tax, subtotal, total, group_id,
                                             tax_per_ticket, comm_per_ticket, subtotal_per_ticket)
+    if success:
+        event_info = sqlHandler.get_event_info(event_id)
+        phone_num, email = sqlHandler.get_seller_email_and_phone(group_id)
+        thr = threading.Thread(target=TTTEmailClient.send_sale_confirmation,
+                               args=(email, event_info, tickets, commission, tax, subtotal, total))
+        thr.start()
+
     return jsonify({'success': success})
 
 @app.route('/send-listing-data', methods=['POST'])
@@ -494,4 +498,4 @@ def receiveListingData():
     return jsonify({'success': success})
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

@@ -12,8 +12,7 @@ import { Parallax } from 'react-parallax';
 //      GithubOcticons: https://octicons.github.com/
 import GoCalendar from 'react-icons/lib/go/calendar';
 import GoJersey from 'react-icons/lib/go/jersey';
-import IonSocialUsd from 'react-icons/lib/io/social-usd'
-import '../../stylesheet.css';
+import IonSocialUsd from 'react-icons/lib/io/social-usd';
 
 export default class Home extends Component {
 

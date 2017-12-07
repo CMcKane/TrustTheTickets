@@ -19,8 +19,7 @@ import {
 import Time from 'react-time';
 import {TTTGet, TTTPost, TTTPostFile} from '../../backend/ttt-request';
 import _ from 'lodash';
-import 'react-datepicker/dist/react-datepicker.css'
-import '../../../stylesheet.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import CreateListingModal from "./create-listing-modal";
 import CreateListingConfirmModal from "./create-listing-confirm-modal"
 import {RadioGroup, Radio} from 'react-radio-group';
@@ -339,7 +338,7 @@ export default class CreateListingView extends Component {
                 <Grid>
                     <Col xs={0} sm={1} md={1} lg={2}>
                     </Col>
-                    <Col xs={12} sm={10} md={8} lg={8}>
+                    <Col xs={12} sm={10} md={9} lg={8}>
                         <PanelGroup activeKey={this.state.activeKey} accordion={true}>
                             <Panel header="Step 1: What game are you selling tickets for?" eventKey={1}>
                                 <Panel>
@@ -505,15 +504,15 @@ export default class CreateListingView extends Component {
                                             <div className="globalCenterThis">
                                                 <Col>
                                                     <Row>
-                                                        <h2 className="createListingSellingSizeTitle">Ticket Groupings</h2>
+                                                        <p className="createListingSellingSizeTitle">Ticket Groupings</p>
                                                     </Row>
                                                     <Row>
                                                         <RadioGroup className="createListingSellingSize"
                                                                     name="sellingSize"
                                                                     selectedValue={this.state.selectedValue}
                                                                     onChange={this.handleRadioChange.bind(this)}>
-                                                            <label>
-                                                                <Radio value={"1"} />Sell tickets in groups of minimum:
+                                                            <label className="listingConfirmModalText">
+                                                                <Radio value={"1"} /> Sell tickets in groups of minimum:
                                                                 <Form>
                                                                     <FieldGroup id="minPurchaseSizeForm"
                                                                                 type="text"
@@ -526,8 +525,8 @@ export default class CreateListingView extends Component {
                                                                 </Form>
                                                             </label>
                                                             <br/>
-                                                            <label>
-                                                                <Radio value={"-1"} />Sell any quantity of tickets (Minimum 1).
+                                                            <label className="listingConfirmModalText">
+                                                                <Radio value={"-1"} /> Sell any quantity of tickets (Minimum 1).
                                                             </label>
                                                         </RadioGroup>
                                                     </Row>
@@ -551,7 +550,7 @@ export default class CreateListingView extends Component {
                                             <div className="globalCenterThis">
                                                 <Col lg={4}>
                                                     <Form>
-                                                        <Row>
+                                                        <Row className="createListingSellingSizeTitle">
                                                             <OverlayTrigger placement="bottom"
                                                                             overlay={<Tooltip id="ticketPriceToolTip">Price
                                                                                 entered
@@ -562,8 +561,7 @@ export default class CreateListingView extends Component {
                                                                             placeholder="Enter Ticket Price"
                                                                             name="ticketPrice"
                                                                             value={this.state.ticketPrice}
-                                                                            onChange={this.handleChange.bind(this)}
-                                                                />
+                                                                            onChange={this.handleChange.bind(this)}/>
                                                             </OverlayTrigger>
                                                         </Row>
                                                     </Form>
@@ -607,16 +605,16 @@ export default class CreateListingView extends Component {
                                         <Button onClick={this.createModal.bind(this)}>Create Listing</Button>
                                     </ButtonToolbar>
                                 </div>
-                                <CreateListingConfirmModal {...this.state}
-                                                           modalSubmitError={this.state.modalSubmitError}
-                                                           show={this.state.showConfirm}
-                                                           onHide={this.onHide.bind(this)}/>
                             </Panel>
                         </PanelGroup>
                         <Col xs={0} sm={1} md={1} lg={2}>
                         </Col>
                     </Col>
                 </Grid>
+                <CreateListingConfirmModal {...this.state}
+                           modalSubmitError={this.state.modalSubmitError}
+                           show={this.state.showConfirm}
+                           onHide={this.onHide.bind(this)}/>
             </div>
         );
     }

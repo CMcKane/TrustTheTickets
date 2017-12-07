@@ -1,6 +1,5 @@
 import React, { Component }  from 'react';
 import Logo from '../logos/logo';
-import '../../stylesheet.css';
 
 export default class EventComponent extends Component {
 

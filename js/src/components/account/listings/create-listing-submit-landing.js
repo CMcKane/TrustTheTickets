@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import {Grid, Well} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import AuthService from '../../auth/auth-service';
-import '../../../stylesheet.css';
 
 export default class CreateListingSubmitLanding extends Component {
 

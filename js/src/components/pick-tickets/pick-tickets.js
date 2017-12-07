@@ -9,7 +9,6 @@ import TicketListItem from './ticket-list-item';
 import queryString from 'query-string';
 import { ClimbingBoxLoader, RiseLoader, PulseLoader } from 'react-spinners';
 import {LinkContainer} from 'react-router-bootstrap';
-import '../../stylesheet.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import PickTicketsModal from './pick-tickets-modal';
@@ -34,7 +33,7 @@ export default class PickTickets extends Component {
             minPrice: 0,
             maxPrice: 100,
             desiredNumberTickets: 0,
-            showFilter: false,
+            showFilter: true,
             selectedEvent: null,
             eventID: queryParams.event,
             eventTitle: 'Choose a game',
@@ -138,7 +137,6 @@ export default class PickTickets extends Component {
                 newTicketNumStr = "10+ Tickets";
                 break;
             default:
-                console.log("default");
                 break;
 
         }
@@ -240,7 +238,6 @@ export default class PickTickets extends Component {
             })
             .then(res => {
                 if (res.data.tickets) {
-                    console.log(res.data.tickets);
                     this.setState({
                         previousSections: this.state.sections,
                         sections: res.data.sections,
@@ -394,7 +391,6 @@ export default class PickTickets extends Component {
                     })
                     .then(res => {
                         if (res.data.tickets) {
-                        console.log(res.data.tickets);
                             this.setState({
                                 previousSections: this.state.sections,
                                 sections: res.data.sections,
@@ -416,7 +412,6 @@ export default class PickTickets extends Component {
                 })
                     .then(res => {
                         if (res.data.tickets) {
-                            console.log(res.data.tickets);
                             this.setState({
                                 tickets: res.data.tickets,
                                 previousSections: this.state.sections,
@@ -437,7 +432,6 @@ export default class PickTickets extends Component {
                 })
                     .then(res => {
                         if (res.data.tickets) {
-                            console.log(res.data.tickets);
                             this.setState({
                                 previousSections: this.state.sections,
                                 sections: res.data.sections,
@@ -641,8 +635,14 @@ export default class PickTickets extends Component {
     }
 
     returnFromCheckout() {
-        this.setState({checkoutPageActive: false, previousSections: this.state.sections, sections: []});
-        this.setState({checkoutPageActive: false}); // Keep this here, forces page to call render.
+        this.setState({
+            checkoutPageActive: false, 
+            previousSections: this.state.sections,
+            sections: [],
+            checkoutTickets: [],
+            tickets: [],
+            groups: []
+        }, () => {this.getCheapestTicketsInitial()});
     }
 
     setCheckoutTickets(tickets) {

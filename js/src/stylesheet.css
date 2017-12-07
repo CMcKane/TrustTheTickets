@@ -50,12 +50,15 @@ These are all the default screen sizes
 
 .appContent {
     padding-top: 62px;
+    position: relative;
+    width: 100%;
     overflow-y: auto;
 }
 
 @media (min-width: 767px) {
     .appContent {
         padding-top: 92px;
+        position: relative;
     }
 }
 
@@ -77,10 +80,6 @@ These are all the default screen sizes
 
 .App-intro {
     font-size: large;
-}
-
-.appContent {
-    position: relative;
 }
 
 @keyframes App-logo-spin {
@@ -183,29 +182,41 @@ These are all the default screen sizes
     width: 400px;
 }
 
-.listingConfirmModalText {
-    font-size: 20px;
+.createListingSellingSizeTitle {
+    font-weight: bold;
+    font-size: 16px;
 }
 
-@media (max-width: 767px) {
+.listingConfirmModalText {
+    font-size: 14px;
+}
+.confirmListingGrid {
+    padding-left: 0px !important;
+}
+
+.createListingPdfForm {
+    font-size: 16px;
+}
+
+@media (max-width: 1000px) {
     .createListingForm {
         font-size: 20px;
         margin-left: 10px;
     }
-    .listingConfirmModalText {
-        font-size: 16px;
-    }
     .listingConfirmModalTitle {
-        font-size: 20px;
+        font-size: 18px;
+    }
+    .listingConfirmModalText {
+        font-size: 13px;
     }
     .listingConfirmTitle {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
 @media (max-width: 426px) {
     .listingConfirmModalText {
-        font-size: 14px;
+        font-size: 11px;
     }
     .listingConfirmModalTitle {
         font-size: 18px;
@@ -223,36 +234,19 @@ These are all the default screen sizes
 
 
 @media (max-width: 1440px) and (min-width: 1025px) {
-    .createListingPdfForm {
-        font-size: 20px;
-    }
 
     .createListingSellingSize {
         font-size: 18px;
     }
 
     .createListingSellingSizeTitle {
-        font-size: 23px;
+        font-size: 16px;
     }
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
     .createListingPdfForm {
-        font-size: 18px;
-    }
-
-    .createListingSellingSize {
-        font-size: 18px;
-    }
-
-    .createListingSellingSizeTitle {
-        font-size: 21px;
-    }
-}
-
-@media (max-width: 768px) and (min-width: 426px) {
-    .createListingPdfForm {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .createListingSellingSize {
@@ -260,7 +254,21 @@ These are all the default screen sizes
     }
 
     .createListingSellingSizeTitle {
-        font-size: 19px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+    .createListingPdfForm {
+        font-size: 14px;
+    }
+
+    .createListingSellingSize {
+        font-size: 16px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 14px;
     }
 }
 
@@ -274,7 +282,7 @@ These are all the default screen sizes
     }
 
     .createListingSellingSizeTitle {
-        font-size: 17px;
+        font-size: 12px;
     }
 }
 
@@ -289,7 +297,7 @@ These are all the default screen sizes
     }
 
     .createListingSellingSizeTitle {
-        font-size: 15px;
+        font-size: 10px;
     }
 }
 
@@ -389,17 +397,31 @@ These are all the default screen sizes
         padding: 0em;
         font-size: 0.7em !important;
     }
-    .eventDetailPane {
+    .eventDetailCard {
         float: left;
-        padding-right: 20px !important;
+        padding-right: 5px !important;
+        padding-left: 5px !important;
         padding-bottom: 0px !important;
+        padding-top: 5px !important;
         flex: 0 0 150px;
     }
-    .eventDetailPaneSelected {
+    .eventDetailCardSelected {
         float: left;
-        padding-right: 20px !important;
+        padding-right: 5px !important;
+        padding-left: 5px !important;
         padding-bottom: 0px !important;
+        padding-top: 5px !important;
         flex: 0 0 150px;
+    }
+    .eventDetailCard .pt-card {
+        padding: 5px !important;
+        width: 150px !important;
+        height: 100px !important;
+    }
+    .eventDetailCardSelected .pt-card {
+        padding: 5px !important;
+        width: 150px !important;
+        height: 100px !important;
     }
     .eventCalendarViewBottomPane {
         height: 50%;
@@ -408,7 +430,7 @@ These are all the default screen sizes
         height: 26%;
     }
     .eventCalendarViewDetailsRow {
-        height: 100%;
+        height: 95%;
     }
     .eventCalendarViewEventsWell {
         margin-bottom: 5px !important;
@@ -416,10 +438,10 @@ These are all the default screen sizes
         font-size: 20px !important;
     }
     .eventDetailsContainer {
-        height: 70% !important;
+        height: 80% !important;
     }
     .gameDetailsHeader {
-        font-size: 16px !important;
+        font-size: 14px !important;
         margin: 5px !important;
     }
     .btn {
@@ -428,13 +450,6 @@ These are all the default screen sizes
 }
 
 @media (max-width: 1000px) and (min-width: 768px) {
-    .eventDetailPane {
-        padding: 0.5em;
-        border-style: solid;
-        padding-left: 1em;
-        border-width: 0.05em;
-        border-color: black;
-    }
     .eventDetails {
         padding-right: 0.5em;
         padding-left: 0em !important;
@@ -460,20 +475,22 @@ These are all the default screen sizes
         font-size: 0.8em !important;
     }
 }
-.eventDetailPane {
-    padding: 0.5em;
-    border-style: solid;
-    border-width: 0.05em;
-    border-color: black;
+.eventDetailCard {
+    padding: 5px;
 }
-.eventDetailPaneSelected {
-    padding: 0.5em;
-    border-style: solid;
-    border-width: 0.05em;
-    border-color: red;
+.eventDetailCardSelected {
+    padding: 5px;
+    color: white;
+}
+.eventDetailCardSelected .pt-card {
+    background-color: rgb(45, 98, 183) !important;
+}
+.eventDetailCardSelected .eventDetailsHeader {
+    color: white;
 }
 .eventDetails {
     padding: 1em;
+    padding-left: 0.5em;
     padding-top: 0em;
     padding-bottom: 0em;
     height: 100%;
@@ -609,7 +626,7 @@ These are all the default screen sizes
 }
 .headerContainer {
     z-index: 1;
-    position: absolute;
+    position: fixed;
     width: 100%;
 }
 
@@ -1411,10 +1428,10 @@ p.loginPara {
         width: 65% !important; 
     }
     .circularLogo-ss {
-        width: 60% !important; 
+        width: 50% !important; 
     }
     .circularLogo-s {
-        width: 70% !important;
+        width: 60% !important;
     }
     .wideLogo {
         width: 90%;
@@ -1984,9 +2001,14 @@ col.registrationViewCol {
     flex: 0 0 100px;
     padding: 20px;
 }
-.pt-card{
+.childItem .pt-card{
     width: 150px;
     height: 150px;
+}
+@media (max-width: 520px) {
+    .versusDate {
+        padding-top: 15px;
+    }
 }
 
 @media (max-width: 768px) {

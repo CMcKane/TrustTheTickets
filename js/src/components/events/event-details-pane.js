@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import Time from 'react-time';
-import '../../stylesheet.css';
+import {Card} from '@blueprintjs/core';
+import '../../../node_modules/@blueprintjs/core/dist/blueprint.css';
 
 export default class EventDetailsPane extends Component {
 
@@ -11,16 +12,22 @@ export default class EventDetailsPane extends Component {
     }
 
 	render() {
-		var detailsClass = "eventDetailPane";
+		var detailsClass = "eventDetailCard";
     const id = "event"+this.props.event.id;
+    var elevation = 0;
+    var interactive = true;
 		if (this.props.selectedEvent 
 			&& this.props.selectedEvent.id === this.props.event.id) {
-			detailsClass = "eventDetailPaneSelected";
+			detailsClass = "eventDetailCardSelected";
+      elevation = Card.ELEVATION_TWO;
 		} 
+    if (window.innerWidth <= 767) {
+        interactive = false;
+    }
 		return (
-          <div id={id}
-            className={detailsClass} 
+          <div id={id} className={detailsClass}
             onClick={this.props.eventSelected.bind(this, this.props.event)}>
+            <Card interactive={interactive} elevation={elevation}>
             <h4 className="eventDetailsHeader">
                 {this.props.event.awayTeam} vs. {this.props.event.homeTeam}</h4>
             <h5 className="eventDetailsDate"><Time value={this.props.event.start} format="dddd, MMMM Do"/></h5>
@@ -28,6 +35,7 @@ export default class EventDetailsPane extends Component {
                format="h:mmA" /><br />
               {this.props.event.numTickets} tickets available <br />
               {this.getMinPrice()}</p>
+            </Card>
           </div>
         );
 	}

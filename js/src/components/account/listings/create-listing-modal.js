@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-import '../../../stylesheet.css';
-
 
 export default class CreateListingModal extends Component {
 

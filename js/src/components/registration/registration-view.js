@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button, Col, Row, Grid} from 'react-bootstrap';
 import {TTTGet, TTTPost} from '../backend/ttt-request';
-import '../../stylesheet.css';
 import _ from 'lodash';
 
 function FieldGroup({id, label, help, validationState, ...props}) {
@@ -48,10 +47,10 @@ export default class RegistrationView extends Component {
     }
 
     handleCountryChange(e) {
-        var val = e.target.value;
-
+        const val = e.target.value;
+        const country = e.target.name;
         this.setState({
-            [e.target.name]: e.target.value
+            country: { value: e.target.value }
         }, () => {this.getCountryStates(val)});
     }
 
@@ -75,7 +74,7 @@ export default class RegistrationView extends Component {
             valid = false;
         }
         // Second password
-        if (state.secondPassword.value.length > 5 && state.password === state.secondPassword) {
+        if (state.secondPassword.value.length > 5 && state.password.value === state.secondPassword.value) {
             state.secondPassword.validationStatus = 'success';
         }
         else {
@@ -154,16 +153,16 @@ export default class RegistrationView extends Component {
     onSubmit() {
         if (this.validateForm()) {
             TTTPost("/register", {
-                email: this.state.email,
-                password: this.state.password,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                city: this.state.city,
-                zipCode: this.state.zipCode,
-                countryid: this.state.country,
-                stateprovid: this.state.state,
-                phoneNumber: this.state.phoneNumber
+                email: this.state.email.value,
+                password: this.state.password.value,
+                firstName: this.state.firstName.value,
+                lastName: this.state.lastName.value,
+                address: this.state.address.value,
+                city: this.state.city.value,
+                zipCode: this.state.zipCode.value,
+                countryid: this.state.country.value,
+                stateprovid: this.state.state.value,
+                phoneNumber: this.state.phoneNumber.value
 
             })
                 .then(res => {
@@ -222,7 +221,7 @@ export default class RegistrationView extends Component {
 
     renderStateNames(){
 
-        if(this.state.country === '1' || this.state.country === '39'){
+        if(this.state.country.value === '1' || this.state.country.value === '39'){
             this.state.disableStateSelect = false;
             return _.map(this.state.stateNames, (stateName, index) =>
                 <option
