@@ -182,29 +182,41 @@ These are all the default screen sizes
     width: 400px;
 }
 
-.listingConfirmModalText {
-    font-size: 20px;
+.createListingSellingSizeTitle {
+    font-weight: bold;
+    font-size: 16px;
 }
 
-@media (max-width: 767px) {
+.listingConfirmModalText {
+    font-size: 14px;
+}
+.confirmListingGrid {
+    padding-left: 0px !important;
+}
+
+.createListingPdfForm {
+    font-size: 16px;
+}
+
+@media (max-width: 1000px) {
     .createListingForm {
         font-size: 20px;
         margin-left: 10px;
     }
-    .listingConfirmModalText {
-        font-size: 16px;
-    }
     .listingConfirmModalTitle {
-        font-size: 20px;
+        font-size: 18px;
+    }
+    .listingConfirmModalText {
+        font-size: 13px;
     }
     .listingConfirmTitle {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
 @media (max-width: 426px) {
     .listingConfirmModalText {
-        font-size: 14px;
+        font-size: 11px;
     }
     .listingConfirmModalTitle {
         font-size: 18px;
@@ -222,36 +234,19 @@ These are all the default screen sizes
 
 
 @media (max-width: 1440px) and (min-width: 1025px) {
-    .createListingPdfForm {
-        font-size: 20px;
-    }
 
     .createListingSellingSize {
         font-size: 18px;
     }
 
     .createListingSellingSizeTitle {
-        font-size: 23px;
+        font-size: 16px;
     }
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
     .createListingPdfForm {
-        font-size: 18px;
-    }
-
-    .createListingSellingSize {
-        font-size: 18px;
-    }
-
-    .createListingSellingSizeTitle {
-        font-size: 21px;
-    }
-}
-
-@media (max-width: 768px) and (min-width: 426px) {
-    .createListingPdfForm {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .createListingSellingSize {
@@ -259,7 +254,21 @@ These are all the default screen sizes
     }
 
     .createListingSellingSizeTitle {
-        font-size: 19px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 426px) {
+    .createListingPdfForm {
+        font-size: 14px;
+    }
+
+    .createListingSellingSize {
+        font-size: 16px;
+    }
+
+    .createListingSellingSizeTitle {
+        font-size: 14px;
     }
 }
 
@@ -273,7 +282,7 @@ These are all the default screen sizes
     }
 
     .createListingSellingSizeTitle {
-        font-size: 17px;
+        font-size: 12px;
     }
 }
 
@@ -288,7 +297,7 @@ These are all the default screen sizes
     }
 
     .createListingSellingSizeTitle {
-        font-size: 15px;
+        font-size: 10px;
     }
 }
 

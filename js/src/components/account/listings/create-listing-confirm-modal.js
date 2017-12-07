@@ -54,7 +54,6 @@ class CreateListingConfirmModal extends Component {
             ticketPrice: this.props.ticketPrice,
             token: this.props.token
         }));
-        console.log("sending data");
         TTTPost('/send-listing-data', formData).then(res => {
             success = res.data.success
         });
@@ -82,20 +81,25 @@ class CreateListingConfirmModal extends Component {
 
     renderExtrasLabels(aisle, entry, handicap) {
 
-        var extras = [];
-
+        var extras = ""
+        var numExtras = 0
 
         if (aisle) {
-            extras.push(<Col lg={3}><p className='listingConfirmModalText'>Aisle Seat</p></Col>)
+            extras = "Aisle Seat";
+            numExtras++;
         }
         if (entry) {
-            extras.push(<Col lg={3}><p className='listingConfirmModalText'>Early Entry</p></Col>)
+            if (numExtras > 0) extras += ", Early Entry";
+            else extras += "Early Entry"
+            numExtras++;
         }
         if (handicap) {
-            extras.push(<Col lg={3}><p className='listingConfirmModalText'>Handicap Accessible</p></Col>)
+            if (numExtras > 0) extras += ", handicapAccessible";
+            else extras += "Handicap Accessible"
+            numExtras++;
         }
-        if (!aisle && !entry && !handicap) {
-            extras.push(<Col lg={10}><p className='listingConfirmModalText'>No Extras For This Ticket</p></Col>)
+        if (numExtras === 0) {
+            extras = "No Extras For This Ticket"
         }
 
         return extras;
@@ -128,29 +132,25 @@ class CreateListingConfirmModal extends Component {
                 var handicapAccessibleCheck = this.props.seatsInfo[i - 1].seat[0].handicapAccessible;
 
                 labels.push(
-                    <Panel>
-                        <div>
-                            <Row>
-                                <div className="globalCenterThis">
-                                <Col lg={5}>
-                                    <p className='listingConfirmModalText' 
-                                        style={{display: "inline", fontWeight: "bold"}}>{"Seat Number " + i + ": "}</p>
-                                    <p className='listingConfirmModalText' style={{display: "inline"}}>{seat}</p>
-                                </Col>
-                                <Col lg={5}>
-                                    <p className='listingConfirmModalText' 
-                                        style={{display: "inline", fontWeight: "bold"}}>Ticket Extras</p>
-                                    <div>
-                                        <Row>
-                                            {this.renderExtrasLabels(aisleCheck, earlyEntryCheck, handicapAccessibleCheck)}
-                                        </Row>
-                                    </div>
-                                </Col>
-                                </div>
-                            </Row>
-                        </div>
-                    </Panel>
-                )
+                    <div>
+                    <Col xs={6} sm={5} md={5} lg={4} style={{paddingLeft: "0px"}}>
+                        <p className='listingConfirmModalText' 
+                            style={{display: "inline", fontWeight: "bold"}}>{"Seat Number: "}
+                        </p>
+                        <p className='listingConfirmModalText' style={{display: "inline"}}>
+                        {seat}
+                        </p>
+                    </Col>
+                    <Col xs={5} sm={5} md={5} lg={5} style={{paddingLeft: "0px"}}>
+                        <p className='listingConfirmModalText' 
+                            style={{display: "inline", fontWeight: "bold"}}>{"Ticket Extras: " }
+                        </p>
+                        <p className='listingConfirmModalText' style={{display: "inline"}}>
+                        {this.renderExtrasLabels(aisleCheck, earlyEntryCheck, handicapAccessibleCheck)}
+                        </p>
+                    </Col>
+                    </div>
+                );
             }
             return labels;
         }
@@ -170,78 +170,64 @@ class CreateListingConfirmModal extends Component {
                     <Modal.Body>
                         <h3 className='listingConfirmTitle'>
                             Please confirm all fields are correct before creating your listing.</h3>
-                        <Grid className="confirmListingGrid">
-                            <Col xs={12} sm={9} md={11} lg={9} className="confirmListingCol">
-                                <div>
-                                    <Panel style={{padding: "15px"}}>
-                                        <div className="globalCenterThis">
-                                            <Row>
-                                                <div className="globalCenterThis">
-                                                    <Col lg={8}>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{fontWeight: "bold"}}>Game Date: </p>
-                                                        <p className='listingConfirmModalText'>
-                                                            <Time value={this.props.dbGameDate} format="MMMM D, YYYY h:mmA"/></p>
-                                                    </Col>
-                                                    <Col lg={8}>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline", fontWeight: "bold"}}>Opponent Name: </p>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline"}}>{this.props.opponentName}</p>
-                                                    </Col>
-                                                </div>
-                                            </Row>
-                                        </div>
-                                    </Panel>
-                                    <Panel style={{padding: "15px"}}>
-                                        <div><Panel>
-                                            <Row>
-                                                <div className="globalCenterThis">
-                                                    <Col lg={5}>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline", fontWeight: "bold"}}>Section Number: </p>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline"}}>{this.props.section}</p>
-                                                    </Col>
-                                                    <Col lg={5}>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline", fontWeight: "bold"}}>Row Number: </p>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline"}}>{this.props.row}</p>
-                                                    </Col>
-                                                </div>
-                                            </Row>
-                                        </Panel>
-                                            <Row style={{paddingBottom: "20px"}}>
-                                                {this.renderSeatsValues()}
-                                            </Row>
-                                        </div>
-                                    </Panel>
-                                    <Panel style={{padding: "15px"}}>
-                                        <div>
-                                            <Row>
-                                                <div className="globalCenterThis">
-                                                    <Col lg={5}>
-                                                        {this.displayGroupSizeLabel()}
-                                                    </Col>
-                                                    <Col lg={5}>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline", fontWeight: "bold"}}>Price Per Ticket: </p>
-                                                        <p className='listingConfirmModalText'
-                                                           style={{display: "inline"}}>${this.props.ticketPrice}</p>
-                                                    </Col>
-                                                </div>
-                                            </Row>
-                                        </div>
-                                    </Panel>
-                                </div>
+                        <Panel>
+                        <Grid className="confirmListingGrid" style={{fontSize: "12px", paddingLeft: "0px !important"}}>
+                            <Col xs={6} sm={5} md={5} lg={4} style={{paddingLeft: "0px"}}>
+                                <p className='listingConfirmModalText'
+                                   style={{fontWeight: "bold", display: "inline"}}>{"Game Date: "}
+                                </p>
+                                <p className='listingConfirmModalText' style={{display: "inline"}}>
+                                   <Time value={this.props.dbGameDate} format="MMMM D, YYYY h:mmA"/>
+                                </p>
+                            </Col>
+                            <Col xs={5} sm={5} md={5} lg={5} style={{paddingLeft: "0px"}}>
+                                <p className='listingConfirmModalText'
+                                   style={{display: "inline", fontWeight: "bold"}}>
+                                   {"Opponent Name: "}
+                                </p>
+                                <p className='listingConfirmModalText' style={{display: "inline"}}>
+                                   {this.props.opponentName}
+                                </p>
+                            </Col>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                            </Col>
+                            <Col xs={6} sm={5} md={5} lg={4} style={{paddingLeft: "0px"}}>
+                                <p className='listingConfirmModalText'
+                                   style={{display: "inline", fontWeight: "bold"}}>
+                                  {"Section Number: "} 
+                                </p>
+                                <p className='listingConfirmModalText'
+                                   style={{display: "inline"}}>
+                                   {this.props.section}
+                                </p>
+                            </Col>
+                            <Col xs={5} sm={5} md={5} lg={5} style={{paddingLeft: "0px", paddingBottom: "10px"}}>
+                                <p className='listingConfirmModalText'
+                                   style={{display: "inline", fontWeight: "bold"}}>{"Row Number: "}
+                                </p>
+                                <p className='listingConfirmModalText'
+                                   style={{display: "inline"}}>{this.props.row}
+                                </p>
+                            </Col>
+                            <div style={{paddingLeft: "0px"}}>
+                            {this.renderSeatsValues()}
+                            </div>
+                            <Col xs={12} sm={12} md={12} lg={12} style={{paddingTop: "10px", paddingLeft: "0px"}}>
+                                {this.displayGroupSizeLabel()}
+                            </Col>
+                            <Col xs={12} sm={12} md={12} lg={12} style={{paddingLeft: "0px"}}>
+                                <p className='listingConfirmModalText'
+                                   style={{display: "inline", fontWeight: "bold"}}>Price Per Ticket: </p>
+                                <p className='listingConfirmModalText'
+                                   style={{display: "inline"}}>${this.props.ticketPrice}</p>
                             </Col>
                         </Grid>
+                        </Panel>
                     </Modal.Body>
                     <Modal.Footer>
                         {this.getErrorText()}
+                        <Button bsStyle="primary" onClick={this.onSubmit.bind(this)}>Submit Listing</Button>
                         <Button onClick={() => this.props.onHide()}>Close</Button>
-                        <Button onClick={this.onSubmit.bind(this)}>Submit Listing</Button>
                     </Modal.Footer>
                 </Modal>
             )
