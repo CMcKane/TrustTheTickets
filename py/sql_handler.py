@@ -38,9 +38,6 @@ class SqlHandler(object):
                         section_number=row[3], ticket_price=row[4], group_id=row[5],
                         aisle_seat=row[6], early_access=row[7], handicap=row[8], min_sell_num=row[9]))
 
-        tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
-                        section_number=row[3], ticket_price=row[4], group_id=row[5],
-                        aisle_seat=row[6], early_access=row[7], handicap=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
         return tickets
 
     def get_all_tickets(self, mysql, eventID, desiredNumberTickets):
