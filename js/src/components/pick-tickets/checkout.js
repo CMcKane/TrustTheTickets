@@ -30,7 +30,14 @@ class Checkout extends Component {
         this.determinePrices();
       }
 
+
+
     componentDidMount() {
+
+        window.onbeforeunload = () => {
+
+        };
+
         // Need to "lock in" tickets in DB for a few minutes here
         var ticketIds = []
         for (var i = 0; i < this.props.checkoutTickets.length; i++) {
@@ -60,6 +67,15 @@ class Checkout extends Component {
          this.props.returnFromCheckout();
     }
 
+    componentWillUnmount() {
+        this.unlockTickets();
+    }
+
+    unlockTickets() {
+        TTTPost('/unlock-tickets', {
+            ticketIds: this.state.tempTicketIds
+        });
+    }
 
     determinePrices() {
         var tickets = this.props.checkoutTickets;

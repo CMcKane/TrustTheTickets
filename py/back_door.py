@@ -486,6 +486,20 @@ def create_transaction():
 
     return jsonify({'success': success})
 
+@app.route('/unlock-tickets', methods=['POST'])
+def unlock_tickets():
+    jsonData = request.get_json()
+    try:
+        jwt_service = JWTService()
+        #account_id = jwt_service.get_account(jsonData['token'])
+        sqlHandler = SqlHandler(mysql)
+        result = sqlHandler.unlock_tickets(jsonData['ticketIds'])
+        return jsonify({'authenticated': result})  #
+    except Exception as e:
+        print(e)
+        return jsonify({'authenticated': False})
+
+
 @app.route('/send-listing-data', methods=['POST'])
 def receiveListingData():
     file = request.files['pdf']
@@ -496,6 +510,8 @@ def receiveListingData():
     success = listingcreator.createListing()
 
     return jsonify({'success': success})
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

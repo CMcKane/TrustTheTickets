@@ -15,6 +15,7 @@ import PickTicketsModal from './pick-tickets-modal';
 import { Redirect } from 'react-router-dom';
 import Checkout from './checkout';
 import withAuth from '../auth/with-auth';
+import { withRouter } from 'react-router';
 
 var clickedSection = ''
 var taxRate = 0;
@@ -77,7 +78,11 @@ export default class PickTickets extends Component {
     componentDidMount() {
         this.getEvent();
         this.displayAllTickets(); 
-        this.getCheapestTicketsInitial();  
+        this.getCheapestTicketsInitial();
+    }
+
+    componentWillUnmount() {
+
     }
 
     onHide() {
@@ -737,6 +742,10 @@ export default class PickTickets extends Component {
         return(list)
     }
 
+    handleCheckoutRefresh() {
+        this.setState({checkoutPageActive : true});
+    }
+
     render() {
             if(this.state.checkoutPageActive)
             {
@@ -746,14 +755,17 @@ export default class PickTickets extends Component {
                         commissionPercent={this.state.commissionPercent}
                         taxPercent={this.state.taxPercent}
                         returnFromCheckout={this.returnFromCheckout.bind(this)}
-                        eventID={this.state.eventID}/>
+                        eventID={this.state.eventID}
+                        handleCheckoutRefresh={this.handleCheckoutRefresh.bind(this)}/>
                 );
             }
             else
             {
                 const AuthPickTicketsModal = withAuth(PickTicketsModal);
                 return (
+
                     <div className=" globalBody globalImage">
+
                          <AuthPickTicketsModal
                             returnRedirect={"/pick-tickets?event=" + this.state.eventID}
                             modalSubmitError={this.state.modalSubmitError}

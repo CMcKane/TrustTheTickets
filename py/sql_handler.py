@@ -715,6 +715,30 @@ class SqlHandler(object):
             print(e)
             return False
 
+    def unlock_tickets(self, ticket_ids):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+
+        id_string = ""
+        for i in range(0, len(ticket_ids)):
+            if (i == len(ticket_ids)-1):
+                id_string+="'{}'".format(ticket_ids[i])
+            else:
+                id_string+="'{}',".format(ticket_ids[i])
+
+
+        whereStr = "WHERE ticket_id IN ({}) "
+        query = "UPDATE tickets " \
+                "SET ticket_status_id = 1 " \
+                "%s" % (whereStr)
+        try:
+            cursor.execute(query.format(id_string))
+            conn.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     def purchase_tickets(self, account_id, ticket_ids):
         conn = self.mysql.connection
         cursor = conn.cursor()
