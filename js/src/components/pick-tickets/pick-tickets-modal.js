@@ -157,7 +157,7 @@ export default class PickTicketsModal extends Component {
         }
     }
 
-    validSeatSelections() {
+    validSeatSelections()  {
         var valid = false;
         var arr = this.state.ticketsInTransaction;
         if(arr && this.state.group)
