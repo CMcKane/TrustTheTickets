@@ -38,9 +38,6 @@ class SqlHandler(object):
                         section_number=row[3], ticket_price=row[4], group_id=row[5],
                         aisle_seat=row[6], early_access=row[7], handicap=row[8], min_sell_num=row[9]))
 
-        tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
-                        section_number=row[3], ticket_price=row[4], group_id=row[5],
-                        aisle_seat=row[6], early_access=row[7], handicap=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
         return tickets
 
     def get_all_tickets(self, mysql, eventID, desiredNumberTickets):
@@ -712,6 +709,30 @@ class SqlHandler(object):
                 "%s" % (whereStr)
         try:
             cursor.execute(query.format(account_id, id_string))
+            conn.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def unlock_tickets(self, ticket_ids):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+
+        id_string = ""
+        for i in range(0, len(ticket_ids)):
+            if (i == len(ticket_ids)-1):
+                id_string+="'{}'".format(ticket_ids[i])
+            else:
+                id_string+="'{}',".format(ticket_ids[i])
+
+
+        whereStr = "WHERE ticket_id IN ({}) "
+        query = "UPDATE tickets " \
+                "SET ticket_status_id = 1 " \
+                "%s" % (whereStr)
+        try:
+            cursor.execute(query.format(id_string))
             conn.commit()
             return True
         except Exception as e:
