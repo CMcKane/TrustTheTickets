@@ -35,7 +35,7 @@ class Checkout extends Component {
     componentDidMount() {
 
         window.onbeforeunload = () => {
-
+            this.unlockTickets();
         };
 
         // Need to "lock in" tickets in DB for a few minutes here

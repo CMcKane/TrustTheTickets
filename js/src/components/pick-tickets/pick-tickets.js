@@ -81,10 +81,6 @@ export default class PickTickets extends Component {
         this.getCheapestTicketsInitial();
     }
 
-    componentWillUnmount() {
-
-    }
-
     onHide() {
 		this.setState({
 			show: false
