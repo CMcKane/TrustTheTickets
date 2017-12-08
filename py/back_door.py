@@ -511,7 +511,17 @@ def receiveListingData():
 
     return jsonify({'success': success})
 
+@app.route('/validate-ticket-info', methods=['POST'])
+def validateTicketInfo():
+    jsonData = request.get_json()
+    sectionNum = jsonData['sectionNum']
+    rowNum = jsonData['rowNum']
+    seatNums = jsonData['seatNums']
+    gameDate = jsonData['gameDate']
 
+    sqlHandler = SqlHandler(mysql)
+    ticketInfoResults = sqlHandler.validate_ticket_info(sectionNum, rowNum, seatNums, gameDate)
+    return jsonify({'ticketInfoResults': ticketInfoResults})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

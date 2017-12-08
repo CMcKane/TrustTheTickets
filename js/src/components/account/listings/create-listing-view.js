@@ -19,6 +19,7 @@ import {
 import Time from 'react-time';
 import {TTTGet, TTTPost, TTTPostFile} from '../../backend/ttt-request';
 import _ from 'lodash';
+import { BarLoader } from 'react-spinners';
 import 'react-datepicker/dist/react-datepicker.css';
 import CreateListingModal from "./create-listing-modal";
 import CreateListingConfirmModal from "./create-listing-confirm-modal"
@@ -65,7 +66,8 @@ export default class CreateListingView extends Component {
             token: this.Auth.getToken(),
             pdfFile: null,
             sectionNumberError: false,
-            rowNumberError: false
+            rowNumberError: false,
+            ticketValInProgress: false
         };
 
         this.getGameDates();
@@ -218,41 +220,10 @@ export default class CreateListingView extends Component {
                 }
                 break;
             case 3:
-
-                // check valid section num
-                if(!this.state.section.match(/^[\d]{3}[aA]?$/))
-                {
-                    alert("Please enter a valid section number.");
-                    return
-                }
-
-                // check valid row num
-                if(!this.state.row.match(/^[\d]{1,3}$/))
-                {
-                    alert("Please enter a valid row number.");
-                    return
-                }
-
-                for(var i = 1; i <= this.state.numberOfTickets; i++) {
-                    if(document.getElementById('seatNumberForm' + i).value.match(/^[\d ]*$/) && document.getElementById('seatNumberForm' + i).value !== ""){
-                        var form = document.getElementById('seatNumberForm' + i).value;
-                        var check1 = document.getElementById('aisleSeatCheck' + i).checked;
-                        var check2 = document.getElementById('earlyEntryCheck' + i).checked;
-                        var check3 = document.getElementById('handicapAccessibleCheck' + i).checked;
-                        this.state.seatsInfo.push({seat: [{seatNum: form, aisleSeat: check1, earlyEntry: check2, handicapAccessible: check3}]});
-                    }
-                    else
-                    {
-                        alert("Please enter a valid seat number.");
-                        this.state.seatsInfo = [];
-                        return
-                    }
-                }
-
-                // if we've gotten this far, it's all right
+                // validation has happened before handleSelectNext was called in this case
+                // just advance to the next step
                 this.setState({activeKey: this.state.activeKey + 1});
-
-                break;
+               break;
             case 4:
                 if(this.state.minPurchaseSize === "" || this.state.minPurchaseSize > this.state.numberOfTickets || this.state.minPurchaseSize === "0"){
                     alert("Please pick a minimum group size for selling tickets to move onto the next step.");
@@ -367,6 +338,155 @@ export default class CreateListingView extends Component {
         this.setState({numberOfTickets: newNumberOfTickets, show: false});
     }
 
+    // check the ticket information input by the user with simple pattern tests
+    // we will still have to validate the information with the database later on
+    checkTicketInfoInput()
+    {
+        // check valid section num
+        if(!this.state.section.match(/^[\d]{3}[aA]?$/))
+        {
+            alert("Please enter a valid section number.");
+            return false;
+        }
+
+        // check valid row num
+        if(!this.state.row.match(/^[\d]{1,3}$/))
+        {
+            alert("Please enter a valid row number.");
+            return false;
+        }
+
+        this.state.seatsInfo = [];
+
+        var seatNums = [];
+        // check valid seat numbers
+        for(var i = 1; i <= this.state.numberOfTickets; i++) {
+            if(document.getElementById('seatNumberForm' + i).value.match(/^[\d ]*$/) && document.getElementById('seatNumberForm' + i).value !== ""){
+                var form = document.getElementById('seatNumberForm' + i).value;
+                var check1 = document.getElementById('aisleSeatCheck' + i).checked;
+                var check2 = document.getElementById('earlyEntryCheck' + i).checked;
+                var check3 = document.getElementById('handicapAccessibleCheck' + i).checked;
+                this.state.seatsInfo.push({seat: [{seatNum: form, aisleSeat: check1, earlyEntry: check2, handicapAccessible: check3}]});
+                seatNums.push(form);
+            }
+            else
+            {
+                alert("Please enter a valid seat number.");
+                this.state.seatsInfo = [];
+                return false;
+            }
+        }
+
+        // check seat logic
+        var failedSeatLogicCheck = false;
+        for(var i = 1; i < seatNums.length; i++)
+        {
+            var cur = parseInt(seatNums[i]);
+            var prev = parseInt(seatNums[i-1]);
+            if(cur == prev)
+            {
+                // at least one of the seat numbers is equal to the previous one
+                alert("Ticket seat numbers must be unique. Please fix and then try again.");
+                failedSeatLogicCheck = true;
+                break;
+            }
+            if(cur < prev)
+            {
+                // at least one of the seat numbers isn't greater than the previous one
+                alert("Ticket seat numbers are not in ascending order. Please fix and then try again.");
+                console.log(seatNums[i] + ", " + seatNums[i - 1]);
+                failedSeatLogicCheck = true;
+                break;
+            }
+            if(cur - prev != 1)
+            {
+                // at least one of the seat numbers isn't adjacent to the previous one.
+                alert("Ticket seat numbers are not adjacent. Please fix and then try again.")
+                failedSeatLogicCheck = true;
+                break;
+            }
+        }
+
+        if(failedSeatLogicCheck)
+        {
+            this.state.seatsInfo = [];
+            return false;
+        }
+
+        return true;
+    }
+
+    validateTicketsFromDB()
+    {
+        if(this.checkTicketInfoInput())
+        {
+            this.setState({
+                ticketValInProgress: true
+            });
+            TTTPost('/validate-ticket-info', {
+                sectionNum: this.state.section,
+                rowNum: this.state.row,
+                seatNums: this.state.seatsInfo,
+                gameDate: this.state.gameDate
+            }).then(res => {
+
+                var correctInfo = true;
+
+                // comment once done debugging:
+                console.log(res.data.ticketInfoResults.locationResults);
+                // save variables for reference
+                var sectionNumValid = res.data.ticketInfoResults.locationResults.sectionNumValid;
+                var rowNumValid = res.data.ticketInfoResults.locationResults.rowNumValid;
+                var seatsValidity = res.data.ticketInfoResults.locationResults.seatsValidity;
+
+                // check that the section exists
+                if(!sectionNumValid)
+                {
+                    alert("Unknown Section #. Please check your tickets and try again.")
+                    correctInfo = false;
+                }
+                // check that the row exists
+                else if(!rowNumValid)
+                {
+                    alert("Unknown Row #. Please check your tickets and try again.")
+                    correctInfo = false;
+                }
+                // check that the seats exist
+                else
+                {
+                    var errorMsg = "";
+                    for(var i = 0; i < seatsValidity.length; i++)
+                    {
+                        if(!seatsValidity[i].seatNumValid)
+                        {
+                            errorMsg += "Seat # " + seatsValidity[i].seatNum + " for Ticket " + (i + 1) + " does not exist.\n";
+                        }
+                    }
+                    if(errorMsg.length > 1)
+                    {
+                        errorMsg += "Please check your tickets and try again.";
+                        alert(errorMsg);
+                        correctInfo = false;
+                    }
+                }
+
+
+                this.setState({
+                    ticketValInProgress: false
+                });
+
+                if(correctInfo)
+                {
+                    this.handleSelectNext();
+                }
+            });
+        }
+        else
+        {
+            // let the user make adjustments to their input
+        }
+    }
+
     renderStep1()
     {
         return(
@@ -470,6 +590,20 @@ export default class CreateListingView extends Component {
         )
     }
 
+    renderValidationLoader()
+    {
+        if(this.state.ticketValInProgress)
+        {
+            return(
+                <div>
+                    Validating Tickets...
+                    <br />
+                    <BarLoader loading="true" width="200"/>
+                </div>
+            )
+        }
+    }
+
     renderStep3()
     {
         return(
@@ -527,6 +661,9 @@ export default class CreateListingView extends Component {
                             <Panel style={{padding: "10px"}}>
                                 <Col>
                                     {this.renderSeatNumberForms()}
+                                    <div className="globalCenterThis">
+                                        {this.renderValidationLoader()}
+                                    </div>
                                 </Col>
                             </Panel>
                         </div>
@@ -535,7 +672,7 @@ export default class CreateListingView extends Component {
                 <div style={{paddingTop: "15px"}}>
                     <ButtonToolbar className="globalCenterThis">
                         <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
-                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
+                        <Button disabled={this.state.ticketValInProgress} onClick={this.validateTicketsFromDB.bind(this)}>►</Button>
                     </ButtonToolbar>
                 </div>
             </Panel>

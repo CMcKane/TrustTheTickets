@@ -1018,3 +1018,105 @@ class SqlHandler(object):
                 returnTicketIds = None
 
         return returnTicketIds
+
+    def validate_ticket_info(self, sectionNum, rowNum, seatsInfo, gameDate):
+
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+
+        # by default assume everything is invalid unless we get positive feedback from db
+        sectionNumIsValid = False
+        rowNumIsValid = False
+
+        # declare seats validity results list
+        seatsValidity = []
+
+        # validate section number first by querying the db for a row in the sections table
+        # with a section number equal to the one provided by the user
+        sectionQuery = "SELECT COUNT(section_id) AS res_cnt, section_id FROM sections WHERE section_num = '{}'".format(sectionNum)
+        try:
+            cursor.execute(sectionQuery)
+            row = cursor.fetchone()
+            resultCount = row[0]
+            sectionId = row[1]
+            sectionNumIsValid = (resultCount == 1)
+        except:
+            print("failed at line 1044")
+
+        if sectionNumIsValid:
+
+            # since the section num is valid, we can search for
+            # a corresponding row that might exist in that section.
+            rowQuery = "SELECT COUNT(row_id) AS res_cnt, row_id FROM rows " \
+                       "WHERE section_id = '{}' and row_num = '{}'".format(sectionId, rowNum)
+            try:
+                cursor.execute(rowQuery)
+                row = cursor.fetchone()
+                resultCount = row[0]
+                rowId = row[1]
+                rowNumIsValid = (resultCount == 1)
+            except:
+                print("failed at line 1059")
+
+            if rowNumIsValid:
+                # since the row number is correct as well,
+                # we can validate the seat numbers for that row
+                seatQuery = "SELECT MAX(CAST(seat_num AS UNSIGNED)) AS max_seat_num, " \
+                            "MIN(seat_id) as min_seat_id FROM seats " \
+                            "WHERE row_id = '{}'".format(rowId)
+                try:
+                    cursor.execute(seatQuery)
+                    row = cursor.fetchone()
+                    maxSeatNum = row[0]
+                    minSeatId = row[1]
+                except:
+                    print("failed at line 1071")
+
+                # now lets test all of the seat numbers
+                # to make sure that they are in between the available range
+
+                for s in seatsInfo:
+                    curSeatNum = int(s['seat'][0]['seatNum'])
+                    curSeatValid = (1 <=  curSeatNum and curSeatNum <= maxSeatNum)
+                    seatsValidity.append(dict(seatNum=s['seat'][0]['seatNum'], seatNumValid=curSeatValid))
+
+            else:
+                print("Row is invalid!")
+                print("Therefore therefore all seats are invalid as well!")
+
+        else:
+            print("Section is invalid!")
+            print("Therefore Row is invalid as well!")
+            print("Therefore therefore all seats are invalid as well!")
+
+        # since section or row is invalid, seats are invalid as well
+        if not sectionNumIsValid or not rowNumIsValid:
+            seatsValidity = [(dict(seatNum=s['seat'][0]['seatNum'], seatNumValid=False)) for s in seatsInfo]
+
+        locationResults = dict(sectionNumValid=sectionNumIsValid, rowNumValid=rowNumIsValid, seatsValidity=seatsValidity)
+
+
+        # ============================================================================================
+        # now lets check to see if any tickets are already listed for the same seats for the same game
+        eventIDQuery = "SELECT event_id FROM games WHERE date = '{}'".format(gameDate)
+        try:
+            cursor.execute(eventIDQuery)
+            eventId = cursor.fetchone()[0]
+        except:
+            print("failed on line 1105")
+
+        duplicateTicketsQuery = "SELECT seat_id FROM tickets where event_id = '{}' and row_id = '{}'".format(eventId, rowId)
+
+        cursor.execute(duplicateTicketsQuery)
+        listedTicketSeatIds = cursor.fetchall()
+        for sid in listedTicketSeatIds:
+            for s in seatsInfo:
+                curSeatNum = int(s['seat'][0]['seatNum'])
+                curSeatNumToId = curSeatNum + minSeatId - 1
+                if curSeatNumToId == int(sid[0]):
+                    print("duplicate ticket listing for seat num " + str(curSeatNum))
+
+
+        ticketListedResults = None
+
+        return dict(locationResults=locationResults, ticketListedResults=ticketListedResults)

@@ -124,7 +124,7 @@ class CreateListingConfirmModal extends Component {
 
         var labels = [];
         if (this.props.seatsInfo.length > 0) {
-            for (var i = 1; i <= this.props.numberOfTickets; i++) {
+            for (var i = 1; i <= this.props.seatsInfo.length; i++) {
 
                 var seat = this.props.seatsInfo[i - 1].seat[0].seatNum;
                 var aisleCheck = this.props.seatsInfo[i - 1].seat[0].aisleSeat;
