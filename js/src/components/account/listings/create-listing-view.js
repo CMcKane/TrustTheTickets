@@ -375,7 +375,7 @@ export default class CreateListingView extends Component {
                                 </Panel>
                                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                                     <ButtonToolbar className="globalCenterThis">
-                                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                                     </ButtonToolbar>
                                 </div>
                             </Panel>
@@ -431,8 +431,8 @@ export default class CreateListingView extends Component {
                                 </Panel>
                                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                                     <ButtonToolbar className="globalCenterThis">
-                                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                                     </ButtonToolbar>
                                 </div>
                             </Panel>
@@ -453,7 +453,7 @@ export default class CreateListingView extends Component {
                                                                             name="section"
                                                                             value={this.state.section}
                                                                             type="text"
-                                                                            label="Section Number"
+                                                                            label="Section Num"
                                                                             placeholder="Enter Section Number"
                                                                             onChange={this.handleSeatInfoChange.bind(this)}/>
                                                             </OverlayTrigger>
@@ -470,7 +470,7 @@ export default class CreateListingView extends Component {
                                                                             name="row"
                                                                             value={this.state.row}
                                                                             type="text"
-                                                                            label="Row Number"
+                                                                            label="Row Num"
                                                                             placeholder="Enter Row Number"
                                                                             onChange={this.handleSeatInfoChange.bind(this)}/>
                                                             </OverlayTrigger>
@@ -492,15 +492,15 @@ export default class CreateListingView extends Component {
                                 </div>
                                 <div style={{paddingTop: "15px"}}>
                                     <ButtonToolbar className="globalCenterThis">
-                                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                                     </ButtonToolbar>
                                 </div>
                             </Panel>
                             <Panel header="Step 4: Selling Information" eventKey={4}>
                                 <div className="globalCenterThis">
                                     <Grid>
-                                        <Panel>
+                                        <Panel style={{paddingLeft: "15px", paddingRight: "15px"}}>
                                             <div className="globalCenterThis">
                                                 <Col>
                                                     <Row>
@@ -538,8 +538,8 @@ export default class CreateListingView extends Component {
                                 </div>
                                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                                     <ButtonToolbar className="globalCenterThis">
-                                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                                     </ButtonToolbar>
                                 </div>
                             </Panel>
@@ -572,10 +572,8 @@ export default class CreateListingView extends Component {
                                 </div>
                                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                                     <ButtonToolbar className="globalCenterThis">
-                                        <Button onClick={this.handleSelectBack.bind(this)}>Prev
-                                            Step</Button>
-                                        <Button onClick={this.handleSelectNext.bind(this)}>Next
-                                            Step</Button>
+                                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                                     </ButtonToolbar>
                                 </div>
                             </Panel>
@@ -601,7 +599,7 @@ export default class CreateListingView extends Component {
                                 </Panel>
                                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                                     <ButtonToolbar className="globalCenterThis">
-                                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
+                                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
                                         <Button onClick={this.createModal.bind(this)}>Create Listing</Button>
                                     </ButtonToolbar>
                                 </div>
