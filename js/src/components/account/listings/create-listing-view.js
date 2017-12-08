@@ -405,7 +405,7 @@ export default class CreateListingView extends Component {
                 </Panel>
                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                     <ButtonToolbar className="globalCenterThis">
-                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                     </ButtonToolbar>
                 </div>
             </Panel>
@@ -462,8 +462,8 @@ export default class CreateListingView extends Component {
                 </Panel>
                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                     <ButtonToolbar className="globalCenterThis">
-                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                     </ButtonToolbar>
                 </div>
             </Panel>
@@ -530,13 +530,12 @@ export default class CreateListingView extends Component {
                                 </Col>
                             </Panel>
                         </div>
-
                     </Grid>
                 </div>
                 <div style={{paddingTop: "15px"}}>
                     <ButtonToolbar className="globalCenterThis">
-                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                     </ButtonToolbar>
                 </div>
             </Panel>
@@ -587,8 +586,8 @@ export default class CreateListingView extends Component {
                 </div>
                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                     <ButtonToolbar className="globalCenterThis">
-                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                     </ButtonToolbar>
                 </div>
             </Panel>
@@ -627,8 +626,8 @@ export default class CreateListingView extends Component {
                 </div>
                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                     <ButtonToolbar className="globalCenterThis">
-                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
-                        <Button onClick={this.handleSelectNext.bind(this)}>Next Step</Button>
+                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
+                        <Button onClick={this.handleSelectNext.bind(this)}>►</Button>
                     </ButtonToolbar>
                 </div>
             </Panel>
@@ -660,7 +659,7 @@ export default class CreateListingView extends Component {
                 </Panel>
                 <div className="globalCenterThis" style={{paddingTop: "15px"}}>
                     <ButtonToolbar className="globalCenterThis">
-                        <Button onClick={this.handleSelectBack.bind(this)}>Prev Step</Button>
+                        <Button onClick={this.handleSelectBack.bind(this)}>◄</Button>
                         <Button onClick={this.createModal.bind(this)}>Create Listing</Button>
                     </ButtonToolbar>
                 </div>
