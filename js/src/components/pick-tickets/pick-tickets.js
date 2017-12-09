@@ -690,7 +690,7 @@ export default class PickTickets extends Component {
                     seats.push(this.state.groups[group][i].seat_number);
                 }
 
-                seats.sort();
+                //seats.sort();
                 list.push(
 
                     <div key={group} className="ticketBorder">

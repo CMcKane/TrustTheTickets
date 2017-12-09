@@ -60,9 +60,11 @@ export default class PickTicketsModal extends Component {
             var seatNums = [];
             for(var i = 0; i < this.props.group.length; i++)
             {
-                seatNums.push(this.props.group[i].seat_number);
+                seatNums.push(parseInt(this.props.group[i].seat_number));
             }
-            seatNums.sort();
+            // console.log(seatNums);
+            // seatNums.sort();
+            // console.log(seatNums);
             var sortedIndexes = [];
             for(var i = 0; i < this.props.group.length; i++)
             {
