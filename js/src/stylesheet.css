@@ -2049,7 +2049,7 @@ col.registrationViewCol {
     }
 }
 
-@media (max-width: 767) {
+@media (max-width: 767px) {
     .versusDate {
         font-size: 36px;
     }
