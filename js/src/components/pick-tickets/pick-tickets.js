@@ -687,10 +687,16 @@ export default class PickTickets extends Component {
                 var id = "";
                 var seats = [];
                 for(var i = 0; i < this.state.groups[group].length; i++) {
-                    seats.push(this.state.groups[group][i].seat_number);
+                    seats.push(parseInt(this.state.groups[group][i].seat_number));
                 }
 
-                //seats.sort();
+                // By default js .sort method sorts lexicongraphically, this function overrides
+                // that to sort it numerically.
+                function sortNumber(a,b) {
+                    return a - b;
+                }
+
+                seats.sort(sortNumber);
                 list.push(
 
                     <div key={group} className="ticketBorder">

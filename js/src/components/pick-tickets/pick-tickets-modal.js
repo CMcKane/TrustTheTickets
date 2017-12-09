@@ -62,9 +62,13 @@ export default class PickTicketsModal extends Component {
             {
                 seatNums.push(parseInt(this.props.group[i].seat_number));
             }
-            // console.log(seatNums);
-            // seatNums.sort();
-            // console.log(seatNums);
+            // By default js .sort method sorts lexicongraphically, this function overrides
+            // that to sort it numerically.
+            function sortNumber(a,b) {
+                return a - b;
+            }
+
+            seatNums.sort(sortNumber);
             var sortedIndexes = [];
             for(var i = 0; i < this.props.group.length; i++)
             {
