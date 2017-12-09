@@ -78,7 +78,6 @@ export default class App extends Component {
                         <Route path='/versus' component={Versus}/>
                         <Route path='/checkout-landing' component={CheckoutLanding}/>
                         <Route path='/create-listing-submit-landing' component={CreateListingSubmitLanding}/>
-                        <Route path='/my-account' component={MyAccount}/>
                         <Route exact path='/my-account' render={(props) =>
                             <MyAccount
                                 {...props} logIn={this.userLogIn.bind(this)}
