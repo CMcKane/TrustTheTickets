@@ -432,6 +432,8 @@ export default class CreateListingView extends Component {
 
                 var correctInfo = true;
 
+                // checking location information returned from the back end
+
                 // comment once done debugging:
                 console.log(res.data.ticketInfoResults.locationResults);
                 // save variables for reference
@@ -470,15 +472,31 @@ export default class CreateListingView extends Component {
                     }
                 }
 
+                // only perform a duplicate ticket check if the location information is good
+                if(correctInfo)
+                {
+                    // checking for duplicate listings in the same seats that the user is trying to upload
+                    console.log(res.data.ticketInfoResults.ticketListedResults);
+                    var duplicates = res.data.ticketInfoResults.ticketListedResults;
+                    var errorMsg = "";
+                    for(var i = 0; i < duplicates.length; i++)
+                    {
+                        errorMsg += "Seat # " + duplicates[i].seatNum + " for Ticket " + (i + 1) + " is already listed.\n";
+                    }
+                    if(errorMsg.length > 1)
+                    {
+                        errorMsg += "Please check your tickets and try again.";
+                        alert(errorMsg);
+                    }
+                    else
+                    {
+                        this.handleSelectNext();
+                    }
+                }
 
                 this.setState({
                     ticketValInProgress: false
                 });
-
-                if(correctInfo)
-                {
-                    this.handleSelectNext();
-                }
             });
         }
         else

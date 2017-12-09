@@ -1027,6 +1027,7 @@ class SqlHandler(object):
         # by default assume everything is invalid unless we get positive feedback from db
         sectionNumIsValid = False
         rowNumIsValid = False
+        aSeatNumIsInvalid = False
 
         # declare seats validity results list
         seatsValidity = []
@@ -1079,6 +1080,8 @@ class SqlHandler(object):
                     curSeatNum = int(s['seat'][0]['seatNum'])
                     curSeatValid = (1 <=  curSeatNum and curSeatNum <= maxSeatNum)
                     seatsValidity.append(dict(seatNum=s['seat'][0]['seatNum'], seatNumValid=curSeatValid))
+                    if not curSeatValid:
+                        aSeatNumIsInvalid = True
 
             else:
                 print("Row is invalid!")
@@ -1092,31 +1095,36 @@ class SqlHandler(object):
         # since section or row is invalid, seats are invalid as well
         if not sectionNumIsValid or not rowNumIsValid:
             seatsValidity = [(dict(seatNum=s['seat'][0]['seatNum'], seatNumValid=False)) for s in seatsInfo]
+            aSeatNumIsInvalid = True
 
         locationResults = dict(sectionNumValid=sectionNumIsValid, rowNumValid=rowNumIsValid, seatsValidity=seatsValidity)
 
+        ticketListedResults = [];
 
         # ============================================================================================
         # now lets check to see if any tickets are already listed for the same seats for the same game
-        eventIDQuery = "SELECT event_id FROM games WHERE date = '{}'".format(gameDate)
-        try:
-            cursor.execute(eventIDQuery)
-            eventId = cursor.fetchone()[0]
-        except:
-            print("failed on line 1105")
+        # to proceed we must have all correct ticket location information at this point
+        if not aSeatNumIsInvalid:
+            eventIDQuery = "SELECT event_id FROM games WHERE date = '{}'".format(gameDate)
+            try:
+                cursor.execute(eventIDQuery)
+                eventId = cursor.fetchone()[0]
+            except:
+                print("failed on line 1105")
 
-        duplicateTicketsQuery = "SELECT seat_id FROM tickets where event_id = '{}' and row_id = '{}'".format(eventId, rowId)
+            duplicateTicketsQuery = "SELECT seat_id FROM tickets where event_id = '{}' and row_id = '{}'".format(eventId, rowId)
 
-        cursor.execute(duplicateTicketsQuery)
-        listedTicketSeatIds = cursor.fetchall()
-        for sid in listedTicketSeatIds:
-            for s in seatsInfo:
-                curSeatNum = int(s['seat'][0]['seatNum'])
-                curSeatNumToId = curSeatNum + minSeatId - 1
-                if curSeatNumToId == int(sid[0]):
-                    print("duplicate ticket listing for seat num " + str(curSeatNum))
-
-
-        ticketListedResults = None
+            try:
+                cursor.execute(duplicateTicketsQuery)
+                listedTicketSeatIds = cursor.fetchall()
+                for sid in listedTicketSeatIds:
+                    for s in seatsInfo:
+                        curSeatNum = int(s['seat'][0]['seatNum'])
+                        curSeatNumToId = curSeatNum + minSeatId - 1
+                        if curSeatNumToId == int(sid[0]):
+                            print("duplicate ticket listing for seat num " + str(curSeatNum))
+                            ticketListedResults.append(dict(seatNum=curSeatNum, seatAlreadyListed=True))
+            except:
+                print("failed on line 1120")
 
         return dict(locationResults=locationResults, ticketListedResults=ticketListedResults)
