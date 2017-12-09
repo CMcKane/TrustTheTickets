@@ -368,7 +368,7 @@ These are all the default screen sizes
     }
 }
 
-@media (orientation: landscape) and (max-width: 750px){
+@media (orientation: landscape) and (max-width: 767px){
     .eventCalendarView{
         -webkit-background-size: cover;
         -moz-background-size: cover;
@@ -2049,7 +2049,14 @@ col.registrationViewCol {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767@media (max-width: 768px) and (min-width: 768px) {
+    .eventDetailCardSelected {
+        padding: 5px !important;
+    }
+    .eventDetailCard {
+        padding: 5px !important;
+    }
+}px) {
     .versusDate {
         font-size: 36px;
     }
