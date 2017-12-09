@@ -727,9 +727,9 @@ class SqlHandler(object):
                 id_string+="'{}',".format(ticket_ids[i])
 
 
-        whereStr = "WHERE ticket_id IN ({}) "
+        whereStr = "WHERE ticket_id IN ({}) AND lock_account_id IS NOT NULL "
         query = "UPDATE tickets " \
-                "SET ticket_status_id = 1 " \
+                "SET ticket_status_id = 1, lock_account_id = NULL " \
                 "%s" % (whereStr)
         try:
             cursor.execute(query.format(id_string))
@@ -807,27 +807,28 @@ class SqlHandler(object):
             return not successful
 
         try:
-            self.create_transaction_detail(cursor, tickets, new_id, group_id)
+            self.create_transaction_detail(conn, cursor, tickets, new_id, group_id)
         except:
             return not successful
 
         try:
             self.create_transaction_charges(cursor, new_id, tax_per_ticket, comm_per_ticket, subtotal_per_ticket, tickets)
+            conn.commit()
         except:
             return not successful
 
         conn.commit()
         return successful
 
-    def create_transaction_detail(self, cursor, tickets, transaction_id, group_id):
+    def create_transaction_detail(self, conn, cursor, tickets, transaction_id, group_id):
         for ticket in tickets:
             insertQuery = "INSERT INTO transaction_detail (transaction_id, ticket_id)" \
                           " VALUES ('{}', '{}')".format(transaction_id, ticket['ticket_id'])
             cursor.execute(insertQuery)
 
             id = ticket['ticket_id']
-            self.set_ticket_status(cursor, id, 2)
-            self.update_ticket_group_table(cursor, group_id)
+            self.set_ticket_status(conn, cursor, id, 2)
+            self.update_ticket_group_table(conn, cursor, group_id)
 
     def create_transaction_charges(self, cursor, transaction_id, tax_per_ticket, comm_per_ticket, subtotal_per_ticket, tickets):
 
@@ -854,12 +855,13 @@ class SqlHandler(object):
                           " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
             cursor.execute(insertQuery)
 
-    def set_ticket_status(self, cursor, ticket_id, new_status):
+    def set_ticket_status(self, conn, cursor, ticket_id, new_status):
         updateQuery = "UPDATE tickets SET ticket_status_id = '{}', lock_account_id = NULL " \
                       "WHERE ticket_id = '{}'".format(new_status, ticket_id)
         cursor.execute(updateQuery)
+        conn.commit()
 
-    def update_ticket_group_table(self, cursor, group_id):
+    def update_ticket_group_table(self, conn, cursor, group_id):
         updateQuery = "UPDATE groups " \
                       "SET available_ticket_num =  available_ticket_num - 1 " \
                       "WHERE group_id = '{}'".format(group_id)
@@ -877,6 +879,8 @@ class SqlHandler(object):
         if available < min_sell:
             insertQuery = "UPDATE groups SET min_sell_num = '{}' WHERE group_id = '{}'".format(available, group_id)
             cursor.execute(insertQuery)
+
+        conn.commit()
 
     def get_user_email(self, accountId):
         conn = self.mysql.connection
@@ -1112,7 +1116,7 @@ class SqlHandler(object):
             except:
                 print("failed on line 1105")
 
-            duplicateTicketsQuery = "SELECT seat_id FROM tickets where event_id = '{}' and row_id = '{}'".format(eventId, rowId)
+            duplicateTicketsQuery = "SELECT seat_id FROM tickets where event_id = '{}' and row_id = '{}' and ticket_status_id = 1".format(eventId, rowId)
 
             try:
                 cursor.execute(duplicateTicketsQuery)
