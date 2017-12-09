@@ -572,7 +572,7 @@ class SqlHandler(object):
                        "JOIN teams te2 ON (away_team_id = te2.team_id) "
                        "WHERE t.account_id={} "
                        "AND ticket_status_desc='Available' "
-                       "ORDER BY group_id, seat_num, row_num".format(account_id))
+                       "ORDER BY group_id, (CAST(seat_num AS UNSIGNED)), row_num".format(account_id))
         # Using a loop here so I can compile the returned rows into more compact structure
         # Tried writing a complex SQL query to do this but was unable to do so
         tickets=[]
