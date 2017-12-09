@@ -2049,14 +2049,7 @@ col.registrationViewCol {
     }
 }
 
-@media (max-width: 767@media (max-width: 768px) and (min-width: 768px) {
-    .eventDetailCardSelected {
-        padding: 5px !important;
-    }
-    .eventDetailCard {
-        padding: 5px !important;
-    }
-}px) {
+@media (max-width: 767) {
     .versusDate {
         font-size: 36px;
     }
