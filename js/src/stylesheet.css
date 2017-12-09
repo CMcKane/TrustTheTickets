@@ -362,13 +362,13 @@ These are all the default screen sizes
 @media (min-width: 1001px) {
     .eventCalendarViewEventsWell {
         color: rgb(45, 98, 183);
-        font-size: 40px;
+        font-size: 30px;
         font-weight: bold;
         text-align: center;
     }
 }
 
-@media (orientation: landscape){
+@media (orientation: landscape) and (max-width: 750px){
     .eventCalendarView{
         -webkit-background-size: cover;
         -moz-background-size: cover;
@@ -378,8 +378,8 @@ These are all the default screen sizes
         position: relative;
         background-color: #FFFFFF;
         width: 100%;
-        height: 255%;
-        overflow: auto;
+        height: 100%;
+        overflow: scroll;
     }
 
     .eventCalendarViewButtonRow {
@@ -390,8 +390,8 @@ These are all the default screen sizes
     }
 
     .eventCalendarViewDetailsRow {
-        height: 100%;
-        padding: 15px;
+        height: 50%;
+        padding: 10px;
     }
 }
 
@@ -2389,7 +2389,7 @@ table.viewAccountTable {
 .leftTable {
 }
 
-@media (max-width: 1440px) and (min-width: 1025px) {
+@media (min-width: 1025px) {
     .timer {
         padding-left: 87%;
     }
@@ -2564,7 +2564,7 @@ table.viewAccountTable {
 
     .checkoutHeader {
         color: black;
-        font-size: 50x;
+        font-size: 50px;
         font-weight: bold;
         text-align: center;
         background-color: #006BB6;
