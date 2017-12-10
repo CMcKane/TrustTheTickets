@@ -401,7 +401,7 @@ class SqlHandler(object):
                         early_access=row[6], aisle_seat=row[7], handicap=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
         return tickets
 
-
+    # gets tickets by the section type, while applying the filter
     def get_tickets_in_section_type_with_filter(self, event_id, section_type_id, minPrice, maxPrice,
                                                 aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
@@ -499,35 +499,6 @@ class SqlHandler(object):
         tickets = [dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3], group_id=row[4],
                         aisle_seat=row[5], early_access=row[6], handicap=row[7], ticket_id=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
         return tickets
-
-    def get_cheapest_tickets_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
-        conn = self.mysql.connection
-        cursor = conn.cursor()
-
-        whereStr = "WHERE t.event_id ='{}' " \
-                   "AND t.ticket_status_id = 1 " \
-                   "AND ticket_price <= (SELECT min(ticket_price) FROM groups g WHERE g.event_id = '{}') "
-
-        if int(desiredNumberTickets) is not 0:
-            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
-
-        if aisleSeat is 1:
-            whereStr += "AND t.is_aisle_seat = 1 "
-        if earlyAccess is 1:
-            whereStr += "AND t.is_early_entry = 1 "
-        if handicap is 1:
-            whereStr += "AND t.is_ha = 1 "
-
-        query = "SELECT DISTINCT section_num " \
-                "FROM tickets t " \
-                "JOIN groups USING (group_id) " \
-                "JOIN sections USING (section_id) %s"  % (whereStr)
-
-        cursor.execute(query.format(event_id, event_id))
-        sections = []
-        for row in cursor.fetchall():
-            sections.append(row[0])
-        return sections
 
     def get_seller_transactions(self, account_id):
         conn = self.mysql.connection
