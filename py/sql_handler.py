@@ -457,6 +457,7 @@ class SqlHandler(object):
 
         if int(desiredNumberTickets) is not 0:
             whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
+            whereStr += "AND %s >= g.min_sell_num " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
