@@ -56,10 +56,9 @@ class CreateListingConfirmModal extends Component {
         }));
         TTTPost('/send-listing-data', formData).then(res => {
             success = res.data.success
+            this.setState({redirect: true});
+            this.onHide();
         });
-
-        this.setState({redirect: true});
-        this.onHide()
     }
 
     getErrorText() {
