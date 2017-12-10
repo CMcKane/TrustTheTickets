@@ -40,24 +40,6 @@ class SqlHandler(object):
 
         return tickets
 
-    def get_all_tickets(self, mysql, eventID, desiredNumberTickets):
-        conn = mysql.connection
-        cursor = conn.cursor()
-        cursor.execute("SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num, g.ticket_price, g.min_sell_num "
-                       "FROM tickets t  "
-                       "JOIN sections se ON (t.section_id = se.section_id) "
-                       "JOIN rows r ON (t.row_id = r.row_id) "
-                       "JOIN seats s ON (t.seat_id = s.seat_id) "
-                       "JOIN groups g USING (group_id)"
-                       "WHERE t.event_id = '{}' "
-                       "AND t.ticket_status_id = 1 "
-                       "AND min_sell_num <= '{}' "
-                       "ORDER BY row_num".format(eventID, desiredNumberTickets))
-        tickets = [dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
-                        section_number=row[3], ticket_price=row[4], min_sell_num=row[5]) for row in
-                   cursor.fetchall()]
-        return tickets
-
     def get_account_info(self, account_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -219,6 +201,128 @@ class SqlHandler(object):
         data = [dict(team_id=row[0], city=row[1], team_name=row[2]) for row in cursor.fetchall()]
         return data
 
+    # def get_tickets_for_sections(self, event_id, sections, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
+    #     conn = self.mysql.connection
+    #     cursor = conn.cursor()
+    #     section_string = ""
+    #     for i in range(0, len(sections)):
+    #         if (i == len(sections)-1):
+    #             section_string+="'{}'".format(sections[i])
+    #         else:
+    #             section_string+="'{}',".format(sections[i])
+    #
+    #     whereStr = "WHERE t.event_id = '{}' " \
+    #                "AND se.section_num IN ({}) " \
+    #                "AND t.ticket_status_id = 1 "
+    #
+    #     if int(desiredNumberTickets) is not 0:
+    #         whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
+    #
+    #     if aisleSeat is 1:
+    #         whereStr += "AND t.is_aisle_seat = 1 "
+    #     if earlyAccess is 1:
+    #         whereStr += "AND t.is_early_entry = 1 "
+    #     if handicap is 1:
+    #         whereStr += "AND t.is_ha = 1 "
+    #
+    #     query = "SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, " \
+    #             "is_aisle_seat, is_early_entry, is_ha, ticket_id, min_sell_num " \
+    #             "FROM tickets t " \
+    #             "JOIN groups g ON (t.group_id = g.group_id) " \
+    #             "JOIN sections se ON (t.section_id = se.section_id) " \
+    #             "JOIN rows r ON (t.row_id = r.row_id) " \
+    #             "JOIN seats s ON (t.seat_id = s.seat_id) %s" % (whereStr)
+    #
+    #     cursor.execute(query.format(event_id, section_string))
+    #     tickets = [dict(ticket_price=row[0], section_number=row[1],
+    #                     row_number=row[2], seat_number=row[3],
+    #                     group_id=row[4], aisle_seat=row[5],
+    #                     early_access=row[6], handicap=row[7],
+    #                     ticket_id=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
+    #     return tickets
+
+    #
+    def get_tickets_in_sections_with_filter(self, event_id, sections, minPrice, maxPrice,
+                                            aisleSeat, earlyAccess, handicap, desiredNumberTickets):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        section_string = ""
+        for i in range(0, len(sections)):
+            if (i == len(sections)-1):
+                section_string+="'{}'".format(sections[i])
+            else:
+                section_string+="'{}',".format(sections[i])
+
+        whereStr = "WHERE t.event_id = '{}' " \
+                   "AND se.section_num IN ({}) " \
+                   "AND g.ticket_price >= '{}' " \
+                   "AND g.ticket_price <= '{}' " \
+                   "AND t.ticket_status_id = 1 "
+
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
+            whereStr += "AND %s >= g.min_sell_num " % (desiredNumberTickets)
+
+        if aisleSeat is 1:
+            whereStr += "AND t.is_aisle_seat = 1 "
+        if earlyAccess is 1:
+            whereStr += "AND t.is_early_entry = 1 "
+        if handicap is 1:
+            whereStr += "AND t.is_ha = 1 "
+
+        query = "SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, " \
+                "is_aisle_seat, is_early_entry, is_ha, ticket_id, min_sell_num " \
+                "FROM tickets t " \
+                "JOIN groups g ON (t.group_id = g.group_id) " \
+                "JOIN sections se ON (t.section_id = se.section_id) " \
+                "JOIN rows r ON (t.row_id = r.row_id) " \
+                "JOIN seats s ON (t.seat_id = s.seat_id) %s" % (whereStr)
+
+        cursor.execute(query.format(event_id, section_string, minPrice, maxPrice))
+        tickets = [dict(ticket_price=row[0], section_number=row[1],
+                        row_number=row[2], seat_number=row[3],
+                        group_id=row[4], aisle_seat=row[5],
+                        early_access=row[6], handicap=row[7],
+                        ticket_id=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
+        return tickets
+
+    # searches for all tickets that meet the filter requirements in any section
+    def get_tickets_with_filter_all_sections(self, minPrice, maxPrice, event_id,
+                                             aisleSeat, earlyAccess, handicap, desiredNumberTickets):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+
+        whereStr = "WHERE g.ticket_price >= '{}' " \
+                   "AND g.ticket_price <= '{}' " \
+                   "AND t.event_id = '{}' " \
+                   "AND t.ticket_status_id = 1 " \
+
+        if int(desiredNumberTickets) is not 0:
+            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
+            whereStr += "AND %s >= g.min_sell_num " % (desiredNumberTickets)
+
+        if aisleSeat is 1:
+            whereStr += "AND t.is_aisle_seat = 1 "
+        if earlyAccess is 1:
+            whereStr += "AND t.is_early_entry = 1 "
+        if handicap is 1:
+            whereStr += "AND t.is_ha = 1 "
+
+        query = "SELECT  g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, t.ticket_id,  " \
+                "t.is_early_entry, t.is_aisle_seat, t.is_ha, g.min_sell_num " \
+                "FROM tickets t " \
+                "JOIN groups g ON (t.group_id = g.group_id) " \
+                "JOIN sections se ON (t.section_id = se.section_id) " \
+                "JOIN rows r ON (t.row_id = r.row_id) " \
+                "JOIN seats s ON (t.seat_id = s.seat_id) %s" % (whereStr)
+
+        cursor.execute(query.format(minPrice, maxPrice, event_id))
+        tickets = [dict(ticket_price=row[0], section_number=row[1],
+                        row_number=row[2], seat_number=row[3],
+                        group_id=row[4], ticket_id=row[5],
+                        early_access=row[6], aisle_seat=row[7], handicap=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
+        return tickets
+
     def get_ticket_by_filter(self, minPrice, maxPrice, event_id, sections,
                              aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
@@ -302,6 +406,8 @@ class SqlHandler(object):
             return SqlHandler.get_cheap_ticket_any_section(self, event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
         elif priceMode == 2 or priceMode == 3:
             return SqlHandler.get_extrema_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets, priceMode)
+        elif priceMode == 4:
+            print("four")
         return None
 
 
@@ -328,6 +434,7 @@ class SqlHandler(object):
             whereStr += "AND %s <= (SELECT count(ti.ticket_id) " \
                         "FROM tickets ti JOIN groups USING(group_id) " \
                         "WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
+            whereStr += "AND %s >= min_sell_num " % (desiredNumberTickets)
 
         if aisleSeat is 1:
             whereStr += "AND t.is_aisle_seat = 1 "
@@ -545,46 +652,6 @@ class SqlHandler(object):
                        "SET ticket_status_id = 3, available_ticket_num = 0 "
                        "WHERE group_id={}".format(groupID))
         conn.commit()
-
-    def get_tickets_for_sections(self, event_id, sections, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
-        conn = self.mysql.connection
-        cursor = conn.cursor()
-        section_string = ""
-        for i in range(0, len(sections)):
-            if (i == len(sections)-1):
-                section_string+="'{}'".format(sections[i])
-            else:
-                section_string+="'{}',".format(sections[i])
-
-        whereStr = "WHERE t.event_id = '{}' " \
-                   "AND se.section_num IN ({}) " \
-                   "AND t.ticket_status_id = 1 "
-
-        if int(desiredNumberTickets) is not 0:
-            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
-
-        if aisleSeat is 1:
-            whereStr += "AND t.is_aisle_seat = 1 "
-        if earlyAccess is 1:
-            whereStr += "AND t.is_early_entry = 1 "
-        if handicap is 1:
-            whereStr += "AND t.is_ha = 1 "
-
-        query = "SELECT g.ticket_price, se.section_num, r.row_num, s.seat_num, t.group_id, " \
-                "is_aisle_seat, is_early_entry, is_ha, ticket_id, min_sell_num " \
-                "FROM tickets t " \
-                "JOIN groups g ON (t.group_id = g.group_id) " \
-                "JOIN sections se ON (t.section_id = se.section_id) " \
-                "JOIN rows r ON (t.row_id = r.row_id) " \
-                "JOIN seats s ON (t.seat_id = s.seat_id) %s" % (whereStr)
-
-        cursor.execute(query.format(event_id, section_string))
-        tickets = [dict(ticket_price=row[0], section_number=row[1],
-                        row_number=row[2], seat_number=row[3],
-                        group_id=row[4], aisle_seat=row[5],
-                        early_access=row[6], handicap=row[7],
-                        ticket_id=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
-        return tickets
 
     def get_game_dates(self):
         conn = self.mysql.connection
@@ -1000,7 +1067,7 @@ class SqlHandler(object):
                 # we can validate the seat numbers for that row
                 seatQuery = "SELECT MAX(CAST(seat_num AS UNSIGNED)) AS max_seat_num, " \
                             "MIN(seat_id) as min_seat_id FROM seats " \
-                            "WHERE row_id = '{}' GROUP BY seat_id".format(rowId)
+                            "WHERE row_id = '{}'".format(rowId)
                 try:
                     cursor.execute(seatQuery)
                     row = cursor.fetchone()

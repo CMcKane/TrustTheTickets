@@ -40,8 +40,9 @@ export default class PickTickets extends Component {
             eventTitle: 'Choose a game',
             isLoading: false,
             previousSections: [],
-            toggleValue: 2,
+            toggleValue: 4,
             chartToggleValue: 1,
+            filterChanged: false,
             bySection: true,
             groups: [],
             show: false,
@@ -80,7 +81,7 @@ export default class PickTickets extends Component {
     // by default it called the get cheapest tickets routine
     componentDidMount() {
         this.getEvent();
-        this.getCheapestTicketsInitial();
+        this.handleQuickSearchButtonPress("firstload");
     }
 
     onHide() {
@@ -182,26 +183,36 @@ export default class PickTickets extends Component {
         });
     }
 
-    handlePriceButtonPress(e)
+    handleQuickSearchButtonPress(e)
     {
-        if(!(e.target.value === undefined))
+        // some nonsense to see if i'm calling this directly from first load
+        ////////////////////////////////////////////////////////////////////
+        var firstload = 0;
+        try{if(e == "firstload"){firstload = 2;}}
+        catch(e){}
+        // if I do call it from first load, i set firstload == 2 and proceed
+        ////////////////////////////////////////////////////////////////////
+        if((firstload == 2) || !(e.target.value === undefined))
         {
             this.setState({
                 isLoading: true,
                 tickets: [],
                 groups: [],
-                toggleValue: parseInt(e.target.value)
+                toggleValue: 4
             });
+
+            // if firstload is set, then use code 2 which is search lowest
+            var priceMode = (firstload == 2) ? 2 : parseInt(e.target.value);
 
             // we will always pass a range on,
             // but whether we use it depends on the priceMode
             TTTPost('/get-tickets-and-sections-by-price',{
                 eventID: this.state.eventID,
-                aisleSeating: this.state.aisleSeatToggle,
+                aisleSeat: this.state.aisleSeatToggle,
                 earlyAccess: this.state.earlyAccessToggle,
                 handicap: this.state.handicapToggle,
                 desiredNumberTickets: this.state.desiredNumberTickets,
-                priceMode: parseInt(e.target.value),
+                priceMode: priceMode,
                 priceRange: {
                     min: this.state.minPrice,
                     max: this.state.maxPrice
@@ -225,36 +236,44 @@ export default class PickTickets extends Component {
         }
     }
 
-    /*
-    selectTicket() {
-         this.setState({
-            tickets: [],
-            previousSections: this.state.sections,
-            sections: [],
-            groups: [],
-            isLoading: true,
-            toggleValue: 1
-            }, () => {this.getTicketsWithFilter()});
+    handleToggleButtonPress(e)
+    {
+        if(!(e.target.value === undefined))
+        {
+            switch(e.target.value)
+            {
+                // price range case
+                case 1:
+                    this.setState({
+                        toggleValue: 1
+                    });
+                    break;
+                // any price case
+                case 4:
+                    this.setState({
+                        toggleValue: 4
+                    });
+                    break;
+            }
+        }
     }
-    */
 
-
-    getTicketsWithFilter() {
+    // performs a full search in all sections from the database,
+    // with the filters that are currently set
+    searchForTicketsWithFilter() {
         this.setState({
             isLoading: true,
             tickets: [],
-            toggleValue: 1,
             groups: [],
             previousSections: this.state.sections,
             sections: []
         });
-        //if(this.state.sections.length === 0) {
-        TTTPost('/get-cheap-ticket-any-section', {
+        TTTPost('/search-tickets-with-filter', {
             eventID: this.state.eventID,
-            minPrice: this.state.minPrice,
-            maxPrice: this.state.maxPrice,
+            minPrice: this.getMinPriceBasedOnToggle(),
+            maxPrice: this.getMaxPriceBasedOnToggle(),
             earlyAccess: this.state.earlyAccessToggle,
-            aisleSeating: this.state.aisleSeatToggle,
+            aisleSeat: this.state.aisleSeatToggle,
             handicap: this.state.handicapToggle,
             desiredNumberTickets: this.state.desiredNumberTickets
         })
@@ -270,137 +289,46 @@ export default class PickTickets extends Component {
                     });
                 }
             });
-        // } else {
-        //     TTTPost('/pick-ticket-filter', {
-        //         eventID: this.state.eventID,
-        //         minPrice: this.state.minPrice,
-        //         maxPrice: this.state.maxPrice,
-        //         sections: this.state.sections,
-        //         earlyAccess: this.state.earlyAccessToggle,
-        //         aisleSeating: this.state.aisleSeatToggle,
-        //         handicap: this.state.handicapToggle,
-        //         desiredNumberTickets: this.state.desiredNumberTickets
-        //     })
-        //         .then(res => {
-        //             if (res.data.tickets) {
-        //                 this.setState({
-        //                     tickets: res.data.tickets,
-        //                     isLoading: false,
-        //                     sections: res.data.sections
-        //                 }, () => {this.createTicketGroupArrays(this.state.tickets)});
-        //             }
-        //         });
-        //     console.log("ELSE");
-        //     console.log(this.state.sections);
-        // }
     }
 
-    getCheapestTicketsInitial() {
-        this.setState({
-            isLoading:true,
-            tickets: [],
-            groups: [],
-            toggleValue: 2
-        });
-
-
-        TTTPost('/pick-cheapest-ticket',{
-            eventID: this.state.eventID,
-            earlyAccess: this.state.earlyAccessToggle,
-            aisleSeating: this.state.aisleSeatToggle,
-            handicap: this.state.handicapToggle,
-            desiredNumberTickets: this.state.desiredNumberTickets
-        })
-            .then(res => {
-                if (res.data.tickets) {
-                    this.setState({
-                        tickets: res.data.tickets,
-                        isLoading: false
-                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                }
-            });
-    }
-
-    filterCurrentSelectedSectionsWithCheckboxes() {
-        var currToggleValue = this.state.toggleValue;
-        const aisle = this.state.aisleSeatToggle;
-        const early = this.state.earlyAccessToggle;
-        const handicap = this.state.handicapToggle;
-        switch(currToggleValue)
+    // Retrieves tickets that match the current filter.
+    // Does not load new sections, only populates the ticket panel
+    // with tickets from the current sections that match the filter
+    applyFilter()
+    {
+        if (this.state.sections.length === 0)
         {
-            // toggled to use the selected price
-            case 1:
-                if(this.state.sections.length === 0)
-                {
-                    this.getTicketsWithFilter();
-                }
-                else
-                {
-                    TTTPost('/get-tickets-for-sections', {
-                        eventID: this.state.eventID,
-                        sections: this.state.sections,
-                        aisleSeating: aisle,
-                        earlyAccess: early,
-                        handicap: handicap,
-                        desiredNumberTickets: this.state.desiredNumberTickets
-                    })
-                    .then(res => {
-                        if (res.data.tickets) {
-                            this.setState({
-                                previousSections: this.state.sections,
-                                sections: res.data.sections,
-                                tickets: res.data.tickets,
-                                isLoading: false
-                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                        }
-                    });
-                }
-                break;
-
-            case 2:
-                TTTPost('/pick-cheapest-ticket',{
-                    eventID: this.state.eventID,
-                    earlyAccess: early,
-                    aisleSeating: aisle,
-                    handicap: handicap,
-                    desiredNumberTickets: this.state.desiredNumberTickets
-                })
-                    .then(res => {
-                        if (res.data.tickets) {
-                            this.setState({
-                                tickets: res.data.tickets,
-                                previousSections: this.state.sections,
-                                sections: res.data.sections,
-                                isLoading: false
-                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                        }
-                    });
-                break;
-
-            case 3:
-                TTTPost('/pick-expensive-ticket', {
-                    eventID: this.state.eventID,
-                    earlyAccess: early,
-                    aisleSeating: aisle,
-                    handicap: handicap,
-                    desiredNumberTickets: this.state.desiredNumberTickets
-                })
-                    .then(res => {
-                        if (res.data.tickets) {
-                            this.setState({
-                                previousSections: this.state.sections,
-                                sections: res.data.sections,
-                                tickets: res.data.tickets,
-                                isLoading: false
-                            }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                        }
-                    });
-                break;
-
-            default:
-                break;
+            this.searchForTicketsWithFilter();
         }
+        else
+        {
+            this.setState({
+                isLoading: true,
+                tickets: [],
+                groups: []
+            });
 
+            TTTPost('/search-tickets-in-sections-with-filter', {
+                eventID: this.state.eventID,
+                sections: this.state.sections,
+                minPrice: this.getMinPriceBasedOnToggle(),
+                maxPrice: this.getMaxPriceBasedOnToggle(),
+                earlyAccess: this.state.earlyAccessToggle,
+                aisleSeat: this.state.aisleSeatToggle,
+                handicap: this.state.handicapToggle,
+                desiredNumberTickets: this.state.desiredNumberTickets
+            })
+                .then(res => {
+                    if (res.data.tickets) {
+                        this.setState({
+                            tickets: res.data.tickets,
+                            isLoading: false
+                        }, () => {
+                            this.createTicketGroupArrays(this.state.tickets)
+                        });
+                    }
+                });
+        }
     }
 
     validSection(section) {
@@ -415,21 +343,32 @@ export default class PickTickets extends Component {
 
     onChartClick(section) {
         if(this.validSection(section)) {
+            // if we are picking by section
             if(this.state.bySection)
             {
-                if(this.state.sections.length === 1 && this.state.sections[0] === section) {
+                // If you are clicking on a currently selected section
+                // deselect that section, and empty the ticket list
+                if(this.state.sections.length === 1 && this.state.sections[0] === section && !this.state.filterChanged)
+                {
                     this.setState({
                         previousSections: this.state.sections,
                         sections: [],
-                        tickets: [],
-                        toggleValue: 1
-                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                        tickets: []
+                    }, () => {this.renderTicketList()});
                 }
-                else {
+                // else you're clicking on a new section, get the tickets for it
+                else
+                {
+                    if(this.state.filterChanged)
+                    {
+                       this.setState({filterChanged: false})
+                    }
                     this.setState({isLoading:true, tickets: []});
-                    TTTPost('/tickets', {
+                    TTTPost('/search-tickets-in-sections-with-filter', {
                         eventID: this.state.eventID,
-                        section_number: section,
+                        sections: [section],
+                        minPrice: this.getMinPriceBasedOnToggle(),
+                        maxPrice: this.getMaxPriceBasedOnToggle(),
                         aisleSeat: this.state.aisleSeatToggle,
                         earlyAccess: this.state.earlyAccessToggle,
                         handicap: this.state.handicapToggle,
@@ -442,12 +381,12 @@ export default class PickTickets extends Component {
                                     sections: [section],
                                     tickets: res.data.tickets,
                                     isLoading: false,
-                                    toggleValue: 1,
                                 }, () => {this.createTicketGroupArrays(this.state.tickets)});
                             }
                         });
                 }
             }
+            // else we are picking by zone
             else
             {
                 var sectionsAndZone = this.determineSectionsZone(section);
@@ -488,6 +427,16 @@ export default class PickTickets extends Component {
                     });
     }
 
+    getMinPriceBasedOnToggle()
+    {
+        return (this.state.toggleValue == 1) ? this.state.minPrice : 0;
+    }
+
+    getMaxPriceBasedOnToggle()
+    {
+        return (this.state.toggleValue == 1) ? this.state.maxPrice : 999999;
+    }
+
     determineSectionsZone(section) {
 
         var firstChar = section.charAt(0);
@@ -523,12 +472,17 @@ export default class PickTickets extends Component {
     onRangeSliderChange(value) {
         this.setState({
             minPrice: value[0],
-            maxPrice: value[1]
+            maxPrice: value[1],
+            filterChanged: true,
+            toggleValue: 1
         });
     }
 
     onToggleChange(value) {
-        this.setState({ toggleValue: value });
+        this.setState({
+            toggleValue: value,
+            filterChanged: true
+        });
     }
 
     toggleSectionOrZone() {
@@ -548,7 +502,8 @@ export default class PickTickets extends Component {
          });
 
     }
-    clearSections() {
+
+    clearResults() {
         this.setState({
             previousSections: this.state.sections,
             groups: [],
@@ -558,18 +513,16 @@ export default class PickTickets extends Component {
     }
 
     toggleFilter(e) {
-        var currState;
+        var changingToState;
         if(this.state[e.target.id] === 1) {
-            currState = 0;
+            changingToState = 0;
         } else {
-            currState = 1;
+            changingToState = 1;
         }
         this.setState({
-            [e.target.id]: currState,
-            tickets: [],
-            groups: [],
-            isLoading: true
-        }, () => {this.filterCurrentSelectedSectionsWithCheckboxes()}); 
+            [e.target.id]: changingToState,
+            filterChanged: true
+        });
     }
 
     addCheckBox(value) {
@@ -584,7 +537,7 @@ export default class PickTickets extends Component {
             checkoutTickets: [],
             tickets: [],
             groups: []
-        }, () => {this.getCheapestTicketsInitial()});
+        }, () => {this.this.handleQuickSearchButtonPress("firstload")});
     }
 
     setCheckoutTickets(tickets) {
@@ -773,20 +726,20 @@ export default class PickTickets extends Component {
                                         <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
                                           Search Options
                                         </Button>
-                                        <Panel collapsible expanded={this.state.showFilter}>
-                                            <div style={{paddingTop: '5px'}}>
+                                        <Panel collapsible expanded={this.state.showFilter} style={{backgroundColor: '#F8F8F8'}}>
+                                            <div>
                                                 <ControlLabel>
                                                     Quick Searches:
                                                 </ControlLabel>
                                                 <ButtonToolbar>
-                                                    <Button id="lowestPrice" value={2} name="lowest" onClick={this.handlePriceButtonPress.bind(this)}>Lowest Price</Button>
-                                                    <Button id="highestPrice" value={3} name="highest" onClick={this.handlePriceButtonPress.bind(this)}>Highest Price</Button>
+                                                    <Button id="lowestPrice" value={2} name="lowest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Lowest Price</Button>
+                                                    <Button id="highestPrice" value={3} name="highest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Highest Price</Button>
                                                 </ButtonToolbar>
                                             </div>
                                             <hr className="filter-hr"/>
                                             <div>
                                                 <ControlLabel>
-                                                    Price Search:
+                                                    Price Filter:
                                                 </ControlLabel>
                                                 <ToggleButtonGroup
                                                     id = "priceToggleGroup"
@@ -795,8 +748,8 @@ export default class PickTickets extends Component {
                                                     type="radio"
                                                     value={this.state.toggleValue}
                                                     onChange={this.onToggleChange.bind(this)}>
-                                                    <ToggleButton id="selectPrice" value={1} name="select" onClick={this.handlePriceButtonPress.bind(this)}>Select Price</ToggleButton>
-                                                    <ToggleButton id="anyPrice" value={4} name="any" onClick={this.handlePriceButtonPress.bind(this)}>Any Price</ToggleButton>
+                                                    <ToggleButton bsStyle="success" id="selectPrice" value={1} name="select" onClick={this.handleToggleButtonPress.bind(this)}>Use Range</ToggleButton>
+                                                    <ToggleButton id="anyPrice" value={4} name="any" onClick={this.handleToggleButtonPress.bind(this)}>Any Price</ToggleButton>
                                                 </ToggleButtonGroup>
                                                 <Range
                                                     className="range-slider"
@@ -814,7 +767,7 @@ export default class PickTickets extends Component {
                                             <hr className="filter-hr"/>
                                             <div>
                                                 <ControlLabel>
-                                                    Ticket Options:
+                                                    Extras Filter:
                                                 </ControlLabel>
                                                 <ToggleButtonGroup
                                                     id="checkBoxes"
@@ -831,8 +784,9 @@ export default class PickTickets extends Component {
                                             <div>
                                                 <FormGroup controlId="formControlsEmail">
                                                     <ButtonToolbar>
-                                                        <Button style={{marginRight: "5px"}} bsStyle="danger" onClick={this.clearSections.bind(this)}>Clear</Button>
-                                                        <Button bsStyle="primary" onClick={this.getTicketsWithFilter.bind(this)}>Apply</Button>
+                                                        <Button style={{marginRight: "5px"}} bsStyle="danger" onClick={this.clearResults.bind(this)}>Clear</Button>
+                                                        <Button style={{marginRight: "5px"}} bsStyle="primary" onClick={this.applyFilter.bind(this)}>Apply</Button>
+                                                        <Button bsStyle="primary" onClick={this.searchForTicketsWithFilter.bind(this)}>Search</Button>
                                                     </ButtonToolbar>
                                                 </FormGroup>
                                             </div>
