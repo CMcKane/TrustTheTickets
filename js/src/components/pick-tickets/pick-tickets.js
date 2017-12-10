@@ -538,7 +538,7 @@ export default class PickTickets extends Component {
             checkoutTickets: [],
             tickets: [],
             groups: []
-        }, () => {this.this.handleQuickSearchButtonPress("firstload")});
+        }, () => {this.handleQuickSearchButtonPress("firstload")});
     }
 
     setCheckoutTickets(tickets) {
