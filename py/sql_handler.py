@@ -1038,14 +1038,15 @@ class SqlHandler(object):
 
         # validate section number first by querying the db for a row in the sections table
         # with a section number equal to the one provided by the user
-        sectionQuery = "SELECT COUNT(section_id) AS res_cnt, section_id FROM sections WHERE section_num = '{}'".format(sectionNum)
+        sectionQuery = "SELECT COUNT(section_id) AS res_cnt, section_id FROM sections WHERE section_num = '{}' GROUP BY section_id".format(sectionNum)
         try:
             cursor.execute(sectionQuery)
             row = cursor.fetchone()
             resultCount = row[0]
             sectionId = row[1]
             sectionNumIsValid = (resultCount == 1)
-        except:
+        except Exception as e:
+            print(e)
             print("failed at line 1044")
 
         if sectionNumIsValid:
@@ -1053,7 +1054,7 @@ class SqlHandler(object):
             # since the section num is valid, we can search for
             # a corresponding row that might exist in that section.
             rowQuery = "SELECT COUNT(row_id) AS res_cnt, row_id FROM rows " \
-                       "WHERE section_id = '{}' and row_num = '{}'".format(sectionId, rowNum)
+                       "WHERE section_id = '{}' and row_num = '{}' GROUP BY row_id".format(sectionId, rowNum)
             try:
                 cursor.execute(rowQuery)
                 row = cursor.fetchone()
@@ -1068,7 +1069,7 @@ class SqlHandler(object):
                 # we can validate the seat numbers for that row
                 seatQuery = "SELECT MAX(CAST(seat_num AS UNSIGNED)) AS max_seat_num, " \
                             "MIN(seat_id) as min_seat_id FROM seats " \
-                            "WHERE row_id = '{}'".format(rowId)
+                            "WHERE row_id = '{}' GROUP BY seat_id".format(rowId)
                 try:
                     cursor.execute(seatQuery)
                     row = cursor.fetchone()
