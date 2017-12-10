@@ -25,7 +25,7 @@ class EventCalendarView extends Component {
         const start = moment(date).startOf('month').format('YYYY-MM-DD HH:mm:ss');
         const end = moment(date).endOf('month').format('YYYY-MM-DD HH:mm:ss');
         if (this.monthAndYearValid(date.getMonth(), date.getFullYear())) {
-            TTTPost('/ticket-details', {
+            TTTPost('/get-games-with-details', {
                 start: start,
                 end: end
             }).then(res => {
