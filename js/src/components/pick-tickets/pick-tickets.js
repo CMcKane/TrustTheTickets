@@ -75,9 +75,11 @@ export default class PickTickets extends Component {
         this.fetchFees();
     }
 
+    // this method gets called when the component initially gets rendered,
+    // and handles the initial appearence of the pick ticket chart
+    // by default it called the get cheapest tickets routine
     componentDidMount() {
         this.getEvent();
-        this.displayAllTickets(); 
         this.getCheapestTicketsInitial();
     }
 
@@ -93,14 +95,6 @@ export default class PickTickets extends Component {
 			show: true
 		})
 	}
-
-    handleChange(e) {
-        this.setState({[e.target.name]: e.target.value});
-    }
-
-    getEventTitle() {
-        return this.state.selectedEvent.title;
-    }
 
     setDesiredNumberTickets(eventKey) {
 
@@ -166,6 +160,9 @@ export default class PickTickets extends Component {
         return (arr);
     }
 
+    // get event is called to populate the pick tickets chart with event related information
+    // it gets called when the chart is initally rendered for a particular event
+    // get event retrieves the title of the currently loaded event.
     getEvent() {
         TTTPost('/get-event', {
             eventID: this.state.eventID
@@ -174,13 +171,7 @@ export default class PickTickets extends Component {
             try {
                 if (res.data.event.authenticated) {
                     this.setState({
-                        selectedEvent: {
-                            title: res.data.event.title,
-                            homeTeam: res.data.event.homeTeam,
-                            awayTeam: res.data.event.awayTeam
-                        },
-                        eventTitle: res.data.event.title,
-                        numTickets: res.data.event.numTickets
+                        eventTitle: res.data.event.title
                     });
                 }
             }
@@ -191,22 +182,50 @@ export default class PickTickets extends Component {
         });
     }
 
-    displayAllTickets() {
-        this.setState({isLoading:true, tickets: [], toggleValue: 1});
-        TTTPost('/all-tickets', {
-            eventID: this.state.eventID,
-            desiredNumberTickets: this.state.desiredNumberTickets
-        })
-            .then(res => {
-                if (res.data.tickets) {
-                    this.setState({
-                        tickets: res.data.tickets,
-                        isLoading: false
-                    });
-                }
+    handlePriceButtonPress(e)
+    {
+        if(!(e.target.value === undefined))
+        {
+            this.setState({
+                isLoading: true,
+                tickets: [],
+                groups: [],
+                toggleValue: parseInt(e.target.value)
             });
+
+            // we will always pass a range on,
+            // but whether we use it depends on the priceMode
+            TTTPost('/get-tickets-and-sections-by-price',{
+                eventID: this.state.eventID,
+                aisleSeating: this.state.aisleSeatToggle,
+                earlyAccess: this.state.earlyAccessToggle,
+                handicap: this.state.handicapToggle,
+                desiredNumberTickets: this.state.desiredNumberTickets,
+                priceMode: parseInt(e.target.value),
+                priceRange: {
+                    min: this.state.minPrice,
+                    max: this.state.maxPrice
+                }
+            })
+                .then(res => {
+                    if(res.data.tickets){
+                        this.setState({
+                            tickets: res.data.tickets,
+                            previousSections: this.state.sections,
+                            sections: res.data.sections,
+                            isLoading: false
+                        }, () => {this.createTicketGroupArrays(this.state.tickets)})
+                    }
+                    else{
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                })
+        }
     }
 
+    /*
     selectTicket() {
          this.setState({
             tickets: [],
@@ -217,10 +236,12 @@ export default class PickTickets extends Component {
             toggleValue: 1
             }, () => {this.getTicketsWithFilter()});
     }
+    */
+
 
     getTicketsWithFilter() {
         this.setState({
-            isLoading:true,
+            isLoading: true,
             tickets: [],
             toggleValue: 1,
             groups: [],
@@ -228,59 +249,10 @@ export default class PickTickets extends Component {
             sections: []
         });
         //if(this.state.sections.length === 0) {
-            TTTPost('/get-cheap-ticket-any-section', {
-                eventID: this.state.eventID,
-                minPrice: this.state.minPrice,
-                maxPrice: this.state.maxPrice,
-                earlyAccess: this.state.earlyAccessToggle,
-                aisleSeating: this.state.aisleSeatToggle,
-                handicap: this.state.handicapToggle,
-                desiredNumberTickets: this.state.desiredNumberTickets
-            })
-            .then(res => {
-                if (res.data.tickets) {
-                    this.setState({
-                        previousSections: this.state.sections,
-                        sections: res.data.sections,
-                        tickets: res.data.tickets,
-                        isLoading: false
-                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                }
-            });
-        /*} else {
-            TTTPost('/pick-ticket-filter', {
-                eventID: this.state.eventID,
-                minPrice: this.state.minPrice,
-                maxPrice: this.state.maxPrice,
-                sections: this.state.sections,
-                earlyAccess: this.state.earlyAccessToggle,
-                aisleSeating: this.state.aisleSeatToggle,
-                handicap: this.state.handicapToggle,
-                desiredNumberTickets: this.state.desiredNumberTickets
-            })
-                .then(res => {
-                    if (res.data.tickets) {
-                        this.setState({
-                            tickets: res.data.tickets,
-                            isLoading: false,
-                            sections: res.data.sections
-                        }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                    }
-                });
-            console.log("ELSE");
-            console.log(this.state.sections);
-        }*/
-    }
-
-    getExpensiveTicketsAndSections() {
-        this.setState({
-            isLoading:true,
-            tickets: [],
-            groups: [],
-            toggleValue: 3
-        });
-        TTTPost('/pick-expensive-ticket', {
+        TTTPost('/get-cheap-ticket-any-section', {
             eventID: this.state.eventID,
+            minPrice: this.state.minPrice,
+            maxPrice: this.state.maxPrice,
             earlyAccess: this.state.earlyAccessToggle,
             aisleSeating: this.state.aisleSeatToggle,
             handicap: this.state.handicapToggle,
@@ -293,10 +265,34 @@ export default class PickTickets extends Component {
                         sections: res.data.sections,
                         tickets: res.data.tickets,
                         isLoading: false
-                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
+                    }, () => {
+                        this.createTicketGroupArrays(this.state.tickets)
+                    });
                 }
             });
-
+        // } else {
+        //     TTTPost('/pick-ticket-filter', {
+        //         eventID: this.state.eventID,
+        //         minPrice: this.state.minPrice,
+        //         maxPrice: this.state.maxPrice,
+        //         sections: this.state.sections,
+        //         earlyAccess: this.state.earlyAccessToggle,
+        //         aisleSeating: this.state.aisleSeatToggle,
+        //         handicap: this.state.handicapToggle,
+        //         desiredNumberTickets: this.state.desiredNumberTickets
+        //     })
+        //         .then(res => {
+        //             if (res.data.tickets) {
+        //                 this.setState({
+        //                     tickets: res.data.tickets,
+        //                     isLoading: false,
+        //                     sections: res.data.sections
+        //                 }, () => {this.createTicketGroupArrays(this.state.tickets)});
+        //             }
+        //         });
+        //     console.log("ELSE");
+        //     console.log(this.state.sections);
+        // }
     }
 
     getCheapestTicketsInitial() {
@@ -325,49 +321,6 @@ export default class PickTickets extends Component {
             });
     }
 
-    getCheapestTickets() {
-        this.setState({
-            isLoading:true,
-            tickets: [],
-            groups: [],
-            toggleValue: 2
-        });
-
-
-        TTTPost('/pick-cheapest-ticket',{
-            eventID: this.state.eventID,
-            earlyAccess: this.state.earlyAccessToggle,
-            aisleSeating: this.state.aisleSeatToggle,
-            handicap: this.state.handicapToggle,
-            desiredNumberTickets: this.state.desiredNumberTickets
-        })
-            .then(res => {
-                if (res.data.tickets) {
-                    this.setState({
-                        tickets: res.data.tickets,
-                        previousSections: this.state.sections,
-                        sections: res.data.sections,
-                        isLoading: false
-                    }, () => {this.createTicketGroupArrays(this.state.tickets)});
-                }
-            });
-    }
-
-    getSelectedGame() {
-        if (this.state.eventID === '') {
-            eventTitle: 'Choose a game'
-        }
-        else {
-            eventTitle: this.state.selectedEvent.Title
-        }
-    }
-
-    _onButtonClick() {
-        this.setState({
-            showFilter: true
-        });
-    }
-
     filterCurrentSelectedSectionsWithCheckboxes() {
         var currToggleValue = this.state.toggleValue;
         const aisle = this.state.aisleSeatToggle;
@@ -375,6 +328,7 @@ export default class PickTickets extends Component {
         const handicap = this.state.handicapToggle;
         switch(currToggleValue)
         {
+            // toggled to use the selected price
             case 1:
                 if(this.state.sections.length === 0)
                 {
@@ -577,19 +531,6 @@ export default class PickTickets extends Component {
         this.setState({ toggleValue: value });
     }
 
-    hasEventID() {
-        if (this.state.eventID > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    eventButtonClick() {
-        return <LinkContainer to='/event-calendar'/>;
-    }
-
     toggleSectionOrZone() {
         if(this.state.bySection) {
             this.setState({bySection: false, chartToggleValue: 2});
@@ -690,7 +631,7 @@ export default class PickTickets extends Component {
                     seats.push(parseInt(this.state.groups[group][i].seat_number));
                 }
 
-                // By default js .sort method sorts lexicongraphically, this function overrides
+                // By default js .sort method sorts lexigraphically, this function overrides
                 // that to sort it numerically.
                 function sortNumber(a,b) {
                     return a - b;
@@ -813,12 +754,6 @@ export default class PickTickets extends Component {
                                                         <MenuItem eventKey="8" onSelect={this.setDesiredNumberTickets.bind(this)}>8 Tickets</MenuItem>
                                                         <MenuItem eventKey="9" onSelect={this.setDesiredNumberTickets.bind(this)}>9 Tickets</MenuItem>
                                                         <MenuItem eventKey="10" onSelect={this.setDesiredNumberTickets.bind(this)}>10+ Tickets</MenuItem>
-                                                        {/*<LinkContainer to='/event-calendar'>*/}
-                                                            {/*<MenuItem eventKey="By Team">By Team</MenuItem>*/}
-                                                        {/*</LinkContainer>*/}
-                                                        {/*<LinkContainer to='/event-calendar'>*/}
-                                                            {/*<MenuItem eventKey="By Calendar">By Calendar</MenuItem>*/}
-                                                        {/*</LinkContainer>*/}
                                                     </DropdownButton>
                                                 </ButtonGroup>
                                             </Col>
@@ -847,9 +782,9 @@ export default class PickTickets extends Component {
                                                     type="radio"
                                                     value={this.state.toggleValue}
                                                     onChange={this.onToggleChange.bind(this)}>
-                                                        <ToggleButton id="selectPrice" value={1} onClick={this.selectTicket.bind(this)}>Select Price</ToggleButton>
-                                                        <ToggleButton id="lowestPrice" value={2} onClick={this.getCheapestTickets.bind(this)}>Lowest Price</ToggleButton>
-                                                        <ToggleButton id="highestPrice" value={3} onClick={this.getExpensiveTicketsAndSections.bind(this)}>Highest Price</ToggleButton>
+                                                        <ToggleButton id="selectPrice" value={1} name="select" onClick={this.handlePriceButtonPress.bind(this)}>Select Price</ToggleButton>
+                                                        <ToggleButton id="lowestPrice" value={2} name="lowest" onClick={this.handlePriceButtonPress.bind(this)}>Lowest Price</ToggleButton>
+                                                        <ToggleButton id="highestPrice" value={3} name="highest" onClick={this.handlePriceButtonPress.bind(this)}>Highest Price</ToggleButton>
                                                 </ToggleButtonGroup>
                                             </div>
                                             <div>

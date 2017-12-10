@@ -142,8 +142,8 @@ def get_account_info():
         except Exception as e:
             return jsonify({'authenticated': False})
 
-@app.route('/ticket-details', methods=['POST'])
-def get_ticket_details():
+@app.route('/get-games-with-details', methods=['POST'])
+def get_games_with_details():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
         jsonData = request.get_json()
         sqlHandler = SqlHandler(mysql)
@@ -203,26 +203,42 @@ def pick_tickets_by_filter():
     return jsonify({'tickets': tickets,
                     'sections': sections})
 
-@app.route('/pick-cheapest-ticket', methods=['POST'])
-def pick_cheapest_ticket():
+# This route handles three different price modes
+# "select" (gives a price range to select tickets between), "lowest", and "highest"
+# the price mode is indicated by the priceMode field passed in the json,
+#   and this price mode is passed on into the sqlhandler
+# this route doesn't do anything special, it just serves as an endpoint
+#   to pass on the relevent data from the front end to the back end
+@app.route('/get-tickets-and-sections-by-price', methods=['POST'])
+def get_tickets_and_sections_by_price():
+    jsonData = request.get_json()
+
     sqlHandler = SqlHandler(mysql)
-    jsondata = request.get_json()
-    event_id = jsondata['eventID']
-    aisleSeat = jsondata['aisleSeating']
-    earlyAccess = jsondata['earlyAccess']
-    handicap = jsondata['handicap']
-    desiredNumberTickets = jsondata['desiredNumberTickets']
-    tickets = sqlHandler.get_cheapest_tickets_all_sections(event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
+    event_id = jsonData['eventID']
+    aisleSeat = jsonData['aisleSeating']
+    earlyAccess = jsonData['earlyAccess']
+    handicap = jsonData['handicap']
+    desiredNumberTickets = jsonData['desiredNumberTickets']
+    priceMode = jsonData['priceMode']
+    minPrice = jsonData['priceRange']['min']
+    maxPrice = jsonData['priceRange']['max']
 
-    sections = []
-    my_set = None
-    for ticket in tickets:
-        sections.append(ticket['section_number'])
+    tickets = sqlHandler.get_tickets_by_price(
+        event_id, aisleSeat, earlyAccess, handicap,
+        desiredNumberTickets, priceMode, minPrice, maxPrice)
 
-    my_set = set(sections)
-    sections = list(my_set)
-    return jsonify({'tickets': tickets,
-                    'sections': sections})
+    if tickets:
+        sections = []
+        my_set = None
+        for ticket in tickets:
+            sections.append(ticket['section_number'])
+
+        my_set = set(sections)
+        sections = list(my_set)
+
+        return jsonify({'tickets': tickets, 'sections': sections})
+    else:
+        return jsonify({'tickets': False})
 
 @app.route('/get-tickets-for-sections', methods=['POST'])
 def get_tickets_for_sections():
@@ -245,51 +261,6 @@ def get_tickets_for_sections():
 
     return jsonify({'tickets': tickets,
                     'sections': sections})
-
-@app.route('/get-cheap-ticket-any-section', methods=['POST'])
-def get_cheapest_ticket_any_section():
-    sqlHandler = SqlHandler(mysql)
-    jsondata = request.get_json()
-    minPrice = jsondata['minPrice']
-    maxPrice = jsondata['maxPrice']
-    event_id = jsondata['eventID']
-    aisleSeat = jsondata['aisleSeating']
-    earlyAccess = jsondata['earlyAccess']
-    handicap = jsondata['handicap']
-    desiredNumberTickets = jsondata['desiredNumberTickets']
-    tickets = sqlHandler.get_cheap_ticket_any_section(event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-
-    sections = []
-    my_set = None
-    for ticket in tickets:
-        sections.append(ticket['section_number'])
-
-    my_set = set(sections)
-    sections = list(my_set)
-
-
-    return jsonify({'tickets': tickets, 'sections': sections})
-
-@app.route('/pick-expensive-ticket', methods=['POST'])
-def get_expensive_ticket_sections():
-    sqlHandler = SqlHandler(mysql)
-    jsondata = request.get_json()
-    event_id = jsondata['eventID']
-    aisleSeat = jsondata['aisleSeating']
-    earlyAccess = jsondata['earlyAccess']
-    handicap = jsondata['handicap']
-    desiredNumberTickets = jsondata['desiredNumberTickets']
-    tickets = sqlHandler.get_expensive_tickets_all_sections(event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-
-    sections = []
-    my_set = None
-    for ticket in tickets:
-        sections.append(ticket['section_number'])
-
-    my_set = set(sections)
-    sections = list(my_set)
-
-    return jsonify({'tickets': tickets, 'sections': sections})
 
 @app.route('/login', methods=['POST'])
 def authenticate_credentials():

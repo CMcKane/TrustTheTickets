@@ -356,6 +356,17 @@ class SqlHandler(object):
             sections.append(row[0])
         return sections
 
+    def get_tickets_by_price(self, event_id, aisleSeat, earlyAccess, handicap,
+                             desiredNumberTickets, priceMode, minPrice, maxPrice):
+        if priceMode == 1:
+            return SqlHandler.get_cheap_ticket_any_section(self, event_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
+        elif priceMode == 2:
+            return SqlHandler.get_cheapest_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
+        elif priceMode == 3:
+            return SqlHandler.get_expensive_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
+        return None
+
+
     def get_cheapest_tickets_all_sections(self, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
         conn = self.mysql.connection
         cursor = conn.cursor()
