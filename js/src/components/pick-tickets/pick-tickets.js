@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Grid, Row, Col, FormGroup, ControlLabel, FormControl, Well,
-        Button, Panel, ToggleButtonGroup, ToggleButton, ButtonGroup,
+        Button, ButtonToolbar, Panel, ToggleButtonGroup, ToggleButton, ButtonGroup,
         DropdownButton, MenuItem, Modal} from 'react-bootstrap';
 import _ from 'lodash';
 import WellsFargoChart from './wells-fargo-chart';
@@ -771,10 +771,23 @@ export default class PickTickets extends Component {
                                         </Col>
                                         <Col xs={10} sm={8} md={3} lg={3} style={{padding: "0px"}}>
                                         <Button onClick={() => this.setState({ showFilter: !this.state.showFilter })}>
-                                          Filter
+                                          Search Options
                                         </Button>
                                         <Panel collapsible expanded={this.state.showFilter}>
+                                            <div style={{paddingTop: '5px'}}>
+                                                <ControlLabel>
+                                                    Quick Searches:
+                                                </ControlLabel>
+                                                <ButtonToolbar>
+                                                    <Button id="lowestPrice" value={2} name="lowest" onClick={this.handlePriceButtonPress.bind(this)}>Lowest Price</Button>
+                                                    <Button id="highestPrice" value={3} name="highest" onClick={this.handlePriceButtonPress.bind(this)}>Highest Price</Button>
+                                                </ButtonToolbar>
+                                            </div>
+                                            <hr className="filter-hr"/>
                                             <div>
+                                                <ControlLabel>
+                                                    Price Search:
+                                                </ControlLabel>
                                                 <ToggleButtonGroup
                                                     id = "priceToggleGroup"
                                                     name = "filterToggleGroup"
@@ -782,12 +795,27 @@ export default class PickTickets extends Component {
                                                     type="radio"
                                                     value={this.state.toggleValue}
                                                     onChange={this.onToggleChange.bind(this)}>
-                                                        <ToggleButton id="selectPrice" value={1} name="select" onClick={this.handlePriceButtonPress.bind(this)}>Select Price</ToggleButton>
-                                                        <ToggleButton id="lowestPrice" value={2} name="lowest" onClick={this.handlePriceButtonPress.bind(this)}>Lowest Price</ToggleButton>
-                                                        <ToggleButton id="highestPrice" value={3} name="highest" onClick={this.handlePriceButtonPress.bind(this)}>Highest Price</ToggleButton>
+                                                    <ToggleButton id="selectPrice" value={1} name="select" onClick={this.handlePriceButtonPress.bind(this)}>Select Price</ToggleButton>
+                                                    <ToggleButton id="anyPrice" value={4} name="any" onClick={this.handlePriceButtonPress.bind(this)}>Any Price</ToggleButton>
                                                 </ToggleButtonGroup>
+                                                <Range
+                                                    className="range-slider"
+                                                    style={{paddingTop: "15px", paddingBottom: "15px"}}
+                                                    max={1000}
+                                                    min={0}
+                                                    step={5}
+                                                    defaultValue={[0, 100]}
+                                                    onChange={this.onRangeSliderChange.bind(this)} />
+                                                <ControlLabel
+                                                    className="slider-price-label">
+                                                    Price Range: ${this.state.minPrice} - ${this.state.maxPrice}
+                                                </ControlLabel>
                                             </div>
+                                            <hr className="filter-hr"/>
                                             <div>
+                                                <ControlLabel>
+                                                    Ticket Options:
+                                                </ControlLabel>
                                                 <ToggleButtonGroup
                                                     id="checkBoxes"
                                                     style={{paddingTop: '5px'}}
@@ -799,41 +827,15 @@ export default class PickTickets extends Component {
                                                         <ToggleButton id="earlyAccessToggle" value={3} onClick={this.toggleFilter.bind(this)}>Early Entry</ToggleButton>
                                                 </ToggleButtonGroup>
                                             </div>
-                                            <span> </span>
-                                            <FormGroup controlId="formControlsEmail">
-
-                                                <Range
-                                                    className="range-slider"
-                                                    style={{paddingTop: "15px", paddingBottom: "15px"}}
-                                                    max={1000}
-                                                    min={0}
-                                                    step={5}
-                                                    defaultValue={[0, 100]}
-                                                    onChange={this.onRangeSliderChange.bind(this)} />
-
-                                                <ControlLabel
-                                                    className="slider-price-label">
-                                                    Price Range: ${this.state.minPrice} - ${this.state.maxPrice}
-                                                </ControlLabel>
-
-
-
-                                                <div>
-                                                    <Button
-                                                        style={{marginRight: "5px"}}
-                                                        bsStyle="primary"
-                                                        onClick={this.clearSections.bind(this)}>
-                                                        Clear
-                                                    </Button>
-
-                                                    <Button
-                                                        bsStyle="primary"
-                                                        onClick={this.getTicketsWithFilter.bind(this)}>
-                                                        Apply
-                                                    </Button>
-                                                </div>
-
-                                            </FormGroup>
+                                            <hr className="filter-hr"/>
+                                            <div>
+                                                <FormGroup controlId="formControlsEmail">
+                                                    <ButtonToolbar>
+                                                        <Button style={{marginRight: "5px"}} bsStyle="danger" onClick={this.clearSections.bind(this)}>Clear</Button>
+                                                        <Button bsStyle="primary" onClick={this.getTicketsWithFilter.bind(this)}>Apply</Button>
+                                                    </ButtonToolbar>
+                                                </FormGroup>
+                                            </div>
                                         </Panel>
 
                                         <h3 className="ticketsLabel"> Tickets </h3>
