@@ -4,42 +4,6 @@ class SqlHandler(object):
     def __init__(self, mysql):
         self.mysql = mysql
 
-    def get_tickets(self, sectionNum, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets):
-        conn = self.mysql.connection
-        cursor = conn.cursor()
-
-        whereStr = "WHERE t.event_id = '{}' AND se.section_num = '{}' AND t.ticket_status_id = 1 "
-
-
-        if int(desiredNumberTickets) is not 0:
-            whereStr += "AND %s <= (SELECT count(ti.ticket_id) FROM tickets ti JOIN groups USING(group_id) WHERE ti.ticket_status_id = 1 AND ti.group_id = t.group_id) " % (desiredNumberTickets)
-
-
-        if aisleSeat is 1:
-            whereStr += "AND t.is_aisle_seat = 1 "
-        if earlyAccess is 1:
-            whereStr += "AND t.is_early_entry = 1 "
-        if handicap is 1:
-            whereStr += "AND t.is_ha = 1 "
-
-        whereStr += "ORDER BY row_num"
-        query = "SELECT t.ticket_id, r.row_num, s.seat_num, se.section_num, g.ticket_price, t.group_id, t.is_aisle_seat," \
-                " t.is_early_entry, t.is_ha, g.min_sell_num " \
-                "FROM tickets t " \
-                "JOIN sections se ON (t.section_id = se.section_id) JOIN rows r ON (t.row_id = r.row_id) " \
-                "JOIN seats s ON (t.seat_id = s.seat_id) " \
-                "JOIN groups g USING (group_id) %s" % (whereStr)
-
-
-        cursor.execute(query.format(event_id, sectionNum))
-        tickets = []
-        for row in cursor.fetchall():
-            tickets.append(dict(ticket_id=row[0], row_number=row[1], seat_number=row[2],
-                        section_number=row[3], ticket_price=row[4], group_id=row[5],
-                        aisle_seat=row[6], early_access=row[7], handicap=row[8], min_sell_num=row[9]))
-
-        return tickets
-
     def get_account_info(self, account_id):
         conn = self.mysql.connection
         cursor = conn.cursor()

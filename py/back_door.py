@@ -150,19 +150,6 @@ def get_games_with_details():
         eventDetails= sqlHandler.get_games_with_details(jsonData['start'], jsonData['end'])
         return jsonify({'eventDetails': eventDetails})
 
-@app.route('/tickets', methods=['POST'])
-def get_tickets():
-    sqlHandler = SqlHandler(mysql)
-    jsondata = request.get_json()
-    sectionNum = jsondata['section_number']
-    event_id = jsondata['eventID']
-    aisleSeat = jsondata['aisleSeat']
-    earlyAccess = jsondata['earlyAccess']
-    handicap = jsondata['handicap']
-    desiredNumberTickets = jsondata['desiredNumberTickets']
-    tickets = sqlHandler.get_tickets(sectionNum, event_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-    return jsonify({'tickets': tickets})
-
 @app.route('/get-event', methods=['POST'])
 def get_event():
     jsondata = request.get_json()
@@ -171,6 +158,8 @@ def get_event():
     event = sqlHandler.get_event(eventID)
     return jsonify({'event': event})
 
+# this route handles data transfer to perform a search to get all tickets
+# in the stadium for an event_id that match given filter attributes
 @app.route('/search-tickets-with-filter', methods=['POST'])
 def search_tickets_with_filter():
     sqlHandler = SqlHandler(mysql)
@@ -196,6 +185,7 @@ def search_tickets_with_filter():
     sections = list(my_set)
     return jsonify({'tickets': tickets, 'sections': sections})
 
+# this route handles data transfer to get tickets with filter attributes in given sections
 @app.route('/search-tickets-in-sections-with-filter', methods=['POST'])
 def search_tickets_in_sections_with_filter():
     sqlHandler = SqlHandler(mysql)
@@ -225,6 +215,7 @@ def search_tickets_in_sections_with_filter():
 
     return jsonify({'tickets': tickets, 'sections': sections})
 
+# this route handles data transfer to get tickets with filter attributes in a section_type
 @app.route('/search-tickets-in-zone-with-filter', methods=['POST'])
 def search_tickets_in_zone_with_filter():
     sqlHandler = SqlHandler(mysql)
@@ -244,30 +235,6 @@ def search_tickets_in_zone_with_filter():
 
     tickets = sqlHandler.get_tickets_in_section_type_with_filter(event_id, section_type_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
     return jsonify({'tickets': tickets})
-
-# @app.route('/get-tickets-for-sections', methods=['POST'])
-# def get_tickets_for_sections():
-#     sqlHandler = SqlHandler(mysql)
-#     jsondata = request.get_json()
-#     event_id = jsondata['eventID']
-#     sections = jsondata['sections']
-#     aisleSeat = jsondata['aisleSeat']
-#     earlyAccess = jsondata['earlyAccess']
-#     handicap = jsondata['handicap']
-#     desiredNumberTickets = jsondata['desiredNumberTickets']
-#     tickets = sqlHandler.get_tickets_for_sections(event_id, sections, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-#     sections = []
-#     my_set = None
-#     for ticket in tickets:
-#         sections.append(ticket['section_number'])
-#
-#     my_set = set(sections)
-#     sections = list(my_set)
-#
-#     return jsonify({'tickets': tickets,
-#                     'sections': sections})
-
-# tickets = sqlHandler.get_ticket_by_filter(minPrice, maxPrice, event_id, sections, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
 
 # This route handles three different price modes
 # "select" (gives a price range to select tickets between), "lowest", and "highest"
