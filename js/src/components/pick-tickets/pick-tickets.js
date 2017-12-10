@@ -380,7 +380,7 @@ export default class PickTickets extends Component {
                                     previousSections: this.state.sections,
                                     sections: [section],
                                     tickets: res.data.tickets,
-                                    isLoading: false,
+                                    isLoading: false
                                 }, () => {this.createTicketGroupArrays(this.state.tickets)});
                             }
                         });
@@ -392,9 +392,11 @@ export default class PickTickets extends Component {
                 var sectionsAndZone = this.determineSectionsZone(section);
                 this.setState({isLoading:true, tickets: []});
 
-                TTTPost('/pick-ticket-zone', {
+                TTTPost('/search-tickets-in-zone-with-filter', {
                         eventID: this.state.eventID,
                         section_type_id: sectionsAndZone.zone,
+                        minPrice: this.getMinPriceBasedOnToggle(),
+                        maxPrice: this.getMaxPriceBasedOnToggle(),
                         aisleSeat: this.state.aisleSeatToggle,
                         earlyAccess: this.state.earlyAccessToggle,
                         handicap: this.state.handicapToggle,
@@ -406,8 +408,7 @@ export default class PickTickets extends Component {
                                     previousSections: this.state.sections,
                                     sections: sectionsAndZone.sections,
                                     tickets: res.data.tickets,
-                                    isLoading: false,
-                                    toggleValue: 1,
+                                    isLoading: false
                                 }, () => {this.createTicketGroupArrays(this.state.tickets)});
                             }
                         });

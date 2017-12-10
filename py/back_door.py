@@ -225,6 +225,26 @@ def search_tickets_in_sections_with_filter():
 
     return jsonify({'tickets': tickets, 'sections': sections})
 
+@app.route('/search-tickets-in-zone-with-filter', methods=['POST'])
+def search_tickets_in_zone_with_filter():
+    sqlHandler = SqlHandler(mysql)
+    jsonData = request.get_json()
+
+    event_id = jsonData['eventID']
+    section_type_id = jsonData['section_type_id']
+
+    minPrice = jsonData['minPrice']
+    maxPrice = jsonData['maxPrice']
+
+    aisleSeat = jsonData['aisleSeat']
+    earlyAccess = jsonData['earlyAccess']
+    handicap = jsonData['handicap']
+
+    desiredNumberTickets = jsonData['desiredNumberTickets']
+
+    tickets = sqlHandler.get_tickets_in_section_type_with_filter(event_id, section_type_id, minPrice, maxPrice, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
+    return jsonify({'tickets': tickets})
+
 # @app.route('/get-tickets-for-sections', methods=['POST'])
 # def get_tickets_for_sections():
 #     sqlHandler = SqlHandler(mysql)
@@ -315,20 +335,6 @@ def games_by_team():
     team_id = jsondata['team_id']
     games = sqlHandler.get_games_by_team(team_id)
     return jsonify({'games': games})
-
-
-@app.route('/pick-ticket-zone', methods=['POST'])
-def pick_tickets_by_zone():
-    sqlHandler = SqlHandler(mysql)
-    jsondata = request.get_json()
-    event_id = jsondata['eventID']
-    section_type_id = jsondata['section_type_id']
-    aisleSeat = jsondata['aisleSeat']
-    earlyAccess = jsondata['earlyAccess']
-    handicap = jsondata['handicap']
-    desiredNumberTickets = jsondata['desiredNumberTickets']
-    tickets = sqlHandler.get_tickets_for_selected_sections(event_id, section_type_id, aisleSeat, earlyAccess, handicap, desiredNumberTickets)
-    return jsonify({'tickets': tickets})
 
 @app.route('/your-listings', methods=['POST'])
 @require_token
