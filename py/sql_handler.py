@@ -740,7 +740,7 @@ class SqlHandler(object):
             eventID = cursor.fetchone()[0]
         except:
             successful = False
-            print("failed at line 884")
+            print("failed at line 743")
 
         sectionIDQuery = "SELECT section_id FROM sections WHERE section_num = '{}'".format(sectionNum)
 
@@ -749,7 +749,7 @@ class SqlHandler(object):
             sectionID = cursor.fetchone()[0]
         except:
             successful = False
-            print("failed at line 895")
+            print("failed at line 752")
 
         rowIDQuery = "SELECT row_id FROM rows WHERE section_id = '{}' AND row_num = '{}'".format(sectionID, rowNum)
 
@@ -758,7 +758,7 @@ class SqlHandler(object):
             rowID = cursor.fetchone()[0]
         except:
             successful = False
-            print("failed at line 904")
+            print("failed at line 761")
 
         groupIDQuery = ("SELECT (MAX(group_id) + 1) FROM groups")
 
@@ -767,7 +767,7 @@ class SqlHandler(object):
             groupID = cursor.fetchone()[0]
         except:
             successful = False
-            print("failed at line 913")
+            print("failed at line 770")
 
         groupValues = (groupID, eventID, accountID, ticketPrice, numberOfTickets,
                        numberOfTickets, minPurchaseSize, 0.00)
@@ -781,7 +781,7 @@ class SqlHandler(object):
             cursor.execute(groupQuery.format(groupID, eventID, accountID, ticketPrice, numberOfTickets, numberOfTickets, minPurchaseSize, 0.00))
         except:
             successful = False
-            print("failed at line 927")
+            print("failed at line 784")
 
         conn.commit()
 
@@ -798,7 +798,7 @@ class SqlHandler(object):
                 seatID = cursor.fetchone()[0]
             except:
                 successful = False
-                print("failed at line 943")
+                print("failed at line 801")
 
             newTicketIDQuery = "SELECT (MAX(ticket_id) + 1) FROM tickets"
 
@@ -808,7 +808,7 @@ class SqlHandler(object):
                 returnTicketIds[i] = newTicketID
             except:
                 successful = False
-                print("failed at line 954")
+                print("failed at line 811")
 
             is_aisle_seat = 0
             if seatsInfo[i]['seat'][0]['aisleSeat']:
@@ -839,7 +839,7 @@ class SqlHandler(object):
                                                   is_handicap_accessible, sectionID, rowID, seatID))
             except:
                 succesful = False
-                print("failed at line 985")
+                print("failed at line 842")
 
             conn.commit()
 
@@ -872,7 +872,7 @@ class SqlHandler(object):
             sectionNumIsValid = (resultCount == 1)
         except Exception as e:
             print(e)
-            print("failed at line 1044")
+            print("failed at line 875")
 
         if sectionNumIsValid:
 
@@ -887,7 +887,7 @@ class SqlHandler(object):
                 rowId = row[1]
                 rowNumIsValid = (resultCount == 1)
             except:
-                print("failed at line 1059")
+                print("failed at line 890")
 
             if rowNumIsValid:
                 # since the row number is correct as well,
@@ -901,7 +901,7 @@ class SqlHandler(object):
                     maxSeatNum = row[0]
                     minSeatId = row[1]
                 except:
-                    print("failed at line 1071")
+                    print("failed at line 904")
 
                 # now lets test all of the seat numbers
                 # to make sure that they are in between the available range
@@ -940,7 +940,7 @@ class SqlHandler(object):
                 cursor.execute(eventIDQuery)
                 eventId = cursor.fetchone()[0]
             except:
-                print("failed on line 1105")
+                print("failed on line 943")
 
             duplicateTicketsQuery = "SELECT seat_id FROM tickets where event_id = '{}' and row_id = '{}' and ticket_status_id = 1".format(eventId, rowId)
 
@@ -955,6 +955,6 @@ class SqlHandler(object):
                             print("duplicate ticket listing for seat num " + str(curSeatNum))
                             ticketListedResults.append(dict(seatNum=curSeatNum, seatAlreadyListed=True))
             except:
-                print("failed on line 1120")
+                print("failed on line 958")
 
         return dict(locationResults=locationResults, ticketListedResults=ticketListedResults)
