@@ -93,7 +93,7 @@ class CreateListingConfirmModal extends Component {
             numExtras++;
         }
         if (handicap) {
-            if (numExtras > 0) extras += ", handicapAccessible";
+            if (numExtras > 0) extras += ", Handicap Accessible";
             else extras += "Handicap Accessible"
             numExtras++;
         }
