@@ -8,9 +8,6 @@ config = configparser.ConfigParser()
 config.read("config.ini")
 website_url = config.get('py-app-config', 'WebsiteURL')
 
-#website_url = http://trustthetickets.com
-#website_url = "http://localhost:3000"
-
 class TTTEmailClient(object):
 
     def send_sale_confirmation(toAddr, event_dict, tickets, commission, tax, subtotal, total):
@@ -22,22 +19,21 @@ class TTTEmailClient(object):
 
         tickets_info = ''
         for ticket in tickets:
-            tickets_info += "   Section: {}, Row: {}, Seats: {} \n".format(ticket['section_number'],
+            tickets_info += "   Section #: {}, Row #: {}, Seat #: {} \n".format(ticket['section_number'],
                                                                            ticket['row_number'],
                                                                            ticket['seat_number'])
-        event_info = 'Game: ' + event_dict[0]['home_team_name'] + ' vs ' + event_dict[0]['away_team_name'] + \
+        event_info = event_dict[0]['home_team_name'] + ' vs ' + event_dict[0]['away_team_name'] + \
             '\n' + str(event_dict[0]['date'].strftime('%B %d, %Y %I:%M%p'))
         body = \
-            "You've sold {} ticket(s)! \n" \
-            "{} \n\n" \
+            "Congratulations, \n" \
+            "We're pleased to inform you that one of your listings has sold {} of its tickets! \n" \
+            "Game Information: \n" \
+            "{} \n" \
             "Tickets Sold:\n" \
             "{} \n" \
-            "Subtotal: ${} \n" \
-            "TTT commission: ${} \n" \
-            "Tax: ${} \n" \
-            "Total: ${} \n\n" \
-            "Thank you for shopping at Trust The Tickets!"\
-                .format(len(tickets), event_info, tickets_info, subtotal, commission, tax, total)
+            "Your Payout Total: ${} \n" \
+            "Thank you for listing on Trust The Tickets, Philadelphia's fan-centric ticket marketplace!"\
+                .format(len(tickets), event_info, tickets_info, subtotal)
         msg.attach(MIMEText(body, 'plain'))
 
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -54,8 +50,12 @@ class TTTEmailClient(object):
         msg['To'] = toAddr
         msg['Subject'] = "Complete Your Registration at TrustTheTickets!"
 
-        body = "Use the following link to complete your registration: \n " + \
-               website_url + "/register/?registrationID=" + registrationID
+        body = "Thank you for your recent account creation on TrustTheTickets.com!\n" \
+               "In order to activate your account you must verify this email address.\n" \
+               "Use the following link to complete your registration and verify your email:\n\n" + \
+               website_url + "/register/?registrationID=" + registrationID + "\n\n" \
+                "Sincerely,\n\n" \
+                "The Folks @ TrustTheTickets"
         msg.attach(MIMEText(body, 'plain'))
 
         server = smtplib.SMTP('smtp.gmail.com', 587)
