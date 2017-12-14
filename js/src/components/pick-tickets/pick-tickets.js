@@ -741,15 +741,17 @@ export default class PickTickets extends Component {
                                                 <ControlLabel>
                                                     Quick Searches:
                                                 </ControlLabel>
-                                                <ButtonToolbar id="QuickSearchesButtonToolbar">
-                                                    <ButtonGroup block vertical>
+                                                <div style={{width: '65%'}}>
+                                                    <ButtonToolbar id="QuickSearchesButtonToolbar">
+                                                        <ButtonGroup block vertical>
 
-                                                        <Button id="lowestPrice" value={2} name="lowest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Lowest Price</Button>
+                                                            <Button id="lowestPrice" value={2} name="lowest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Lowest Price</Button>
 
-                                                        <Button id="highestPrice" value={3} name="highest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Highest Price</Button>
+                                                            <Button id="highestPrice" value={3} name="highest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Highest Price</Button>
 
-                                                    </ButtonGroup>
-                                                </ButtonToolbar>
+                                                        </ButtonGroup>
+                                                    </ButtonToolbar>
+                                                </div>
                                             </div>
                                             <hr className="filter-hr"/>
                                             <div>
