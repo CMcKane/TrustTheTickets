@@ -101,7 +101,7 @@ class SqlHandler(object):
             newAccountID += 1
         hashedPass = sha256_crypt.hash(account.password)
         cursor.execute(
-            "INSERT INTO accounts (account_id, email, password, account_status_id, created_dt, first_name, last_name, address, city, state_prov_id, zip, country_id, phone1 ) VALUES ('{}','{}','{}','{}', NOW(),'{}','{}','{}','{}','{}','{}','{}','{}')"
+            'INSERT INTO accounts (account_id, email, password, account_status_id, created_dt, first_name, last_name, address, city, state_prov_id, zip, country_id, phone1 ) VALUES ("{}","{}","{}","{}", NOW(),"{}","{}","{}","{}","{}","{}","{}","{}")'
                 .format(newAccountID, account.email, hashedPass, 2, account.firstName, account.lastName,
                         account.address, account.city, account.stateprovid, account.zipCode, account.countryid,
                         account.phoneNumber))
