@@ -20,7 +20,7 @@ import { withRouter } from 'react-router';
 var clickedSection = ''
 var taxRate = 0;
 var commRate = 0;
-
+var groupz = [];
 export default class PickTickets extends Component {
 
     constructor(props) {
@@ -329,6 +329,8 @@ export default class PickTickets extends Component {
                     }
                 });
         }
+        console.log(this.state.tickets);
+        console.log(this.state.groups);
     }
 
     validSection(section) {
@@ -497,11 +499,18 @@ export default class PickTickets extends Component {
 
     createModal(e) {
         var group = this.state.currGroups[e.target.id];
-        this.setState({
-            show: !this.state.show,
-            selectedGroup: group
-         });
 
+        TTTPost('/get-tickets-for-group', {
+                    group_id: group[0].group_id
+                })
+                    .then(res => {
+                        if (res.data.tickets) {
+                            this.setState({
+                                show: !this.state.show,
+                                selectedGroup: res.data.tickets
+                             });
+                        }
+                    });
     }
 
     clearResults() {

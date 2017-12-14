@@ -389,6 +389,14 @@ def create_groups():
     groups = dict((k, list(g)) for k, g in groupby(tickets_list, key = itemgetter('group_id')))
     return jsonify({'groups': groups})
 
+@app.route('/get-tickets-for-group', methods=['POST'])
+def get_group_of_tickets():
+    jsonData = request.get_json()
+    sqlHandler = SqlHandler(mysql)
+    group_id = jsonData['group_id']
+    tickets = sqlHandler.get_group(group_id)
+    return jsonify({'tickets': tickets})
+
 @app.route('/get-game-dates', methods=['GET'])
 def game_dates():
     sqlHandler = SqlHandler(mysql)

@@ -464,6 +464,26 @@ class SqlHandler(object):
                 tickets[counter]['price'] = row[13]
         return tickets
 
+    def get_group(self, groupID):
+        conn = self.mysql.connection
+        cursor = conn.cursor()
+        query = "SELECT ticket_price, section_num, row_num, " \
+                "seat_num, group_id, is_aisle_seat, is_early_entry, " \
+                "is_ha, ticket_id, min_sell_num " \
+                "FROM tickets t " \
+                "JOIN groups USING (group_id) " \
+                "JOIN sections USING (section_id) " \
+                "JOIN rows USING (row_id) " \
+                "JOIN seats USING (seat_id) " \
+                "WHERE group_id = '{}'"
+
+        cursor.execute(query.format(groupID))
+        tickets = [
+            dict(ticket_price=row[0], section_number=row[1], row_number=row[2], seat_number=row[3], group_id=row[4],
+                 aisle_seat=row[5], early_access=row[6], handicap=row[7], ticket_id=row[8], min_sell_num=row[9]) for row
+            in cursor.fetchall()]
+        return tickets
+
     def update_group(self, groupID, newPrice):
         conn = self.mysql.connection
         cursor = conn.cursor()
