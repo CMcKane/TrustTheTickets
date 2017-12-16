@@ -38,6 +38,8 @@ export default class PickTickets extends Component {
             selectedEvent: null,
             eventID: queryParams.event,
             eventTitle: 'Choose a game',
+            awayTeam: null,
+            homeTeam: null,
             isLoading: false,
             previousSections: [],
             toggleValue: 4,
@@ -172,7 +174,9 @@ export default class PickTickets extends Component {
             try {
                 if (res.data.event.authenticated) {
                     this.setState({
-                        eventTitle: res.data.event.title
+                        eventTitle: res.data.event.title,
+                        awayTeam: res.data.event.awayTeam,
+                        homeTeam: res.data.event.homeTeam
                     });
                 }
             }
