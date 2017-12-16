@@ -84,7 +84,7 @@ class SqlHandler(object):
                 "GROUP BY g.event_id;".format(event_id))
             cols = cursor.fetchone()
             event_details = dict(authenticated=True, title=cols[0],
-                                 awayTeam=cols[1], homeTeam=cols[2],
+                                 homeTeam=cols[1], awayTeam=cols[2],
                                  numTickets=cols[3], minPrice=cols[4])
             return event_details
         except Exception as e:
