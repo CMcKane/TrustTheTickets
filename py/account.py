@@ -1,3 +1,4 @@
+# This class contains all of the data for an account.
 class Account(object):
 
     def __init__(self, email, password, firstName, lastName, address, city, stateprovid, zipCode, countryid, phoneNumber):

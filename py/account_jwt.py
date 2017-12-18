@@ -5,7 +5,12 @@ import json
 
 SECRET_KEY = 'this_is_a_very_secret_key'
 
+# This class is used for handling user sessions.
 class JWTService(object):
+
+    # Encodes the authentication token.
+    # param IN self - this class object.
+    # param IN user_id - the user id to use.
     def encode_auth_token(self, user_id):
         """
         Generates the Auth Token
@@ -25,7 +30,9 @@ class JWTService(object):
         except Exception as e:
             return e
 
-
+    # Validates that the authentication code is valid.
+    # param IN self - this class object.
+    # param IN token - the token
     def validate_auth_token(self, token):
         try:
             decoded_token = jwt.decode(token, SECRET_KEY, algorithm='HS256')
@@ -37,6 +44,9 @@ class JWTService(object):
             print(e)
             return False
 
+    # Refreshes a token.
+    # param IN self - this class object.
+    # param IN token - the token.
     def refresh_token(self, token):
         try:
             decoded_token = jwt.decode(token, SECRET_KEY, algorithm='HS256')
@@ -45,6 +55,9 @@ class JWTService(object):
         except Exception as e:
             print(e)
 
+    # Gets an account from a token.
+    # param IN self - this class object.
+    # param IN token - the token to search in.
     def get_account(self, token):
         try:
             decoded_token = jwt.decode(token, SECRET_KEY, algorithm='HS256')
