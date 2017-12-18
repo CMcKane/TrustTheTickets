@@ -8,12 +8,16 @@ ERROR_MESSAGES = {'REGISTRATION_ERROR': 'An error occurred during account regist
                   'REGISTRATION_CONFIRM_ERROR': 'Registration could not be confirmed',
                   'DUPLICATE_EMAIL': 'This email address has already been registered.'}
 
+# This class is responsible for registration of a new account.
 class AccountRegistrator(object):
 
+    # The initialization method.
     def __init__(self, mysql):
         self.mysql = mysql
 
-    # Initial account registration
+    # Handles the initial account registration.
+    # param IN self - this class object.
+    # param IN data - the data of the account being registered.
     def register_account(self, data):
         account = Account(data['email'], data['password'],
                           data['firstName'], data['lastName'],
@@ -36,7 +40,10 @@ class AccountRegistrator(object):
                 registerResult['registrationStatus'] = False
         return registerResult
 
-
+    # Checks to see if the email exists already in the database.
+    # param IN self - this class object.
+    # param IN email - the email to check.
+    # param OUT - True if it exists False if not.
     def check_for_email(self, email):
         sqlHandler = SqlHandler(self.mysql)
         existingAccount = sqlHandler.check_for_email(email)
@@ -44,7 +51,10 @@ class AccountRegistrator(object):
            return True
         return False
 
-    # Account confirmation
+    # Confirmation for if registration is successful.
+    # param IN self - this class object.
+    # param IN data - the registration id.
+    # param OUT True if successful False if not.
     def confirm_registration(self, data):
         registerResult = {'registrationStatus': True}
         registrationID = data['registrationID']
@@ -57,6 +67,9 @@ class AccountRegistrator(object):
 
         return registerResult
 
+    # Inserts the new account registration row into the database.
+    # param IN self - this class object.
+    # param IN account - the account in the registration.
     def insert_account_registration(self, account):
         registrationID = uuid.uuid4().hex
         sqlHandler = SqlHandler(self.mysql)
