@@ -21,8 +21,15 @@ var clickedSection = ''
 var taxRate = 0;
 var commRate = 0;
 var groupz = [];
+
+/**
+* This component makes up the entire seating chart web page and its rendering.
+*/
 export default class PickTickets extends Component {
 
+    /**
+    * The constructor.
+    */
     constructor(props) {
         super(props);
 
@@ -86,12 +93,18 @@ export default class PickTickets extends Component {
         this.handleQuickSearchButtonPress("firstload");
     }
 
+    /**
+    * Hides thhe modal.
+    */
     onHide() {
 		this.setState({
 			show: false
 		});
 	}
 
+    /**
+    * Shows the ticket listing modal.
+    */
 	showModal(listing) {
 		this.setState({
 			selectedListing: listing,
@@ -99,6 +112,10 @@ export default class PickTickets extends Component {
 		})
 	}
 
+    /**
+    * Sets the desired number of tickets based on the combo box selection.
+    * Used for filtering by number of tickets.
+    */
     setDesiredNumberTickets(eventKey) {
 
         var newTicketNumStr = "Number of Tickets";
@@ -144,6 +161,9 @@ export default class PickTickets extends Component {
         });
     }
 
+    /**
+    * Backend call to get all fees to use during the checking out.
+    */
     fetchFees() {
         TTTGet("/get-fees")
             .then(res => {
@@ -154,6 +174,11 @@ export default class PickTickets extends Component {
             });
     }
 
+    /**
+    * Gets all of the rates.
+    * @param taxPercent the tax percentage.
+    * @param commissionPercent the commission percentage.
+    */
     getRates(taxPercent, commissionPercent) {
         this.taxRate = taxPercent;
         this.commissionPercent = commissionPercent;
@@ -187,6 +212,9 @@ export default class PickTickets extends Component {
         });
     }
 
+    /**
+    * Handles the quick search area button presses.
+    */
     handleQuickSearchButtonPress(e)
     {
         // some nonsense to see if i'm calling this directly from first load
@@ -240,6 +268,9 @@ export default class PickTickets extends Component {
         }
     }
 
+    /**
+    *  Handles toggle buttons.
+    */
     handleToggleButtonPress(e)
     {
         if(!(e.target.value === undefined))
@@ -337,6 +368,11 @@ export default class PickTickets extends Component {
         console.log(this.state.groups);
     }
 
+    /**
+    * Checks to see if the section clicked is a valid section to click on
+    * in the seating chart
+    * @param section - the section that was clicked on.
+    */
     validSection(section) {
         var valid = false;
         for(var i = 0; i < this.state.validSections.length; i++) {
@@ -347,6 +383,10 @@ export default class PickTickets extends Component {
         return (valid);
     }
 
+    /**
+    * Handles when a user clicks on a section of the seating chart.
+    * @param section - the section that was clicked on.
+    */
     onChartClick(section) {
         if(this.validSection(section)) {
             // if we are picking by section
@@ -422,6 +462,10 @@ export default class PickTickets extends Component {
         }
     }
 
+    /**
+    * Create the ticket group arrays. Calls the backend to handle this.
+    * @param tickets - the tickets to group.
+    */
     createTicketGroupArrays(tickets) {
         var groups;
         TTTPost('/create-groups', {
@@ -434,21 +478,33 @@ export default class PickTickets extends Component {
                     });
     }
 
+    /**
+    * Toggles the minimum price button.
+    */
     getMinPriceBasedOnToggle()
     {
         return (this.state.toggleValue == 1) ? this.state.minPrice : 0;
     }
 
+    /**
+    * Toggles the max price button.
+    */
     getMaxPriceBasedOnToggle()
     {
         return (this.state.toggleValue == 1) ? this.state.maxPrice : 999999;
     }
 
+    /**
+    * Determines the sections that are within each of the zone if the user
+    * decides to see each zone when clicking on the seating chart.
+    * @param section - the section that was clicked on by the user.
+    */
     determineSectionsZone(section) {
 
         var firstChar = section.charAt(0);
         var len = section.length;
 
+        // If in the 100 level.
         if(firstChar === '1' && len > 2)
         {
             for(var i = 0; i < this.state.allZones.zone[0].length; i++)
@@ -461,6 +517,7 @@ export default class PickTickets extends Component {
                 if(section === this.state.allZones.zone[3][i]) { return {sections: this.state.allZones.zone[3], zone: 4} }
 
         }
+        // If in the 200 level.
         else if(firstChar === '2' && len > 2)
         {
             for(var i = 0; i < this.state.allZones.zone[4].length; i++)
@@ -470,12 +527,17 @@ export default class PickTickets extends Component {
             for(var i = 0; i < this.state.allZones.zone[6].length; i++)
                 if(section === this.state.allZones.zone[6][i]) { return {sections: this.state.allZones.zone[6], zone: 7} }
         }
+        // Else not valid click, clear any selection.
         else
         {
             return [];
         }
     }
 
+    /**
+    * Handles when the slider bar changes value.
+    * @param value - the new value.
+    */
     onRangeSliderChange(value) {
         this.setState({
             minPrice: value[0],
@@ -485,6 +547,9 @@ export default class PickTickets extends Component {
         });
     }
 
+    /**
+    * Handles the filter toggle change.
+    */
     onToggleChange(value) {
         this.setState({
             toggleValue: value,
@@ -492,6 +557,9 @@ export default class PickTickets extends Component {
         });
     }
 
+    /**
+    * Handle the button for toggling between section and zone selection.
+    */
     toggleSectionOrZone() {
         if(this.state.bySection) {
             this.setState({bySection: false, chartToggleValue: 2});
@@ -501,6 +569,9 @@ export default class PickTickets extends Component {
         }
     }
 
+    /**
+    * Calls the backend to get tickets for a group and shows the show listing modal.
+    */
     createModal(e) {
         var group = this.state.currGroups[e.target.id];
 
@@ -517,6 +588,9 @@ export default class PickTickets extends Component {
                     });
     }
 
+    /**
+    * Clears the results.
+    */
     clearResults() {
         this.setState({
             previousSections: this.state.sections,
@@ -526,6 +600,9 @@ export default class PickTickets extends Component {
         });
     }
 
+    /**
+    *  Toggles the filters.
+    */
     toggleFilter(e) {
         var changingToState;
         if(this.state[e.target.id] === 1) {
@@ -539,10 +616,16 @@ export default class PickTickets extends Component {
         });
     }
 
+    /**
+    * Adds a new checked ticket for the ticket listing modal.
+    */
     addCheckBox(value) {
         this.setState({activeCheckBoxes: value});
     }
 
+    /**
+    * Call to return from the checkout page and show the pick ticket page.
+    */
     returnFromCheckout() {
         this.setState({
             checkoutPageActive: false, 
@@ -554,6 +637,10 @@ export default class PickTickets extends Component {
         }, () => {this.handleQuickSearchButtonPress("firstload")});
     }
 
+    /**
+    * Sets the tickets that will be used in the checkout page.
+    * @param tickets - the tickets for the checkout page.
+    */
     setCheckoutTickets(tickets) {
         // Call backend to see if these tickets are all still available first
         this.setState({
@@ -563,6 +650,9 @@ export default class PickTickets extends Component {
         });
     }
 
+    /**
+    * Renders an empty ticket list panel.
+    */
     renderEmptyTicketList() {
         var list = [];
         var output = "Click a section to find tickets.";
@@ -652,10 +742,17 @@ export default class PickTickets extends Component {
         return(list)
     }
 
+    /**
+    * Handles the action of refreshing the checkout page.
+    * Prevents the web page from changing if refreshed.
+    */
     handleCheckoutRefresh() {
         this.setState({checkoutPageActive : true});
     }
 
+    /**
+    * The render method performs all rendering of the web page.
+    */
     render() {
             if(this.state.checkoutPageActive)
             {

@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+
+// Zone colors.
 const LIGHTED_COLOR = '#ec174c';
 const LIGHTED_STROKE_COLOR = '#565656';
 const UNLIGHTED_STROKE_COLOR = '#000000';
@@ -12,13 +14,21 @@ const ZONE_FIVE_COLOR = '#ecb3ff';
 const ZONE_SIX_COLOR = '#ffff99';
 const ZONE_SEVEN_COLOR = '#ffff4d';
 
-
+/**
+* This component makes up the seating chart element found on the pick tickets web page.
+*/
 export default class WellsFargoChart extends Component {
 
+    /**
+    * The constructor.
+    */
     constructor(props) {
         super(props);
     }
 
+    /**
+    * Paints the seating chart zone colors on the seating chart.
+    */
     paintChartZoneColors() {
         var zones = this.props.allZones.zone;
         var colors = [ZONE_ONE_COLOR, ZONE_TWO_COLOR, ZONE_THREE_COLOR, ZONE_FOUR_COLOR,
@@ -34,10 +44,16 @@ export default class WellsFargoChart extends Component {
         }
     }
 
+    /**
+    * Handle when the user clicks on a section.
+    */
 	onChartClick(e) {
 		this.props.onSectionSelected(e.target.id);
 	}
 
+    /**
+    * Triggered when the web page loads.
+    */
 	componentDidUpdate() {
 	    this.paintChartZoneColors();
 		const previousSections = this.props.previousSections;
@@ -48,6 +64,13 @@ export default class WellsFargoChart extends Component {
         }
 	}
 
+    /**
+    * Sets a section to a passed color.
+    * @param sectionName - the name of the section to lookup
+    * @param fillColor - the fill color.
+    * @param strokeColor - the stroke color.
+    * @param fontColor - the font color.
+    */
 	setSectionColor(sectionName, fillColor, strokeColor, fontColor) {
         var section = document.getElementById(sectionName);
         section.style.fill = fillColor;
@@ -59,6 +82,9 @@ export default class WellsFargoChart extends Component {
 		}
 	}
 
+    /**
+    * The render method performs all rendering of the web page.
+    */
 	render() {
 		return (
 				<svg version="1.1"

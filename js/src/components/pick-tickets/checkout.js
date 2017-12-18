@@ -8,6 +8,9 @@ import AuthService from '../auth/auth-service';
 import ReactCountdownClock from 'react-countdown-clock';
 import CheckoutConfirmationModal from './checkout-confirmation-modal';
 
+/**
+    This component is the check out view of the website.
+**/
 class Checkout extends Component {
 
       constructor(props) {
@@ -63,23 +66,36 @@ class Checkout extends Component {
         });
     }
 
+    /**
+    * Calls the prop method to return from the checkout page after it is completed.
+    */
     onComplete() {
          this.props.returnFromCheckout();
     }
 
+    /**
+    * Triggers on page un-load.
+    */
     componentWillUnmount() {
         this.unlockTickets();
     }
 
+    /**
+    * Calls the backed to unlock the tickets pass in the POST.
+    */
     unlockTickets() {
         TTTPost('/unlock-tickets', {
             ticketIds: this.state.tempTicketIds
         });
     }
 
+    /**
+    * Determines the prices for te checkout page, including the taxes, commission and subtotals.
+    */
     determinePrices() {
         var tickets = this.props.checkoutTickets;
         var subtotal = 0;
+        // Accumulate the subtotal.
         for(var i = 0; i < tickets.length; i++)
         {
             this.subtotalPerTicket[i] = tickets[i].ticket_price;
@@ -93,6 +109,7 @@ class Checkout extends Component {
         var commPer = [];
         var subtotalPer =  [];
 
+        // Accumulate the tax and commission.
         for(var i = 0; i < tickets.length; i++)
         {
             this.taxPerTicket[i] = tickets[i].ticket_price * this.props.taxPercent;
@@ -101,6 +118,7 @@ class Checkout extends Component {
             taxTotal  += (tickets[i].ticket_price * this.props.taxPercent);
             commTotal += (tickets[i].ticket_price * this.props.commissionPercent);
         }
+        // Fees are the added tax and commission.
         fees = taxTotal + commTotal;
 
         this.fees = Math.round(fees * 100) / 100;
@@ -118,6 +136,11 @@ class Checkout extends Component {
 
     }
 
+    /**
+    * Calls the backend to insert a new transaction.
+    * This occurs when the users goes through with buying the tickets.
+    * Calls the backend to send the ticket PDF file.
+    */
     purchaseTickets() {
         var insertSuccessful = false;
         var emailSuccess = false;
@@ -148,6 +171,10 @@ class Checkout extends Component {
         });
     }
 
+    /**
+    * Build the comments string for the checkout page.
+    * @param ticket the ticket to get the attributes from.
+    */
 	getComments(ticket) {
         var comments = '-';
         if (ticket.early_access === 1) {
@@ -162,6 +189,9 @@ class Checkout extends Component {
         return comments;
 	}
 
+    /**
+    * Creates the rendering of each ticket information section of the web page.
+    */
     renderTicketInfo() {
         return _.map(this.props.checkoutTickets, (ticket, index) =>
             <p className="tableNewLine">
@@ -193,7 +223,9 @@ class Checkout extends Component {
         );
 	}
 
-
+    /**
+    * Renders the ticket fees and totals for the web page.
+    */
     renderTicketTotals() {
         return (
             <p className="leftTable">
@@ -219,7 +251,9 @@ class Checkout extends Component {
         );
     }
 
-
+    /**
+    * The render method performs all rendering of the web page.
+    */
     render() {
         return (
             <div style={{overflowY: 'auto', cursor: this.state.cursor}}

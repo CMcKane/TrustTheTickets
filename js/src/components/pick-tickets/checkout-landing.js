@@ -4,9 +4,14 @@ import {Redirect} from 'react-router-dom';
 import AuthService from '../auth/auth-service';
 import queryString from 'query-string';
 
+/**
+* The class is the checkout landing page that occurs after the user purchases a ticket.
+*/
 export default class CheckoutLanding extends Component {
 
-
+    /**
+    * The constructor.
+    */
     constructor(props) {
         super(props);
         this.Auth = new AuthService();
@@ -17,17 +22,26 @@ export default class CheckoutLanding extends Component {
         }
     }
 
+    /**
+    * Triggered when page first loaded.
+    */
     componentDidMount() {
         this.timeoutHandle = setTimeout(() => {
             this.setState({redirect: true});
         }, 5000);
     }
 
+    /**
+    * Triggered when page is un-loaded.
+    */
     componentWillUnmount() {
         clearTimeout(this.timeoutHandle);
 
     }
 
+    /**
+    * The render method performs all rendering of the web page.
+    */
     render() {
         if (this.state.redirect) {
             return <Redirect to={"/pick-tickets?event=" + this.state.eventID}/>

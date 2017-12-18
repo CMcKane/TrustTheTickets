@@ -1,12 +1,21 @@
 import React, {Component} from 'react';
 import {Button, Modal} from 'react-bootstrap';
 
+/**
+* This component is the checkout confirmation modal which displays after the user checks out.
+*/
 export default class CheckoutConfirmationModal extends Component {
 
+    /**
+    * Call to hide the modal from the web page.
+    */
     onHide() {
         this.props.onHide();
     }
 
+    /**
+    * The render method performs all rendering of the web page.
+    */
     render() {
         return (
             <Modal onHide={this.onHide.bind(this)}

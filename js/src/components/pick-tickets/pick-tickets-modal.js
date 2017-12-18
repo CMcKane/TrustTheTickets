@@ -7,8 +7,14 @@ import AuthService from '../auth/auth-service';
 var numTicketsChecked;
 var minSellNum;
 
+/**
+* This component is used to render the ticket selection modal.
+*/
 export default class PickTicketsModal extends Component {
 
+    /**
+    * The constructor.
+    */
     constructor(props) {
         super(props);
         this.Auth = new AuthService();
@@ -23,6 +29,9 @@ export default class PickTicketsModal extends Component {
         minSellNum = 0;
     }
 
+    /**
+    * Get the status of the cursor.
+    */
     getCursorStatus() {
         if (this.state.busy) {
             return {cursor: 'wait'};
@@ -39,16 +48,23 @@ export default class PickTicketsModal extends Component {
         }
     }
 
+    /**
+    * Get the header of the modal.
+    */
     getHeader() {
         return ("Tickets for sale");
     }
 
+    /**
+    * Build the rendering of the ticket content of each ticket to display on the web page.
+    */
     getTicketContent() {
         if(this.props.group)
         {
             var list = [];
             var tempTicket = this.props.group[0];
             minSellNum = tempTicket.min_sell_num;
+            // Push each new render element.
             list.push(
                 <p>
                     Section: {tempTicket.section_number} &emsp;
@@ -56,7 +72,7 @@ export default class PickTicketsModal extends Component {
                     Price: ${tempTicket.ticket_price.toFixed(2)} /ea
                 </p>
             );
-
+            // Push each seat number.
             var seatNums = [];
             for(var i = 0; i < this.props.group.length; i++)
             {
@@ -67,7 +83,7 @@ export default class PickTicketsModal extends Component {
             function sortNumber(a,b) {
                 return a - b;
             }
-
+            // Sort the seats in numerical order.
             seatNums.sort(sortNumber);
             var sortedIndexes = [];
             for(var i = 0; i < this.props.group.length; i++)
@@ -81,7 +97,7 @@ export default class PickTicketsModal extends Component {
                     }
                 }
             }
-
+            // Create each HTML element to render with.
             for(var i = 0; i < this.props.group.length; i++)
             {
                 var currTicket = this.props.group[sortedIndexes[i]];
@@ -104,6 +120,9 @@ export default class PickTicketsModal extends Component {
         }
     }
 
+    /**
+    * Handle when a user selects a ticket for checkout.
+    */
     handleTicketSelect(e) {
         var id = e.target.id;
         var selectedArr = this.state.ticketsInTransaction;
@@ -121,11 +140,17 @@ export default class PickTicketsModal extends Component {
         this.setState({ticketsInTransaction: selectedArr});
     }
 
+    /**
+    * Handle closing of the modal.
+    */
     closeModal() {
         this.onHide();
         this.setState({ticketsInTransaction: []});
     }
 
+    /**
+    * Hides the modal.
+    */
     onHide() {
         this.setState({
             busy: false
@@ -133,6 +158,9 @@ export default class PickTicketsModal extends Component {
         this.props.onHide();
     }
 
+    /**
+    * Gets the error text message.
+    */
     getErrorText() {
         if (this.props.modalSubmitError) {
             return (
@@ -143,6 +171,10 @@ export default class PickTicketsModal extends Component {
         }
     }
 
+    /**
+    * Checks to ensure the selected seats are valid. Used for when there exist
+    * an specific minimum ticket amount.
+    */
     validSeatSelections()  {
         var valid = false;
         var arr = this.state.ticketsInTransaction;
@@ -175,6 +207,9 @@ export default class PickTicketsModal extends Component {
         return valid;
     }
 
+    /**
+    * Render the modal button options for a ticket.
+    */
     renderButtonOptions() {
         if(minSellNum <= numTicketsChecked && this.validSeatSelections()){
             return(<Button onClick={this.checkout.bind(this)}>Buy</Button>);
@@ -185,6 +220,9 @@ export default class PickTicketsModal extends Component {
         }
     }
 
+    /**
+    * The render method performs all rendering of the web page.
+    */
     render() {
         if(this.state.redirect)
         {
