@@ -8,8 +8,14 @@ import CreateListingView from '../account/listings/create-listing-view';
 import PurchasesView from '../account/listings/purchases-view';
 import { Grid, Row } from 'react-bootstrap';
 
+/**
+* This is the my account web page class.
+*/
 class MyAccount extends Component {
 
+    /**
+    * Constructor.
+    */
     constructor(props) {
       super(props);
       this.Auth = new AuthService();
@@ -19,11 +25,17 @@ class MyAccount extends Component {
       }
     }
 
+    /**
+    * Handle when the user logs out of their account.
+    */
     logOut() {
         this.Auth.logOut();
         this.props.logOut();
     }
 
+    /**
+    * Triggered on page load.
+    */
     componentDidMount() {
         TTTPost("/my-account", {
             token: this.Auth.getToken()
@@ -40,10 +52,16 @@ class MyAccount extends Component {
         });
     }
 
+    /**
+    * Gets the information for the users account.
+    */
     getAccountInfo() {
         if (this.state.populated) return (<h1>Welcome {this.state.firstName} {this.state.lastName}</h1>)
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         return (
             <div className='globalBody globalImage'>

@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import AuthService from './auth-service';
 
+/**
+* This class returns an AuthWrapped componented.
+*/
 export default function withAuth(AuthComponent) {
     const Auth = new AuthService();
+    /**
+    * Main rendering loop
+    */
     return class AuthWrapped extends Component {
 
         render() {

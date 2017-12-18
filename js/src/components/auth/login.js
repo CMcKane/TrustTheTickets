@@ -3,8 +3,14 @@ import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 import AuthService from './auth-service';
 
+/**
+* This is main login authentication component.
+*/
 export default class Login extends Component {
 
+    /**
+    * Constructor.
+    */
     constructor(props) {
       super(props);
       this.Auth = new AuthService();
@@ -16,16 +22,25 @@ export default class Login extends Component {
       };
     }
 
+    /**
+    * Triggered when web page loads.
+    */
     componentWillReceiveProps(nextProps) {
         if (nextProps.location !== this.props.location) {
             this.setState({ prevPath: this.props.location })
         }
     }
 
+    /**
+    * Handle the changing of a target value.
+    */
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    /**
+    * Handle when the user clicks the login button. Authenticates the credentials.
+    */
     onSubmit() {
         this.Auth.login(this.state.email, this.state.password)
         .then(res => {
@@ -37,6 +52,9 @@ export default class Login extends Component {
         });
     }
 
+    /**
+    * Allow the user to login by pressing the enter key.
+    */
     handleOnKeyPress(e){
         if(e.key === 'Enter'){
             document.getElementById("submitButton").click();
@@ -44,7 +62,9 @@ export default class Login extends Component {
         }
     }
 
-
+    /**
+    * Main rendering loop.
+    */
     render() {
         var path = '/my-account'
         if (this.Auth.loggedIn()) {
