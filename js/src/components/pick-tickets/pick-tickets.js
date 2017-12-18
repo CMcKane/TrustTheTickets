@@ -45,6 +45,8 @@ export default class PickTickets extends Component {
             selectedEvent: null,
             eventID: queryParams.event,
             eventTitle: 'Choose a game',
+            eventInfo: null,
+            location: "Wells Fargo Center",
             awayTeam: null,
             homeTeam: null,
             isLoading: false,
@@ -201,7 +203,8 @@ export default class PickTickets extends Component {
                     this.setState({
                         eventTitle: res.data.event.title,
                         awayTeam: res.data.event.awayTeam,
-                        homeTeam: res.data.event.homeTeam
+                        homeTeam: res.data.event.homeTeam,
+                        eventInfo: res.data.event.date
                     });
                 }
             }

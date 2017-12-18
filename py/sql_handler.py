@@ -98,7 +98,8 @@ class SqlHandler(object):
             cursor.execute(
                 "SELECT concat(a.team_name,' vs ', h.team_name) AS Title, "
                 "h.team_name, "
-                "a.team_name,"
+                "a.team_name, "
+                "date, "
                 "count(ticket_id),"
                 "MIN(ticket_price) "
                 "FROM games g "
@@ -111,7 +112,8 @@ class SqlHandler(object):
             cols = cursor.fetchone()
             event_details = dict(authenticated=True, title=cols[0],
                                  homeTeam=cols[1], awayTeam=cols[2],
-                                 numTickets=cols[3], minPrice=cols[4])
+                                 date=cols[3], numTickets=cols[4],
+                                 minPrice=cols[5])
             return event_details
         except Exception as e:
             print(e)
