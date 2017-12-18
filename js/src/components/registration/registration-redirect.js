@@ -1,5 +1,8 @@
 import React, { Component }  from 'react';
 
+/**
+* Registration landing page.
+*/
 export default class RegistrationRedirect extends Component {
 
 	render() {

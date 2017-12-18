@@ -3,6 +3,9 @@ import {FormGroup, FormControl, ControlLabel, HelpBlock, Form, Button, Col, Row,
 import {TTTGet, TTTPost} from '../backend/ttt-request';
 import _ from 'lodash';
 
+/**
+* Creates the field group with the passed props.
+*/
 function FieldGroup({id, label, help, validationState, ...props}) {
     return (
         <FormGroup controlId={id} validationState={validationState}>
@@ -13,8 +16,14 @@ function FieldGroup({id, label, help, validationState, ...props}) {
     );
 }
 
+/**
+* This is the main registration web page view that is rendered.
+*/
 export default class RegistrationView extends Component {
 
+    /**
+    * Constructor
+    */
     constructor(props) {
         super(props);
 
@@ -38,6 +47,9 @@ export default class RegistrationView extends Component {
         this.getCountryNamesFromDB();
     }
 
+    /**
+    * Handle the change when a text field is changed.
+    */
     handleChange(e) {
         const fieldName = e.target.name;
         const value = e.target.value;
@@ -46,6 +58,9 @@ export default class RegistrationView extends Component {
         });
     }
 
+    /**
+    * Handle the country change combo box.
+    */
     handleCountryChange(e) {
         const val = e.target.value;
         const country = e.target.name;
@@ -54,6 +69,9 @@ export default class RegistrationView extends Component {
         }, () => {this.getCountryStates(val)});
     }
 
+    /**
+    * Ensure that the input on the form is valid inputs.
+    */
     validateForm() {
         var state = this.state;
         var valid = true;
@@ -150,6 +168,10 @@ export default class RegistrationView extends Component {
         return valid;
     }
 
+    /**
+    * Handle when the user submits the form and make a call to register
+    * in the backend.
+    */
     onSubmit() {
         if (this.validateForm()) {
             TTTPost("/register", {
@@ -174,6 +196,10 @@ export default class RegistrationView extends Component {
         }
     }
 
+    /**
+    * Make backend call to ensure the registration id is valid.
+    * @param registrationID - the registration id.
+    */
     validateRegistrationId(registrationID) {
         TTTPost("/registration-confirm", {
             registrationID: registrationID
@@ -188,6 +214,9 @@ export default class RegistrationView extends Component {
             });
     }
 
+    /**
+    * Fetches all of the country names from the database.
+    */
     getCountryNamesFromDB(){
         TTTGet("/get-country-names")
             .then(res => {
@@ -195,6 +224,9 @@ export default class RegistrationView extends Component {
             });
     }
 
+    /**
+    * Renders the country names onto the web page.
+    */
     renderCountryNames() {
         return _.map(this.state.countryNames, (country, index) =>
             <option
@@ -205,6 +237,10 @@ export default class RegistrationView extends Component {
         );
     }
 
+    /**
+    * Fetches all of the states for the given country id.
+    * @param country_id - the country id to search on.
+    */
     getCountryStates(country_id){
 
         if(country_id === '1' || country_id === '39'){
@@ -219,6 +255,9 @@ export default class RegistrationView extends Component {
         }
     }
 
+    /**
+    * Renders the name of the states.
+    */
     renderStateNames(){
 
         if(this.state.country.value === '1' || this.state.country.value === '39'){
@@ -235,7 +274,9 @@ export default class RegistrationView extends Component {
         }
     }
 
-
+    /**
+    * Renders the web page.
+    */
     render() {
         return (
             <div className="globalBody globalImage">

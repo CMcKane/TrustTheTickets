@@ -7,8 +7,14 @@ import RegistrationConfirmation from './registration-confirmation';
 import RegistrationRedirect from './registration-redirect';
 import RegistrationView from './registration-view';
 
+/**
+* This component is used to represent the account registration web page.
+*/
 export default class Registration extends Component {
 
+    /**
+    * Constructor
+    */
     constructor(props) {
         super(props);
 
@@ -18,10 +24,17 @@ export default class Registration extends Component {
         };
     }
 
+    /**
+    * Set registration in progress.
+    * @param val - the value to set inProgress with.
+    */
     setInProgress(val) {
         this.setState({inProgress: val});
     }
 
+    /**
+    * Call to the backend to confirm the account registration.
+    */
     validateRegistrationId(registrationID) {
         TTTPost("/registration-confirm", {
             registrationID: registrationID
@@ -36,6 +49,9 @@ export default class Registration extends Component {
             });
     }
 
+    /**
+    * Render method to render the web page.
+    */
     render() {
         if (this.props.userLoggedIn) {
             return <Redirect to='/my-account'/>
