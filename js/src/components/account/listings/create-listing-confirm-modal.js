@@ -6,9 +6,14 @@ import AuthService from '../../auth/auth-service';
 import withAuth from '../../auth/with-auth';
 import {Redirect} from 'react-router-dom';
 
-
+/**
+* This modal is created when after the listing is created by the user.
+* It contains details about the soon to be listing created by the user.
+*/
 class CreateListingConfirmModal extends Component {
-
+    /**
+    * Constructor.
+    */
     constructor(props) {
         super(props);
 
@@ -28,10 +33,16 @@ class CreateListingConfirmModal extends Component {
         }
     }
 
+    /**
+    * Handle the changing of the number of tickets.
+    */
     handleChange(e) {
         this.setState({ticketsEntered: e.target.value});
     }
 
+    /**
+    * Hides the modal.
+    */
     onHide() {
         this.setState({
             busy: false
@@ -39,6 +50,9 @@ class CreateListingConfirmModal extends Component {
         this.props.onHide();
     }
 
+    /**
+    * Create the PDF and call the backend to create the new listing when user submits the new listing.
+    */
     onSubmit(){
         var success = false;
 
@@ -61,6 +75,9 @@ class CreateListingConfirmModal extends Component {
         });
     }
 
+    /**
+    * Get the error text if the user makes a mistake.
+    */
     getErrorText() {
         if (this.props.modalSubmitError) {
             return (
@@ -71,6 +88,9 @@ class CreateListingConfirmModal extends Component {
         }
     }
 
+    /**
+    * Gets the status of the cursor.
+    */
     getCursorStatus() {
         if (this.state.busy) {
             return {cursor: 'wait'};
@@ -78,6 +98,12 @@ class CreateListingConfirmModal extends Component {
         return {cursor: 'pointer'}
     }
 
+    /**
+    * Return the labels that show aisle, entry, handicap, etc.
+    * @param aisle - the aisle seat extra.
+    * @param entry - the early entry extra.
+    * @param handicap - the handicap seat extra.
+    */
     renderExtrasLabels(aisle, entry, handicap) {
 
         var extras = ""
@@ -104,6 +130,9 @@ class CreateListingConfirmModal extends Component {
         return extras;
     }
 
+    /**
+    * Displays the label for indicate the ticket group size.
+    */
     displayGroupSizeLabel() {
 
         let arr = [];
@@ -119,6 +148,9 @@ class CreateListingConfirmModal extends Component {
         return arr;
     }
 
+    /**
+    * Render the values of the seats such as their extras.
+    */
     renderSeatsValues() {
 
         var labels = [];
@@ -129,7 +161,7 @@ class CreateListingConfirmModal extends Component {
                 var aisleCheck = this.props.seatsInfo[i - 1].seat[0].aisleSeat;
                 var earlyEntryCheck = this.props.seatsInfo[i - 1].seat[0].earlyEntry;
                 var handicapAccessibleCheck = this.props.seatsInfo[i - 1].seat[0].handicapAccessible;
-
+                // Push each seat.
                 labels.push(
                     <div>
                     <Col xs={6} sm={5} md={5} lg={4} style={{paddingLeft: "0px"}}>
@@ -154,10 +186,16 @@ class CreateListingConfirmModal extends Component {
             return labels;
         }
     }
+    /**
+    * Handle when the page is refreshed by the user.
+    */
     refreshPage() {
         window.location.reload();
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         if(this.state.redirect){
             this.refreshPage();

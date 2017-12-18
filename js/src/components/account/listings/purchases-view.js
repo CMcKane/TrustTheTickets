@@ -6,8 +6,14 @@ import _ from 'lodash';
 import PurchaseItem from './purchase-item';
 import { Grid, Col } from 'react-bootstrap';
 
+/**
+* This is the view used to show the purchases by a user.
+*/
 class PurchasesView extends Component {
 
+    /**
+    * Constructor.
+    */
 	constructor(props) {
 		super(props);
 		this.Auth = new AuthService();
@@ -16,10 +22,16 @@ class PurchasesView extends Component {
 		}
 	}
 
+    /**
+    * Triggered when page loads.
+    */
 	componentDidMount() {
 		this.getListings();
 	}
 
+    /**
+    * Backend call to retrieve all the listings for a particular user.
+    */
 	getListings() {
 		TTTPost('/your-purchases', {
 			token: this.Auth.getToken()
@@ -33,12 +45,18 @@ class PurchasesView extends Component {
 		});
 	}
 
+    /**
+    * Renders all of the listings.
+    */
 	renderListings() {
 		return _.map(this.state.purchases, (purchase, index) =>
             <PurchaseItem key={index} purchase={purchase} />
         );
 	}
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
         return (
             <div>

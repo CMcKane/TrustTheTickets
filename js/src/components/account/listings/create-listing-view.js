@@ -36,6 +36,9 @@ function FieldGroup({id, label, help, ...props}) {
     );
 }
 
+/**
+* This is the main view of when a user creates a listing.
+*/
 export default class CreateListingView extends Component {
 
     constructor(props) {
@@ -73,6 +76,10 @@ export default class CreateListingView extends Component {
         this.getGameDates();
     }
 
+    /**
+    * Database call to retrieve the sixers opponent on a specific date.
+    * @param gameDate - the game date.
+    */
     getOpponentName(gameDate) {
         TTTPost("/get-opponent-by-date", {gameDate: gameDate})
             .then(res => {
@@ -83,6 +90,9 @@ export default class CreateListingView extends Component {
             });
     }
 
+    /**
+    * Retrieves all the game dates for the user to select from.
+    */
     getGameDates() {
         TTTGet("/get-game-dates")
             .then(res => {
@@ -93,6 +103,9 @@ export default class CreateListingView extends Component {
             });
     }
 
+    /**
+    * Formats the game dates that were retrieved.
+    */
     loadFormattedGameDates(){
         var fgd = [];
         for(var i = 0; i < this.state.gameDates.length; i++)
@@ -104,6 +117,10 @@ export default class CreateListingView extends Component {
         });
     }
 
+    /**
+    * Get the integer index value for each game date.
+    * @param gamDate - the game date.
+    */
     getGameDataIndex(gameDate)
     {
         for(var i = 0; i < this.state.gameDates.length; i++)
@@ -115,6 +132,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Renders the game dates for the create listing view.
+    */
     renderGameDates() {
         return _.map(this.state.gameDates, (date, index) =>
             <option
@@ -125,6 +145,9 @@ export default class CreateListingView extends Component {
         );
     }
 
+    /**
+    * Renders the opponents for the user to choose from.
+    */
     renderOpponent() {
 
         this.state.disableChooseOpponent = false;
@@ -137,6 +160,10 @@ export default class CreateListingView extends Component {
         );
     }
 
+    /**
+    * Dynamically render the fields used for the user to specify the details of each seat.
+    * Builds the form based on the number of seats specified in the previous part.
+    */
     renderSeatNumberForms() {
         var fieldGroups = [];
         for (var i = 1; i <= this.state.numberOfTickets; i++) {
@@ -169,6 +196,9 @@ export default class CreateListingView extends Component {
         return fieldGroups;
     }
 
+    /**
+    * Gets the error text if the section is not valid.
+    */
     getSectionErrorText() {
         if (this.state.sectionNumberError) {
             return "Invalid Section #";
@@ -179,6 +209,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Gets the error text if the row is invalid.
+    */
     getRowErrorText() {
         if (this.state.rowNumberError) {
             return "Invalid Row #";
@@ -189,6 +222,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Handle changing of target values.
+    */
     handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
     }
@@ -203,6 +239,9 @@ export default class CreateListingView extends Component {
         this.setState({[e.target.name]: e.target.value, rowNumberError: !e.target.value.match(/^[\d]{1,3}$/)});
     }
 
+    /**
+    * Handle when the user hits the next form arrow when creating the listing.
+    */
     handleSelectNext() {
         switch (this.state.activeKey) {
             case 1:
@@ -249,6 +288,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Handle when the user hits the back arrow when creating the listing.
+    */
     handleSelectBack() {
 
         switch (this.state.activeKey) {
@@ -276,12 +318,19 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Handle when the user selects a specific date.
+    */
     handleDateChoice(e) {
         var dbGameDateIndex = this.getGameDataIndex(e.target.value);
         this.setState({dbGameDate: this.state.gameDates[dbGameDateIndex].date});
         this.getOpponentName(e.target.value);
     }
 
+    /**
+    * Handle when the value of the minimum purchase radio button changes.
+    * @param value - the radio button value.
+    */
     handleRadioChange(value) {
 
         this.setState({selectedValue: value});
@@ -294,17 +343,26 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Handle the minimum purchase size change.
+    */
     handleMinPurchaseSizeChange(e){
             this.setState({[e.target.name]: e.target.value});
     }
 
 
+    /**
+    * Handle when the PDF file link changes.
+    */
     onFileChange(e) {
         this.setState({
             pdfFile: e.target.files[0]
         });
     }
 
+    /**
+    * Create the modal that displays a summary of the listing. after the user submits the listing.
+    */
     createModal() {
         if(this.state.activeKey === 2){
             this.setState({
@@ -321,6 +379,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Hide the modal.
+    */
     onHide() {
         if(this.state.show){
             this.setState({
@@ -334,6 +395,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Handle the changing of the number of tickets in the listing.
+    */
     changeNumberOfTickets(newNumberOfTickets) {
         this.setState({numberOfTickets: newNumberOfTickets, show: false});
     }
@@ -416,6 +480,9 @@ export default class CreateListingView extends Component {
         return true;
     }
 
+    /**
+    * Backend call to validate that the ticket information is valid information to list.
+    */
     validateTicketsFromDB()
     {
         if(this.checkTicketInfoInput())
@@ -505,6 +572,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * The first rendering step.
+    */
     renderStep1()
     {
         return(
@@ -550,6 +620,10 @@ export default class CreateListingView extends Component {
         )
     }
 
+    /**
+    * Renders the ticket number selection buttons.
+    * @param num - the current tickent number button.
+    */
     renderTicketNumberButton(num)
     {
         return(
@@ -560,6 +634,9 @@ export default class CreateListingView extends Component {
         )
     }
 
+    /**
+    * Rendering step number 2
+    */
     renderStep2()
     {
         return(
@@ -608,6 +685,9 @@ export default class CreateListingView extends Component {
         )
     }
 
+    /**
+    * Renders the loading spinner for validation.
+    */
     renderValidationLoader()
     {
         if(this.state.ticketValInProgress)
@@ -622,6 +702,9 @@ export default class CreateListingView extends Component {
         }
     }
 
+    /**
+    * Rendering step number 3.
+    */
     renderStep3()
     {
         return(
@@ -697,6 +780,9 @@ export default class CreateListingView extends Component {
         )
     }
 
+    /**
+    * Rendering step number 4.
+    */
     renderStep4()
     {
         return(
@@ -749,6 +835,9 @@ export default class CreateListingView extends Component {
         )
     }
 
+    /**
+    * Rendering step number 5.
+    */
     renderStep5()
     {
         return(
@@ -789,6 +878,9 @@ export default class CreateListingView extends Component {
         )
     }
 
+    /**
+    * Rendering step number 6.
+    */
     renderStep6()
     {
         return(
@@ -822,6 +914,9 @@ export default class CreateListingView extends Component {
         )
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         return (
             <div style={{paddingTop: '3%'}}>

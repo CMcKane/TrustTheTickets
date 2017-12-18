@@ -8,8 +8,14 @@ import EditListingModal from './edit-listing-modal';
 import CancelListingModal from './cancel-listing-modal';
 import { Grid, Col } from 'react-bootstrap';
 
+/**
+* This is the main view used to show the listings.
+*/
 class ListingsView extends Component {
 
+    /**
+    * Constructor.
+    */
 	constructor(props) {
 		super(props);
 		this.Auth = new AuthService();
@@ -21,10 +27,16 @@ class ListingsView extends Component {
 		}
 	}
 
+    /**
+    * Triggered when the page loads.
+    */
 	componentDidMount() {
 		this.getListings();
 	}
 
+    /**
+    * Backend call to retrieve all of the current listings that a particular user has.
+    */
 	getListings() {
 		TTTPost('/your-listings', {
 			token: this.Auth.getToken()
@@ -38,18 +50,28 @@ class ListingsView extends Component {
 		});
 	}
 
+    /**
+    * Hides the view.
+    */
 	onHide() {
 		this.setState({
 			show: false
 		});
 	}
 
+    /**
+    * Cancels the hiding.
+    */
 	onCancelHide() {
 		this.setState({
 			cancelShow: false
 		});
 	}
 
+    /**
+    * Show the modal for a particular listing.
+    * @param listing - the listing to have the modal display for.
+    */
 	showModal(listing) {
 		this.setState({
 			selectedListing: listing,
@@ -57,6 +79,10 @@ class ListingsView extends Component {
 		});
 	}
 
+    /**
+    * Show modal for a cancelled listing.
+    * @param listing - the listing to display the modal for.
+    */
 	showCancelModal(listing) {
 		this.setState({
 			selectedListing: listing,
@@ -64,6 +90,11 @@ class ListingsView extends Component {
 		});
 	}
 
+    /**
+    * Backend call to update a current listing.
+    * @param price - the price change.
+    * @param groupID - the listing group id shared by the tickets.
+    */
 	submitListing(price, groupID) {
 		var newListings = this.state.listings;
 		var show = true;
@@ -86,6 +117,10 @@ class ListingsView extends Component {
 		});
 	}
 
+    /**
+    * Cancels a listing currently in progress.
+    * @param groupID - the group id of the tickets in the listing.
+    */
 	cancelListing(groupID) {
 		var newListings = this.state.listings;
 		var cancelShow = true;
@@ -106,6 +141,9 @@ class ListingsView extends Component {
 		});
 	}
 
+    /**
+    * Renders the listings.
+    */
 	renderListings() {
 		return _.map(this.state.listings, (listing, index) =>
             <ListingItem key={index} listing={listing} showCancelModal={this.showCancelModal.bind(this)}
@@ -113,6 +151,9 @@ class ListingsView extends Component {
         );
 	}
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
         return (
             <div>

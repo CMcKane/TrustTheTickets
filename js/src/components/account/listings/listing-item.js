@@ -3,8 +3,14 @@ import { Panel, Button, Grid, Row, Col } from 'react-bootstrap';
 import Logo from '../../logos/logo';
 import Time from 'react-time';
 
+/**
+* This class is used to render an individual listing item.
+*/
 export default class ListingItem extends Component {
 
+    /**
+    * Constructor.
+    */
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,17 +19,25 @@ export default class ListingItem extends Component {
 		}
 	}
 
-
+    /**
+    * Hides the listing Open details.
+    */
 	onHide() {
 		this.setState({
 			open: false
 		});
 	}
 
+    /**
+    * Handles when the user updates the listing.
+    */
 	submitListing() {
 		this.props.updateListing(this.state.listing.groupID);
 	}
 
+    /**
+    * Get the status of the listing.
+    */
 	getStatus() {
 		if (this.inProgress()) {
 			return 'In Progress';
@@ -31,10 +45,16 @@ export default class ListingItem extends Component {
 		return 'Completed';
 	}
 
+    /**
+    * Get the total charges for the seller.
+    */
 	getSellerTotal() {
 		return (this.props.listing.transactionTotal - this.props.listing.chargesTotal);
 	}
 
+    /**
+    * Create and get the header of the listing item.
+    */
 	getHeader() {
 		if(this.inProgress()) {
 			return (
@@ -58,6 +78,9 @@ export default class ListingItem extends Component {
 			</Grid>); 
 	}
 
+    /**
+    * Gets the seat numbers for the tickets in the listing.
+    */
 	getSeats() {
 		var seats = this.state.listing.seats[0];
 		if (this.state.listing.seats.length > 1) {
@@ -66,6 +89,9 @@ export default class ListingItem extends Component {
 		return seats;
 	}
 
+    /**
+    * Renders the buttons on the listing that the user can click.
+    */
 	getButton() {
 		if (this.inProgress()) {
 			return (
@@ -89,6 +115,9 @@ export default class ListingItem extends Component {
 		);
 	}
 
+    /**
+    * Gets all of the content that will be displayed on the listing item and returns the HTML.
+    */
 	getContent() {
 		if (this.inProgress()) {
 			return (
@@ -132,6 +161,9 @@ export default class ListingItem extends Component {
 		);
 	}
 
+    /**
+    * Get the listing item.
+    */
 	getListing() {
 		return (
 			<Row>
@@ -144,6 +176,9 @@ export default class ListingItem extends Component {
 		);
 	}
 
+    /**
+    * Get the listing item panel.
+    */
 	getPanel() {
 		if (this.inProgress()) {
 			return (
@@ -163,6 +198,9 @@ export default class ListingItem extends Component {
 		);
 	}
 
+    /**
+    * Get the collapsible additional listing details panel.
+    */
 	getCollapsiblePanel() {
 		if (!this.inProgress()){
 			return (
@@ -179,10 +217,16 @@ export default class ListingItem extends Component {
 		}
 	}
 
+    /**
+    * Set the listing to in progress.
+    */
 	inProgress() {
 		return this.props.listing.groupID;
 	}
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
 		return (
 			<div className='listingItemNoBottomPadding'>

@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import {Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 
+/**
+* This modal is used when the user chooses to create a brand new listing.
+*/
 export default class CreateListingModal extends Component {
 
+    /**
+    * Constructor.
+    */
     constructor(props) {
         super(props);
 
@@ -13,6 +19,9 @@ export default class CreateListingModal extends Component {
         }
     }
 
+    /**
+    * Handle when the ticket number value changes.
+    */
     handleChange(e) {
         if(e.target.value.match(/^[\d ]*$/)) {
             this.setState({ticketNumberError: false});
@@ -23,6 +32,9 @@ export default class CreateListingModal extends Component {
         }
     }
 
+    /**
+    * Validates that the ticket number entered is valid.
+    */
     getValidationState() {
         const minimumInt = 6;
         if (this.state.ticketsEntered >= minimumInt) return 'success';
@@ -30,6 +42,9 @@ export default class CreateListingModal extends Component {
         return null;
     }
 
+    /**
+    * Hides the modal.
+    */
     onHide() {
         this.setState({
             busy: false
@@ -37,6 +52,9 @@ export default class CreateListingModal extends Component {
         this.props.onHide();
     }
 
+    /**
+    * Handle when the user submits the new listing.
+    */
     onSubmit() {
         if (this.state.ticketsEntered && ~~this.state.ticketsEntered) {
             this.setState({
@@ -46,6 +64,9 @@ export default class CreateListingModal extends Component {
         }
     }
 
+    /**
+    * Displays error text if the user makes a mistake.
+    */
     getErrorText() {
         if (this.state.ticketNumberError) {
             return (
@@ -56,6 +77,9 @@ export default class CreateListingModal extends Component {
         }
     }
 
+    /**
+    * Gets the status of the cursor.
+    */
     getCursorStatus() {
         if (this.state.busy) {
             return {cursor: 'wait'};
@@ -63,6 +87,9 @@ export default class CreateListingModal extends Component {
         return {cursor: 'pointer'}
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         return (
             <Modal style={this.getCursorStatus()} onHide={this.onHide.bind(this)}

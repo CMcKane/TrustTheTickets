@@ -3,8 +3,14 @@ import {Grid, Well} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import AuthService from '../../auth/auth-service';
 
+/**
+* This is the landing page after the user creates a new listing.
+*/
 export default class CreateListingSubmitLanding extends Component {
 
+    /**
+    * Constructor.
+    */
     constructor(props) {
         super(props);
         this.Auth = new AuthService();
@@ -13,17 +19,26 @@ export default class CreateListingSubmitLanding extends Component {
         }
     }
 
+    /**
+    * Triggered when the page loads.
+    */
     componentDidMount(){
         this.timeoutHandle = setTimeout(()=>{
             this.setState({redirect: true});
         }, 5000);
     }
 
+    /**
+    * Triggered when the page un loads.
+    */
     componentWillUnmount(){
         clearTimeout(this.timeoutHandle);
 
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         if(this.state.redirect)
         {

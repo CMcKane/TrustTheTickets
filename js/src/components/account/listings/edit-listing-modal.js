@@ -2,8 +2,14 @@ import React, { Component }  from 'react';
 import { Button, Col, Modal, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import Time from 'react-time';
 
+/**
+* This modal displayes when the user attempts to edit an existing listing.
+*/
 export default class EditListingModal extends Component {
 
+  /**
+    * Constructor.
+    */
   constructor(props) {
     super(props);
 
@@ -11,19 +17,27 @@ export default class EditListingModal extends Component {
       price: ''
     }
   }
-
+  /**
+    * Gets the header of the modal.
+    */
   getHeader() {
     if (this.props.listing) {
       return (this.props.listing.homeTeam + " vs " + this.props.listing.awayTeam);
     }
   }
 
+  /**
+    * Gets the date of the listing.
+    */
   getDate() {
     if (this.props.listing) {
       return (<Time value={this.props.listing.date} format="MMMM D, YYYY h:mmA"/>);
     }
   }
 
+  /**
+    * Gets the details about the listing.
+    */
   getListingContent() {
     if (this.props.listing) {
       return (
@@ -36,12 +50,18 @@ export default class EditListingModal extends Component {
     }
   }
 
+  /**
+    * Gets the listing price.
+    */
   getListingPrice() {
     if (this.props.listing) {
       return this.props.listing.price;
     }
   }
 
+  /**
+    * Handle the change of target values.
+    */
   handleChange(e) {
     this.setState({[e.target.name]: e.target.value});
   }
@@ -50,6 +70,9 @@ export default class EditListingModal extends Component {
     return null;
   }
 
+  /**
+    * Handle when the user submits their change.
+    */
   onSubmit() {
     if (this.state.price && ~~this.state.price) {
       this.setState({
@@ -59,6 +82,9 @@ export default class EditListingModal extends Component {
     }
   }
 
+  /**
+    * Get the error message if user makes a mistake.
+    */
   getErrorText() {
     if (this.props.modalSubmitError) {
       return (
@@ -69,6 +95,9 @@ export default class EditListingModal extends Component {
     }
   }
 
+  /**
+    * Hides the modal.
+    */
   onHide() {
     this.setState({
       busy: false
@@ -76,6 +105,9 @@ export default class EditListingModal extends Component {
     this.props.onHide();
   }
 
+  /**
+    * Gets the cursor status.
+    */
   getCursorStatus() {
     if (this.state.busy) {
       return {cursor: 'wait'};
@@ -83,6 +115,9 @@ export default class EditListingModal extends Component {
     return {cursor: 'pointer'}
   }
 
+  /**
+    * Main rendering loop.
+    */
   render() {
     return (
       <Modal style={this.getCursorStatus()} onHide={this.onHide.bind(this)} 

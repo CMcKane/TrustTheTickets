@@ -3,8 +3,14 @@ import { Grid, Col, Row, Panel, Button } from 'react-bootstrap';
 import Logo from '../../logos/logo';
 import Time from 'react-time';
 
+/**
+* This is the view used for an individual purchased item.
+*/
 export default class PurchaseItem extends Component {
 
+    /**
+    * Constructor.
+    */
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -12,6 +18,9 @@ export default class PurchaseItem extends Component {
 		}
 	}
 
+    /**
+    * Gets the seats for the purchased item.
+    */
 	getSeats() {
 		var seats = this.props.purchase.seats[0];
 		if (this.props.purchase.seats.length > 1) {
@@ -20,6 +29,9 @@ export default class PurchaseItem extends Component {
 		return seats;
 	}
 
+    /**
+    * Gets the content for a purchased item.
+    */
 	getContent() {
 		return (
 			<Grid className='listingItemGrid'>
@@ -40,6 +52,9 @@ export default class PurchaseItem extends Component {
 		);
 	}
 
+    /**
+    * Gets the purchase for the user.
+    */
 	getPurchase() {
 		return (
 			<Row>
@@ -52,6 +67,9 @@ export default class PurchaseItem extends Component {
 		);
 	}
 
+    /**
+    * Gets the header of the purchase item to display.
+    */
 	getHeader() {
 		return (
 			<Grid className='listingItemGrid'>
@@ -68,6 +86,9 @@ export default class PurchaseItem extends Component {
 		); 
 	}
 
+    /**
+    * Get the collapsible detail panel for the purchase item.
+    */
 	getCollapsiblePanel() {
 		return (
 			<Panel collapsible expanded={this.state.open} style={{marginBottom: "0px"}}>
@@ -81,6 +102,9 @@ export default class PurchaseItem extends Component {
 		);
 	}
 
+    /**
+    * Get the entire purchase item panel.
+    */
 	getPanel() {
 		return (
 			<Panel className='listingItemPanelMargins' header={this.getHeader()}>
@@ -91,6 +115,9 @@ export default class PurchaseItem extends Component {
 		);
 	}
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
 		return (
 			<div className='listingItemNoBottomPadding'>

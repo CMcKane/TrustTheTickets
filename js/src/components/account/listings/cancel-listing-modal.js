@@ -2,8 +2,14 @@ import React, { Component }  from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import Time from 'react-time';
 
+/**
+* This class is responsible for the cancel listing modal that is displayed when the user cancels a listing.
+*/
 export default class CancelListingModal extends Component {
 
+  /**
+  * Constructor.
+  */
   constructor(props) {
     super(props);
 
@@ -12,18 +18,27 @@ export default class CancelListingModal extends Component {
     }
   }
 
+  /**
+  * Gets the header for the modal.
+  */
   getHeader() {
     if (this.props.listing) {
       return (this.props.listing.homeTeam + " vs " + this.props.listing.awayTeam);
     }
   }
 
+  /**
+  * Returns a formatted date of the listing.
+  */
   getDate() {
     if (this.props.listing) {
       return (<Time value={this.props.listing.date} format="MMMM D, YYYY h:mmA"/>);
     }
   }
 
+  /**
+  * Gets the details of the current listing in the modal.
+  */
   getListingContent() {
     if (this.props.listing) {
       return (
@@ -37,20 +52,32 @@ export default class CancelListingModal extends Component {
     }
   }
 
+  /**
+  * Gets the listing price.
+  */
   getListingPrice() {
     if (this.props.listing) {
       return this.props.listing.price;
     }
   }
 
+  /**
+  * Handle the changing of target values.
+  */
   handleChange(e) {
     this.setState({[e.target.name]: e.target.value});
   }
 
+  /**
+  * Unused?
+  */
   getValidationState() {
     return null;
   }
 
+   /**
+  * Handle when the user clicks submit in the modal. Cancels the listing.
+  */
   onSubmit() {
       this.setState({
         busy: true
@@ -58,6 +85,9 @@ export default class CancelListingModal extends Component {
       this.props.cancelListing(this.props.listing.groupID)
   }
 
+   /**
+  * Used to hide the modal.
+  */
   onHide() {
     this.setState({
       busy: false
@@ -65,6 +95,9 @@ export default class CancelListingModal extends Component {
     this.props.onHide();
   }
 
+  /**
+  * Gets the status of the cursor.
+  */
   getCursorStatus() {
     if (this.state.busy) {
       return {cursor: 'wait'};
@@ -72,6 +105,9 @@ export default class CancelListingModal extends Component {
     return {cursor: 'pointer'}
   }
 
+  /**
+  * Main rendering loop.
+  */
   render() {
     return (
       <Modal style={this.getCursorStatus()} onHide={this.onHide.bind(this)} 
