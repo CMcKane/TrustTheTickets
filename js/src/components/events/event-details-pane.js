@@ -3,14 +3,23 @@ import Time from 'react-time';
 import {Card} from '@blueprintjs/core';
 import '../../../node_modules/@blueprintjs/core/dist/blueprint.css';
 
+/**
+* This class creates an event details pane that contains event details.
+*/
 export default class EventDetailsPane extends Component {
 
+    /**
+    * Return a string showing the lowest price tickets for the selected event.
+    */
 	getMinPrice() {
       if (this.props.event.minPrice !== 'None') {
         return "Tickets starting at $" + this.props.event.minPrice;
       }
     }
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
 		var detailsClass = "eventDetailCard";
     const id = "event"+this.props.event.id;

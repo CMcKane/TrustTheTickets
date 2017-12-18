@@ -2,8 +2,15 @@ import React, { Component }  from 'react';
 import EventDetailsPane from './event-details-pane';
 import _ from 'lodash';
 
+/**
+* This class renders each event detail box in the event details pane.
+*/
 export default class EventDetails extends Component {
 
+    /**
+    * Creates a map with the event details for the selected event.
+    * @param eventList - the event list of events.
+    */
     renderEventDetails(eventList) {
         return _.map(eventList, (event, index) => 
             <EventDetailsPane
@@ -14,6 +21,9 @@ export default class EventDetails extends Component {
         );
     }
 
+    /**
+    * Triggered when page starts.
+    */
     componentDidUpdate() {
       if (window.innerWidth <= 767 && this.props.selectedEvent) {
         var rightPos = document.getElementById('event'+this.props.selectedEvent.id).offsetLeft;
@@ -24,6 +34,9 @@ export default class EventDetails extends Component {
         }
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
       return (
           <div className="eventDetailsContainer">

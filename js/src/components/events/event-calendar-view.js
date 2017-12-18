@@ -8,8 +8,14 @@ import { TTTPost } from '../backend/ttt-request';
 import queryString from 'query-string';
 import {withRouter} from "react-router-dom";
 
+/**
+* This class is used for the calender view web page where users can select events on.
+*/
 class EventCalendarView extends Component {
 
+    /**
+    * Constructor.
+    */
     constructor(props) {
       super(props);
       
@@ -21,6 +27,11 @@ class EventCalendarView extends Component {
       };
     }
 
+    /**
+    * Calls the backend to retrieve the events between a start and end date.
+    * @param date - the date
+    * @param view - the view being used.
+    */
     getEvents(date, view) {
         const start = moment(date).startOf('month').format('YYYY-MM-DD HH:mm:ss');
         const end = moment(date).endOf('month').format('YYYY-MM-DD HH:mm:ss');
@@ -41,14 +52,26 @@ class EventCalendarView extends Component {
         }
     }
 
+    /**
+    * Returns a redirect link that redirects to the pick tickets web page.
+    */
     getRedirect() {
         return ('/pick-tickets?event=' + this.state.selectedEvent.id);
     }
 
+    /**
+    * Returns a redirect link to the even calender page with the passed month and year.
+    * @param currMonth - the current month selected.
+    * @param currYear - the current year selected.
+    */
     getDateRedirect(currMonth, currYear) {
         return ('/event-calendar?m=' + currMonth + '&y=' + currYear);
     }
 
+    /**
+    * Sets the state with the event that was selected by the user.
+    * @param event - the selected event.
+    */
     eventSelected(event) {
         if (this.state.selectedEvent 
             && (event.id === this.state.selectedEvent.id)) {
@@ -62,6 +85,9 @@ class EventCalendarView extends Component {
         }
     }
 
+    /**
+    * Handle when the user makes their event choice and have the page redirect to pick tickets.
+    */
     onSubmit() {
         if (this.state.selectedEvent) {
             this.setState({
@@ -70,6 +96,11 @@ class EventCalendarView extends Component {
         }
     }
 
+    /**
+    * Ensure that the month and year on the calender are valid.
+    * @param qMonth - the month number.
+    * @param qYear - the year number.
+    */
     monthAndYearValid(qMonth, qYear) {
         const currMonth = new Date().getMonth();
         const currYear = new Date().getFullYear();
@@ -89,6 +120,9 @@ class EventCalendarView extends Component {
         }
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         const queryParams = queryString.parse(this.props.location.search);
         const currMonth = new Date().getMonth();
