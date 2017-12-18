@@ -1,9 +1,18 @@
 from passlib.hash import sha256_crypt
 
+### This is the SQL handler class which is responsible for making calls to the database.
+### The code here is for writing and retrieving from different tables in the schema.
 class SqlHandler(object):
+
+    # Initialization method for SQL handler.
     def __init__(self, mysql):
         self.mysql = mysql
 
+    # Retrieves the first and last name of a user with the
+    # given account ID.
+    # param IN self - this class object
+    # param IN account_id - the account id to retrive the data for.
+    # param OUT a dictionary object containing valid authentication, first and last name.
     def get_account_info(self, account_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -14,6 +23,9 @@ class SqlHandler(object):
         account_info = dict(authenticated=True, firstName=cols[0], lastName=cols[1])
         return account_info
 
+    # Gets all of the accounts located in the accoutns table.
+    # param IN mysql - an sql object.
+    # param OUT array of dictionaries containing account data.
     def get_accounts(mysql):
         conn = mysql.connection
         cursor = conn.cursor()
@@ -22,12 +34,19 @@ class SqlHandler(object):
                     cursor.fetchall()]
         return accounts
 
+    # Checks to see if the passed email exists already.
+    # param IN self - this class object.
+    # param IN email - the email to check for.
     def check_for_email(self, email):
         conn = self.mysql.connection
         cursor = conn.cursor()
         cursor.execute("SELECT account_id FROM accounts WHERE email = '{}'".format(email))
         return len(cursor.fetchall())
 
+    # Retrieves an account to use in the registation confirmation.
+    # param IN self - this class object.
+    # param IN registrationID - the registration code to use in the WHERE clause.
+    # param OUT True if written False if not.
     def get_account_for_confirmation(self, registrationID):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -43,6 +62,10 @@ class SqlHandler(object):
             retVal = True
         return retVal
 
+    # Gets data for games in the date range.
+    # param IN self - this class object.
+    # param IN start_date - the starting date bound.
+    # param IN end_date - the ending date bound.
     def get_games_with_details(self, start_date, end_date):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -65,6 +88,9 @@ class SqlHandler(object):
         except Exception as e:
             print(e)
 
+    # Retrieves event data for the passed event ID.
+    # param IN self - this class object.
+    # param IN event_id - the event id.
     def get_event(self, event_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -90,6 +116,11 @@ class SqlHandler(object):
         except Exception as e:
             print(e)
 
+    # Inserts an account row into the database during registration.
+    # param IN self - this class object
+    # param IN account - the account to have its data written to the database.
+    # param IN registrationID - the registration ID.
+    # param OUT True if authenticated False if not.
     def insert_account_registration(self, account, registrationID):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -110,6 +141,11 @@ class SqlHandler(object):
                 .format(newAccountID, registrationID))
         conn.commit()
 
+    # Verifies that the email and password are valid.
+    # param IN self - this class object.
+    # param IN email - the email
+    # param IN password - the password
+    # param OUT a dictionary of account data False if failure.
     def verify_credentials(self, email, password):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -123,6 +159,9 @@ class SqlHandler(object):
         else:
             return {'authenticated': False}
 
+    # Get the teams playing in all of the games.
+    # param IN self - this class object.
+    # param OUT an array of dictionaries containing the home team and away team name and cities of each.
     def get_teams_for_games(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -131,6 +170,10 @@ class SqlHandler(object):
                 cursor.fetchall()]
         return data
 
+    # Gets games for a specific team.
+    # param IN self - this class object.
+    # param IN team_id - the team id to find the games for.
+    # param OUT array of dictionaries containing game data for the team.
     def get_games_by_team(self, team_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -145,6 +188,10 @@ class SqlHandler(object):
                      home_team_name=row[4], away_team_name=row[5]) for row in cursor.fetchall()]
         return data
 
+    # Gets the event information for a specific event id.
+    # param IN self - this class object.
+    # param IN event_id - the event id.
+    # param OUT a dictionary of event data.
     def get_event_info(self, event_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -157,6 +204,9 @@ class SqlHandler(object):
         data = [dict(date=row[0], home_team_name=row[1], away_team_name=row[2]) for row in cursor.fetchall()]
         return data
 
+    # Gets all of the teams in the database.
+    # param IN self - this class object.
+    # param OUT an array of dictionaries containing each team data.
     def get_all_teams(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -346,6 +396,10 @@ class SqlHandler(object):
                         aisle_seat=row[5], early_access=row[6], handicap=row[7], ticket_id=row[8], min_sell_num=row[9]) for row in cursor.fetchall()]
         return tickets
 
+    # Gets all of the seller transactions for an account id.
+    # param IN self - this class object.
+    # param IN account_id - the seller account id.
+    # param OUT an array of dictionaries containg the transaction data.
     def get_seller_transactions(self, account_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -364,6 +418,10 @@ class SqlHandler(object):
         # For each transaction, get related ticket information for that transaction
         return self.read_transactions(transactions, cursor)
 
+    # Gets the buyer transactions for the account id.
+    # param IN self - this class object.
+    # param IN account_id - the account id
+    # param OUT an array of dictionaries containing the transaction data.
     def get_buyer_transactions(self, account_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -381,6 +439,11 @@ class SqlHandler(object):
         # For each transaction, get related ticket information for that transaction
         return self.read_transactions(transactions, cursor)
 
+    # Retrieves the transaction data.
+    # param IN self - this class object.
+    # param IN transactions - the transactions
+    # param IN cursor - the cursor to execute the query.
+    # param OUT the transaction data.
     def read_transactions(self, transactions, cursor):
         # For each transaction, get related ticket information for that transaction
         for transaction in transactions:
@@ -419,6 +482,10 @@ class SqlHandler(object):
 
         return transactions
 
+    # Get the tickets listed by a seller.
+    # param IN self - this class object.
+    # param IN account_id - the account id of the seller.
+    # param OUT the ticket data.
     def get_seller_tickets(self, account_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -464,6 +531,10 @@ class SqlHandler(object):
                 tickets[counter]['price'] = row[13]
         return tickets
 
+    # Gets a group data for a group id.
+    # param IN self - this class object.
+    # param IN groupID - the group id to search on.
+    # param OUT the group data.
     def get_group(self, groupID):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -484,6 +555,10 @@ class SqlHandler(object):
             in cursor.fetchall()]
         return tickets
 
+    # Updates the ticket price for a specific group ID.
+    # param IN self - this class object.
+    # param IN groupID - the group id.
+    # param IN newPrice - the price to update with.
     def update_group(self, groupID, newPrice):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -492,6 +567,9 @@ class SqlHandler(object):
                        "WHERE group_id={}".format(newPrice, groupID))
         conn.commit()
 
+    # Changes the status of a ticket in a group.
+    # param IN self - this class object.
+    # param IN groupID - the group id.
     def cancel_group(self, groupID):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -500,6 +578,9 @@ class SqlHandler(object):
                        "WHERE group_id={}".format(groupID))
         conn.commit()
 
+    # Gets the dates for a game.
+    # param IN self - this class object.
+    # param OUT returns the date.
     def get_game_dates(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -509,6 +590,10 @@ class SqlHandler(object):
         data = [dict(date=row[0]) for row in cursor.fetchall()]
         return data
 
+    # Gets the opponent of team on a specific date.
+    # param IN self - this class object.
+    # param IN date - the date.
+    # param OUT the opponent team data.
     def get_opponent_by_date(self, date):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -519,6 +604,9 @@ class SqlHandler(object):
         data = [dict(team_name=row[0]) for row in cursor.fetchall()]
         return data
 
+    # Gets all of the country names.
+    # param IN self - this class object.
+    # param OUT the country data.
     def get_country_names(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -527,6 +615,10 @@ class SqlHandler(object):
         data = [dict(country_id=row[0], country_name=row[1]) for row in cursor.fetchall()]
         return data
 
+    # Gets the state province data for a country id.
+    # param IN self - this class object.
+    # param IN country_id - the country id.
+    # param OUT the state province data.
     def get_country_states(self, country_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -536,6 +628,11 @@ class SqlHandler(object):
         data = [dict(state_prov_id=row[0], state_prov_name=row[1]) for row in cursor.fetchall()]
         return data
 
+    # Sets the ticket status to the hold state.
+    # param IN self - this class object.
+    # param IN account_id - the account id.
+    # param IN ticket_ids - the ticket ids to change the state of.
+    # param OUT True if successful False if not.
     def hold_tickets(self, account_id, ticket_ids):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -560,6 +657,10 @@ class SqlHandler(object):
             print(e)
             return False
 
+    # Changes the ticket status to available.
+    # param IN self - this class object.
+    # param IN ticket_ids - the ticket ids.
+    # param OUT True if successful False if not.
     def unlock_tickets(self, ticket_ids):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -584,6 +685,7 @@ class SqlHandler(object):
             print(e)
             return False
 
+    # Purchases tickets.
     def purchase_tickets(self, account_id, ticket_ids):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -596,9 +698,16 @@ class SqlHandler(object):
             print(e)
             return False
 
+    # Deprecate
     def set_tickets_to_purchased(self, account_id, tickets_ids):
         return ''
 
+    # Checks to see if a ticket status is available for a ticket id.
+    # param IN self - this class object.
+    # param IN cursor - the cursor to execute.
+    # param IN account_id - the account id.
+    # param IN ticket_ids - the ticket ids to check.
+    # param OUT True if they are available False if not.
     def check_if_available(self, cursor, account_id, ticket_ids):
         query = "SELECT count(ticket_id) " \
                 "FROM tickets " \
@@ -610,6 +719,9 @@ class SqlHandler(object):
             return False
         return True
 
+    # Retrieves all the transaction fees.
+    # param IN self - this class object.
+    # param OUT the fee data.
     def get_fees(self):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -624,6 +736,19 @@ class SqlHandler(object):
 
         return percentages
 
+    # Creates a new transaction.
+    # param IN self - this class object.
+    # param IN buyer_id - the buyer account id.
+    # param IN tickets - the tickets in the transaction.
+    # param IN commission - unused.
+    # param IN tax - unused
+    # param IN subtotal - unused.
+    # param IN total - the total price.
+    # param IN group_id - the group id.
+    # param IN tax_per_ticket - individual ticket tax.
+    # param IN comm_per_ticket - the commission made on each ticket.
+    # param IN subtotal_per_ticket - the subtotal for each ticket.
+    # param OUT True if successful False if not.
     def create_transaction(self, buyer_id, tickets, commission, tax, subtotal, total, group_id,
                            tax_per_ticket, comm_per_ticket, subtotal_per_ticket):
         conn = self.mysql.connection
@@ -665,6 +790,13 @@ class SqlHandler(object):
         conn.commit()
         return successful
 
+    # Creates the transaction details.
+    # param IN self - this class object.
+    # param IN conn - the connection object.
+    # param IN cursor - the cursor to execute.
+    # param IN tickets - the tickets in the transaction.
+    # param IN transaction_id - the transaction id.
+    # param IN group_id - the ticket group id.
     def create_transaction_detail(self, conn, cursor, tickets, transaction_id, group_id):
         for ticket in tickets:
             insertQuery = "INSERT INTO transaction_detail (transaction_id, ticket_id)" \
@@ -675,6 +807,14 @@ class SqlHandler(object):
             self.set_ticket_status(conn, cursor, id, 2)
             self.update_ticket_group_table(conn, cursor, group_id)
 
+    # Creates the charges for the transaction.
+    # param IN self - this class object.
+    # param IN cursor - the cursor to execute.
+    # param IN transaction_id - the transaction id.
+    # param IN tax_per_ticket - the tax per each ticket in the transaction.
+    # param IN comm_per_ticket - the commision for each ticket.
+    # param IN subtotal_per_ticket - the subtotal for each ticket.
+    # param IN tickets - the tickets in the transaction.
     def create_transaction_charges(self, cursor, transaction_id, tax_per_ticket, comm_per_ticket, subtotal_per_ticket, tickets):
 
         sequence_num = 0
@@ -700,12 +840,23 @@ class SqlHandler(object):
                           " VALUES ('{}', '{}', '{}', '{}')".format(transaction_id, sequence_num, rate_type, amount)
             cursor.execute(insertQuery)
 
+    # Sets the ticket status to the desired parameter status.
+    # param IN self - this class object.
+    # param IN conn - the connection object.
+    # param IN cursor - the cursor to execute.
+    # param IN ticket_id - the ticket id.
+    # param IN new_status - the status to set the ticket to.
     def set_ticket_status(self, conn, cursor, ticket_id, new_status):
         updateQuery = "UPDATE tickets SET ticket_status_id = '{}', lock_account_id = NULL " \
                       "WHERE ticket_id = '{}'".format(new_status, ticket_id)
         cursor.execute(updateQuery)
         conn.commit()
 
+    # Updates the ticket group table with the minimum sell amount.
+    # param IN self - this class object.
+    # param IN conn - the connection object.
+    # param IN cursor - the cursor to execute.
+    # param IN group_id - the group id.
     def update_ticket_group_table(self, conn, cursor, group_id):
         updateQuery = "UPDATE groups " \
                       "SET available_ticket_num =  available_ticket_num - 1 " \
@@ -727,6 +878,10 @@ class SqlHandler(object):
 
         conn.commit()
 
+    # Gets the email for the passed account id.
+    # param IN self - this class object.
+    # param IN accountId - the account id to search on.
+    # param OUT the email data.
     def get_user_email(self, accountId):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -735,6 +890,10 @@ class SqlHandler(object):
         email = cursor.fetchone()[0]
         return email
 
+    # Get the email and phone of a seller.
+    # param IN self - this class object.
+    # param IN group_id - the group id to search on.
+    # param OUT the phone number and email.
     def get_seller_email_and_phone(self, group_id):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -746,6 +905,17 @@ class SqlHandler(object):
         email = res[1]
         return phone_num, email
 
+    # Insert a ticket listing.
+    # param IN self - this class object.
+    # param IN sectionNum - the section number.
+    # param IN rowNum - the row number.
+    # param IN seatsInfo - the seat information.
+    # param IN ticketPrice - the ticket price.
+    # param IN numberOfTickets - the number of tickets in the listing.
+    # param IN minPurchaseSize - the minimum number of tickets capable of being sold in a single transaction.
+    # param IN gameDAta - the game data.
+    # param IN accountID - the account ID making the listing.
+    # param OUT True if successful False if not.
     def insert_ticket_listing(self, sectionNum, rowNum, seatsInfo, ticketPrice, numberOfTickets, minPurchaseSize, gameDate, accountID):
         conn = self.mysql.connection
         cursor = conn.cursor()
@@ -868,6 +1038,13 @@ class SqlHandler(object):
 
         return returnTicketIds
 
+    # Validates that the ticket information is valid and capable of being placed
+    # into the database.
+    # param IN self - this class object.
+    # param IN sectionNum - the section number.
+    # param IN rowNum - the row number.
+    # param IN seatsInfo - the seat information.
+    # param IN gameDate - the game date.
     def validate_ticket_info(self, sectionNum, rowNum, seatsInfo, gameDate):
 
         conn = self.mysql.connection
