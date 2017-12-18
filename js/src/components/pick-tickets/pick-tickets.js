@@ -38,6 +38,8 @@ export default class PickTickets extends Component {
             selectedEvent: null,
             eventID: queryParams.event,
             eventTitle: 'Choose a game',
+            awayTeam: null,
+            homeTeam: null,
             isLoading: false,
             previousSections: [],
             toggleValue: 4,
@@ -172,7 +174,9 @@ export default class PickTickets extends Component {
             try {
                 if (res.data.event.authenticated) {
                     this.setState({
-                        eventTitle: res.data.event.title
+                        eventTitle: res.data.event.title,
+                        awayTeam: res.data.event.awayTeam,
+                        homeTeam: res.data.event.homeTeam
                     });
                 }
             }
@@ -741,26 +745,35 @@ export default class PickTickets extends Component {
                                                 <ControlLabel>
                                                     Quick Searches:
                                                 </ControlLabel>
-                                                <ButtonToolbar>
-                                                    <Button id="lowestPrice" value={2} name="lowest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Lowest Price</Button>
-                                                    <Button id="highestPrice" value={3} name="highest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Highest Price</Button>
-                                                </ButtonToolbar>
+                                                <div style={{width: '65%'}}>
+                                                    <ButtonToolbar id="QuickSearchesButtonToolbar">
+                                                        <ButtonGroup block vertical>
+
+                                                            <Button id="lowestPrice" value={2} name="lowest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Lowest Price</Button>
+
+                                                            <Button id="highestPrice" value={3} name="highest" onClick={this.handleQuickSearchButtonPress.bind(this)}>Highest Price</Button>
+
+                                                        </ButtonGroup>
+                                                    </ButtonToolbar>
+                                                </div>
                                             </div>
                                             <hr className="filter-hr"/>
                                             <div>
                                                 <ControlLabel>
                                                     Price Filter:
                                                 </ControlLabel>
-                                                <ToggleButtonGroup
-                                                    id = "priceToggleGroup"
-                                                    name = "filterToggleGroup"
-                                                    style={{paddingBottom: '5px'}}
-                                                    type="radio"
-                                                    value={this.state.toggleValue}
-                                                    onChange={this.onToggleChange.bind(this)}>
-                                                    <ToggleButton bsStyle="success" id="selectPrice" value={1} name="select" onClick={this.handleToggleButtonPress.bind(this)}>Use Range</ToggleButton>
-                                                    <ToggleButton id="anyPrice" value={4} name="any" onClick={this.handleToggleButtonPress.bind(this)}>Any Price</ToggleButton>
-                                                </ToggleButtonGroup>
+                                                <div>
+                                                    <ToggleButtonGroup
+                                                        id = "priceToggleGroup"
+                                                        name = "filterToggleGroup"
+                                                        style={{paddingTop: '5px'}}
+                                                        type="radio"
+                                                        value={this.state.toggleValue}
+                                                        onChange={this.onToggleChange.bind(this)}>
+                                                        <ToggleButton bsStyle="success" id="selectPrice" value={1} name="select" onClick={this.handleToggleButtonPress.bind(this)}>Use Range</ToggleButton>
+                                                        <ToggleButton id="anyPrice" value={4} name="any" onClick={this.handleToggleButtonPress.bind(this)}>Any Price</ToggleButton>
+                                                    </ToggleButtonGroup>
+                                                </div>
                                                 <Range
                                                     className="range-slider"
                                                     style={{paddingTop: "15px", paddingBottom: "15px"}}
@@ -779,16 +792,18 @@ export default class PickTickets extends Component {
                                                 <ControlLabel>
                                                     Extras Filter:
                                                 </ControlLabel>
-                                                <ToggleButtonGroup
-                                                    id="checkBoxes"
-                                                    style={{paddingTop: '5px'}}
-                                                    type="checkbox"
-                                                    value={this.state.activeCheckBoxes}
-                                                    onChange={this.addCheckBox.bind(this)}>
-                                                        <ToggleButton id="handicapToggle" value={1} onClick={this.toggleFilter.bind(this)}>Handicap</ToggleButton>
-                                                        <ToggleButton id="aisleSeatToggle" value={2} onClick={this.toggleFilter.bind(this)}>Aisle</ToggleButton>
-                                                        <ToggleButton id="earlyAccessToggle" value={3} onClick={this.toggleFilter.bind(this)}>Early Entry</ToggleButton>
-                                                </ToggleButtonGroup>
+                                                <div>
+                                                    <ToggleButtonGroup
+                                                        id="checkBoxes"
+                                                        style={{paddingTop: '5px'}}
+                                                        type="checkbox"
+                                                        value={this.state.activeCheckBoxes}
+                                                        onChange={this.addCheckBox.bind(this)}>
+                                                            <ToggleButton id="handicapToggle" value={1} onClick={this.toggleFilter.bind(this)}>Handicap</ToggleButton>
+                                                            <ToggleButton id="aisleSeatToggle" value={2} onClick={this.toggleFilter.bind(this)}>Aisle</ToggleButton>
+                                                            <ToggleButton id="earlyAccessToggle" value={3} onClick={this.toggleFilter.bind(this)}>Early Entry</ToggleButton>
+                                                    </ToggleButtonGroup>
+                                                </div>
                                             </div>
                                             <hr className="filter-hr"/>
                                             <div>
