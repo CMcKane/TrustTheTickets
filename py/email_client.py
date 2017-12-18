@@ -8,8 +8,18 @@ config = configparser.ConfigParser()
 config.read("config.ini")
 website_url = config.get('py-app-config', 'WebsiteURL')
 
+# This class is responsible for all functionality relating to
+# emailing the user.
 class TTTEmailClient(object):
 
+    # Sends the confirmation after a transaction has occured.
+    # param IN toAddr - the email to send to.
+    # param IN event_dict - the dictionary of data for an event.
+    # param IN tickets - the tickets in the sale.
+    # param IN commission - unused.
+    # param IN tax - unused.
+    # param IN subtotal - the subtotal.
+    # param IN total - unused.
     def send_sale_confirmation(toAddr, event_dict, tickets, commission, tax, subtotal, total):
         msg = MIMEMultipart()
         fromAddr = 'trustthetickets@gmail.com'
@@ -43,6 +53,9 @@ class TTTEmailClient(object):
         server.sendmail(fromAddr, toAddr, text)
         server.quit()
 
+    # Sends the confirmation after a user creates an account.
+    # param IN toAddr - the email to send to.
+    # param IN registrationID - the registration id.
     def send_confirmation(toAddr, registrationID):
         msg = MIMEMultipart()
         fromAddr = 'trustthetickets@gmail.com'
@@ -65,6 +78,10 @@ class TTTEmailClient(object):
         server.sendmail(fromAddr, toAddr, text)
         server.quit()
 
+    # Sends the PDF files contation all of the ticket PDF's.
+    # param IN toAddr - the email to send to.
+    # param IN file - the PDF file.
+    # param IN filename - the name of the file.
     def send_combined_ticket_file(toAddr, file, filename):
         msg = MIMEMultipart()
         fromAddr = 'trustthetickets@gmail.com'
