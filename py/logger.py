@@ -3,6 +3,7 @@ import os
 directory_path = "../debug"
 file_path = "../debug/log.txt"
 
+# This class is to be deprecated.
 class Logger(object):
     file = 0
 

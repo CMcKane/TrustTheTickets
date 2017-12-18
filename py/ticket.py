@@ -1,3 +1,4 @@
+# This class is to be deprecated.
 class Ticket(object):
     ticketID        = -1
     seller          = -1

@@ -3,14 +3,17 @@ from flask_mysqldb import MySQL
 from sql_handler import SqlHandler
 from account_jwt import JWTService
 
+# This class is responsible for creating a listing.
 class ListingCreator(object):
 
+    # The initalization method.
     def __init__(self, mysql, pdfworker, json, file):
         self.mysql = mysql
         self.pdfworker = pdfworker
         self.json = json
         self.file = file
 
+    # Creates a new listing.
     def createListing(self):
         sqlHandler = SqlHandler(self.mysql)
         jwt_service = JWTService()
