@@ -1,7 +1,13 @@
 import React, { Component }  from 'react';
 
+/**
+* Creates a web pge used for the error 404 not found.
+*/
 export default class NotFoundView extends Component {
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
 		return (
 			<div className="text-center" style={{color: 'black', paddingTop: '20%'}}>

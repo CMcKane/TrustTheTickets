@@ -8,8 +8,14 @@ import '../../stylesheet.css';
 const logoMouseOver = require("../../resources/images/header/headerLogoMouseOver.png");
 const logoMouseOut = require("../../resources/images/header/headerLogoMouseOut.png");
 
+/**
+* This is a global class than can be used to create headers for web pages.
+*/
 export default class Header extends Component {
 
+    /**
+    * Constructor
+    */
     constructor(props) {
         super(props);
 
@@ -21,6 +27,9 @@ export default class Header extends Component {
         this.handleMouseOut = this.handleMouseOut.bind(this);
     }
 
+    /**
+    * Handle when the user hovers over a logo.
+    */
     handleMouseOver()
     {
         this.setState({
@@ -28,6 +37,9 @@ export default class Header extends Component {
         })
     }
 
+    /**
+    * Handle when the user moves the mouse away.
+    */
     handleMouseOut()
     {
         this.setState({
@@ -35,6 +47,9 @@ export default class Header extends Component {
         })
     }
 
+    /**
+    * Renders the items in the navigation bar.
+    */
     renderItems() {
         return _.map(this.props.navItems, (navItem, index) =>
             <LinkContainer key={index} to={navItem.url}>
@@ -43,14 +58,24 @@ export default class Header extends Component {
         );
     }
 
+    /**
+    * Sets the navigation bar to expanded.
+    * @param expanded - the expansion value.
+    */
     setNavExpanded(expanded) {
         this.setState({ navExpanded: expanded});
     }
 
+    /**
+    * Closes the navigation bar.
+    */
     closeNav() {
         this.setState({navExpanded: false});
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         return (
             <div className="headerContainer">

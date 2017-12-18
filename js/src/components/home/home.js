@@ -14,8 +14,14 @@ import GoCalendar from 'react-icons/lib/go/calendar';
 import GoJersey from 'react-icons/lib/go/jersey';
 import IonSocialUsd from 'react-icons/lib/io/social-usd';
 
+/**
+* This class renders the front hom page of the website.
+*/
 export default class Home extends Component {
 
+    /**
+    * Renders the different type of search options for the user.
+    */
     renderSearchOptions()
     {
         return (
@@ -58,6 +64,9 @@ export default class Home extends Component {
         )
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         return (
             <div>
