@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import Logo from '../logos/logo';
 
+/**
+* Renders the team logos for each team.
+*/
 export default class TeamLogo extends Component {
 
+    /**
+    * Constructor.
+    */
 	 constructor(props) {
         super(props);
         this.state = {
@@ -10,10 +16,16 @@ export default class TeamLogo extends Component {
         }
     }
 
+    /**
+    * Handle when a user clicks on a team logo on the versus page.
+    */
     onLogoClick() {
     	this.props.onClick(this.props.team);
     }
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
 		return (
             <div className="versusLogo" 

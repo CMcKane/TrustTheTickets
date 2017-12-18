@@ -10,9 +10,15 @@ import Time from 'react-time';
 import {Card} from '@blueprintjs/core';
 import '../../../node_modules/@blueprintjs/core/dist/blueprint.css';
 
+/**
+* This is the versus web page which will display team logos for the user to click on.
+*/
 export default class Versus extends Component {
     teams = [];
 
+    /**
+    * Constructor
+    */
     constructor(props) {
         const sportTypeID = 1;
         super(props);
@@ -34,6 +40,9 @@ export default class Versus extends Component {
             });
     }
 
+    /**
+    * Create the rendering of the games list.
+    */
     renderGameList() {
         if (this.state.games) {
             if (this.state.games.length > 0) {
@@ -55,6 +64,10 @@ export default class Versus extends Component {
                 Select a team logo to find your game</h3>
     }
 
+    /**
+    * Get games for a specific team by calling the backend.
+    * @param team - the team to search on.
+    */
     getGamesByTeam(team) {
         TTTPost("/games-by-team", {
             team_id: team.team_id
@@ -64,6 +77,9 @@ export default class Versus extends Component {
             });
     }
 
+    /**
+    * Create the rendering of the games headers.
+    */
     getGamesHeader() {
         if(this.state.team) {
             return (
@@ -72,16 +88,26 @@ export default class Versus extends Component {
         }
     }
 
+    /**
+    * Handle when a team is selected.
+    * @param team - the team selected.
+    */
     onTeamSelect(team) {
         this.getGamesByTeam(team);
     }
 
+    /**
+    * Render the team logos.
+    */
     renderLogos() {
         return _.map(this.state.teams, (team, id) =>
             <TeamLogo key={id} team={team} onClick={this.onTeamSelect.bind(this)} />
         );
     }
 
+    /**
+    * Main rendering loop.
+    */
     render() {
         return (
             <div className='globalBody globalImage'>

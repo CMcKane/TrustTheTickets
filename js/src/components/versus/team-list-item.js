@@ -5,8 +5,15 @@ import { Panel, Button, ListGroupItem } from 'react-bootstrap';
 import {TTTPost} from '../backend/ttt-request';
 import {LinkContainer} from 'react-router-bootstrap';
 
+/**
+* This class is used for an individual team listing item.
+* Used in the versus web page.
+*/
 export default class TeamListItem extends Component {
 
+    /**
+    * Constructor
+    */
     constructor(props) {
         super(props);
         this.state = {
@@ -15,6 +22,9 @@ export default class TeamListItem extends Component {
         }
     }
 
+    /**
+    * Handle when the user clicks on a team list item.
+    */
     handleClick() {
     	if (this.state.open) {
     		this.setState({open: false});
@@ -24,6 +34,10 @@ export default class TeamListItem extends Component {
     	}
     }
 
+    /**
+    * Backend call to get all the games for a given team id.
+    * @param team_id - the team id to search on.
+    */
     getGamesByTeam(team_id) {
         TTTPost("/games-by-team", {
             team_id: this.props.team.team_id
@@ -33,6 +47,9 @@ export default class TeamListItem extends Component {
             });
     }
 
+    /**
+    * Renders the view to be used on web page for a game list.
+    */
     renderGameList() {
         return _.map(this.state.games, (game, id) =>
             <li className="list-group-item" border-color="red">
@@ -49,6 +66,9 @@ export default class TeamListItem extends Component {
         );
     }
 
+    /**
+    * Main rendering loop.
+    */
 	render() {
 		return (
 			<div>
