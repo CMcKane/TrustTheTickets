@@ -71,6 +71,7 @@ def requestNotSupported():
     return make_response(jsonify({'error': 'Invalid token',
                                   'authenticated': False}))
 
+# Sends the PDF's for the tickets.
 @app.route('/send-tickets-pdf', methods=['POST'])
 def sendTicketsPDF():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -95,6 +96,7 @@ def sendTicketsPDF():
         return requestNotSupported()
     return jsonify({'success': True})
 
+# Refreshes a token used for storing user sessions.
 @app.route('/token-refresh', methods = ['POST'])
 @require_token
 def refresh_token():
@@ -109,6 +111,7 @@ def refresh_token():
     else:
         return requestNotSupported()
 
+# Performs the user registration functionality.
 @app.route('/register', methods = ['POST'])
 def register():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -119,6 +122,7 @@ def register():
     else:
         return requestNotSupported()
 
+# Performs the user registration confirmation.
 @app.route('/registration-confirm', methods=['POST'])
 def confirm_registration():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -129,6 +133,7 @@ def confirm_registration():
     else:
         return requestNotSupported()
 
+# Retrieves the data for the users account.
 @app.route('/my-account', methods=['POST'])
 @require_token
 def get_account_info():
@@ -142,6 +147,7 @@ def get_account_info():
         except Exception as e:
             return jsonify({'authenticated': False})
 
+# Gets all the games and their data.
 @app.route('/get-games-with-details', methods=['POST'])
 def get_games_with_details():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -150,6 +156,7 @@ def get_games_with_details():
         eventDetails= sqlHandler.get_games_with_details(jsonData['start'], jsonData['end'])
         return jsonify({'eventDetails': eventDetails})
 
+# Gets the data for an event.
 @app.route('/get-event', methods=['POST'])
 def get_event():
     jsondata = request.get_json()
@@ -273,6 +280,7 @@ def get_tickets_and_sections_by_price():
     else:
         return jsonify({'tickets': False})
 
+# End point to handle user login.
 @app.route('/login', methods=['POST'])
 def authenticate_credentials():
     if 'application/json' in request.headers.environ['CONTENT_TYPE']:
@@ -283,18 +291,21 @@ def authenticate_credentials():
     else:
         return requestNotSupported()
 
+# End point to retrieve the teams playing in all games.
 @app.route('/games')
 def get_games_list():
     sqlHandler = SqlHandler(mysql)
     games = sqlHandler.get_teams_for_games()
     return jsonify({'games': games})
 
+# End point to retrieve all of the teams available.
 @app.route('/all-teams', methods=['GET', 'POST'])
 def all_teams():
     sqlHandler = SqlHandler(mysql)
     teams = sqlHandler.get_all_teams()
     return jsonify({'teams': teams})
 
+# End point to retrieve games by a specific team.
 @app.route('/games-by-team', methods=['GET', 'POST'])
 def games_by_team():
     sqlHandler = SqlHandler(mysql)
@@ -303,6 +314,7 @@ def games_by_team():
     games = sqlHandler.get_games_by_team(team_id)
     return jsonify({'games': games})
 
+# End point to retrieve a users listings.
 @app.route('/your-listings', methods=['POST'])
 @require_token
 def get_seller_listings():
@@ -319,6 +331,7 @@ def get_seller_listings():
         print(e)
         return jsonify({'authenticated': False})
 
+# End point to retrieve the users purchases.
 @app.route('/your-purchases', methods=['POST'])
 @require_token
 def get_buyer_purchases():
@@ -333,6 +346,7 @@ def get_buyer_purchases():
         print(e)
         return jsonify({'authenticated': False})
 
+# End point to update a current listing.
 @app.route('/update-listing', methods=['POST'])
 @require_token
 def update_listing():
@@ -350,6 +364,7 @@ def update_listing():
         print(e)
         return jsonify({'authenticated': False})
 
+# End point to perform locking of tickets.
 @app.route('/hold-tickets', methods=['POST'])
 @require_token
 def hold_tickets():
@@ -364,6 +379,7 @@ def hold_tickets():
         print(e)
         return jsonify({'authenticated': False})
 
+# End point to perform cancelation of a listing.
 @app.route('/cancel-listing', methods=['POST'])
 @require_token
 def cancel_listing():
@@ -381,6 +397,7 @@ def cancel_listing():
         print(e)
         return jsonify({'authenticated': False})
 
+# End point to create the ticket groups by group id.
 @app.route('/create-groups', methods=['POST'])
 def create_groups():
     jsonData = request.get_json()
@@ -389,6 +406,7 @@ def create_groups():
     groups = dict((k, list(g)) for k, g in groupby(tickets_list, key = itemgetter('group_id')))
     return jsonify({'groups': groups})
 
+# End point to get the tickets for a specific group id.
 @app.route('/get-tickets-for-group', methods=['POST'])
 def get_group_of_tickets():
     jsonData = request.get_json()
@@ -397,12 +415,14 @@ def get_group_of_tickets():
     tickets = sqlHandler.get_group(group_id)
     return jsonify({'tickets': tickets})
 
+# End point to get the dates of the games.
 @app.route('/get-game-dates', methods=['GET'])
 def game_dates():
     sqlHandler = SqlHandler(mysql)
     date = sqlHandler.get_game_dates()
     return jsonify({'date': date})
 
+# End point to get the opponent for a specific date.
 @app.route('/get-opponent-by-date', methods=['POST'])
 def get_opponent_by_date():
     jsonData = request.get_json()
@@ -411,12 +431,14 @@ def get_opponent_by_date():
     opponentName = sqlHandler.get_opponent_by_date(date)
     return jsonify({'opponentName': opponentName})
 
+# End point to get the country names.
 @app.route('/get-country-names', methods=['GET'])
 def get_country_names():
     sqlHandler = SqlHandler(mysql)
     countries = sqlHandler.get_country_names()
     return jsonify({'country': countries})
 
+# End point to get the states in a country.
 @app.route('/get-country-states', methods=['POST'])
 def get_country_states():
     jsonData = request.get_json()
@@ -425,6 +447,7 @@ def get_country_states():
     stateNames = sqlHandler.get_country_states(country_id)
     return jsonify({'stateNames': stateNames})
 
+# End point to get the transaction fees.
 @app.route('/get-fees', methods=['GET'])
 def get_fees():
     jsonData = request.get_json()
@@ -432,6 +455,7 @@ def get_fees():
     percentages = sqlHandler.get_fees()
     return jsonify({'percentages': percentages})
 
+# End point to insert a new transaction.
 @app.route('/insert-transaction', methods=['POST'])
 @require_token
 def create_transaction():
@@ -462,6 +486,7 @@ def create_transaction():
 
     return jsonify({'success': success})
 
+# End point to unlock the tickets for avialability.
 @app.route('/unlock-tickets', methods=['POST'])
 def unlock_tickets():
     jsonData = request.get_json()
@@ -475,7 +500,7 @@ def unlock_tickets():
         print(e)
         return jsonify({'authenticated': False})
 
-
+# Sends the listing data to the backend end.
 @app.route('/send-listing-data', methods=['POST'])
 def receiveListingData():
     file = request.files['pdf']
@@ -487,6 +512,7 @@ def receiveListingData():
 
     return jsonify({'success': success})
 
+# Validates that the ticket information is valid and allowed to be listed.
 @app.route('/validate-ticket-info', methods=['POST'])
 def validateTicketInfo():
     jsonData = request.get_json()
@@ -499,5 +525,6 @@ def validateTicketInfo():
     ticketInfoResults = sqlHandler.validate_ticket_info(sectionNum, rowNum, seatNums, gameDate)
     return jsonify({'ticketInfoResults': ticketInfoResults})
 
+# Main driver.
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
