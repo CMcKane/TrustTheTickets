@@ -1,2 +1,14 @@
 Contributions:
   
+  - Detailed Design Document
+  - Pick Tickets page
+    - Ticket Search Options (Filtering)
+      - pick-tickets.js
+    - Ticket Display
+      - ticket-list-item.js
+  - Python Endpoints
+    - Ticket Search calls
+  - stylesheet.css
+  - pdf_interface.py
+  - back_door.py
+  - login.js
