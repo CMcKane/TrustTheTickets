@@ -1,0 +1,19 @@
+Coding Contributions:
+	- Interactive seating chart
+	- My Listings View
+	- Purchase History View
+	- Event Calendar Page
+	- Integration of team logos in website
+	- Helped design/implement Teams page
+		- Specifically the horizontal scrolling logo selection
+	- Account registration + email confirmation
+	- Helped design/implement relevant endpoints consumed by above pages
+	- Implemented json web token authentication
+	- Mobile styling for all pages
+	- Created mysql script run by mysql scheduler
+
+Artifact Contributions:
+	- Collaborated on the following sections of design doc:
+		 Webpages/Navigation, Python Microservices
+	- Created/presented slides during final presentation 
+
