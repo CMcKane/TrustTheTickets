@@ -1,0 +1,36 @@
+Coding Contributions:
+  
+  - Ticket filtering algorithms for pick tickets page.
+      - Lowest/Highest price
+      - Price slider
+      - Ticket attibutes
+      - Python end points
+      - SQL calls
+      - All Python code related to filtering in SQL Handler and Back Door Python files. 
+  - Pick tickets zone selection
+      - Implemented algorithm to determine zone when user picks a section 
+      - Created the toggle and its code to switch between zone and section.
+  - Implemented the ticket listing items for each ticket in the ticket panel 
+      - Their rendering and button functionality.
+  - Implemented Modal rendering and functionality for when user clicks to ticket item to view each ticket seat.
+      - Algorithm to ensure seat selections are next to each other 
+  - Implemented checkout page
+      - Ticket locking/unlocking algorithm
+      - Timer functionality
+      - Rendering of the modal 
+      - Price calculations
+  - Assisted in ticket listing backend implementation (debugging assistance)
+  - Implemented algorithm to paint the seating chart based by zone
+  - Assisted in early database schema design
+  - Most of the code documentation in both javascipt in python components.
+  - Overall testing and debugging of various bugs.
+ 
+  
+  Artifact Contributions:
+  
+    - Assisted in creating the design document.
+    - Created multiple sequence diagrams, state diagram and high level design diagram for initial design of website.
+    - Assisted in capturing demo video.
+    - Assisted creating and presenting demo power point.
+        
+  
