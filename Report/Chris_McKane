@@ -1,0 +1,33 @@
+Code Contributions:
+  - Login Page Design
+    - Pushing and Pulling Email/Password to and from the database
+  - Registration Page Design
+    - Pushing and Pulling information to and from the database
+    - Fill Country and State with database information
+  - My Account tab page layout
+  - Implemented Create A Listing Process
+    - Pulling and Pushing of appropriate data to and from the database
+    - Python and SQL Queries to speak between the Javascript and python to transfer information back and forth
+    - Completion checks before moving onto the next step
+    - Validation of correct inputs into certain fields (No numbers/letters/symbols allowed when not needed)
+    - Number of Tickets needed modal
+    - Dynamically generating number of ticket objects needed and storing each ticket's specific attributes
+    - Ticket grouping sizes
+    - Ticket prices validated as an actual price and formatted correctly in the end
+    - PDF file upload feature that takes only PDF files
+    - Create Listing Review Modal
+    - Python and SQL required to take all of the information entered in the Create A Listing section and pushing it to the Database to create the tickets.
+      - Debugging Assitance from Anthony
+    - Overall site testing and bug fixes
+  - Helped create new endpoints required for pages I was involved with
+  - Full project CSS styling
+    - Stylesheet.css
+      - Moved all single css files into one centralized file
+      - Formatted all css into sections for easy traversal and modification
+    - Original homepage design (later modified and changed)
+    - Mobile CSS styling for mobile interfaces (Along with Tom) 
+    
+Artifact Contributions:
+  - Helped work on the Design Document
+    - Specifically Endpoints and their general algorithms/inputs/outputs
+  - Created slides and later presented those slides for final presentation
