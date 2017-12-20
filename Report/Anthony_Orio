@@ -6,7 +6,7 @@ Coding Contributions:
       - Ticket attibutes
       - Python end points
       - SQL calls
-      - All Python code related to filtering in SQL Handler and Back Door Python files. 
+      - Majority of Python code related to filtering in SQL Handler and Back Door Python files. 
   - Pick tickets zone selection
       - Implemented algorithm to determine zone when user picks a section 
       - Created the toggle and its code to switch between zone and section.
