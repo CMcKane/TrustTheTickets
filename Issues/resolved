@@ -1,0 +1,42 @@
+Resolved:
+
+    Bugs and Tasks:
+        1. Buyer shall only be able to select seats that are next to each other
+            - Demonstrated in demo video
+        2. Unlocking tickets when user presses back or refreshes checkout page
+        3. Filtering by number of tickets shouldn’t show groups containing fewer available tickets than the filter amount.
+            - Demonstrated in demo video
+        4. Prevent user from listing tickets that already exist (same section, row and seat)
+            - See screenshot 4.jpg
+        5. Prevent user from listing tickets in non-existent sections
+            - See screenshot 5.jpg
+        6. Fix registration validation fail
+            - Demonstrated successful registration in demo video
+        7. Fix upload ticket bug for seat numbers higher than 9
+            - See screenshot 7.jpg
+        8. Email Notification to seller when a transaction is completed
+            - Demonstrated in demo video
+        9. Update design document
+            - Included in repo
+        10. Remove redirect landing page from creating a ticket listing, just automatically redirect to my account page
+            - Demonstrated in demo video
+        11. Add redirect to login page after account registration
+            - Demonstrated in demo video
+        12. Pick-Tickets Page: Show which teams are versing each other
+            - Added event details including team, day, month year, location. See screenshot 12.jpg
+        13. On Pick Tickets Pane, order tickets by section, then row, then seat number
+            - See 13.jpg
+        14. Expose the drop-down Filter Pane on pick-tickets page to show which filters are selected by default
+            - See screenshot 14.jpg
+        15. Style Event Cal Details Pane
+            - See eventCalendarDetailsPane.jpg
+        16. Checkout Page CSS formatting for screen sizes.
+        17. Style pages for landscape screen orientation
+
+
+
+
+Unresolved:
+
+    1. Style pick-tickets-modal more
+    2. Evaluate formatting of listings page
