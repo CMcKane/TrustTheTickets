@@ -19,7 +19,7 @@ Contributions
 			-Updated the Database Design section of the final version of the Design Document
 			-Updated the Backend Design section of the final version of the Design Document
 		Issues
-			-Compiled the issues document for our final submission along with Curtis Baillie
+			-Compiled the resolved and unresolved files for our final submission along with Curtis Baillie
 		Demo Video
 			-Wrote the script for the demo video
 			-Shot & narrated the demo video
@@ -30,17 +30,46 @@ Contributions
 	Database Schema:
 		Designed the database model for our project along with input from Anthony Orio & the Team
 			-Built schema in MySQL Workbench
-			-Modified database model when neccessary during project
-			-Assumed responsibility for keeping team members' databases up to date with the latest model
+			-Modified database model when neccessary during project (many times)
+			-Assumed responsibility for helping team members with keeping their databases up to date with the latest model
+				-Running scripts to update data and fix inconsistencies
 			-Wrote procedures for creating stadium seating infrastructure data (sections, rows, and seats for their respective tables)
 			
 	Development:
-		
+		-Designed and implemented the home page (lander page)
+		-Implemented redesigned nav bar
+			-Changed color scheme, made thicker, wrapped in headroom component (disapears during scrolldown)
+		-Implemented global styles for pages, background images for nicer website appeal
+		-Implemented S3 and PDF interfaces
+			-Uploading PDF from front end
+			-Splitting it in Python using PyPDF
+			-Uploading pieces to S3 bucket
+			-Downloading pieces from S3 bucket
+			-Rebundleing with PyPDF
+			-Emailing combined ticket pdf on transaction completion
+		-Changed chart coloring
+			-Sixers red on select with white font
+		-Styled ticket details pane
+			-Sixers colors
+		-Login to buy button on ticket modal if user not logged in
+		-Created validation methods for checking valid ticket information on create ticket listing page
+			-Checks location and currently listed tickets
+		-Fixed bugs before submission
+			-Ticket modal ticket number ordering
+			-Time display bug on create-listing-confirm-modal
+			-Fixed checkout page css
+			-Fixed logout bug
+			-Fixed sold status not staying bug
+		-Refactored ticket filtering on pick tickets page
+			-Fixed cheapest and most expensive ticket queries
+			-Updated ticket queries so that every query applied the current filters
+			-Styled filter panel better
+			-Added search and apply buttons yielding two ways to search
+				-Search performs a new search for all sections that meet the current filter criteria
+				-Apply applies the current filter to the currently selected sections
 		
 	Test Data:
 		Wrote a C# GUI for creating ticket data for our database
 		(https://github.com/gaffneyd4/TTTDataGenerator)
 			-Utilized it to populate the database with plenty of realistic ticket data
 			
-	
-	
