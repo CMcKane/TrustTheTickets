@@ -16,6 +16,8 @@ import { Redirect } from 'react-router-dom';
 import Checkout from './checkout';
 import withAuth from '../auth/with-auth';
 import { withRouter } from 'react-router';
+import Time from 'react-time';
+
 
 var clickedSection = ''
 var taxRate = 0;
@@ -785,11 +787,23 @@ export default class PickTickets extends Component {
                             setCheckoutTickets={this.setCheckoutTickets.bind(this)} />
                         <div className=" globalBody globalImageOverlay">
                             <Well className='eventCalendarViewEventsWell'>
-                                Choose Your Seats
+                                <Col xs={0} sm={0} md={4} lg={4}>
+                                </Col>
+                                <Col xs={3} sm={3} md={1} lg={1}>
+                                    <div className={'pickTicketsDate'}><Time value={this.state.eventInfo} format={"D"}/></div>
+                                    <div className={'pickTicketsMonth'}><Time value={this.state.eventInfo} format={"MMMM"}/></div>
+                                    <div className={'pickTicketsYear'}><Time value={this.state.eventInfo} format={"YYYY"}/></div>
+                                </Col>
+                                <Col xs={9} sm={9} md={2} lg={2}>
+                                    <div className={'pickTicketsTitle'}>{this.state.awayTeam} vs {this.state.homeTeam}</div>
+                                    <div className={'pickTicketsTime'}><Time value={this.state.eventInfo} format={"h:mmA"}/> at the {this.state.location}</div>
+                                </Col>
+                                <Col xs={0} sm={0} md={2} lg={2}>
+                                </Col>
                             </Well>
                             <Grid>
+
                                 <Row>
-                                    <h2 className='text-center'>{this.state.eventTitle}</h2>
                                     <Col xs={12} sm={12} md={7} lg={7}>
                                         <Row>
                                             <Col xs={12} sm={12} md={8} lg={8}>

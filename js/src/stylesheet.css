@@ -366,10 +366,11 @@ These are all the default screen sizes
 
 @media (min-width: 1001px) {
     .eventCalendarViewEventsWell {
-        color: rgb(45, 98, 183);
-        font-size: 30px;
+        color: black;
+        font-size: 35px;
         font-weight: bold;
         text-align: center;
+        min-height: 110px !important;
     }
 }
 
@@ -1747,6 +1748,58 @@ aisleSeatIcon {
     background-repeat: no-repeat;
 }
 
+.pickTicketsDate {
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(45, 98, 183);
+    text-align: center;
+}
+.pickTicketsMonth {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(45, 98, 183);
+    text-align: center;
+}
+.pickTicketsYear {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(45, 98, 183);
+    text-align: center;
+}
+.pickTicketsTime {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(45, 98, 183);
+    text-align: center;
+}
+.pickTicketsTitle {
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(45, 98, 183);
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 3px;
+}
+.pickTicketsBackground {
+    color: black;
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    min-height: 104px !important;
+    background-color: #006BB6;
+    margin-bottom: 0px !important;
+    padding-bottom: 19px !important;
+}
+
+.pickTicketsLogoComponentContainer {
+    max-width: 40%;
+    max-height: 110px !important;
+    display: block;
+    margin: 0;
+}
+
+
 /*********************************************************************************************************************/
 /********************************************** End Pick Tickets Styling *********************************************/
 /*********************************************************************************************************************/
@@ -2080,6 +2133,7 @@ col.registrationViewCol {
     font-weight: bold;
     text-align: center;
     background: transparent;
+    min-height: 20px;
 }
 
 .versusListOfTeams {

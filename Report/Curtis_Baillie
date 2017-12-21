@@ -1,0 +1,56 @@
+Coding Contributions:
+
+    - Prototype Homepage
+    - Logos
+        Downloaded, saved, and helped format logos of teams to be used on calendar and versus pages
+    - Registration Page
+        Fixed bugs that were stopping users from registering
+    - Versus Page (Search by Team)
+        Wrote endpoints and queries to call DB to get events by team (back_door.py, sql_handler.py)
+        Created functionality allowing a user to select a team, and returned all games in the future against that team
+        Added buttons for each game linking to event seating chart
+            Later changed button from being on team name to being on logo
+        Added logos of each team to versus page
+        Removed 76ers programmatically from the query so that they did not appear in list of teams
+        Implemented card functionality
+            Click on a logo of a team, cards now appear with each game's info (date, time)
+        Worked on CSS so that the page was mobile friendly
+
+    - Pick Tickets page (seating chart)
+        Fixed the way teams were displayed so that it was (Away Team) (Home Team)
+        Added Number of Tickets Filter
+            Wrote endpoint and query to call DB to return only listings that had a min_sell_num of at least the Number of tickets selected
+            Added front end dropdown.
+        Added min_sell_num to all previous queries
+        Made change that stopped users from purchasing less than min_sell_num in pick-tickets modal.
+            Displays a message stating that the user must purchase at least the min_sell_num until that number of tickets has been checked.
+        Fixed incorrect sorting of tickets
+            Now sorts by section number, then row number, then seat number
+        Added event details to title bar of seating chart
+            Shows day, month, year, teams, location
+            Made changes mobile friendly
+
+    - My Listings page
+        Fixed bug where not all seat numbers were showing on the listing
+        Fixed sorting of tickets on listing
+
+
+Artifact Contributions:
+    - Worked on high level design (drawing sketches) of:
+        Versus Page (Team Search)
+        My Listings Page
+        Upload Tickets Page
+        Checkout Page
+    - Design Documentation:
+        Use Cases
+        Project Introduction
+        Submission Walkthrough
+        Project Exclusions
+    - Worked with team on Project Specification Document:
+        Main Objectives
+        Stretch Goals
+        Requirements
+        Limitations/Exclusions
+    - Presentation:
+        Assisted in creating and presenting powerpoint presentation.
+
