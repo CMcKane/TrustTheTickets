@@ -1,12 +1,15 @@
 Resolved:
 
-    Bugs:
+    Bugs to fix:
         - Buyer shall only be able to select seats that are next to each other
             - Demonstrated in demo video
         *Unlocking tickets when user presses back or refreshes checkout page
         - Filtering by number of tickets shouldn’t show groups containing fewer available tickets than the filter amount.
             - Demonstrated in demo video
-        *Prevent user from listing ticket tickets that already exist (same section, row and seat)
+        - Prevent user from listing tickets that already exist (same section, row and seat)
+            - See screenshot ticketsAlreadyListed.jpg
+        - Prevent user from listing tickets in non-existent sections
+            - See screenshot sectionDoesNotExist.jpg
         - Fix registration validation fail
             - Demonstrated successful registration in demo video
         *Fix upload ticket bug for seat numbers higher than 9
