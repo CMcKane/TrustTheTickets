@@ -1,5 +1,48 @@
 Resolved:
 
+    Bugs:
+        - Buyer shall only be able to select seats that are next to each other
+            - Demonstrated in demo video
+        *Unlocking tickets when user presses back or refreshes checkout page
+        - Filtering by number of tickets shouldn’t show groups containing fewer available tickets than the filter amount.
+            - Demonstrated in demo video
+        *Prevent user from listing ticket tickets that already exist (same section, row and seat)
+        - Fix registration validation fail
+            - Demonstrated successful registration in demo video
+        *Fix upload ticket bug for seat numbers higher than 9
+
+
+    Further Tasks:
+
+        - Email Notification to seller when a transaction is completed
+            - Demonstrated in demo video
+
+        More CSS
+        - Update design document
+            - Included in repo
+        - Remove redirect landing page from creating a ticket listing, just automatically redirect to my account page
+            - Demonstrated in demo video
+        - Add redirect to login page after account registration
+            - Demonstrated in demo video
+
+
+    Cosmetic:
+
+        - Pick-Tickets Page: Show which teams are versing each other
+            - Added event details including team, day, month year, location. See screenshot eventDetails.jpg
+        - On Pick Tickets Pane, order tickets by section, then row, then seat number
+            - See sortingTicketsBySection.jpg
+        - Expose the drop-down Filter Pane on pick-tickets page to show which filters are selected by default
+            - See screenshot dropDownFilterPane.jpg
+        - Style Event Cal Details Pane
+            - See eventCalendarDetailsPane.jpg
+    *Checkout Page CSS formatting for screen sizes.
+    *Style pages for landscape screen orientation
+
+
 
 
 Unresolved:
+
+    Style pick-tickets-modal more
+    Evaluate formatting of listings page
