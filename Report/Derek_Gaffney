@@ -1,0 +1,44 @@
+Contributions
+
+	Amazon Web Services:
+		Provisioned AWS Account and configured the following services for our project:
+			-AWS VPC (Virtual Private Cloud) network to host our EC2 and RDS instances
+			-AWS RDS (Relational Database Service) to host a MySQL Database in the cloud
+			-AWS EC2 (Elastic Compute Cloud) instance to host our web server
+				-Installed & Configured Python and Node Environments for our web server
+				-Wrote automatic start, update, and shutdown scripts for our web app services
+			-AWS S3 (Simple Storage Service) to store our ticket pdfs
+			
+	Artifacts:
+		Project Specification Document
+			-Wrote the document with input from the Team
+		Initial Design Document
+			-Wrote the Database Specification section of the inital version of the Design Document
+		Final Design Document
+			-Updated the format of the final version of the Design Document
+			-Updated the Database Specification section of the final version of the Design Document
+			-Updated the PYTHON BACKEND section of the final version of the Design Document
+		Demo Video
+			-Wrote the script for the demo video
+			-Shot & narrated the demo video
+		Presentation
+			-Outlined the presentation
+			-Wrote the mobile screenshots and pdf interface sections of the presentation
+	
+	Database Schema:
+		Designed the database model for our project along with input from Anthony Orio & the Team
+			-Built schema in MySQL Workbench
+			-Modified database model when neccessary during project
+			-Assumed responsibility for keeping team members' databases up to date with the latest model
+			-Wrote procedures for creating stadium seating infrastructure data (sections, rows, and seats for their respective tables)
+			
+	Development:
+		
+		
+	Test Data:
+		Wrote a C# GUI for creating ticket data for our database
+		(https://github.com/gaffneyd4/TTTDataGenerator)
+			-Utilized it to populate the database with plenty of realistic ticket data
+			
+	
+	
