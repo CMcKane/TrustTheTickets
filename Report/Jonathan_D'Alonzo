@@ -1,19 +1,17 @@
 Coding Contributions:
   
   - Inital design of webpage interface
-  - Pick Tickets page:
-    - Displaying of Team vs Team
-    - Search Options & Ticket display styling and layout
+  - Implemented the displaying of Team vs Team
+  - Search Options & Ticket display styling and layout
       - pick-tickets.js
       - ticket-list-item.js
-  - Python Endpoints
-    - Ticket Search calls
-  - Worked in stylesheet.css to format and style pages
+  - Created sql handler methods to retrieve ticket information for pick ticket page
+  - Worked in stylesheet.css to format and style pick tickets page
   - Helped implement the PyPDF component that divided PDFs into single files
       - pdf_interface.py
   - Implemented functionality to retrieve data from database
     - back_door.py
-  - Helped creating visible user authentication 
+  - Helped creating visible user authentication
     - login.js
   - Assisted with debugging 
   - Assisted with fixing bugs
