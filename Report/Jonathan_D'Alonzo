@@ -1,14 +1,26 @@
-Contributions:
+Coding Contributions:
   
-  - Detailed Design Document
-  - Pick Tickets page
-    - Ticket Search Options (Filtering)
+  - Inital design of webpage interface
+  - Pick Tickets page:
+    - Displaying of Team vs Team
+    - Search Options & Ticket display styling and layout
       - pick-tickets.js
-    - Ticket Display
       - ticket-list-item.js
   - Python Endpoints
     - Ticket Search calls
-  - stylesheet.css
-  - pdf_interface.py
-  - back_door.py
-  - login.js
+  - Worked in stylesheet.css to format and style pages
+  - Helped implement the PyPDF component that divided PDFs into single files
+      - pdf_interface.py
+  - Implemented functionality to retrieve data from database
+    - back_door.py
+  - Helped creating visible user authentication 
+    - login.js
+  - Assisted with debugging 
+  - Assisted with fixing bugs
+  
+Artifact Contributions:
+  - Design Document
+    - Back end design
+    - Submission walk through
+    - Front end Design
+  - Presentation of power point
