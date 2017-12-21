@@ -1,16 +1,23 @@
 Coding Contributions:
 	- Interactive seating chart
 	- My Listings View
+		- Edit current listing
 	- Purchase History View
 	- Event Calendar Page
+		- Display team logos on calendar
+		- Mobile/Desktop design
+		- Right side panel with game details
 	- Integration of team logos in website
 	- Helped design/implement Teams page
 		- Specifically the horizontal scrolling logo selection
 	- Account registration + email confirmation
-	- Helped design/implement relevant endpoints consumed by above pages
+	- Helped design/implement relevant python endpoints consumed by above pages
+		- Devised altered layout for mobile screens 
 	- Implemented json web token authentication
+		- token stored in local storage
 	- Mobile styling for all pages
-	- Created mysql script run by mysql scheduler
+	- Design solution for handling race conditions concerning ticket purchases
+		- Created mysql script run by mysql scheduler
 
 Artifact Contributions:
 	- Collaborated on the following sections of design doc:
