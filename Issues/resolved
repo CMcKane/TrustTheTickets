@@ -4,6 +4,7 @@ Resolved:
         1. Buyer shall only be able to select seats that are next to each other
             - Demonstrated in demo video
         2. Unlocking tickets when user presses back or refreshes checkout page
+			- Demonstrated in video 2.mp4
         3. Filtering by number of tickets shouldn’t show groups containing fewer available tickets than the filter amount.
             - Demonstrated in demo video
         4. Prevent user from listing tickets that already exist (same section, row and seat)
